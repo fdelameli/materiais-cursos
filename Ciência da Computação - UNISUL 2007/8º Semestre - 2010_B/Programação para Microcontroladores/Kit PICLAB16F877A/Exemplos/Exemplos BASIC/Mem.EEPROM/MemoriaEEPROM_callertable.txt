@@ -1,3 +1,0 @@
-main
-	EEprom_write
-	EEprom_read

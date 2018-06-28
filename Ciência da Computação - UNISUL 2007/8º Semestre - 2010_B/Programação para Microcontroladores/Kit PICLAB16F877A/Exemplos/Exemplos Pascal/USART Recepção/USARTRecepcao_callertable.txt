@@ -1,4 +1,0 @@
-main
-	USART_Init
-	USART_Read
-	USART_Data_Ready

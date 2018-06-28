@@ -1,7 +1,0 @@
-program USART;
-
-begin
-
-     usart_init(9600);                      //Inicializa em 9600 bps
-     usart_write_text('Cerne Tecnologia');  //Envia o texto Cerne Tecnologia
-end.

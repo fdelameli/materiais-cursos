@@ -1,3 +1,0 @@
-Instale o PIC C 
-Copie os arquivos com a extensão crg para a pasta aonde foi instalado o PIC C
-Pronto! O compilador pode começar a ser usado.

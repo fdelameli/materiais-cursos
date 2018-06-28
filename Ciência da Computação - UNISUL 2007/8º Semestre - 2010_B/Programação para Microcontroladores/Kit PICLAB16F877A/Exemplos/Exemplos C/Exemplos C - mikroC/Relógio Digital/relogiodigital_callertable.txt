@@ -1,4 +1,0 @@
-interrupt
-main
-	GlobalIniusart
-	Converte_to_7seg

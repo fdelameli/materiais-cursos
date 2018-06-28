@@ -1,3 +1,0 @@
-interrupt
-main
-	Converte_to_7seg

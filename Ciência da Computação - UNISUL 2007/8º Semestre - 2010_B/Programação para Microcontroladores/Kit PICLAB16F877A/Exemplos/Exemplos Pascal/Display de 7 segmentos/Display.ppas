@@ -1,8 +1,0 @@
-program Display;
-
-begin
-     trisd:=%00000000;       //Configura todo o PORTD como saída
-     trisb:=%00000000;       //Configura todo o PORTB como saída
-     portd:=79;              //Carrega no barramento o valor referente ao digito 3
-     portb:=%00010000;       //Liga um display do barramento
-end.

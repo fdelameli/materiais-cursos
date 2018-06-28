@@ -1,7 +1,0 @@
-main
-	Sound_Play
-		Delay_Cyc
-	Div_16x16_U
-	ADC_read
-		Delay_22us
-	Sound_Init

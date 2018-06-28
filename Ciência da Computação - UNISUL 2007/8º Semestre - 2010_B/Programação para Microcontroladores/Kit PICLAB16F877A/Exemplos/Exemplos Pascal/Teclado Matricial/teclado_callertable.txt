@@ -1,3 +1,0 @@
-main
-	USART_Init
-	USART_Write
