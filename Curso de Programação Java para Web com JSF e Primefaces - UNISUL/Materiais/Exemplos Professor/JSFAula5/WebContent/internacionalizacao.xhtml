@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template/templatePadrao.xhtml">
+	<ui:define name="conteudo">
+	<h1>#{bundle.bemvindo}</h1>
+	
+	<h:form>
+	<h:selectOneMenu value="#{idioma.locale}">
+		<f:selectItem itemLabel="#{bundle.portugues}" itemValue="pt_BR"/>
+		<f:selectItem itemLabel="#{bundle.ingles}" itemValue="en"/>
+	</h:selectOneMenu>
+	<h:commandButton value="#{bundle.aplicar}" action="#{idioma.aplicar}"/>	
+	</h:form>
+	
+	</ui:define>
+</ui:composition>
+</html>

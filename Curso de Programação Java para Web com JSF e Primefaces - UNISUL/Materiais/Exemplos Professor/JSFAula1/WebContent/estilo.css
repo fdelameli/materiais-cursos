@@ -1,0 +1,19 @@
+h1 {
+	color: yellow;
+	font-family: tahoma;
+}
+
+h1:hover{
+	color: red;
+}
+
+body{
+	background-image: url('carro.jpg');
+}
+
+.exemploClasse{
+	color: red;
+	font-family: verdana;
+	font-size: 12px;
+	text-decoration: underline;
+}

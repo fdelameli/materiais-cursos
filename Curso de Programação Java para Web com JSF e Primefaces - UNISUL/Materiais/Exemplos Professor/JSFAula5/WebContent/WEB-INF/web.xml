@@ -1,0 +1,24 @@
+<web-app>
+    
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>        
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AcessoFiltro</filter-name>
+        <filter-class>br.unisul.projeto.view.filter.AcessoFiltro</filter-class>
+    </filter>
+    
+    <filter-mapping>
+		<filter-name>AcessoFiltro</filter-name>        
+        <url-pattern>/restrito/*</url-pattern>
+    </filter-mapping>
+    
+</web-app>

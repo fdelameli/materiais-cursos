@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template/templatePadrao.xhtml">
+	
+	<ui:define name="conteudo">
+
+	<h:form>
+		Nome: <h:inputText value="#{cadastroUsuario.usuario.nome}"
+			required="true" requiredMessage="Nome é obrigatório!"
+		/><br/>
+		Login: <h:inputText value="#{cadastroUsuario.usuario.login}"
+					validatorMessage="Quantidade de caracter invalida!">
+					<f:validateLength minimum="3" maximum="10"/>
+			   </h:inputText>
+		<br/>
+		Senha: <h:inputText value="#{cadastroUsuario.usuario.senha}"/><br/>
+		Email: <h:inputText value="#{cadastroUsuario.usuario.email}">
+			<f:validator validatorId="EmailValidator"/>
+		</h:inputText>
+		<br/>
+		Idade: <h:inputText id="campoIdade" 
+			value="#{cadastroUsuario.idade}"/><h:message for="campoIdade"/>
+
+		<br/>
+		<h:commandButton value="Cadastrar" action="#{cadastroUsuario.cadastrar}"/>
+	</h:form>
+
+	<h:form>
+		<h:commandButton value="Disparar Mensagens" 
+				action="#{cadastroUsuario.dispararMessages}"/>
+	</h:form>
+
+	<h:form>
+	<h:dataTable value="#{cadastroUsuario.listUsuario}" var="item">
+		<h:column>
+			#{item.id}		
+		</h:column>
+		<h:column>
+			#{item.nome}		
+		</h:column>
+		<h:column>
+			#{item.login}
+		</h:column>
+		<h:column>
+			#{item.senha}
+		</h:column>
+		<h:column>
+			#{item.email}
+		</h:column>
+		<h:column>
+			<h:commandLink action="#{cadastroUsuario.carregarFormulario}">
+				Editar
+				<f:param name="idUsuario" value="#{item.id}"/>
+			</h:commandLink>
+			<h:commandLink action="#{cadastroUsuario.excluir}">
+				Excluir
+				<f:param name="idUsuario" value="#{item.id}"/>
+			</h:commandLink>
+			
+			<h:commandLink>
+				Editar Fácil
+				<f:setPropertyActionListener target="#{cadastroUsuario.usuario}"
+					value="#{item}"/>
+			</h:commandLink>
+
+		</h:column>
+	</h:dataTable>
+	</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
+
+
+
+
+
+
+
+
+
+
+

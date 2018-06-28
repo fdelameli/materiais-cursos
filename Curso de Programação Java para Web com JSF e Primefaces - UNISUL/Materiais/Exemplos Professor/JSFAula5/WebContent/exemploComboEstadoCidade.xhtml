@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Exemplo de Combo</title>
+</h:head>
+
+<h:form>
+	
+Estado: <h:selectOneMenu value="#{exemploCombo.estado}">
+			<f:selectItem itemLabel="Selecione..."/>
+			<f:selectItem itemLabel="Santa Catarina" itemValue="SC"/>
+			<f:selectItem itemLabel="Rio Grande do Sul" itemValue="RS"/>
+			<f:selectItem itemLabel="Paraná" itemValue="PR"/>
+			<p:ajax event="change" update="msg" listener="#{exemploCombo.consultaCidade}"/>  
+		</h:selectOneMenu><br/>	
+
+		<p:outputPanel id="msg">
+
+		<h:selectOneMenu value="#{exemploCombo.cidade}" 
+					rendered="#{exemploCombo.estado != null}">
+			<f:selectItems value="#{exemploCombo.listCidade}"/>
+			<p:ajax event="change" update="msg"/>  
+		</h:selectOneMenu><br/>
+
+			#{exemploCombo.estado} -
+			#{exemploCombo.cidade}
+		</p:outputPanel>
+</h:form>
+
+
+</html>

@@ -1,0 +1,46 @@
+<project name="ProjetoPadrao" basedir="." default="deploy">
+
+	<property file="build.properties"/>
+	
+	<path id="lib.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="compila">
+		<javac srcdir="${src.dir}" destdir="${bin.dir}">
+			<classpath>
+				<path refid="lib.path"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="criar.war" depends="compila">
+		<war destfile="${dist.dir}/${aplicacao}.war" 
+			webxml="${caminho.webxml}">
+			
+			<webinf dir="${dir.web.inf}">
+				<include name="faces-config.xml"/>
+			</webinf>
+				
+			<classes dir="${bin.dir}">
+				<include name="**/*"/>
+			</classes>
+			
+			<lib dir="${lib.dir}">
+				<include name="**/*"/>
+			</lib>
+			
+			<fileset dir="${paginas.dir}">
+				<include name="**/*"/>
+			</fileset>			
+		</war>
+	</target>
+	
+	<target name="deploy" depends="criar.war">
+		<copy file="${dist.dir}/${aplicacao}.war"
+			todir="${webapps}"/>			
+	</target>
+	
+</project>

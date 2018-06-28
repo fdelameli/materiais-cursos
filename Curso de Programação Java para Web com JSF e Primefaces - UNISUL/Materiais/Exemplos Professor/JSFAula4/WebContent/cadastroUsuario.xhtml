@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template/templatePadrao.xhtml">
+	<ui:define name="conteudo">
+	
+	<h:form id="form_usuario">
+		Nome: <p:inputText value="#{cadastroUsuario.usuario.nome}"/><br/>
+		Login: <p:inputText value="#{cadastroUsuario.usuario.login}"/><br/>
+		Senha: <p:password value="#{cadastroUsuario.usuario.senha}"
+					feedback="true"/><br/>
+		Email: <p:inputText value="#{cadastroUsuario.usuario.email}"/><br/>
+		
+		<p:commandButton value="Cadastrar" 
+				update=":form_lista,form_usuario"
+				action="#{cadastroUsuario.cadastrar}"/>
+		
+	</h:form>
+	
+	<h:form id="form_lista">
+	<p:dataTable id="lista_usuario" 
+			value="#{cadastroUsuario.usuarios}" var="item">
+		<p:column>
+			<f:facet name="header">
+				Nome
+			</f:facet>
+			#{item.nome}
+		</p:column>
+		<p:column>
+			<f:facet name="header">
+				Login
+			</f:facet>
+			#{item.login}
+		</p:column>
+		<p:column>
+			<f:facet name="header">
+				Senha
+			</f:facet>
+			#{item.senha}
+		</p:column>
+		<p:column>
+			<f:facet name="header">
+				Email
+			</f:facet>
+			#{item.email}
+		</p:column>
+		<p:column>
+			<p:commandLink update=":form_usuario">
+				<f:setPropertyActionListener 
+					target="#{cadastroUsuario.usuario}" 
+					value="#{item}"/>
+				Alterar 
+			</p:commandLink>
+			<p:commandLink action="#{cadastroUsuario.excluir}"
+					update=":form_lista">
+				<f:setPropertyActionListener 
+					target="#{cadastroUsuario.usuario}" 
+					value="#{item}"/>
+				Excluir
+			</p:commandLink>
+		</p:column>
+	</p:dataTable>
+	</h:form>
+	
+	</ui:define>
+</ui:composition>
+</html>

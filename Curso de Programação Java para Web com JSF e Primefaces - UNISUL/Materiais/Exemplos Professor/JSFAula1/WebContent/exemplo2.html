@@ -1,0 +1,82 @@
+<html>
+<head>
+	<title>Exemplo 2</title>
+	<style type="text/css">
+		body{
+			background-color: green;
+			font-family: verdana;
+		}	
+	</style>
+	<link rel="stylesheet" href="estilo.css" type="text/css"/>
+<script type="text/javascript">
+function confirmarExclusao(){
+if(confirm("Você deseja realmente excluir o arquivo?")){
+	alert("Arquivo exclúido!");
+	return true;
+}else{
+	alert("Ok, não será excluído!");
+	return false
+}	
+}
+</script>	
+</head>
+<body>
+	<h1>Exemplo 2</h1>
+
+	<h2 style="color: orange;">Exemplo 2</h2>
+
+	<p class="exemploClasse">
+		Teste teste testes teste
+	</p>
+
+
+<a href="exemplo.html">
+Voltar
+</a>
+
+
+<table border="1">
+	<tr>
+		<th>Código</th>
+		<th>Descrição</th>
+		<th>Quantidade</th>
+		<th colspan="2">Funções</th>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>Mouse</td>
+		<td>5</td>
+		<td>Alterar</td>
+		<td><a href="#" onclick="confirmarExclusao()">
+			Excluir</a></td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>Teclado</td>
+		<td>3</td>
+		<td>Alterar</td>
+		<td><a href="#" onclick="confirmarExclusao()">
+			Excluir</a></td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>Impressora</td>
+		<td>1</td>
+		<td>Alterar</td>
+		<td><a href="#" onclick="confirmarExclusao()">
+		Excluir</a></td>
+	</tr>
+</table>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
