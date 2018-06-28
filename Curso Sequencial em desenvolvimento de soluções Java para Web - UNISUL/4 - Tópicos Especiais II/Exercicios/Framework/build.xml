@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="Framework" default="jar" basedir=".">
+	
+	<property name="name" value="Framework" />
+	<property name="src" value="./src" />
+	<property name="build" value="build" />
+	<property name="dist" value="dist" />
+	
+	<target name="compile">
+		<mkdir dir="${build}" />
+		<javac srcdir="${src}" includes="**/*.java" destdir="${build}" debug="on" deprecation="on" />
+	</target>
+	
+	<target name="jar" depends="compile" description="cria um .jar file ">
+		<delete dir="${dist}" />
+		<mkdir dir="${dist}" />
+		<jar jarfile="${dist}/${name}.jar" basedir="${build}">
+		</jar>
+	</target>
+	
+</project>

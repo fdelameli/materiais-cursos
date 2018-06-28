@@ -1,0 +1,15 @@
+
+H1 {color:green; 
+	font-size:37px; 
+	font-family:verdana;}
+
+P {text-indent:1cm;
+	background:yellow;
+	font-family:courier;}
+
+BODY {background-color: #22AA55;}
+
+.h1personal {
+	color: red;
+	font-family: inherit;
+	}

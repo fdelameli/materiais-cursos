@@ -1,0 +1,36 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Empresa" type="empresa" />
+
+	<xs:complexType name="empresa">
+		<xs:sequence>
+			<xs:element name="Nome_Empresa" type="xs:string" />
+			<xs:element name="Cnpj" type="xs:string" />
+			<xs:element name="Endereco" type="endereco" />
+			<xs:element name="Setor" type="setor" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="endereco">
+		<xs:sequence>
+			<xs:element name="Logradouro" type="xs:string" />
+			<xs:element name="Numero" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="setor">
+		<xs:sequence>
+			<xs:element name="Funcionario" type="funcionario"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="funcionario">
+		<xs:sequence>
+			<xs:element name="Nome_Funcionario" type="xs:string" />
+			<xs:element name="Idade" type="xs:integer" />
+			"
+		</xs:sequence>
+	</xs:complexType>
+
+
+</xs:schema>

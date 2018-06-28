@@ -1,0 +1,31 @@
+
+MARQUEE {
+	background-color: green;
+	color: blue;
+}
+
+TABLE {
+	border: none;
+}
+
+.tableDADOS {
+	border: 2px solid;
+}
+
+.tdDADOS {
+	border: 1px solid;	
+}
+
+TD {
+	border: none;
+}
+
+A {
+	color: olive;
+	text-decoration: none;
+}
+
+a:HOVER {
+	color: aqua;
+	text-decoration: underline;
+}

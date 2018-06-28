@@ -1,0 +1,314 @@
+body {
+	background:#ccc;
+	color:#333;
+	margin:0; 
+	padding:0;
+	font:12px/1.4 Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+	
+#tudo {
+	width:980px;
+	margin:0 auto;
+	text-align:left;
+	background:#fff;
+}
+	
+#topo {
+	position:relative;
+	width:980px;
+	height:100px;
+	background:#f60 url('../imagens/bg-topo.jpg') no-repeat;
+}
+
+#topo h1  { 
+	position:absolute; 
+	left:50px; 
+	top:15px; 
+	font-size:35px;
+	margin:0;
+}
+
+#topo h1 span {
+	color:#fff;
+	font-size:30px;
+}
+
+ul#nav {
+	position:absolute; 
+	left:50px; 
+	top:75px;
+	margin:0; 
+	padding:0;
+}
+
+ul#nav li { 
+	margin-right:5px;
+	display:inline;
+	list-style-type:none;
+}
+
+ul#nav li a { 
+	float:left;  /*Corrige bug no IE7 que n&atilde;o expande background do estado over para padding top e bottom */
+	color:#fff;
+	font-size:11px;
+	font-weight:bold;
+	text-decoration: none;
+	text-transform:uppercase;
+	padding:3px 15px 7px 15px;
+	margin-right:25px;
+}
+
+ul#nav li a:hover {  
+	background:#f63 url('../imagens/bg-over.jpg') repeat-x 0 0;
+}
+
+#auxiliar {
+	width:245px;
+	float:right;
+	margin-top:0;
+	margin-bottom:0px;
+	background:#fff url('../imagens/bg-auxiliar.jpg') repeat-x 0 0;
+	margin-height:500px;
+}
+
+#auxiliar dl {
+	margin-top:50px;
+}
+
+#auxiliar dt {
+	color:#0056a6;
+	font-weight:bold;
+	font-size:14px;
+	margin:20px 0 5px 0;
+	padding-left:40px;
+}
+
+#auxiliar table tr td p {
+    margin-top:1px;
+    margin-bottom:1px;
+}
+
+#auxiliar table tr td a {
+    margin-top:10px;
+    font-weight:bold;
+    font-size:12px;
+    text-decoration:none;
+    margin-left:19px;
+}
+
+#auxiliar table tr td p span {
+	font-weight:bold;	
+}
+
+#auxiliar table tr td a:hover {
+    color:#f60;
+    font-style: 
+}
+
+#auxiliar dd {
+	margin:2px 0;
+}
+
+#auxiliar h3 {
+	margin-left:64px;	
+}
+
+#auxiliar p {
+	margin-left:19px;
+}
+
+#auxiliar p a:hover {
+	color:#f60; 			
+}
+
+#auxiliar p a {
+	text-decoration:none;		
+}
+#auxiliar label {
+	margin-left:19px;
+}
+
+#auxiliar table {
+	margin-top:10px;
+    margin-bottom:10px;    
+}
+
+#auxiliar dd a {
+	display:block;
+	color:#333;
+	text-decoration:none;
+	padding-left:40px;
+}
+
+#auxiliar dd a:hover {
+	background:#fff url('../imagens/bullet.gif') 15px no-repeat;
+	color:#f60;
+}
+
+#busca { 
+	position:absolute; 
+	right:20px; 
+	top:75px;
+	margin:0;
+	padding:0;
+	color:#fff;
+	font-size:11px;
+	font-weight:bold;
+}
+
+#busca label input {
+	background:#fcc;
+	border:none;
+}
+
+#busca input#submit {
+	background:#c30;
+	border:2px outset #f66;
+	color:#fff;
+	font-size:10px;
+}
+
+/* Regras CSS que definem o template 1 com coluna direita de largura maior */
+body#index #principal, body#quemsomos #principal {
+	width:500px;
+	margin:20px 80px 50px 50px;	
+	float:left;
+	display:inline;
+}
+
+body#index #auxiliar, body#quemsomos #auxiliar {
+	width:350px;
+	float:right;
+	margin-top:50px;
+	margin-bottom:50px;
+}
+/* Fim das regras CSS que definem o template 1 com coluna direita de largura maior */
+
+#rodape {
+	height:23px;
+	clear:both;
+	background:#fc6;
+}
+
+#rodape p {
+	margin-left:50px;
+	
+	font-size:11px;
+	line-height:2;
+}
+
+#rodape p span {
+	color:#f60;
+	font-weight:bold;
+}
+
+#principal h3 {
+	color:#0056a6;
+	font-size:20px;
+	margin:0;
+}
+
+#principal h4 {
+	color:#f60;
+	font-size:12px;
+	margin:20px 0 5px 0;
+}
+
+#principal table {
+    width:630px;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+#principal table tr td {
+	width:350px;	
+}
+
+#principal table caption {
+	color:#f60;
+	font-size:12px;
+	padding-bottom:10px;
+	text-align:left;
+	font-weight:bold;
+}
+
+#principal table tr th {
+	font-weight:normal;
+}	
+#principal table tr.impar {
+	background:#ffe6b3;
+}	
+#principal table tr td, table tr th {
+	padding-left:8px;
+}
+
+h2 {
+	font-size:26px;
+	color:#0056a6;
+	margin:30px 0 10px 0;
+}
+
+#principal {
+	width:670px;
+	margin:20px 10px 50px 50px;	
+	float:left;
+	display:inline;
+}
+
+#principal p {
+	margin-top:10px;;
+}
+
+#principal a, #principal a:visited {
+	color:#f63;
+}
+
+#principal a:hover {
+	color:#f90;
+	text-decoration:none;
+}
+
+form.contato label, form.contato textarea {display:block;}
+form.contato form {width:400px;}
+form.contato input {width:250px;}
+form.contato input#ddd {width:30px;}
+form.contato input#telefone {width:200px;}
+form.contato input#enviar{width:auto;}
+form.contato textarea {width:380px; height:140px;} 
+
+form.contato #ddd-telefone {width:254px;}
+form.contato div.um {float:left;}
+form.contato div.dois {float:right;}
+
+
+form.contato label {margin-top:10px;}
+form.contato select {margin-bottom:25px;}
+form.contato input#enviar {margin-top:10px;}
+div.um, div.dois {margin-bottom:10px;}
+form.contato  {
+ width:450px;
+ margin-top:30px;
+ }
+form.contato fieldset {
+	padding:10px 25px; 
+	border:none;
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+	}
+form.contato legend {
+	padding:1px 10px;
+	border:1px solid #999;
+	}
+form.contato label span {color:#c30;}
+form.contato legend {color:#f60;}
+form.contato input, form.contato select,
+form.contato textarea {border:1px solid #999;}
+
+/* Estiliza o link corrente na navegacao horizontal */
+body#index ul#nav li a#in, body#quemsomos ul#nav li a#qs, 
+body#produtos ul#nav li a#pr, body#contato ul#nav li a#co,
+body#sucesso ul#nav li a#co {  
+	background:#f63 url('../imagens/bg-over.jpg') repeat-x 0 0;
+}
+/* Nota: exceto as regras para #principal e #auxiliar que sao exclusivas para a Home Page e a pagina Quem Somos as demais serao aplicadas em todas as paginas do site */

@@ -1,0 +1,174 @@
+package swing.exemplos;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JToolBar;
+import javax.swing.UIManager;
+
+
+/**
+ * Classe de exemplo para aprendizagem sobre o componente JMenu.
+ * @author Fabio Dela Bruna.
+ * @since 26/10/2008.
+ */
+public class ExemploJInternalFrame extends JFrame implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
+
+	// Barra de Menus
+
+	private JMenuBar menuBar;
+	private JMenu menuArquivo;
+	private JMenu menuArquivoNovo;
+	private JMenuItem menuItemFechar;
+	private JMenuItem menuItemNovoClasse;
+	private JMenuItem menuItemNovoProjeto;
+	private JMenu menuCodigo;
+	private JCheckBoxMenuItem menuItemAutoCompletar;
+	private JRadioButtonMenuItem menuItemTexto;
+	private JRadioButtonMenuItem menuItemHtml;
+	private ButtonGroup group;
+
+	// Barra de Ferramentas
+
+	private JToolBar toolBar;
+	private JButton buttonExcluir;
+	private JButton buttonPesquisar;
+	private JButton buttonInfo;
+	private JButton buttonFechar;
+
+	private JDesktopPane desktopPane;
+
+
+	/**
+	 * Construtor.
+	 */
+	public ExemploJInternalFrame() {
+		super("Exemplo JInternalFrame");
+		setSize(300, 300);
+		setLayout(new BorderLayout());
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		menuArquivo = new JMenu("Arquivo");
+		menuArquivo.setMnemonic(KeyEvent.VK_A);
+		menuBar.add(menuArquivo);
+
+		menuItemFechar = new JMenuItem("Fechar");
+		menuItemFechar.setMnemonic(KeyEvent.VK_F);
+		menuItemFechar.addActionListener(this);
+
+		menuArquivoNovo = new JMenu("Novo");
+
+		menuItemNovoProjeto = new JMenuItem("Projeto");
+		menuItemNovoProjeto.addActionListener(this);
+
+		menuItemNovoClasse = new JMenuItem("Classe");
+
+		menuArquivoNovo.add(menuItemNovoProjeto);
+		menuArquivoNovo.add(menuItemNovoClasse);
+
+		menuArquivo.add(menuArquivoNovo);
+		menuArquivo.add(menuItemFechar);
+
+
+		menuCodigo = new JMenu("Código");
+		menuCodigo.setMnemonic(KeyEvent.VK_C);
+
+		menuItemAutoCompletar = new JCheckBoxMenuItem("Auto completar", true); // parâmetro passado para indicar
+		// que ele vai começar marcado.
+		menuItemTexto = new JRadioButtonMenuItem("Texto");
+		menuItemHtml = new JRadioButtonMenuItem("Html", true);
+
+		menuCodigo.add(menuItemAutoCompletar);
+		menuCodigo.addSeparator();
+
+		group = new ButtonGroup();
+		group.add(menuItemTexto);
+		group.add(menuItemHtml);
+
+		menuCodigo.add(menuItemTexto);
+		menuCodigo.add(menuItemHtml);
+
+		menuBar.add(menuCodigo);
+
+
+		// Barra de Ferramentas
+
+		toolBar = new JToolBar();
+
+		buttonExcluir = new JButton(new ImageIcon("images/excluir.gif"));
+
+		buttonPesquisar = new JButton(new ImageIcon("images/busca.gif"));
+		buttonPesquisar.setToolTipText("Se você clicar, vai abrir o google!");
+
+		buttonInfo = new JButton(new ImageIcon("images/info.gif"));
+
+		buttonFechar = new JButton(new ImageIcon("images/close.gif"));
+		buttonFechar.addActionListener(this);
+
+		toolBar.add(buttonExcluir);
+		toolBar.add(buttonPesquisar);
+		toolBar.add(buttonInfo);
+		toolBar.addSeparator();
+		toolBar.add(buttonFechar);
+
+		toolBar.setFloatable(false); //bloqueia a barra de ferramentas
+
+		getContentPane().add(toolBar, BorderLayout.NORTH);
+		getContentPane().add(desktopPane = new JDesktopPane(), BorderLayout.CENTER);
+
+
+	}
+
+
+	/**
+	 * Método principal para efetuar os testes necessários.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			ExemploJInternalFrame app = new ExemploJInternalFrame();
+			app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			app.setVisible(true);
+		} catch (Exception e) {
+
+		}
+	}
+
+
+	/**
+	 * Método que define ação os componentes da classe.
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == menuItemFechar 
+				|| e.getSource() == buttonFechar) {
+			System.exit(0);
+		} else if (e.getSource() == menuItemNovoProjeto) {
+			JInternalFrame projeto = new JInternalFrame("Cadastro de projetos", true, true, true, true);
+			projeto.setSize(200, 200);
+			projeto.setVisible(true);
+			desktopPane.add(projeto);
+
+		}
+
+	}
+
+}

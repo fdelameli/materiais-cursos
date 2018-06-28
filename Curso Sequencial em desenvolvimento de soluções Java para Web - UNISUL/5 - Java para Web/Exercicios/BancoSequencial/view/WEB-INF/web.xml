@@ -1,0 +1,106 @@
+<web-app>
+
+	<servlet>
+		<servlet-name>cadastrarProduto</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.CadastrarProdutoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>cadastrarUsuario</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.CadastrarUsuarioServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>excluirUsuario</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.ExcluirUsuarioServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>excluirProduto</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.ExcluirProdutoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>alterarUsuario</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.AlterarUsuarioServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>pesquisarUsuario</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.PesquisarUsuarioServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>adicionaCarrinho</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.AdicionarCarrinhoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>autenticar</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.AutenticarServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>logout</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.LogoutServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>cookie</servlet-name>
+		<servlet-class>br.unisul.banco.view.controller.CookieServlet</servlet-class>
+	</servlet>
+	
+	
+	
+	<servlet-mapping>
+		<servlet-name>cookie</servlet-name>
+		<url-pattern>/cookie</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet-mapping>
+		<servlet-name>logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>		
+	
+	<servlet-mapping>
+		<servlet-name>autenticar</servlet-name>
+		<url-pattern>/autenticar</url-pattern>
+	</servlet-mapping>		
+	
+	<servlet-mapping>
+		<servlet-name>adicionaCarrinho</servlet-name>
+		<url-pattern>/adicionaCarrinho</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarProduto</servlet-name>
+		<url-pattern>/cadastrarProduto</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarUsuario</servlet-name>
+		<url-pattern>/cadastrarUsuario</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>excluirUsuario</servlet-name>
+		<url-pattern>/excluirUsuario</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>excluirProduto</servlet-name>
+		<url-pattern>/excluirProduto</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>alterarUsuario</servlet-name>
+		<url-pattern>/alterarUsuario</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>pesquisarUsuario</servlet-name>
+		<url-pattern>/pesquisarUsuario</url-pattern>
+	</servlet-mapping>	
+	
+
+</web-app>

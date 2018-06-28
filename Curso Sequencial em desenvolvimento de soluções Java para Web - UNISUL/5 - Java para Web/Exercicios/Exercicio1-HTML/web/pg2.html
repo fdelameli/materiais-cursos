@@ -1,0 +1,76 @@
+<html>
+<head>
+<script type="text/javascript">
+
+function validaForm() {
+	d = document.formulario;
+	if (d.modelo.value == "") {
+		alert("O campo \"Modelo\" deve ser preenchido");
+		return false;
+	}
+	if (d.marca.value == "") {
+		alert("O campo \"Marca\" deve ser preenchido");
+		return false;
+	}
+	if (d.ano.value == "Selecione") {
+		alert("O campo \"Ano\" deve ser selecionado");
+		return false;
+	}
+	if (d.valor.value == "") {
+		alert("O campo \"Valor\" deve ser preenchido");
+		return false;
+	}
+	return true;
+}
+
+</script>
+<LINK REL=stylesheet HREF="../css/estilo.css" TYPE="text/css">
+	<title>Cadastro de Carros</title>
+</head>
+<body>
+	
+	<h1>Cadastro de carros</h1>
+	
+	<form action="" method="post" name="formulario" onsubmit="return validaForm()">
+		<table>
+			<tr>
+				<td>Modelo:</td>
+				<td><input type="text" name="modelo"></td>
+			</tr>
+			<tr>
+				<td>Marca:</td>
+				<td><input type="text" name="marca"></td>
+			</tr>
+			<tr>
+				<td>Ano:</td>
+				<td><select name="ano">
+					<option>Selecione</option>
+					<option>2000</option>
+					<option>2001</option>
+					<option>2002</option>
+					<option>2003</option>
+					<option>2004</option>
+					<option>2005</option>
+					<option>2006</option>
+					<option>2007</option>
+					<option>2008</option>
+					<option>2009</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td>Valor:</td>
+				<td><input type="text" name="valor"></td>
+			</tr>
+			<tr>
+				<td><input type="reset" value="Limpar"></td>
+				<td><input type="submit" value="OK"></td>
+			</tr>					
+		</table>
+	</form>
+	
+	<br>
+	<a href="index.html">Voltar</a>
+	<br>
+
+</body>
+</html>

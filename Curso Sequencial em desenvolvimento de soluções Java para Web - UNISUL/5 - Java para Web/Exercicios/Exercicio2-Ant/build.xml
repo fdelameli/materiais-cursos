@@ -1,0 +1,64 @@
+<project name="Exercicio2-Ant" default="backup" basedir=".">
+
+	<property file="build.properties"/>
+
+	<!-- Cria as pastas -->
+	<target name="criar.dir">
+		<mkdir dir="${web.dir}"/>
+		<mkdir dir="${conf.dir}"/>
+		<mkdir dir="${java.dir}"/>
+		<mkdir dir="${doc.dir}"/>
+	</target>
+	
+	<!-- Copia cada arquivo em sua pasta de destino -->
+	<target name="copiar" depends="criar.dir">
+		<copy todir="${web.dir}">
+			<fileset dir="${arquivos.dir}">
+				<include name="**/*.html"/>
+			</fileset>
+		</copy>
+		<copy todir="${conf.dir}">
+			<fileset dir="${arquivos.dir}">
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${java.dir}">
+			<fileset dir="${arquivos.dir}">
+				<include name="**/*.jsp"/>
+			</fileset>
+		</copy>
+		<copy todir="${doc.dir}">
+			<fileset dir="${arquivos.dir}">
+				<include name="**/*.sql"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<!-- Cria uma pasta para backup e copia
+		 para dentro dela o arquivo de backup -->
+	<target name="backup" depends="compacta">
+		<mkdir dir="${backup.dir}"/>
+		<move file="${arquivo.compactado}"
+			todir="${backup.dir}"/>
+	</target>
+	
+	<!-- Cria um arquivo .zip de backup de todos
+		 os arquivos, exceto os .tmp -->
+	<target name="compacta" depends="copiar">
+		<zip destfile="${arquivo.compactado}">
+			<zipfileset dir="${arquivos.dir}" prefix="${arquivos.dir}">
+				<exclude name="**/*.tmp"/>
+			</zipfileset>
+		</zip>
+	</target>
+	
+	<!-- Apaga as pastas criadas e o arquivo de backup -->
+	<target name="limpa.tudo">
+		<delete dir="${web.dir}"/>
+		<delete dir="${conf.dir}"/>
+		<delete dir="${java.dir}"/>
+		<delete dir="${doc.dir}"/>
+		<delete dir="${backup.dir}"/>
+	</target>
+
+</project>

@@ -1,0 +1,29 @@
+<Empresa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="Empresa.xsd">
+	<Nome_Empresa>
+		NomeTesteDeEmpresa
+	</Nome_Empresa>
+	<Cnpj>
+		1234567890
+	</Cnpj>
+	<Endereco>
+		<Logradouro>
+			AvTeste
+		</Logradouro>
+		<Numero>
+			123
+		</Numero>
+	</Endereco>
+	<Setor>
+		<Funcionario>
+			<Nome_Funcionario>
+				FuncionarioTeste
+			</Nome_Funcionario>
+			<Idade>
+				19
+			</Idade>
+		</Funcionario>
+	</Setor>
+	
+
+</Empresa>

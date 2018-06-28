@@ -1,0 +1,60 @@
+<html>
+<head>
+<script type="text/javascript">
+
+function confirma() {
+	if (confirm("Deseja realmente exclui este registro?") {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+</script>
+<LINK REL=stylesheet HREF="../css/estilo.css" TYPE="text/css">
+<title>Tabela de Carros</title>
+</head>
+<body>
+
+	<h1>Tabela de Carros</h1>
+	<br>
+	<table class="tableDADOS">
+		<tr>
+			<td class="tdDADOS">Modelo</td>
+			<td class="tdDADOS">Marca</td>
+			<td class="tdDADOS">Ano</td>
+			<td class="tdDADOS">Valor</td>
+			<td class="tdDADOS" colspan="2">Opções</td>
+		</tr>
+		<tr>
+			<td class="tdDADOS">Gol</td>
+			<td class="tdDADOS">VW</td>
+			<td class="tdDADOS">2008</td>
+			<td class="tdDADOS">28.000,00</td>
+			<td class="tdDADOS"><img src="editar.gif"></td>
+			<td class="tdDADOS"><img src="excluir.gif"></td>
+		</tr>
+		<tr>
+			<td class="tdDADOS">Vectra</td>
+			<td class="tdDADOS">GM</td>
+			<td class="tdDADOS">2008</td>
+			<td class="tdDADOS">50.000,00</td>
+			<td class="tdDADOS"><img src="editar.gif"></td>
+			<td class="tdDADOS"><a href="#" onclick="confirma()"><img src="excluir.gif"/></a> </td>
+		</tr>
+		<tr>
+			<td class="tdDADOS">Civic</td>
+			<td class="tdDADOS">Honda</td>
+			<td class="tdDADOS">2008</td>
+			<td class="tdDADOS">70.000,00</td>
+			<td class="tdDADOS"><img src="editar.gif"></td>
+			<td class="tdDADOS"><img src="excluir.gif"></td>
+		</tr>
+	</table>
+	
+	<br>
+	<a href="index.html">Voltar</a>
+	<br>
+
+</body>
+</html>

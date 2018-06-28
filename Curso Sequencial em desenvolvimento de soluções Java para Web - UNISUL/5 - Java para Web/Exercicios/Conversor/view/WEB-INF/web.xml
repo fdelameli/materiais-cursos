@@ -1,0 +1,75 @@
+<web-app>
+
+	<servlet>
+		<servlet-name>redirecionador</servlet-name>
+		<servlet-class>br.unisul.conversor.servlet.RedirecionadorServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>comprimento</servlet-name>
+		<servlet-class>br.unisul.conversor.servlet.ComprimentoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>moeda</servlet-name>
+		<servlet-class>br.unisul.conversor.servlet.MoedaServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>peso</servlet-name>
+		<servlet-class>br.unisul.conversor.servlet.PesoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>tamanhoDados</servlet-name>
+		<servlet-class>br.unisul.conversor.servlet.TamanhoDadosServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>temperatura</servlet-name>
+		<servlet-class>br.unisul.conversor.servlet.TemperaturaServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>tempo</servlet-name>
+		<servlet-class>br.unisul.conversor.servlet.TempoServlet</servlet-class>
+	</servlet>
+
+
+	
+	<servlet-mapping>
+		<servlet-name>redirecionador</servlet-name>
+		<url-pattern>/redirecionador</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet-mapping>
+		<servlet-name>comprimento</servlet-name>
+		<url-pattern>/comprimento</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>moeda</servlet-name>
+		<url-pattern>/moeda</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>peso</servlet-name>
+		<url-pattern>/peso</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>tamanhoDados</servlet-name>
+		<url-pattern>/tamanhoDados</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>temperatura</servlet-name>
+		<url-pattern>/temperatura</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>tempo</servlet-name>
+		<url-pattern>/tempo</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

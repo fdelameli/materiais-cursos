@@ -1,0 +1,25 @@
+<web-app>
+
+	<servlet>
+		<servlet-name>calcula</servlet-name>
+		<servlet-class>br.unisul.calculadora.view.controller.CalculaServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>resultado</servlet-name>
+		<servlet-class>br.unisul.calculadora.view.controller.ResultadoServlet</servlet-class>
+	</servlet>
+
+	
+	<servlet-mapping>
+		<servlet-name>calcula</servlet-name>
+		<url-pattern>/calcula</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>resultado</servlet-name>
+		<url-pattern>/resultado</url-pattern>
+	</servlet-mapping>	
+
+
+</web-app>

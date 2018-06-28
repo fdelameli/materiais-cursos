@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.6-bin.jar"/>
+	<classpathentry kind="lib" path="lib/napkinlaf-swingset2.jar"/>
+	<classpathentry kind="lib" path="lib/napkinlaf.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jasperreports-2.0.3.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-beanutils-1.7.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-collections-2.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-logging-1.0.2.jar"/>
+	<classpathentry kind="lib" path="dist/lib/itext-1.3.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jasperreports-2.0.3.jar"/>
+	<classpathentry kind="lib" path="dist/lib/log4j-1.2.12.jar"/>
+	<classpathentry kind="lib" path="dist/lib/mysql-connector-java-5.1.6-bin.jar"/>
+	<classpathentry kind="lib" path="dist/lib/napkinlaf-swingset2.jar"/>
+	<classpathentry kind="lib" path="dist/lib/napkinlaf.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Framework"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

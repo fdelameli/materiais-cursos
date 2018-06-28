@@ -1,0 +1,24 @@
+<project name="Ant" default="criar.jar" basedir=".">
+	
+	<property file="build.properties"/>
+	
+	<target name="exemplo">
+		<echo message="${menssage}"/>
+	</target>
+	
+	<target name="compila">
+		<javac srcdir="."/>
+	</target>
+	
+	<target name="criar.jar" depends="compila">
+		<jar destfile="${jar_name}">
+			<fileset dir="src">
+				<include name="**/*.java"/>
+				<exclude name="**/*Teste*"/>
+			</fileset>
+		</jar>
+	</target>
+
+
+
+</project>

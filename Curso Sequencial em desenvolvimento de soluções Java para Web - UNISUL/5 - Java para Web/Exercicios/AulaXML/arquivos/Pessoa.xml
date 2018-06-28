@@ -1,0 +1,16 @@
+<Pessoa xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="Pessoa.xsd">
+	<Nome>
+		Fabio Dela Bruna
+	</Nome>
+	<Sexo>
+		M
+	</Sexo>
+	<Idade>19</Idade>
+	<Endereco>
+		<Logradouro>
+			Av. Teste
+		</Logradouro>
+		<Numero>123</Numero>
+	</Endereco>
+</Pessoa>

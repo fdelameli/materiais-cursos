@@ -1,0 +1,65 @@
+<project name="Transportadora" default="deploy" basedir=".">
+
+	<property file="build.properties"/>
+
+	<path id="lib.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*"/>
+		</fileset>
+	</path>
+
+	
+	<!-- Apaga a aplicação do diretório webapp do TomCat -->
+	<target name="apagar">
+		<delete dir="${deploy.dir}/${war.name}"/>
+		<delete file="${deploy.dir}/${war.name}.war"/>
+	</target>
+	
+	<!-- Compila a aplicação -->
+	<target name="compila">
+		<javac srcdir="${src.dir}" destdir="${bin.dir}">
+			<classpath>
+				<path refid="lib.path"/>		
+			</classpath>
+		</javac>
+	</target>
+	
+	<!-- Cria um .war para a aplicação -->
+	<target name="cria.war" depends="compila">
+		<war destfile="${dist.dir}/${war.name}.war" webxml="${webxml.dir}/${webxml.name}">
+			<classes dir="${bin.dir}">
+				<include name="**/*.class"/>
+			</classes>
+			
+			<zipfileset dir="${view.dir}/${paginas.dir}">
+				<include name="**/*"/>
+			</zipfileset>
+		</war>
+	</target>
+
+	<!-- Faz o deploy, copiando a aplicação para o diretório webapp do TomCat -->
+	<target name="deploy" depends="cria.war, apagar">
+		<copy file="${dist.dir}/${war.name}.war" todir="${deploy.dir}"/>
+	</target>
+	
+	
+	
+	
+	<!-- Tasks para gerar tabelas no banco -->
+	
+	<path id="lib.banco">
+		<fileset dir="lib">
+			<include name="${lib.banco}"/>
+		</fileset>
+	</path>
+	
+	<target name="criar.base">
+		<sql driver="${driver}" 
+			password="${password}" 
+			url="${url}" 
+			userid="${user.id}"
+			src="${src.script}"
+			classpathref="lib.banco"/>
+	</target>
+		
+</project>

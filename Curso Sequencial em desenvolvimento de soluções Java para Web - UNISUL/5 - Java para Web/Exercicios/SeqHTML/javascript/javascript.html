@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Teste javaScript</title>
+<script type="text/javascript">
+function confirma() {
+	if(confirm("Escolhe OK para excluir")){
+		alert("Registro excluído!");
+	}else{
+		alert("Registro não excluído!"); 
+	}
+}
+</script>
+<script type="text/javascript">
+function validaForm() {
+	d = document.formulario;
+	if (d.nome.value == "") {
+		alert("O campo nome deve ser preenchido");
+		return false;
+	}
+	return true;
+}
+</script>
+
+
+
+</head>
+<body>
+
+<form method="get" action="teste.html" name="formulario" onSubmit="return validaForm()">
+	Nome:<input type="text" name="nome"> <br>
+	<input type="submit" value="Excluir">
+</form>
+
+
+<script type="text/javascript">
+<!--
+document.write("Atualizado em ");
+document.write(document.lastModified);
+-->
+</script>
+
+<form method="get" action="#">
+	<input type="submit" value="OK" 
+	onclick="alert('onClick funcionou');">
+</form>
+
+<font size="3" onmouseover="this.style.color='#8855BB'"
+	onmouseout="this.style.color='#000000'">
+	<b>Sequencial</b>
+</font>
+
+<br>
+<br>
+
+<a href="#" onclick="history.back()">Voltar</a>
+
+
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<web-app>
+
+	<servlet>
+		<servlet-name>cadastrarUser</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.CadastrarUserServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>logar</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.AutenticarServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>logout</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.LogoutServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>editarPerfilUser</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.EditarPerfilUserServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>excluirFrete</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.ExcluirFreteServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>alterarFrete</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.AlterarFreteServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>cadastrarFrete</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.CadastrarFreteServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>enviarDuvida</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.EnviarDuvidaServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>excluirDuvida</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.ExcluirDuvidaServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>cadastrarTransportadora</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.CadastrarTransportadoraServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>alterarTransportadora</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.AlterarTransportadoraServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>excluirTransportadora</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.ExcluirTransportadoraServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>cadastrarCaminhao</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.CadastrarCaminhaoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>alterarCaminhao</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.AlterarCaminhaoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>excluirCaminhao</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.ExcluirCaminhaoServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>excluirUser</servlet-name>
+		<servlet-class>br.unisul.transportadora.view.controller.ExcluirUserServlet</servlet-class>
+	</servlet>
+	
+
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarUser</servlet-name>
+		<url-pattern>/cadastrarUser</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>logar</servlet-name>
+		<url-pattern>/logar</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>editarPerfilUser</servlet-name>
+		<url-pattern>/editarPerfilUser</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>alterarFrete</servlet-name>
+		<url-pattern>/alterarFrete</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>excluirFrete</servlet-name>
+		<url-pattern>/excluirFrete</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarFrete</servlet-name>
+		<url-pattern>/cadastrarFrete</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>enviarDuvida</servlet-name>
+		<url-pattern>/enviarDuvida</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>excluirDuvida</servlet-name>
+		<url-pattern>/excluirDuvida</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarTransportadora</servlet-name>
+		<url-pattern>/cadastrarTransportadora</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet-mapping>
+		<servlet-name>alterarTransportadora</servlet-name>
+		<url-pattern>/alterarTransportadora</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>excluirTransportadora</servlet-name>
+		<url-pattern>/excluirTransportadora</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarCaminhao</servlet-name>
+		<url-pattern>/cadastrarCaminhao</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>alterarCaminhao</servlet-name>
+		<url-pattern>/alterarCaminhao</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>excluirCaminhao</servlet-name>
+		<url-pattern>/excluirCaminhao</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>excluirUser</servlet-name>
+		<url-pattern>/excluirUser</url-pattern>	
+	</servlet-mapping>
+	
+	
+
+</web-app>

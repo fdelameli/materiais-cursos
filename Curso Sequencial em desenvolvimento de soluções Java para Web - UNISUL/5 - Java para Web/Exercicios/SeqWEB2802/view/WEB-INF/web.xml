@@ -1,0 +1,54 @@
+<web-app>
+
+	<servlet>
+		<servlet-name>ola</servlet-name>
+		<servlet-class>br.unisul.exemplo.view.controller.OlaMundoServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>teste</servlet-name>
+		<servlet-class>br.unisul.exemplo.view.controller.TesteServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>converte</servlet-name>
+		<servlet-class>br.unisul.exemplo.view.controller.ConverteServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>converte2</servlet-name>
+		<servlet-class>br.unisul.exemplo.view.controller.Converte2Servlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>converte3</servlet-name>
+		<servlet-class>br.unisul.exemplo.view.controller.Converte3Servlet</servlet-class>
+	</servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>ola</servlet-name>
+		<url-pattern>/ola</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>teste</servlet-name>
+		<url-pattern>/teste</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>converte</servlet-name>
+		<url-pattern>/converte</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>converte2</servlet-name>
+		<url-pattern>/converte2</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>converte3</servlet-name>
+		<url-pattern>/converte3</url-pattern>
+	</servlet-mapping>
+
+</web-app>

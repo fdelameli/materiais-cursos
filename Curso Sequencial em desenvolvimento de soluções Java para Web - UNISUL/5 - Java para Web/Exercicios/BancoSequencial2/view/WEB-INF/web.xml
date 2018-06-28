@@ -1,0 +1,161 @@
+<web-app>
+
+	<servlet>
+		<servlet-name>cadastrarUsuario</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.usuario.CadastrarUsuarioServlet
+		</servlet-class>		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarUsuario</servlet-name>
+		<url-pattern>/cadastrarUsuario</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>excluirUsuario</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.usuario.ExcluirUsuarioServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>excluirUsuario</servlet-name>
+		<url-pattern>/excluirUsuario</url-pattern>	
+	</servlet-mapping>	
+	
+	
+	<servlet>
+		<servlet-name>alterarUsuario</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.usuario.AlterarUsuarioServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>alterarUsuario</servlet-name>
+		<url-pattern>/alterarUsuario</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>pesquisarUsuario</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.usuario.PesquisarUsuarioServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>pesquisarUsuario</servlet-name>
+		<url-pattern>/pesquisarUsuario</url-pattern>
+	</servlet-mapping>
+		
+		
+	!--produto -- 
+	<servlet>
+		<servlet-name>cadastrarProduto</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.produto.CadastrarProdutoServlet
+		</servlet-class>		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>cadastrarProduto</servlet-name>
+		<url-pattern>/cadastrarProduto</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>excluirProduto</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.produto.ExcluirProdutoServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>excluirProduto</servlet-name>
+		<url-pattern>/excluirProduto</url-pattern>	
+	</servlet-mapping>	
+	
+	
+	<servlet>
+		<servlet-name>alterarProduto</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.produto.AlterarProdutoServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>alterarProduto</servlet-name>
+		<url-pattern>/alterarProduto</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>pesquisarProduto</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.produto.PesquisarProdutoServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>pesquisarProduto</servlet-name>
+		<url-pattern>/pesquisarProduto</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>atualizarCart</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.produto.AtualizarSCServlet
+		</servlet-class>		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>atualizarCart</servlet-name>
+		<url-pattern>/atualizarCart</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>autenticar</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.AutenticarServlet
+		</servlet-class>		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>autenticar</servlet-name>
+		<url-pattern>/autenticar</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>logout</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.LogOutServlet
+		</servlet-class>		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+    
+    
+    <servlet>
+		<servlet-name>cookie</servlet-name>
+		<servlet-class>
+			br.unisul.banco.view.controller.CookieServlet
+		</servlet-class>		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>cookie</servlet-name>
+		<url-pattern>/cookie</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

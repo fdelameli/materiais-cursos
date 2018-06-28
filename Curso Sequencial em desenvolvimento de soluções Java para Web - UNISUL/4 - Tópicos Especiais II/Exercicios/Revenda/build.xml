@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project name="MeuBanco" default="all" basedir=".">
+
+	<property name="name" value="MeuBanco"/>
+	<property name="mainClass" value="meubanco.testes.MeuBancoMain"/>
+	<property name="src" value="./src"/>
+	<property name="build" value="build"/>
+	<property name="dist" value="dist"/>
+
+	<target name="compile" description="Compila o código fonte do projeto">
+		<delete dir="${build}"/>
+		<mkdir dir="${build}"/>
+		<javac srcdir="${src}"  includes="**/*.java" destdir="${build}" debug="on" deprecation="on"/> 
+	</target>
+
+	<path id="jars" description="Pega a lista jars usados pelo projeto">   
+	<fileset dir="./lib">   
+	     <include name="**/*.jar" />   
+	   </fileset>   
+	</path> 
+	
+	<pathconvert property="jars-cp" refid="jars" pathsep=" " dirsep="/" 
+			description="Transforma a lista de jars em uma string de nomes para incluir no class path">  
+		<mapper>
+			<chainedmapper>
+		        <flattenmapper/>
+				<globmapper from="*" to="./lib/*" />
+				<mapper>
+					<globmapper from="*" to="*" />
+				</mapper>
+			</chainedmapper>
+		</mapper>
+	</pathconvert> 
+    
+	<target name="jar" depends="compile" description="Cria o jar do projeto">
+		<delete dir="${dist}"/>
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/${name}.jar" basedir="${build}" >
+            <manifest>
+                <attribute name="Main-Class" value="${mainClass}" />
+				<attribute name="Class-path" value=". ${jars-cp}"/>
+            </manifest>
+		</jar>
+	</target>
+
+	<target name="all" depends="jar" 
+			description="Aciona todos os passos da geração do projeto. Finaliza copiando os recursos">
+		<copydir dest="${dist}/lib" src="./lib"></copydir>
+		<copydir dest="${dist}/conf" src="./src/conf"></copydir>
+		<copydir dest="${dist}/report" src="./src/report" includes="**/*.jasper"></copydir>
+	</target>
+</project>

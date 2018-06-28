@@ -1,0 +1,214 @@
+/*
+  Script 2:
+  Script para a criação da tabela MONTADORA_CARROS
+  e definição da chave primária.
+*/
+CREATE TABLE MONTADORA(
+  CD_MONTADORA DECIMAL(9) NOT NULL,
+  DS_MONTADORA VARCHAR(1000),
+  PRIMARY KEY PK_MONTADORA(CD_MONTADORA)
+);
+
+
+/*
+  Script 3:
+  Script para a criação da tabela CATEGORIA
+  e definição da chave primária.
+*/
+CREATE TABLE CATEGORIA (
+  CD_CATEGORIA DECIMAL(9) NOT NULL,
+  DS_CATEGORIA VARCHAR(100) NOT NULL,
+  PRIMARY KEY PK_CATEGORIA(CD_CATEGORIA)
+);
+
+
+/*
+  Script 4:
+  Script para a criação da tabela VEICULO,
+  definição da chave primária e da chave estrangeira.
+*/
+CREATE TABLE VEICULO (
+  CD_VEICULO DECIMAL(9) NOT NULL,
+  DS_VEICULO VARCHAR(1000),
+  ANO_FABRICACAO DECIMAL(4) NOT NULL,
+  ANO_MODELO DECIMAL(4) NOT NULL,
+  CD_CATEGORIA_VEICULO DECIMAL(9) NOT NULL,
+  VALOR_VEICULO DECIMAL(9,2) NOT NULL,
+  CD_MONTADORA_VEICULO DECIMAL(9) NOT NULL,
+  PRIMARY KEY PK_VEICULO(CD_VEICULO),
+  FOREIGN KEY FK_VEICULO_MONTADORA(CD_MONTADORA_VEICULO) REFERENCES MONTADORA(CD_MONTADORA)
+ );
+
+
+/*
+  Script 5:
+  Script para adicionar uma coluna que defina se
+  a montadora é nacional ou não.
+*/
+ALTER TABLE MONTADORA
+  ADD COLUMN NACIONAL VARCHAR(1) NOT NULL;
+
+
+/*
+  Script 6:
+  Script para uma coluna que defina a cor do veículo
+*/
+ALTER TABLE VEICULO
+  ADD COLUMN COR VARCHAR(30);
+
+
+/*
+  Script 7:
+  Script para remover a coluna que define se a montadora é nacional ou não.
+*/
+ALTER TABLE MONTADORA
+  DROP COLUMN NACIONAL;
+
+
+/*
+  Script 8:
+  Script para inserir 3 montadoras e 3 categorias;
+*/
+INSERT INTO MONTADORA (CD_MONTADORA, DS_MONTADORA)
+  VALUES (1, 'Montadora FORD');
+
+INSERT INTO MONTADORA (CD_MONTADORA, DS_MONTADORA)
+  VALUES (2, 'Montadora HONDA');
+
+INSERT INTO MONTADORA (CD_MONTADORA, DS_MONTADORA)
+  VALUES (3, 'Montadora BMW');
+
+
+
+INSERT INTO CATEGORIA (CD_CATEGORIA, DS_CATEGORIA)
+  VALUES (100, 'Luxo');
+
+INSERT INTO CATEGORIA (CD_CATEGORIA, DS_CATEGORIA)
+  VALUES (101, 'Passeio');
+
+INSERT INTO CATEGORIA (CD_CATEGORIA, DS_CATEGORIA)
+  VALUES (102, 'Esportivo');
+
+
+
+/*
+  Script 9:
+  Script para listar todas as montadoras
+*/
+SELECT * FROM MONTADORA;
+
+
+/*
+  Script 10:
+  Script para inserir 4 veículos para a primeira montadora, 1 veículo para a segunda.
+*/
+INSERT INTO VEICULO (CD_VEICULO, DS_VEICULO, ANO_FABRICACAO, ANO_MODELO, CD_CATEGORIA_VEICULO, VALOR_VEICULO, CD_MONTADORA_VEICULO, COR)
+  VALUES (1, 'Ford Ká', 2000, 2001, 100, 35000.00, 1, 'Vermelho');
+
+INSERT INTO VEICULO (CD_VEICULO, DS_VEICULO, ANO_FABRICACAO, ANO_MODELO, CD_CATEGORIA_VEICULO, VALOR_VEICULO, CD_MONTADORA_VEICULO, COR)
+  VALUES (2, 'Ford Fiesta', 2008, 2009, 101, 45000.00, 1, 'Verde');
+
+INSERT INTO VEICULO (CD_VEICULO, DS_VEICULO, ANO_FABRICACAO, ANO_MODELO, CD_CATEGORIA_VEICULO, VALOR_VEICULO, CD_MONTADORA_VEICULO, COR)
+  VALUES (3, 'Ford Focus', 2005, 2005, 101, 50000.00, 1, 'Preto');
+
+
+INSERT INTO VEICULO (CD_VEICULO, DS_VEICULO, ANO_FABRICACAO, ANO_MODELO, CD_CATEGORIA_VEICULO, VALOR_VEICULO, CD_MONTADORA_VEICULO, COR)
+  VALUES (4, 'Honda Civic', 2008, 2008, 102, 75000.00, 2, 'Branco');
+
+
+/*
+  Script 11:
+  Script para listar todos os veículos ordenados pelo
+  valor do veículo do maior para o menor.
+*/
+SELECT * FROM VEICULO
+  ORDER BY VALOR_VEICULO;
+
+
+/*
+  Script 12:
+  Script para alterar a cor de todos os veículos da montadora 2 para "Azul bebê".
+*/
+UPDATE VEICULO
+  SET COR = 'Azul bebê'
+  WHERE CD_MONTADORA_VEICULO = 2;
+
+
+/*
+  Script 13:
+  Script para alterar a categoria de todos os veículos da montadora 1 para luxo quando o
+  valor for maior que 30 mil.
+*/
+UPDATE VEICULO
+  SET CD_CATEGORIA_VEICULO = 100
+  WHERE CD_MONTADORA_VEICULO = 1
+  AND VALOR_VEICULO > 30000.00;
+
+
+/*
+  Script 14:
+  Script para alterar o ano do modelo para 2005 de todos os veículos da montadora 3.
+*/
+UPDATE VEICULO
+  SET ANO_MODELO = 2005
+  WHERE CD_MONTADORA_VEICULO = 3;
+
+
+/*
+  Script 15:
+  Script para excluir o veículo 4.
+*/
+DELETE FROM VEICULO
+  WHERE CD_VEICULO = 4;
+
+
+/*
+  Script 16:
+  Script para listar a descrição do veículo e o seu valor para veículos da montadora 1.
+*/
+SELECT DS_VEICULO, VALOR_VEICULO
+  FROM VEICULO
+  WHERE CD_MONTADORA_VEICULO = 1;
+
+
+/*
+  Script 17:
+  Script para listar a soma do valor de todos os veículos da revenda.
+*/
+SELECT SUM(VALOR_VEICULO) Total
+  FROM VEICULO;
+
+
+/*
+  Script 18:
+  Script para listar o nome da montadora e a descrição do veículo.
+*/
+SELECT M.DS_MONTADORA, V.DS_VEICULO
+  FROM VEICULO V
+  JOIN MONTADORA M
+  ON V.CD_MONTADORA_VEICULO = M.CD_MONTADORA;
+
+
+/*
+  Script 19:
+  Script para listar o nome da montadora, a descrição do veículo, a descrição da categoria
+  do veículo e o valor do veículo, ordenado crescente por montadora, depois valor.
+*/
+SELECT M.DS_MONTADORA, V.DS_VEICULO, C.DS_CATEGORIA, V.VALOR_VEICULO
+  FROM VEICULO V
+  JOIN MONTADORA M
+  JOIN CATEGORIA C
+  ON V.CD_MONTADORA_VEICULO = M.CD_MONTADORA
+  AND V.CD_CATEGORIA_VEICULO = C.CD_CATEGORIA
+  ORDER BY M.DS_MONTADORA, V.VALOR_VEICULO;
+
+
+/*
+  Script 20:
+  Script para listar o nome da montadora e a quantidade de veículos relacionados a ela.
+*/
+SELECT M.DS_MONTADORA Montadora, COUNT(CD_VEICULO) Qtde
+  FROM MONTADORA M
+  LEFT OUTER JOIN VEICULO V
+  ON V.CD_MONTADORA_VEICULO = M.CD_MONTADORA
+  GROUP BY M.DS_MONTADORA;

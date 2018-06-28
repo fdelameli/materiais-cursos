@@ -1,0 +1,60 @@
+<project name="BancoSequencial" default="deploy" basedir=".">
+
+	<property file="build.properties"/>
+
+	<path id="lib.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*"/>
+		</fileset>
+	</path>
+
+	<target name="apagar">
+		<delete dir="${deploy.dir}/${war.name}"/>
+		<delete file="${deploy.dir}/${war.name}.war"/>
+	</target>
+	
+	<target name="compila">
+		<javac srcdir="${src.dir}" destdir="${bin.dir}">
+			<classpath>
+				<path refid="lib.path"/>		
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="cria.war" depends="compila">
+		<war destfile="${dist.dir}/${war.name}.war" webxml="${webxml.dir}/${webxml.name}">
+			<classes dir="${bin.dir}">
+				<include name="**/*.class"/>
+			</classes>
+			
+			<zipfileset dir="${view.dir}/${paginas.dir}">
+				<include name="**/*"/>
+			</zipfileset>
+		</war>
+	</target>
+
+	<target name="deploy" depends="cria.war, apagar">
+		<copy file="${dist.dir}/${war.name}.war" todir="${deploy.dir}"/>
+	</target>
+	
+	
+	
+	
+	<!-- Tasks para gerar tabelas no banco -->
+	
+	<path id="lib.banco">
+		<fileset dir="lib">
+			<include name="org.postgresql.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="criar.base">
+		<sql driver="org.postgresql.Driver" 
+			password="admin" 
+			url="jdbc:postgresql://localhost:5432/postgres" 
+			userid="postgres"
+			src="doc/script.sql"
+			classpathref="lib.banco"/>
+	</target>
+		
+</project>

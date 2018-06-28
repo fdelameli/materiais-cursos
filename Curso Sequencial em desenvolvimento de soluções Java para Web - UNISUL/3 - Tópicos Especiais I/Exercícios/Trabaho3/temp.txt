@@ -1,0 +1,2 @@
+1	dolar	1999	usa	200	2
+1	real	1999	brasil	100	3

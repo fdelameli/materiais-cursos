@@ -1,0 +1,35 @@
+<project name="Conversor" default="deploy" basedir=".">
+
+	<property file="build.properties"/>
+	
+	<path id="lib.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*"/>
+		</fileset>
+	</path>
+	
+	<target name="compila">
+		<javac srcdir="${src.dir}" destdir="${bin.dir}">
+			<classpath>
+				<path refid="lib.path"/>		
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="cria.war" depends="compila">
+		<war destfile="${dist.dir}/${war.name}.war" webxml="${webxml.dir}/${webxml.name}">
+			<classes dir="${bin.dir}">
+				<include name="**/*.class"/>
+			</classes>
+			
+			<zipfileset dir="${view.dir}/${paginas.dir}">
+				<include name="**/*"/>
+			</zipfileset>
+		</war>
+	</target>
+
+	<target name="deploy" depends="cria.war">
+		<copy file="${dist.dir}/${war.name}.war" todir="${deploy.dir}"/>
+	</target>
+	
+</project>

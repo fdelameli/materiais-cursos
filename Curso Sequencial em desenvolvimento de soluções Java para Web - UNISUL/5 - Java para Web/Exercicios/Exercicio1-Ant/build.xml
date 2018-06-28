@@ -1,0 +1,22 @@
+<project name="Exercicio1-Ant" default="copiar" basedir=".">
+	
+	<property file="build.properties"/>
+	
+	<target name="criar.dir">
+		<mkdir dir="${dir.criado}"/>
+	</target>
+	
+	<target name="compactar" depends="criar.dir">
+		<zip destfile="${arquivo.compactado}">
+			<fileset dir="${web.dir}">
+				<include name="**/*.html"/>
+			</fileset>
+		</zip>
+	</target>
+	
+	<target name="copiar" depends="compactar">
+		<copy file="${arquivo.compactado}"
+			todir="${dir.criado}"/>
+	</target>
+
+</project>

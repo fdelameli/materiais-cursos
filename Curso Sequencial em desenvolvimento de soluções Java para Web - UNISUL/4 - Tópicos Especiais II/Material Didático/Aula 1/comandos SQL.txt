@@ -1,0 +1,150 @@
+
+-- DDL
+
+
+create table PESSOA (
+      codigo_pessoa decimal(9) not null ,
+      nome_pessoa varchar(50) not null
+);
+
+
+create table FUNCIONARIO (
+      codigo_funcionario decimal(9),
+      codigo_pessoa decimal(9),
+      data_admissao date,
+      valor_salario decimal(9,2)
+);
+
+
+drop table PESSOA;
+
+
+drop table FUNCIONARIO;
+
+
+alter table PESSOA
+      add constraint pk_pessoa
+      primary key (codigo_pessoa);
+
+
+alter table FUNCIONARIO
+      add constraint pk_funcionario
+      primary key (codigo_funcionario);
+
+
+alter table FUNCIONARIO
+      add constraint fk_funcionario_pessoa
+      foreign key (codigo_pessoa)
+      references PESSOA (codigo_pessoa);
+
+
+alter table FUNCIONARIO
+      add column ds_observacao
+      varchar(1000);
+
+
+alter table FUNCIONARIO
+      modify ds_observacao
+      varchar(2000);
+
+
+alter table FUNCIONARIO
+      drop ds_observacao;
+
+
+-- altera o nome de uma columa de uma determinada tabela.
+alter table FUNCIONARIO
+      change valor_salario salario decimal(9, 2);
+
+
+rename table FUNCIONARIO to FUNC;
+
+
+rename table FUNC to FUNCIONARIO;
+
+
+
+-- DML
+
+
+INSERT INTO PESSOA (CODIGO_PESSOA, NOME_PESSOA)
+      VALUES (6, 'Jonas da Silveira');
+
+
+INSERT INTO PESSOA (CODIGO_PESSOA, NOME_PESSOA)
+      SELECT (CODIGO_PESSOA + 2), NOME_PESSOA FROM PESSOA;
+
+
+
+INSERT INTO FUNCIONARIO (CODIGO_FUNCIONARIO, CODIGO_PESSOA, DATA_ADMISSAO, VALOR_SALARIO)
+      VALUES (103, 4, '2008-06-01', 900.00);
+
+
+SELECT CODIGO_PESSOA CODIGO, NOME_PESSOA NOME FROM PESSOA;
+
+
+SELECT * FROM FUNCIONARIO;
+
+
+SELECT * FROM PESSOA;
+
+
+UPDATE PESSOA
+    SET NOME_PESSOA = 'Maria Madalena'
+    WHERE CODIGO_PESSOA = 4;
+
+
+UPDATE FUNCIONARIO
+    SET VALOR_SALARIO = 12345.34,
+        DATA_ADMISSAO = '2008-09-01'
+    WHERE CODIGO_FUNCIONARIO = 99;
+
+
+DELETE FROM PESSOA
+    WHERE CODIGO_PESSOA = 5;
+
+
+DELETE FROM FUNCIONARIO
+    WHERE CODIGO_FUNCIONARIO = 100;
+
+
+SELECT NOME_PESSOA NOME
+    FROM PESSOA
+    WHERE NOME_PESSOA LIKE '%a%';
+
+-- SELECIONA O NOME DE TODAS AS PESSOAS QUE CONTENHAM
+-- A LETRA E AINDA OS ORDENA POR ORDEM DESCRESCENTE
+SELECT NOME_PESSOA NOME
+    FROM PESSOA
+    WHERE NOME_PESSOA LIKE '%a%'
+    ORDER BY NOME_PESSOA DESC;
+
+-- RETORNA A QUANT. DE REGISTROS NA TABELA
+SELECT COUNT(*) FROM PESSOA;
+
+-- TOTAL DOS GASTOS COM SALÁRIOS
+SELECT SUM(VALOR_SALARIO) Total FROM FUNCIONARIO;
+
+-- RETORNA A CONTAGEM DE ACORDO COM A DATA DE ADMISSÃO
+SELECT DATA_ADMISSAO,
+    COUNT(*)
+    FROM FUNCIONARIO
+    GROUP BY DATA_ADMISSAO;
+
+-- EXEMPLO DE JOIN
+SELECT P.NOME_PESSOA, F.VALOR_SALARIO
+    FROM FUNCIONARIO F
+    JOIN PESSOA P
+    ON F.CODIGO_PESSOA = P.CODIGO_PESSOA;
+
+
+-- EXEMPLO MAIS COMPLEXO DE JOIN USANDO LEFT_OUTER_JOIN
+SELECT P.NOME_PESSOA, F.VALOR_SALARIO
+    FROM PESSOA P
+    LEFT OUTER JOIN FUNCIONARIO F
+    ON F.CODIGO_PESSOA = P.CODIGO_PESSOA;
+
+-- RETORNA AS DATAS EM QUE HOUVERAM ADMISSÕES
+-- (TRAZ APENAS UMA VEZ CADA OCORRENCIA, MESMO QUE ELAS SE REPITAM)
+SELECT DISTINCT DATA_ADMISSAO
+    FROM FUNCIONARIO;

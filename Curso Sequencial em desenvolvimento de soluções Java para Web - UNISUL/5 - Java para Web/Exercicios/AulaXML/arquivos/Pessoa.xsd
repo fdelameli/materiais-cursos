@@ -1,0 +1,21 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Pessoa" type="pessoa" />
+
+	<xs:complexType name="pessoa">
+		<xs:sequence>
+			<xs:element name="Nome" type="xs:string" minOccurs="0"
+				maxOccurs="1" />
+			<xs:element name="Sexo" type="xs:string" />
+			<xs:element name="Idade" type="xs:integer" />
+			<xs:element name="Endereco" type="endereco" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="endereco">
+		<xs:sequence>
+			<xs:element name="Logradouro" type="xs:string" />
+			<xs:element name="Numero" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

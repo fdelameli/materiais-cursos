@@ -1,0 +1,44 @@
+Bom dia PessoALL,
+
+O projeto consiste em um sistema com 3 tabelas que deve fazer as operações básicas, são elas:
+
+- Cadastro
+- Consulta
+- Alteração
+- Exclusão
+
+Estas tabelas devem conter no minimo 3 atributos, elas nao precisam estar ligadas com FK, o script sql deve estar contido no projeto o arquivo de ant (build.xml) deve estar criando as tabelas no banco.
+
+- Deve ser criado as operações para as 3 entidades, é necessário a criação de um menu para acessar as funcionalidades de cada uma.
+
+- Deve ser usado também o CSS para personalizar o sistema, (Sugestao: www.dotemplate.com)
+
+o projeto será individual e para entrega no dia 03/05/2009
+
+segue abaixo a lista da atividade de cada um:
+
+1 - Sistema para academia - Aluno Exercicio Maquina - Guilherme Vandressen
+2 - Sistema para hotel - Hospede Hotel Reserva - Angélica Siqueira de Souza
+3 - Sistema para banco - Correntista Banco Conta - Tayse Cascaes
+4 - Sistema para locadora - Cliente Filme Locacao - Chaiene Machado Brasil
+5 - Sistema para biblioteca - Aluno Livro Reserva - Guilherme dos Reis
+6 - Sistema para posto - Bomba Cliente Venda - Carlos Henrique Sá
+7 - Sistema para clínica - Paciente Medico Consulta - André Nunes
+8 - Sistema para veterinário - Animal Dono Veterinario - Everton Feltrin Pinheiro
+9 - Sistema para empresa - Empregado Gerente Setor - Wilmar Augusto Soares
+10 - Sistema para imobiliária - Inquilino Imobiliaria Aluguel - Alex Ricken
+11 - Sistema para telefonica - Tarifa Ligacao Cliente - Willian Holthausen da Silva
+12 - Sistema para escola - Professor Aluno Disciplina - Robson H. B.
+13 - Sistema para entrega - Cliente Encomenda Caminho - Anderson Pereira Correa
+14 - Sistema para esportes - Jogador Time Jogo - Felippe Pereira Correa
+15 - Sistema para transportadora - Transportadora Caminhao Frete - Fabio Dela Bruna
+16 - Sistema para banco de sangue - Banco Doador Receptor - Diogo Goulart
+17 - Sistema para aviação - Passagem Passageiro Voo - Tiago Honorato
+
+A próxima aula (18/03) está destinada a criação do projeto ou resolução de dúvidas.
+
+Para entregar vocês devem compactar a pasta do projeto de vocês que está no workspace do eclipse e me enviar.
+
+Obs.: Peço aos que não possuem a nota 1, enviar o trabalho até o dia 18/03
+
+Att.

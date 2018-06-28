@@ -1,0 +1,183 @@
+/* 
+    Document   : styles
+    Created on : Jan 16, 2009, 9:18:21 AM
+    Author     : Carlos
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+.msgErro {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FF0000;
+	background-color: #FFFFCC;
+	padding: 4px;
+	border: 1px dotted #FF9900;
+	font-weight: bold;
+}
+
+.msgDesc {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #000000;
+	padding: 4px;
+	font-weight: 400;
+    text-transform:none;
+    text-align:left;
+    
+    font-style: italic;
+    background-color: #e0e5ff;
+    
+}
+
+body{
+    background-color: #d4d8ff;
+}
+table{
+    width:100%;
+    border-top-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+th{
+    font: bold 12px "Trebuchet MS";
+    padding: 6px;
+    color: #000000;
+    text-transform: uppercase;
+    border:1px solid teal;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    
+}
+
+td.botoes{
+    font: bold 12px "Trebuchet MS";
+    text-transform: uppercase;
+    border: 2px groove #C1DAD7;
+	padding: 6px;
+	color: #000000;
+    border-top-style: outset;
+    border-bottom-style: outset;
+    border-left-style: outset;
+    border-right-style: outset;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-color: #ffffff;
+    border-bottom-color: #ffffff;
+    border-left-color: #ffffff;
+    border-right-color: #ffffff;
+    background-image: url(../images/shade.gif);
+}
+a.visited{
+    
+    font-size: small;
+    color: #010000;
+    font-style: italic;
+    text-decoration: none;
+    font-weight: 900;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+h1{
+    font: bold 15px "Trebuchet MS";
+    padding: 6px;
+    color: #ffffff;
+    text-transform: uppercase;
+    background-color: #003333;
+}
+
+div{
+    
+    font-family: 'Times New Roman',Times,serif;
+}
+
+div.tabela{
+    font: bold 12px "Trebuchet MS";
+    color: #4f6b72;
+    background-color: #ccccff;
+    border-top-style: groove;
+    border-bottom-style: groove;
+    border-left-style: groove;
+    border-right-style: groove;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-top-color: #ffffff;
+    border-bottom-color: #ffffff;
+    border-left-color: #ffffff;
+    border-right-color: #ffffff;
+}
+
+
+
+input:focus  { outline: 2px solid #99FF33; }
+input:active { outline: 2px solid #CCFF00; }
+
+
+div.w3c{
+    vertical-align:middle;
+    text-align:right;
+}
+
+div.submenu{
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 6px;
+    font-size: small;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+div.submenu:hover{
+    border-top-style: ridge;
+    border-bottom-style: ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 6px;
+    font-size: small;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-top-color: #ffffff;
+    border-bottom-color: #ffffff;
+    border-left-color: #ffffff;
+    border-right-color: #ffffff;
+    background-image: url(../images/shade.gif);
+    text-align: center;
+}
+
+b:hover {
+        background:transparent;
+        text-decoration:none;
+} /*BG color is a must for IE6*/
+b.tooltip span {
+        display:none;
+        padding:2px 3px;
+        margin-left:8px;
+        
+        
+}
+b.tooltip:hover span{
+        display:inline;
+        position:absolute;
+        background:#ffffff;
+        border:1px solid #cccccc;
+        color:#6c6c6c;
+}
+
+

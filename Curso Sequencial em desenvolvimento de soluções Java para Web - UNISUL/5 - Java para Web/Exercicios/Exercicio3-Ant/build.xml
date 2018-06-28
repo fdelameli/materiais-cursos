@@ -1,0 +1,39 @@
+<project name="Exercicio3-Ant" default="gerar.documentacao" basedir=".">
+
+	<property file="build.properties"/>
+	
+	<!-- Cria a pasta doc, onde será gerado o JavaDoc -->
+	<target name="criar.dir">
+		<mkdir dir="${name.dir}"/>
+	</target>
+	
+	<!-- Gera a documentação JavaDoc -->
+	<target name="gerar.documentacao" depends="criar.dir">
+		<javadoc destdir="${name.dir}">
+			<fileset dir="src">
+				<include name="**/*.java"/>
+			</fileset>
+		</javadoc>	
+	</target>
+	
+	
+	<target name="criar.base">
+		<sql 
+			driver="org.postgresql.Driver" 
+			password="postgres" 
+			url="jdbc:postgresql://localhost:5432/postgres" 
+			userid="postgres"
+			src="script/script.sql"
+			classpathref="lib.banco"
+		/>
+	</target>
+	
+	
+	<path id="lib.banco">
+		<fileset dir="lib">
+			<include name="org.postgresql.jar"/>
+		</fileset>
+	</path>
+	
+
+</project>

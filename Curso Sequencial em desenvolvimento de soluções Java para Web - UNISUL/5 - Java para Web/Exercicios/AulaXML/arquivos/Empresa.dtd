@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT Empresa (Nome_Empresa, Cnpj, Endereco, Setor)>
+<!ELEMENT Endereco (Logradouro, Numero)>
+<!ELEMENT Setor (Funcionario*)>
+<!ELEMENT Funcionario (Nome_Funcionario, Idade)>
+<!ELEMENT Nome_Empresa (#PCDATA)>
+<!ELEMENT Cnpj (#PCDATA)>
+<!ELEMENT Logradouro (#PCDATA)>
+<!ELEMENT Numero (#PCDATA)>
+<!ELEMENT Nome_Funcionario (#PCDATA)>
+<!ELEMENT Idade (#PCDATA)>
