@@ -1,0 +1,24 @@
+Sistema Operacional
+
+É um software que gerencia o computador.
+-Tipos: 
+Sistemas monoprogamáveis/monotarefa: só gerenciava um programa de cada vez.Ex.: DOS.Colobarativo: tinha mais programas abertos, porém só um ficava executando
+Multiprogamáveis/multitarefas: Já permetinham a execução de muitos programas. Ex: Unix, Windows 95, MacOs, QOS. Tempo Compartilhado: acontece uma interrupção, o sistema para a exucução, congela ela, e executa outra ação.É o tempo que o processador dá para executar cada programa, existem alguns programas do sistema operacional em que o tempo compartilhado da prioridade. Batch: É um programa que não interrage com o usuário, só se ve a execução do program no inicio e no fim. Tempo Real: Reage conforme a prioridade de cada programa, ele atende um pragrama na hora que ele precisa, cada programa tem sua prioridade gravada.
+
+Multiprocessamento: são varios processadores interligados gerando uma ou mais processos. Eles podem estarem ligados a mesma memóriaou a mais de uma memória. Podemos ter um processador mestre, que manda nos outros. Esse processador geralmente carrega o SO. Se esse processador pifar, os outros tambem não funcionam, dai temos que demoninar outro processador como mestre. Isso se chama 'fortemente acoplados assimetricos'. Temos tambem 'fortemente acoplados simétricos', todos os processadores  executam qualauer tipo de tarefa, ou seja, não tem processador mestre.
+
+
+
+Exercicio
+
+1- O que é multiprogramação? Dê duas razões que justifiquem a sua utilização na prática.
+R: São os tipos de SO que gerenciam mais de um programa em execução. 
+2- Em que consiste a técnica de spool?
+R: Spool é um a linha de espera de execução.
+3- Por que a técnica de compartilhamento de tempo não se popularizou durante os anos primeiros computadores?
+4- Em uma loja de departamentos, qual o tipo de sistemas operacional ideal?
+R: Tempo Compartilhado.
+5- O que é paralilismo de programa?
+R: cada pedaço de programa executando em um processador diferente, paralelamente.
+6- Qual a principal vantagem da sistema fortemente acoplado simétrico sobre assimétrico?
+R: eu posso perder um processador no meio do processo que os outros continuam a trabalhar, pois ele não possui processador mestre. Já o assimétrico possui o processador mestre, se ele falhar, os outros processadores param de trabalhar.

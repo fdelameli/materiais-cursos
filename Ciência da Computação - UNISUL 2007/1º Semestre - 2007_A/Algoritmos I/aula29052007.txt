@@ -1,0 +1,51 @@
+Leia Mes
+Escolha
+  Caso (Mes = 1) Então
+       Escreva "Janeiro"
+  Caso (Mes = 2) Então
+       Escreva "Fevereiro"
+ Senão
+       Escreva "Escreva Mes Inválido"
+
+Java:
+
+swith (Mes){
+  case 1: {
+    ....................
+     break;}
+    case 2: {
+    ....................
+     break;}
+     default{
+     }
+        }
+
+
+
+
+Para I de 1 ate N faça
+    Escreva I
+FimPara
+
+
+For (i=1; i<=n; i++){
+     ....................
+     ....................
+}
+
+
+i++;
+i = i+1;
+i+ = 1;
+
+
+i--;
+i= i -1;
+i- = 1;
+i= i-5;
+i- = 5;
+
+i = i*3;
+i* = 3;
+
+equals: Serve para comparar String.
