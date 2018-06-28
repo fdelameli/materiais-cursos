@@ -1,0 +1,36 @@
+- Gerencia de configuração oferece os seguintes servicos:
+  - identificação de objetos
+    - Como funciona? O que é importante? O que é de nossa responsabilidade? O que deve ser versionado?
+	- É uma atividade complexa (deve chamar mais pessoas para discutir isso. Os interessados. De quem é a responsabilidade de uma identificação? Sempre quese- coloca um objeto no repositório, o mesmo deve ser controlado (quem alterou? pq foi inserido?). Repositório é um lugar crítico, caro. Não se coloca o que nao precisa estar no repositório.
+  - Controle de objetos. Quem controla o objeto? 
+    - GC anda com gerencia de projeto. Nao faz sentido que os dois seja separados. Tudo que precisa para controlar uma versão, deve-se passar pelo gerente do projeto. Varias coisas previas foram definidas pelo G. de projeto e sua equipe. O gerente de projeto define o que vai mudar, entao o Gernte de Proj deve ter muita afinidade com o gerente de configu.
+  - Relatorios de estado do repositório. Gerencia de conf é onde a informação está. Quando o a tarefa está acoplada ao processo, como por exemplo a quantidade de vezes que uma classe foi alterada, a informação é mais exata do que se fosse buscar os detalhes da razão de pq a classe foi inserida e reinserida no repositório. Com os dados, o gerente de projeto de contexto para tornar esses dados informações e a partir disso, gerar decisões. Os relatórios de estado do repositório são responsáveis por essa capacidade de criar alterações e decisões na organização. 
+  - Auditoria e inspeção: o que deve-se mudar no processo para que as ações fluam e menos problemas aconteçam. Na inspeção, procura-se pessoas qeu não estao fazendo o que deveriam estar fazendo. Para orientação para que retornem ao processo, e muitoas vezes isso acontece pois existem fatores que levam o profissional se afastar de suas atividades iniciais. Auditoria para tudo e faz a revisão das coisas do processo. Inspeção é feita constantemente. 
+Dean Leffingwell
+  - Composição da equipe de GC:
+     - Ferramentas envolvidas: tudo aquilo que viabiliza a GC, até artefatos de mudança. Nao se limita ao repositório.
+  - Repositório: ambiente onde os artefatos sao mantidos em segurnça e versionados. Aqui ficam os itens desenvolvidos, e ficam tb nao só os versionados. O repositório permite a rastrabilidade vertical (evolucao do artefato no tempo). 
+  - Item de configuração é algo que precisa ser controlado. É um dos elementos que compõem o produto como um todo, e por isso deve-se saber como ele foi alterada através do tempo. Item de configuração para producao é ago mais granular (temperatura, extintor, piso). É a fonte de informação da gerência de configuração. Dele saem as informações de como o sistema evolui. Todo item de configuração é um objeto que pode ser versionado. A gerencia de configuração demonstra a relação entre os itens... mostra que se um componente for alterado, o todo pode ser desmantelado. Deve-se definir corretamente os itens de configuração. Todos os componentes do software devem ser itens de configuração. Em produção, até o SO deve ser considerado item de configuração. 
+  - Base line: é uma foto do projeto (dos itens de configuração) de um momento estável do repositório/projeto. Deve-se gerar um documento que indique o que aconteceu em cada baseline. O que deu origem a esta baseline ou os resultados desta baseline. 
+  - Atividades: inclusao para controle de versao, atualizacao e obtenção de arquivos. 
+    - Workcopy: O repositorio fica longe. Não seria razoavel manipular o artefato no repositório.Ao trazer e alterar, como saber se muito ou oq foi alterdo? O repositorio deve manter um controle (workcopy), um espaço especial da máquina do desenvolvedor.
+	- adição (add): adicionar no workcopy nao diz q será versionado. Após um gatilho, é que o arquivo será versionado.
+    - Checkin: o artefato vai para o repositório e a versão é incrementada.
+    - Checkout: trazer a última versão de um artefato do repositório, para a workcopy do desenvolvedor.
+	- Version: a versão do repositório é incrementada quando é feito checkin em um artefato. Por meio da version ou release que se pode recuperar o arquivo que foi produzido em um determinado momento. 
+  - Políticas:
+    - politicas permitem garantias ou velocidades. 
+	- trava-modifica-destrava (politica da segutanca)
+	  - Todos podem baixar para o seu repositorio, porém um por vez. Quem pega primeiro tem o direito de escrever. 
+	- copia-modifica-funde (politica da velocidade)
+	  - Torna o repositório mais compartilhado, onde um mesmo artefato posso ser editado por mais de uma pessoa simultaneamente. Ele avisa que foi alterado ou está sendo alterado, e cabe ao usuário aceitar ou não a subida, permitindo a comparação e fazer a fundição dos dois arquivos.
+    - Para trabalhar com versoes diferentes de um mesmo software, o repositório permite um versionamento e a criação de ramos - baselines. Labels (ou rótulos) são os identificadores dos baselines.
+    - Ramo principal: tipicamente, o ramo principal é o main. Qualquer outra versão estará em um ramo (branch) diferente. 	
+	- Versões estáveis: cada versão estável deve ser uma baseline. Versão estável é uma versão que não exista maisartefato no workcopy, e que a compilação (build) funciona. 
+	- Modelo fluxo centralizado: toda transação de checkin e checkout pe realizada diretamente no repositório. Arquivos são mantidos sob versão apenas no repositório. Existe apenas uma versão dos arquivos em uso. Subversion, Git.
+
+- Resumo: 
+  - GC fornece vários serviços, e tais serviçoes so sao possiveis pois existe um controle de info rigido. Alem de controlar artefatos, pode-se gerar relatorios de desenvolvimento, auditorias e inspeçoes. Com a complexidade e aumento das equipes de desenvolvimento, os processos se  tornam mais complexos e sem capacitação. Nao se sabe porque as coisas são feitas, como são feitas e quem vai utilizar. Se executa as tarefas sem saber pq foi escrita. Porém não se pode falar de GC sem repositório. Reposítório controla os arquivos sob gestão da versão. Para usar estes arquivos é necessário uma cópia da versao desejada em um diretorio de tabalhao que, depois de alteada, retorna ao repositório.
+  - Conflitos: politicas que se baseiam na seguranca e politicas que se baseiam em velocidade. 
+  - Tipos de repositórios: centralizado e descentralizado.
+	

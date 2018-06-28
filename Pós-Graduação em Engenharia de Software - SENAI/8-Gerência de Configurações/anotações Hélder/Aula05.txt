@@ -1,0 +1,17 @@
+ISO 20000
+  - Serviço: meio de entregar valor ao cliente, facilitando resultados. Qualquer coisa que se possa fazer para entregar valor ao cliente. Precisa-se ter controle sobre custo e risco (gerencimento de custo e risco). Serviços devem passar informações suficientes para que eles não possam parar.
+  - Define sobre como se deve produzir serviços. APresenta um conjunto de gerencia que é responsavel por cada uma das partes que mantenha os serviços ativos.
+  - 5 processos com gerencias internas dos processos.
+    - Processos de controle:
+      - Gerenciamento de configuração e gerenciamento de mudanças. Toda mudança acontece por aqui.
+	- Processos de liberação:
+	- Processos de Resolução:
+	  - Trabalham com a gerência de incidentes (reestabelecer um serviço que parou) e gerencia de problemas (resolver problemas minimizando a interrupção de serviços). 
+	- Processos de relacionamento: 
+	  - Gerencia de relacionamento com negocio
+	  - Gestão de fornecedores
+	  - Gerência de capacidade
+
+  - Diferenca entre ISO 20000 e ITIL: norma ISO é para organizações/empresas. O ITIL é conjunto de conhecimento de produção. O objetivo do ITIL é mostrar como se deve trabalhar para trabalhar bem na produção. A certificação atua certificando profissionais. 
+  - ITIL na versão 3 mudou seu modelo. Virou um ciclo, semelhando ao PDCA, para fornecer uma visao melhor de como o modelo de atendimento de servico deve aconteer.   
+  

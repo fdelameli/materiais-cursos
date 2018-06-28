@@ -1,0 +1,38 @@
+- ISO 12207
+  - Tudo o que se cria durante o processo deve ser controlado?
+    - Depende da necessidade. Sempre deve existir a necessidade de controlar um artefato. Porque é necessário? Qual relevância deste artefato para o processo?
+	- Quem pode alterar os itens de configuração? Ex.: Será que um codificador pode alterar um requisito?
+	- Questões a serem feitas ao se implantar uma ferramenta de gerenciamento da configuração. 
+	- Como que a modificação pode ser tratada? Quem tem permissão pode alterar tudo? Vai ter avaliação sobre as mudanças feitas? Existirá controle centralizado da alteração?
+	- Quando algo é alterado, está tudo certo? Ou alguém deve ser avisado? Certas coisas que acontecem devem ser comunicáveis? Quem precisa ser comunicado? Sob quais circunstâncias? Quantas vezes o artefato foi alterado? Quem alterou? 
+	- Conhecer o que se entrega. Como saber? Quais foram as mudanças de fato, e tudo passou por um processo de teste adequado? Como que o build foi construído? 
+	- Definir os criterios para que as modificações ocorram durante o ciclo de vida do software.
+	- Estabelecer normas de uso, acesso e guarda dos itens de configuração.
+	- Quem executa? processo é realizado por muitas pessoas. Normalmente são os desenvolvedores. Partes mais críticas são feitas por pessoas com visão do todo, principalmente criação de baseline e branch. 
+	- Processo: pessoas e atividades: 
+	  - Definir ferramentas e equipamentos. 
+	  - Estruturar ambiente 
+	  - Planejar gerência da configuração
+	  - Executar processo.
+	Pessoas e artefatos:
+	- GC e solicitante:
+	  - Ambiente é uma das responsabilidades da GC. A definicção do moelo da solitiação da mudança deve ser da gerencia de configuração. 
+	  - Tomada da decisão sobre como as mudanças ocorrerão deve ser feita pela GC em um CCM = Comitê de Configuração e Mudança.
+	  - COm base no apoio com os demais é que o GC constroi a definicao do ambiente e controlar aspecto da gestao do artefato, mas como questões relacionadas a disciplias como um todo. 
+	  - Nas atividades da GC deverao ser definidas ferramentas de suporte ao desenvolvimento, controle de versão, definição de hardware envolvido.
+	  - Ambientes: desenvolvimento, testes e produção. 
+	  - Planejar gerência da configuração: definir papéis e responsabilidades dos membros da equipe sobre atividades de GC.
+	  - Definição das baselines e seus critérios.
+	  - Definição de políticas e procedimento.
+	  - Definição dos itens de configuração, padrão de nome de artefatos, etc.
+	  - Conceitos associados à GC:
+	    - Rastreabilidade
+		  - Maneira de permitir avaliar o impacto das coisas. Rastreabilidade = Associação entre artefatospor dependencia ou por originacao.
+		  - Rast. Horizontal e Rast. Vertical. 
+		- Integração
+		  - Juntar partes criadas pela equipe para garantir que tudo funciona. 
+		  - Os testes unitários devem ser realizados, já que as partes serão reunidas.
+		  - Integração contínua: acontece diversas vezes ao dia, de forma contínua.
+		- Build
+		- Release: algo que será liberado para alguém. Deve-se gerar uma baseline após e release. 
+  

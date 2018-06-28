@@ -1,0 +1,8 @@
+Devops:
+  - O processo tradicional cria mecanismos para o desenvolvimento que o distancia cada vez mais da producção. Por outro lado, a produção requer cada vez menos mudanças, mais controle sobre as versões e ambiente de produção, deixando de ser cobaia para testar o sistema em seu ambiente. Com o advento dos metodos ageis, as mudancas começam a ser bem vindas pelo desenvolvimento, distanciando ainda mais o lado do ambiente de desenvolvimento do ambinete de produção. Algo que reforça isso é também a quantidade de partes prontas que podem ser instaladas em ambinete de produção. Porém, a abordagem agil, ao preterir pessoas sobre ferramentas tecnologicas, trouxe mais para perto a produção para dentro do desenvolvimento. E esta ideia é que pode ser entendida como uma tendência. 
+  - Equipe de desenvolviemtno ao lado ao lado da equipe de produção = dev-ops. Essa aproximação implica em disseminação de conhecimento, em capacitação de pessoas, em flexibilidade de perfis. O objetivo é disseminar o conhecimento de como a aplicação é criada e como funciona a instalação no outro lado. Capacitação de pessoas e flexibilidade de perfis. 
+  - Para tornar mais efetivo o controle, é necessária a inclusão de ferramentas que possam oferecer velocidade no processo e segurança de forma simultânea. Devops é uma cultura. Sem gerência de configuração, não existe DevOps. Sem efetivo controle dos itens de configuração e automatização dos processos de evolução, as atividades de desenvolvimento e produção não conseguem uma aproximação adequada de forma segura. 
+  Effective Devops - Jennifer Davis
+  Devops for developers - Michael Huttermann
+  Continous delivery and devops - Paul Swartout
+  

@@ -1,0 +1,13 @@
+  CREATE TABLE `wildfly`.`id_gen` (
+  `gen_name` VARCHAR(50) NOT NULL,
+  `gen_val` INT NOT NULL,
+  PRIMARY KEY (`gen_name`));
+
+  INSERT INTO `wildfly`.`id_gen` (`gen_name`, `gen_val`) VALUES ('employee_gen', '1');
+  
+   CREATE TABLE `wildfly`.`employee` (
+  `employeeid` INT NOT NULL,
+  `first_name` VARCHAR(45) NULL,
+  `last_name` VARCHAR(45) NULL,
+  `salary` INT NULL,
+  PRIMARY KEY (`employeeid`));

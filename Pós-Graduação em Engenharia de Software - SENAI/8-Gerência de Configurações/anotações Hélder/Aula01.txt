@@ -1,0 +1,50 @@
+- Gerencia de configuração:
+Primeira semana = teoria
+- Visão geral de gerenciamento de configuração de software e mudanças
+- descrição das melhores práticas de g. de conf.
+- Conceitos relacionados ao gerenciamento de config.
+- Controle de versão.
+- Desenvolvimento de software utilizando uma ferramenta de gerenciamento de configuração.
+
+================================
+Software Configuration Management - Jessica Keyes
+================================
+Problema de falar apenas de ferramentas é que ela vai entregar um processo pronto. O correto é o processo ser estabelecido, e depois a ferramenta deve se moldar a este processo.
+================================
+Configuração: 
+  - Componentes: conjunto de coisas que são juntadas. Componentes configuram alguma coisa. 
+  
+Origem:
+  - Por motivos militares. Pesquisas militares são extremamentes complexos. Com a complexidade, se pretende entender o que faz e o que não faz parte para que a tecnologia implementada funcione. Precisa ter controle para saber o que se tem, o que mudou, para que coisas diferentes possam ser criadas e recriadas. Passou para a indústria pela necessidade extrema de controle. 
+  - Em TI, ela é utilizada em ambientes: desenvolvimento e produção. Começando pelo desenvolvimento, mas ganhando destaque quando foi para a produção, pela criticidade do ambiente. Em producao, o objetivo é segurança. Em desenvolvimento é produtividade.
+  - No ambinete de desenvolvimento, o grupo de pessoas precisará mexer em coisas que foram criadas, ou que até estão sendo mexidas no mesmo momento. O compartilhamento é complicado. Gerencia da Configuração permite o compartilhamento. Desenvolvimento de software depende de equipe, sinergia (conseguir fazer em equipe o que jamais conseguiria fazer sozinho). A relação das coisas é mais importante que a parte da coisa.  
+  - Cada vez mais a complexidade leva a que uma pessoa interfira e mexa no que o outro faz. Precisa-se, assim, ter uma visão única do ambiente.
+  - Ger. de conf. vem para dar um controle ao desenvolvimento. Porém em produção é onde os dados estão localizados. Os dados e informações devem ser controlados pois se a empresa quebra os serviços deixam de ser prestados.
+  - Quando se confia no ambiente, se arrisca mais, se desenvolve mais.
+  - Todos os aspectos possíveis fazem parte da gerencia de configuração. Gerencia da configuiração da todas as condições necessárias para que os ambientes sejam exatamente iguais.
+  - ISO 20.000-2011.
+  - Como se garante que o que é colocado no build realmente vai para o build? Centralização do ambiente; todos os objetos devem estar em um único lugar. Facilita-se testes de integração, sistema, etc.
+  ======================================
+  Teste unitário: local, na máquina do implementador. Se precisar de outro componente, se faz mock.
+  Teste de integração: utiliza-se os elementos que precisa compartilhar. Integração com tudo, todos os componentes.
+  Teste de sistema: teste de usuário: informa entrada e ve a saída. Caixa preta.
+  Teste de regressão: garantir que o resto ainda está funcionando. 
+  Teste e desenvolvimento de software dependem absurdamente de gerencia de configuração. (na verdade tudo depende da gerencia de configuração)
+  ======================================
+  - Metodos ageis dependem de gerencia de configuração pois aceitam muito facilmente as mudanças. Mudanças são as bases dos metodos ágeis, então precisam ter a certeza que a mudança tem que ser controlada.
+  - Corrigir um erro na versao X, e logo em seguida é liberada o software na versao Y... com o mesmo erro corrigido em X. Deve-se "subir" a correção para a versão Y. Isso é gerência de configuração.
+  - Gerencia de mudança e gerência de cofiguração:
+    - Para que a mudança possa ocorrer, deve-se ter controle da configuração. Uma é imbricada na outra.
+  - Gerencia de configuração: backups, recuperação.
+  - Capacidade de ambiente: a gerencia de configuração acaba norteando o projeto de mudança. O setor de TI que comanda os idos do projeto.
+  - Ratreabilidade.
+Oferece informacao e controle para mudanca de ambiente.
+E desenvolvimento, o mairo foco é trabalhar com a ideoa de objetos compartilhados (paralelismo). Quando aumenta a confianca da equipe aumenta tb a produtividade. 
+Em producao a ideia da ger de conf vai além. Na produção, se considera muitos aspectos, todo o contexto, pois toda informação é necessária. 
+
+====
+Fundamentos do gerenciamento de serviços de TI - Marcos André dos Santos Freitas
+Software configuration management - Jessica Keyes
+Engenharia de Software - Ian Sommerville
+  
+  
