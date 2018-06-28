@@ -1,0 +1,12 @@
+
+02/03 - Estudo sobre a área de negócio
+
+09/03 - Entrevista Preliminar
+      - Definição de requisitos
+
+16/03 - Lista de objetos, operações
+      - Restrições, validações
+
+23/03 - Avaliação
+      - Entrega do documento com analise de requisitos (de acordo com a estrutura de apresentação)
+      - Entrega relatório 1, Atividades Orientadas/Sup.

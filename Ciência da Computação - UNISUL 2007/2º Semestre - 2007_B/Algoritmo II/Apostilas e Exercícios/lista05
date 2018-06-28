@@ -1,0 +1,369 @@
+exercicio 01
+Var
+	inteiro n
+Inicio
+	lerNumero
+	verificarParImpar
+Fim
+
+Procedimento lerNumero
+Inicio
+	escreva "Digite Numero"
+	leia n
+Fim
+
+Função verificarParImpar: literal
+Inicio
+	Se (n resto 2 = 0) Então
+		verificarParImpar = "Par"
+	Senão
+		verificarParImpar = "Impar"
+	FimSe
+Fim
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Exercicio 02
+Var
+	inteiro opcao
+Inicio
+	escreva " 1-quadrado
+			2-retângulo
+			3-círculo
+			4-trapézio
+			5 - para sair"
+	leia opcao
+	enquanto(opcao != 5)
+		Escolha
+			caso (opcao = 1) então
+				escreva "Area do quadrado: ", quadrado
+			caso (opcao = 2) então
+				escreva "Area do retângulo: ", retangulo
+			caso(opcao = 3) então
+				escreva "Area do circulo: ", circulo
+			caso (opcao = 4) então
+				escreva "Area do trapezio: ", trapezio
+			Senão
+				escreva "Opcao Invalida"
+		FimEscolha
+		leia opcao
+	FimEnquanto
+Fim
+
+Função quadrado: real
+Var
+	real lado
+Inicio
+	leia lado
+	quadrado = lado*lado
+Fim
+
+Função retangulo: real
+Var
+	real comprimento, largura
+Inicio
+	leia comprimento
+	leia largura
+	retangulo = comprimento*largura
+Fim
+
+Função circulo: real
+Var
+	real raio
+Inicio
+	leia raio
+	circulo = 3,14*raio*raio
+Fim
+
+Função trapezio: real
+Var
+	real baseMaior, baseMenor, altura
+Inicio
+	leia baseMaior
+	leia baseMenor
+	leia altura
+	trapezio = (baseMaior+baseMenor)*altura/2
+Fim
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Exercicio03
+
+Inicio
+	Principal
+Fim
+
+Procedimento Principal
+Var
+	inteiro n
+	vetor [10000] de real numero
+Inicio
+	leia n
+	lerNumero(n, numero)
+	escreva "Numero maior: ", confereMaior(n, numero) 
+Fim
+	
+Procedimento lerNumero(inteiro n, real[]numero)
+Inicio
+	Para i de 0 ate n-1 faça
+		leia numero[i]
+	FimPara
+Fim
+
+Função confereMaior(inteiro n, real[]numero): real
+Var
+	real resultado
+Inicio
+	resultado = numero[0]
+	Para i de 0 ate n-1 faça
+		Se (numero[i] > resultado) então
+			resultado = numero[i]
+		FimSe
+	FimPara
+	confereMaior = resultado
+Fim
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Excercicio04
+Var
+	real salarioFixo
+	inteiro carrosVendidos
+
+Inicio
+	lerDados
+	escreva "Salario total: ", calculaSalario
+Fim
+
+Procedimento lerDados
+Var
+	literal nome
+Inicio
+	leia nome
+	leia salarioFixo
+	leia carros vendidos
+Fim
+
+Funcao calculaSalario: real
+Inicio
+	calculaSalario = salarioFixo + (50*carrosVendidos)
+Fim
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Exercicio05
+
+Inicio
+	Principal
+Fim
+	
+Procedimento Principal
+Var
+	vetor [50] real alturaHomens
+	vetor [50] real alturaMulheres
+	inteiro numHomems
+	inteiro numMulher
+	inteiro opcao
+Inicio
+	opcao = menu
+	Enquanto (opcao != 8) faça
+		Escolha
+			caso (opcao = 1) entao
+				lerDados(numHomens, numMulheres, alturaHomens, alturaMulheres)
+			caso(opcao = 2) entao
+				maiorAltura(numHomens, numMulheres, alturaHomens, alturaMulheres)
+			caso (opcao = 3) entao
+				menorAltura(numHomens, numMulheres, alturaHomens, alturaMulheres)
+			caso (opcao = 4) entao
+				escreva "Numero de homens: ", numHomens
+			caso(opcao = 5) entao
+				escreva "Numero de mulheres: ", numMulheres
+			caso(opcao = 6) entao
+				mediaAlturaHomens(numHomens, alturaHomens)
+			caso(opcao = 7) entao
+				mediaAlturaMulheres(numMulheres, alturaMulheres)
+			Senão
+				Escreva "Operação Inválida"
+		FimEscolha
+		opcao = menu
+	FimEnquanto
+Fim
+	
+Função menu: inteiro
+Var
+	inteiro opcao
+Inicio
+	escreva "1-Para ler os dados
+			2-Para calcular a maior altura
+			3-Para calcular a menor altura
+			4-Para saber o numero de homens
+			5-Para saber o numero de mulheres
+			6-Para calcular a média de altura dos homens
+			7-Para calcular a média de altura das mulheres
+			8-Para sair"
+	Leia opcao
+Fim
+
+Procedimmento lerDados(inteiro numHomens, inteiro numMulheres, real []alturaHomens, real []alturaMulheres)
+Var
+	caracter sexo
+Inicio
+	numHomens=0
+	numMulheres=0
+	leia sexo
+	Se (sexo = 'M') então
+		leia alturaHomens[numHomens]
+		numHomens+=1
+	Senão
+		Se(sexo='F') então
+			leia alturaMulheres[numMulheres]
+			numMulheres+=1
+		Senão
+			escreva "Operação inválida"
+		FimSe
+	FimSe
+Fim
+
+Procedimento maiorAltura(inteiro numHomens, inteiro numMulheres, real []alturaHomens, real []alturaMulheres)
+Var
+	real maior
+	inteiro i
+Inicio
+	maior=0.0
+	Para i de 0 até numHomens-1 faça
+		Se(alturaHomens[i]>maior) então
+			maior = alturaHomens[i]
+		FimSe
+	FimPara
+	Para i de 0 até numMulheres-1 faça
+		Se(alturaMulheres[i]>maior) então
+			maior = alturaMulheres[i]
+		FimSe
+	FimPara
+	escreva "Maior altura: ", maior
+Fim
+
+Procedimento menorAltura(inteiro numHomens, inteiro numMulheres, real []alturaHomens, real []alturaMulheres)
+Var
+	real menor
+	inteiro i
+Inicio
+	menor = 3.0
+	Para i de 0 até numHomens-1 faça
+		Se(alturaHomens[i]<menor) então
+			menor = alturaHomens[i]
+		FimSe
+	FimPara
+	Para i de 0 até numMulheres-1 faça
+		Se(alturaMulheres[i]<menor) então
+			menor = alturaMulheres[i]
+		FimSe
+	FimPara
+	escreva "Menor Altura: ", menor
+Fim
+
+Procedimento mediaAlturaHomens(inteiro numHomens, real []alturaHomens)
+Var
+	real somaAltura, media
+	inteiro i
+Inicio
+	somaAltura = 0
+	Para i de 0 ate numHomens-1 faça
+		somaAltura += alturaHomens[i]
+	FimPara
+	media = somaAltura/numHomens
+	escreva "Media da Altura dos homens: ", media
+Fim
+
+Procedimento mediaAlturaMulheres(inteiro numMulheres, real []alturaMulheres)
+Var
+	real somaAltura, media
+	inteiro i
+Inicio
+	somaAltura = 0
+	Para i de 0 ate numMulheres-1 faça
+		somaAltura += alturaMulheres[i]
+	FimPara
+	media = somaAltura/numMulheres
+	escreva "Media da Altura dos mulheres: ", media
+Fim
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+exercicio06
+Obs: dados[i] = Numero da matricula
+	 dados[j] = Nota da Avalição por Aluno
+Var
+	inteiro opcao, i, j
+	vetor[30][10] de inteiro dados
+Inicio
+	opcao = menu
+	Enquanto (opcao != 5 ) faça
+		Escolha
+			Caso (opcao = 1) então
+				lerDados
+			Caso (opcao = 2) então
+				MediaTurma
+			Caso (opcao = 3) então
+				mediaAluno
+			Caso (opcao = 4) então
+				mediaAvaliacao
+			Senão
+				escreva "Operacao Inválida"
+		FimEscolha
+		opcao = menu
+	FimEnquanto
+Fim
+
+Funcao menu: inteiro
+Var
+	inteiro opcao
+Inicio
+	escreva "1-Para ler os dados
+			2-Para calcular a média da turma
+			3-Para calcular a média de cada Aluno
+			4-Para calcular a média de cada avaliação
+			5 - Para sair"
+	leia opcao
+Fim
+
+Procedimento lerDados
+Var
+Inicio
+	Para i de 0 ate 30-1 faça
+		Para j de 0 ate 10-1 faça
+			leia dados[i][j]
+		FimPara
+	FimPara
+Fim
+
+Procedimento mediaAluno
+Var
+	real mediaAluno, somaNotas
+Inicio
+	somaNotas = 0.0
+	Para i de o ate 30-1 faça
+		Para j de o ate 10-1 faça
+			somaNotas += dados[i][j];
+		FimPara
+		mediaAluno = somaNota/10
+		escreva mediaAluno
+		somaNotas = 0;
+	FimPara
+	
+Procedimento mediaAvaliacao
+Var
+	real somaNotas, mediaAvalicao
+Inicio
+	Para j de 0 ate 10-1 faça
+		escreva j+1, " Avaliacao: "
+		Para i de 0 ate 30-1 faça
+			somaNotas += dados[i][j]
+		FimPara
+		mediaAvaliacao = somaNotas/30
+		escreva mediaAvaliacao
+		somaNotas = 0.0;
+	FimPara
+	
+	

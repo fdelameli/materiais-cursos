@@ -1,0 +1,129 @@
+
+        int estado = 0;
+        String s = "";
+
+        for (int i = 0; i < c.length(); i++) {
+
+            s = String.valueOf(c.charAt(i));
+
+            switch (estado) {
+                case 0: {
+                    if (isUnderline(s)) {
+                        estado = 1;
+                    } else {
+                        if (isLetterLowerCase(s)) {
+                            estado = 2;
+                        } else {
+                            if (isMore(s) || isLess(s)) {
+                                estado = 3;
+                            } else {
+                                if (isNumber(s)) {
+                                    estado = 4;
+                                } else {
+                                    estado = -1;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+                case 1: {
+                    if (isLetterLowerCase(s) || isNumber(s)) {
+                        estado = 2;
+                    } else {
+                        if (isUnderline(s)) {
+                            estado = 1;
+                        } else {
+                            estado = -1;
+                        }
+                    }
+                    break;
+                }
+                case 2: {
+                    if (isUnderline(s)) {
+                        estado = 1;
+                    } else {
+                        if (isLetterLowerCase(s) || isNumber(s)) {
+                            estado = 2;
+                        } else {
+                            estado = -1;
+                        }
+                    }
+                    break;
+                }
+                case 3: {
+                    if (isNumber(s)) {
+                        estado = 4;
+                    } else {
+                        estado = -1;
+                    }
+                    break;
+                }
+                case 4: {
+                    if (isPoint(s)) {
+                        estado = 5;
+                    } else {
+                        if (isNumber(s)) {
+                            estado = 4;
+                        } else {
+                            estado = -1;
+                        }
+                    }
+                    break;
+                }
+                case 5: {
+                    if (isNumber(s)) {
+                        estado = 6;
+                    } else {
+                        estado = -1;
+                    }
+                    break;
+                }
+                case 6: {
+                    if (isE(s)) {
+                        estado = 7;
+                    } else {
+                        if (isNumber(s)) {
+                            estado = 6;
+                        } else {
+                            estado = -1;
+                        }
+                    }
+                    break;
+                }
+                case 7: {
+                    if (isLess(s) || isMore(s)) {
+                        estado = 8;
+                    } else {
+                        if (isNumber(s)) {
+                            estado = 9;
+                        } else {
+                            estado = -1;
+                        }
+                    }
+                    break;
+                }
+                case 8: {
+                    if (isNumber(s)) {
+                        estado = 9;
+                    } else {
+                        estado = -1;
+                    }
+                    break;
+                }
+                case 9:
+                     {
+                        if (isNumber(s)) {
+                            estado = 9;
+                        } else {
+                            estado = -1;
+                        }
+                    }
+                    break;
+            }
+        }
+        if (estado == 2 || estado == 4 || estado == 6 || estado == 9) {
+            return true;
+        } else {
+            return false;
+        }

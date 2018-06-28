@@ -1,0 +1,109 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015     CCP_1_LOW
+015-016 CCP_1
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020-021 strtok.save
+022-025 _Randseed
+026     bit
+027     rolar
+028     valor
+029-02A i
+02B     MAIN.valorAnt
+02C     MAIN.opcao
+02D-02E atol.s
+02D     MAIN.@SCRATCH
+02D     setarBits.@SCRATCH
+02D     setarRolagem.@SCRATCH
+02E     @PRINTF_D_9600_62_63.P1
+02E     @PRINTF_U_9600_62_63.P2
+02E     @delay_ms1.P3
+02E     setarBits.@SCRATCH
+02F-030 atol.result
+02F     @PRINTF_U_9600_62_63.P1
+02F     @PRINTF_D_9600_62_63.P2
+02F     setarBits.@SCRATCH
+030     @PRINTF_D_9600_62_63.@SCRATCH
+030     setarBits.@SCRATCH
+031     atol.sign
+031     @PRINTF_D_9600_62_63.@SCRATCH
+032     atol.base
+032     @PRINTF_D_9600_62_63.@SCRATCH
+033     atol.index
+033     @PRINTF_D_9600_62_63.@SCRATCH
+034     @DIV88.P1
+034     atol.c
+035     @DIV88.P1
+035-036 @MUL1616.P2
+035     atol.@SCRATCH
+036     atol.@SCRATCH
+036     @DIV88.@SCRATCH
+037-038 @MUL1616.P1
+037     atol.@SCRATCH
+039     @MUL1616.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+041D  @delay_ms1
+0323  @MUL1616
+02B0  atol
+0432  MAIN
+0004  @const337
+01AE  @DIV88
+01C3  @PRINTF_D_9600_62_63
+0027  @const344
+022E  @PRINTF_U_9600_62_63
+004B  @const348
+006E  @const349
+0266  setarBits
+00AA  @const350
+00DF  @const351
+00FF  @const352
+03EC  setarRolagem
+011E  @const353
+015F  @const354
+0187  @const355
+0432  @cinit
+0136  StrtoulGO
+0136  StrtolGO
+
+Project Files:
+    questao2.c
+    ..\..\..\..\..\..\..\..\Program Files\PICC\devices\16F877A.h
+    ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stdlib.h
+    ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+    ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\string.h
+    ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\ctype.h
+
+Units:
+    C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      0
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.err
+    Ext Symbols: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.esym
+    INHX8:       C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.hex
+    Symbols:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.sym
+    List:        C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.lst
+    Debug/COFF:  C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.cof
+    Project:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao2.PJT
+    Call Tree:   questao2.tre
+    Statistics:  questao2.sta

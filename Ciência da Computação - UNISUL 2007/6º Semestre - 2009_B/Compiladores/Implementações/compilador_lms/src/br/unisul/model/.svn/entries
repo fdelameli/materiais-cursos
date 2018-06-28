@@ -1,0 +1,79 @@
+8
+
+dir
+23
+https://compiladorsintatico.googlecode.com/svn/trunk/compiladorsintatico/src/br/unisul/model
+https://compiladorsintatico.googlecode.com/svn
+
+
+
+2009-06-30T21:26:10.120068Z
+22
+thiago.ghisi
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+95a72c54-2321-11de-9288-5f72e443383c
+
+Pilha.java
+file
+
+
+
+
+2009-06-30T21:26:10.000000Z
+6a4d1195f5f54bf95575bee0018e5dbe
+2009-06-30T21:26:10.120068Z
+22
+thiago.ghisi
+
+Simbolo.java
+file
+
+
+
+
+2009-06-28T22:09:58.000000Z
+6f1cdfc0b9e60bcd20abc0e9f8f30825
+2009-06-28T22:09:58.676494Z
+16
+thiago.ghisi
+
+TabelaSimbolos.java
+file
+
+
+
+
+2009-06-30T21:26:10.000000Z
+cdbe878af45640fa90ff6b7e8095991e
+2009-06-30T21:26:10.120068Z
+22
+thiago.ghisi
+
+Token.java
+file
+
+
+
+
+2009-06-28T22:09:58.000000Z
+382408600c1b68dd38ddc3b65d1c53d4
+2009-06-28T22:09:58.676494Z
+16
+thiago.ghisi
+
+constants
+dir
+

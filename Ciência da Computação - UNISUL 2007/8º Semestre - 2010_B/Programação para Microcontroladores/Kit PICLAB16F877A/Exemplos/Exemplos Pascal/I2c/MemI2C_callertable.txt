@@ -1,0 +1,16 @@
+main
+	I2C_Init
+	USART_Init
+	USART_Write
+	Le_I2C
+		I2C_Stop
+		I2C_Rd
+		I2C_Repeated_Start
+		I2C_Wr
+		I2C_Start
+			I2C_Is_Idle
+	Escrever_I2C
+		I2C_Stop
+		I2C_Wr
+		I2C_Start
+			I2C_Is_Idle

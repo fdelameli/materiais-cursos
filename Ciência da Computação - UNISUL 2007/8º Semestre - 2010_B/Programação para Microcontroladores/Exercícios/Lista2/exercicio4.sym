@@ -1,0 +1,67 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B-01C CCP_2
+01C     CCP_2_HIGH
+021     main.VL_PORTB
+022     main.VL_PORTD
+023     main.@SCRATCH
+024     @delay_ms1.P1
+024     main.@SCRATCH
+025     @PRINTF_D_9600_62_63.P1
+026     @PRINTF_D_9600_62_63.P1
+027     @PRINTF_D_9600_62_63.@SCRATCH
+028     @PRINTF_D_9600_62_63.@SCRATCH
+029     @PRINTF_D_9600_62_63.@SCRATCH
+02A     @PRINTF_D_9600_62_63.@SCRATCH
+02B     @DIV88.P1
+02C     @DIV88.P1
+02D     @DIV88.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+00BE  @delay_ms1
+00D5  main
+0004  @const55
+0040  @DIV88
+0055  @PRINTF_D_9600_62_63
+0015  @const62
+0026  @const63
+00D5  @cinit
+
+Project Files:
+    exercicio4.c
+    ..\..\..\..\..\..\..\..\Program Files\PICC\devices\16F877A.h
+
+Units:
+    C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      0
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.err
+    Ext Symbols: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.esym
+    INHX8:       C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.hex
+    Symbols:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.sym
+    List:        C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.lst
+    Debug/COFF:  C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.cof
+    Project:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.PJT
+    Call Tree:   exercicio4.tre
+    Statistics:  exercicio4.sta

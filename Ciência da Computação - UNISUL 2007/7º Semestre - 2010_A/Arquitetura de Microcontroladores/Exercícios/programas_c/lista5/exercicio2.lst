@@ -1,0 +1,390 @@
+CCS PCM C Compiler, Version 4.038, 33467               27-mai-10 18:22
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio2.lst
+
+               ROM used: 273 words (3%)
+                         Largest free fragment is 2048
+               RAM used: 14 (4%) at main() level
+                         18 (5%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   057
+0003:  NOP
+.................... #include "16F877A.h" 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, NOLVP, PROTECT 
+.................... #use DELAY(CLOCK=4MHZ) 
+0040:  MOVLW  24
+0041:  MOVWF  04
+0042:  BCF    03.7
+0043:  MOVF   00,W
+0044:  BTFSC  03.2
+0045:  GOTO   054
+0046:  MOVLW  01
+0047:  MOVWF  78
+0048:  CLRF   77
+0049:  DECFSZ 77,F
+004A:  GOTO   049
+004B:  DECFSZ 78,F
+004C:  GOTO   048
+004D:  MOVLW  4A
+004E:  MOVWF  77
+004F:  DECFSZ 77,F
+0050:  GOTO   04F
+0051:  GOTO   052
+0052:  DECFSZ 00,F
+0053:  GOTO   046
+0054:  BCF    0A.3
+0055:  BCF    0A.4
+0056:  GOTO   103 (RETURN)
+.................... #include <lcd_4.c> 
+.................... #define LCD_DB4   PIN_B4 // NIBLE de dados  
+.................... #define LCD_DB5   PIN_B5  
+.................... #define LCD_DB6   PIN_B6  
+.................... #define LCD_DB7   PIN_B7  
+.................... #define LCD_RS    PIN_B2  
+.................... #define LCD_E     PIN_B3  
+.................... //#define USE_LCD_RW   1  
+.................... #define lcd_type 2 // 0=5x7, 1=5x10, 2=2 lines  
+.................... #define lcd_line_two 0x40 // LCD RAM address for the 2nd line  
+.................... int8 const LCD_INIT_STRING[4] =  
+.................... {  
+....................    0x20 | (lcd_type << 2), // Func set: 4-bit, 2 lines, 5x8 dots  
+....................    0xc,                    // Display on  
+....................    1,                      // Clear display  
+....................    6                       // Increment cursor  
+....................  };  
+....................  
+.................... void lcd_send_nibble(int8 nibble){  
+....................    // Obs:  !! converte uma exprecao inteira  
+....................    // para uma booleana (1 or 0).  
+....................    output_bit(LCD_DB4, !!(nibble & 1));  
+....................    output_bit(LCD_DB5, !!(nibble & 2));  
+....................    output_bit(LCD_DB6, !!(nibble & 4));  
+....................    output_bit(LCD_DB7, !!(nibble & 8));  
+....................    delay_cycles(1);  
+....................    output_high(LCD_E);  
+....................    delay_us(2);  
+....................    output_low(LCD_E);  
+....................    delay_us(2);//teste  
+.................... }  
+.................... // Envia um byte para o LCD.  
+.................... void lcd_send_byte(int8 address, int8 n){  
+....................    output_low(LCD_RS);  
+....................    delay_us(60);  
+....................    if(address)  
+....................       output_high(LCD_RS);  
+....................    else  
+....................       output_low(LCD_RS);  
+....................    delay_cycles(1);  
+....................    output_low(LCD_E);  
+....................    lcd_send_nibble(n >> 4);  
+....................    delay_us(2); //teste  
+....................    lcd_send_nibble(n & 0xf);  
+.................... }  
+.................... void lcd_init(void){  
+....................    int8 i;  
+....................    output_low(LCD_RS);  
+....................    output_low(LCD_E);  
+....................    delay_ms(15);  
+....................    for(i=0 ;i < 3; i++){  
+....................       lcd_send_nibble(0x03);  
+....................       delay_ms(5);  
+....................    }  
+....................    lcd_send_nibble(0x02);  
+....................    for(i=0; i < sizeof(LCD_INIT_STRING); i++){  
+....................       lcd_send_byte(0, LCD_INIT_STRING[i]);  
+....................     }  
+....................    delay_ms(15);  
+.................... }  
+.................... // Posicoes válidas:  
+.................... // de x=1 a x=16 y  
+.................... // de y=1 a y=2  
+.................... void lcd_gotoxy(int8 x, int8 y){  
+....................    int8 address;  
+....................    if(x > 0 && y > 0){  
+....................       if(y > 1)  
+....................          address = lcd_line_two;  
+....................       else  
+....................          address=0;  
+....................       address += x-1;  
+....................       lcd_send_byte(0, 0x80 | address); // Manda cursor a la posición  
+....................    }  
+.................... }  
+....................  
+.................... void lcd_putc(char c){  
+....................     if(c>'\0'){  
+....................       switch(c){  
+....................          case '\f':  
+....................             lcd_send_byte(0,1);  
+....................             lcd_send_byte(0,2);  
+....................             delay_ms(2);  
+....................             break;  
+....................          case '\n':  
+....................             lcd_gotoxy(1,2);  
+....................             delay_ms(2);  
+....................             break;  
+....................          case '\b':  
+....................             lcd_send_byte(0,0x10);  
+....................             delay_ms(2);  
+....................             break;  
+....................          case '\t':  
+....................             lcd_send_byte(0,0x14);  
+....................             delay_ms(2);  
+....................             break;  
+....................          default:  
+....................             lcd_send_byte(1,c);  
+....................             delay_ms(2);  
+....................             break;  
+....................       }  
+....................    }  
+.................... }  
+....................  
+....................  
+.................... void lcd_setcursor(short visible, short blink) {  
+....................    lcd_send_byte(0, 0xC|(visible<<1)|blink);  
+.................... }  
+....................  
+....................  
+....................  
+.................... void main() { 
+0057:  CLRF   04
+0058:  BCF    03.7
+0059:  MOVLW  1F
+005A:  ANDWF  03,F
+005B:  BSF    03.5
+005C:  BSF    1F.0
+005D:  BSF    1F.1
+005E:  BSF    1F.2
+005F:  BCF    1F.3
+0060:  MOVLW  07
+0061:  MOVWF  1C
+....................  
+....................    int16 count = 0; 
+*
+0065:  CLRF   21
+0066:  CLRF   22
+....................  
+....................    while(true){ 
+....................     
+....................       if(input(pin_a0)){ 
+0067:  BSF    03.5
+0068:  BSF    05.0
+0069:  BCF    03.5
+006A:  BTFSS  05.0
+006B:  GOTO   10F
+....................        
+....................          count++; 
+006C:  INCF   21,F
+006D:  BTFSC  03.2
+006E:  INCF   22,F
+....................        
+....................          // controla display da esquerdo 
+....................          output_b(count/100); 
+006F:  MOVF   22,W
+0070:  MOVWF  26
+0071:  MOVF   21,W
+0072:  MOVWF  25
+0073:  CLRF   28
+0074:  MOVLW  64
+0075:  MOVWF  27
+0076:  CALL   004
+0077:  BSF    03.5
+0078:  CLRF   06
+0079:  BCF    03.5
+007A:  MOVF   78,W
+007B:  MOVWF  06
+....................          output_low(pin_c0); 
+*
+0062:  MOVLW  FF
+0063:  BCF    03.5
+0064:  MOVWF  20
+*
+007C:  BCF    20.0
+007D:  MOVF   20,W
+007E:  BSF    03.5
+007F:  MOVWF  07
+0080:  BCF    03.5
+0081:  BCF    07.0
+....................          output_high(pin_c0); 
+0082:  BCF    20.0
+0083:  MOVF   20,W
+0084:  BSF    03.5
+0085:  MOVWF  07
+0086:  BCF    03.5
+0087:  BSF    07.0
+....................           
+....................          // verificar se operador ternário funciona na linguagem C 
+....................          // output_b( (count/10 < 10) ? (count/10) : (count/10 - 10*( count/100 ))); 
+....................     
+....................          // controla display central 
+....................          if(count/10 < 10) { 
+0088:  MOVF   22,W
+0089:  MOVWF  26
+008A:  MOVF   21,W
+008B:  MOVWF  25
+008C:  CLRF   28
+008D:  MOVLW  0A
+008E:  MOVWF  27
+008F:  CALL   004
+0090:  MOVF   79,W
+0091:  MOVWF  24
+0092:  MOVF   78,W
+0093:  MOVWF  23
+0094:  MOVF   24,F
+0095:  BTFSS  03.2
+0096:  GOTO   0A9
+0097:  MOVF   23,W
+0098:  SUBLW  09
+0099:  BTFSS  03.0
+009A:  GOTO   0A9
+....................             output_b(count/10); 
+009B:  MOVF   22,W
+009C:  MOVWF  26
+009D:  MOVF   21,W
+009E:  MOVWF  25
+009F:  CLRF   28
+00A0:  MOVLW  0A
+00A1:  MOVWF  27
+00A2:  CALL   004
+00A3:  BSF    03.5
+00A4:  CLRF   06
+00A5:  BCF    03.5
+00A6:  MOVF   78,W
+00A7:  MOVWF  06
+....................          } else { 
+00A8:  GOTO   0D9
+....................             output_b(count/10 - 10*( count/100 )); 
+00A9:  MOVF   22,W
+00AA:  MOVWF  26
+00AB:  MOVF   21,W
+00AC:  MOVWF  25
+00AD:  CLRF   28
+00AE:  MOVLW  0A
+00AF:  MOVWF  27
+00B0:  CALL   004
+00B1:  MOVF   79,W
+00B2:  MOVWF  24
+00B3:  MOVF   78,W
+00B4:  MOVWF  23
+00B5:  MOVF   22,W
+00B6:  MOVWF  26
+00B7:  MOVF   21,W
+00B8:  MOVWF  25
+00B9:  CLRF   28
+00BA:  MOVLW  64
+00BB:  MOVWF  27
+00BC:  CALL   004
+00BD:  MOVF   79,W
+00BE:  MOVWF  7A
+00BF:  MOVF   78,W
+00C0:  MOVWF  25
+00C1:  MOVF   79,W
+00C2:  MOVWF  26
+00C3:  CLRF   28
+00C4:  MOVLW  0A
+00C5:  MOVWF  27
+00C6:  MOVF   79,W
+00C7:  MOVWF  2A
+00C8:  MOVF   78,W
+00C9:  MOVWF  29
+00CA:  GOTO   029
+00CB:  MOVF   78,W
+00CC:  SUBWF  23,W
+00CD:  MOVWF  26
+00CE:  MOVF   24,W
+00CF:  MOVWF  27
+00D0:  MOVF   79,W
+00D1:  BTFSS  03.0
+00D2:  INCFSZ 79,W
+00D3:  SUBWF  27,F
+00D4:  BSF    03.5
+00D5:  CLRF   06
+00D6:  BCF    03.5
+00D7:  MOVF   26,W
+00D8:  MOVWF  06
+....................          } 
+....................          output_low(pin_c1); 
+00D9:  BCF    20.1
+00DA:  MOVF   20,W
+00DB:  BSF    03.5
+00DC:  MOVWF  07
+00DD:  BCF    03.5
+00DE:  BCF    07.1
+....................          output_high(pin_c1); 
+00DF:  BCF    20.1
+00E0:  MOVF   20,W
+00E1:  BSF    03.5
+00E2:  MOVWF  07
+00E3:  BCF    03.5
+00E4:  BSF    07.1
+....................           
+....................          // controla diplay direito 
+....................          output_b(count%10); 
+00E5:  MOVF   22,W
+00E6:  MOVWF  26
+00E7:  MOVF   21,W
+00E8:  MOVWF  25
+00E9:  CLRF   28
+00EA:  MOVLW  0A
+00EB:  MOVWF  27
+00EC:  CALL   004
+00ED:  BSF    03.5
+00EE:  CLRF   06
+00EF:  BCF    03.5
+00F0:  MOVF   77,W
+00F1:  MOVWF  06
+....................          output_low(pin_c2); 
+00F2:  BCF    20.2
+00F3:  MOVF   20,W
+00F4:  BSF    03.5
+00F5:  MOVWF  07
+00F6:  BCF    03.5
+00F7:  BCF    07.2
+....................          output_high(pin_c2); 
+00F8:  BCF    20.2
+00F9:  MOVF   20,W
+00FA:  BSF    03.5
+00FB:  MOVWF  07
+00FC:  BCF    03.5
+00FD:  BSF    07.2
+....................        
+....................          delay_ms(500); 
+00FE:  MOVLW  02
+00FF:  MOVWF  23
+0100:  MOVLW  FA
+0101:  MOVWF  24
+0102:  GOTO   040
+0103:  DECFSZ 23,F
+0104:  GOTO   100
+....................           
+....................          if(count==999){ 
+0105:  MOVF   21,W
+0106:  SUBLW  E7
+0107:  BTFSS  03.2
+0108:  GOTO   10F
+0109:  MOVF   22,W
+010A:  SUBLW  03
+010B:  BTFSS  03.2
+010C:  GOTO   10F
+....................             count=0; 
+010D:  CLRF   22
+010E:  CLRF   21
+....................          } 
+....................           
+....................       } 
+....................         
+....................    } 
+010F:  GOTO   067
+....................  
+.................... } 
+0110:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

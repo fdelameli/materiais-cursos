@@ -1,0 +1,135 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015     CCP_1_LOW
+015-016 CCP_1
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B-01C CCP_2
+01C     CCP_2_HIGH
+020     @TRIS_C
+021-022 MAIN.temp
+023     MAIN.address
+024     MAIN.i
+025-026 read_int16_ext_eeprom.address
+025-028 @SFTOI.P1
+025     leAd.canal
+025-026 write_int16_ext_eeprom.address
+025     MAIN.@SCRATCH1
+026     @PRINTF_D_9600_62_63.P1
+026-027 @PRINTF_LU_9600_62_63.P2
+026     @delay_ms1.P3
+026     MAIN.@SCRATCH2
+027-02A @MULFF.P1
+027     @PRINTF_D_9600_62_63.P2
+027     read_int16_ext_eeprom.i
+027-028 write_int16_ext_eeprom.data
+027-028 @ITOF.P1
+028-029 read_int16_ext_eeprom.data
+028     @PRINTF_D_9600_62_63.@SCRATCH1
+028     @PRINTF_LU_9600_62_63.@SCRATCH1
+029     write_int16_ext_eeprom.i
+029     @PRINTF_D_9600_62_63.@SCRATCH2
+029     @PRINTF_LU_9600_62_63.@SCRATCH2
+02A     write_int16_ext_eeprom.@SCRATCH1
+02A     read_int16_ext_eeprom.@SCRATCH1
+02A     @PRINTF_D_9600_62_63.@SCRATCH3
+02A     @PRINTF_LU_9600_62_63.@SCRATCH3
+02B-02E @MULFF.P1
+02B     write_int16_ext_eeprom.@SCRATCH2
+02B     read_int16_ext_eeprom.@SCRATCH2
+02B     @PRINTF_D_9600_62_63.@SCRATCH4
+02B     @PRINTF_LU_9600_62_63.@SCRATCH4
+02C     @DIV88.P1
+02C     write_int16_ext_eeprom.@SCRATCH3
+02C     read_int16_ext_eeprom.@SCRATCH3
+02C     @PRINTF_LU_9600_62_63.@SCRATCH5
+02D-02E write_ext_eeprom.address
+02D     @DIV88.P1
+02D     write_int16_ext_eeprom.@SCRATCH4
+02D     read_int16_ext_eeprom.@SCRATCH4
+02D     @PRINTF_LU_9600_62_63.@SCRATCH6
+02E-02F read_ext_eeprom.address
+02E     @DIV88.@SCRATCH1
+02E     @PRINTF_LU_9600_62_63.@SCRATCH7
+02F     write_ext_eeprom.data
+02F     @MULFF.@SCRATCH1
+030     read_ext_eeprom.data
+030     write_ext_eeprom.@SCRATCH1
+030     @MULFF.@SCRATCH2
+031     @I2C_READ_1.P1
+031.0   ext_eeprom_ready.ack
+031     read_ext_eeprom.@SCRATCH1
+031     @MULFF.@SCRATCH3
+032     @I2C_WRITE_1.P1
+032     @I2C_READ_1.@SCRATCH1
+032     @MULFF.@SCRATCH4
+033     @I2C_READ_1.@SCRATCH2
+033     @MULFF.@SCRATCH5
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+024B  @delay_ms1
+02EC  @I2C_READ_1
+014D  @I2C_WRITE_1
+006C  init_ext_eeprom
+0197  ext_eeprom_ready
+01F5  write_ext_eeprom
+0280  read_ext_eeprom
+01D2  write_int16_ext_eeprom
+0262  read_int16_ext_eeprom
+0435  MAIN
+0004  @const114
+0096  @ITOF
+00B5  @MULFF
+012C  @SFTOI
+003A  @const122
+035A  @DIV88
+036F  @PRINTF_D_9600_62_63
+03DA  @PRINTF_LU_9600_62_63
+0051  @const131
+0079  leAd
+0435  @cinit
+
+
+User Memory space: 
+
+Project Directory:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Prova1\questao1\
+
+Project Files:
+    questao1.c
+    16F877A.h
+    ..\..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\2404.c
+    ..\..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\external_eeprom.c
+
+Units:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Prova1\questao1\questao1.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-1023
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      questao1.err
+    Ext Symbols: questao1.esym
+    INHX8:       questao1.hex
+    Symbols:     questao1.sym
+    List:        questao1.lst
+    Debug/COFF:  questao1.cof
+    Project:     questao1.PJT
+    Call Tree:   questao1.tre
+    Statistics:  questao1.sta

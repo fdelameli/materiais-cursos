@@ -1,0 +1,17 @@
+package tests;
+
+
+public class Teste {
+
+	
+	public static void main( String[] args ) {
+		
+		int a = 90;
+		int b = 123;
+		
+		System.out.println(String.format( "%d - %d", a, b ));
+		
+		
+	}
+	
+}

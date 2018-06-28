@@ -1,0 +1,101 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020     @TRIS_C
+021-024 main.temp
+025     leAd.canal
+025-028 @FLT.P1
+025-028 @PRINTF_L32D_9600_62_63FPFPF.P2
+025     main.@SCRATCH1
+026     @delay_ms1.P1
+026     main.@SCRATCH2
+027-028 @ITOF.P1
+029     @PRINTF_L32D_9600_62_63FPFPF.P1
+029-02C @FLT.P2
+02A     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH1
+02B     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH2
+02C     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH3
+02D     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH4
+02D     @FLT.@SCRATCH1
+02E     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH5
+02E     @FLT.@SCRATCH2
+02F     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH6
+030     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH7
+031     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH8
+032-035 @MULFF.P1
+032-035 @DIV3232.P2
+032-035 @FTOSD.P3
+036-039 @DIV3232.P1
+036-039 @MULFF.P2
+036     @FTOSD.@SCRATCH1
+03A     @MULFF.@SCRATCH1
+03A     @DIV3232.@SCRATCH1
+03B     @MULFF.@SCRATCH2
+03B     @DIV3232.@SCRATCH2
+03C     @MULFF.@SCRATCH3
+03C     @DIV3232.@SCRATCH3
+03D     @MULFF.@SCRATCH4
+03D     @DIV3232.@SCRATCH4
+03E     @MULFF.@SCRATCH5
+03E     @DIV3232.@SCRATCH5
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+01F8  @delay_ms1
+024E  main
+0035  @ITOF
+0054  @MULFF
+0004  @const70
+0132  @FTOSD
+00C9  @DIV3232
+010B  @PRINTF_L32D_9600_62_63FPFPF
+020F  @FLT
+0018  leAd
+024E  @cinit
+
+
+User Memory space: 
+
+Project Directory:
+    C:\Documents and Settings\lab.academico\Desktop\PIC\Exercícios\Teste_CanalAnalogico\
+
+Project Files:
+    teste_sensor_temp.c
+    16F877A.h
+
+Units:
+    C:\Documents and Settings\lab.academico\Desktop\PIC\Exercícios\Teste_CanalAnalogico\teste_sensor_temp.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-1023
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      teste_sensor_temp.err
+    Ext Symbols: teste_sensor_temp.esym
+    INHX8:       teste_sensor_temp.hex
+    Symbols:     teste_sensor_temp.sym
+    List:        teste_sensor_temp.lst
+    Debug/COFF:  teste_sensor_temp.cof
+    Project:     teste_sensor_temp.PJT
+    Call Tree:   teste_sensor_temp.tre
+    Statistics:  teste_sensor_temp.sta

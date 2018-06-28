@@ -1,0 +1,133 @@
+CCS PCM C Compiler, Version 4.038, 33467               18-nov-10 09:03
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Prova2\questao1.lst
+
+               ROM used: 88 words (1%)
+                         Largest free fragment is 2048
+               RAM used: 14 (4%) at main() level
+                         15 (4%) worst case
+               Stack:    1 worst case (0 in main + 1 for interrupts)
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   03F
+0003:  NOP
+0004:  MOVWF  7F
+0005:  SWAPF  03,W
+0006:  CLRF   03
+0007:  MOVWF  21
+0008:  MOVF   0A,W
+0009:  MOVWF  20
+000A:  CLRF   0A
+000B:  MOVF   04,W
+000C:  MOVWF  22
+000D:  MOVF   77,W
+000E:  MOVWF  23
+000F:  MOVF   78,W
+0010:  MOVWF  24
+0011:  MOVF   79,W
+0012:  MOVWF  25
+0013:  MOVF   7A,W
+0014:  MOVWF  26
+0015:  MOVF   7B,W
+0016:  MOVWF  27
+0017:  BCF    03.7
+0018:  BCF    03.5
+0019:  MOVLW  8C
+001A:  MOVWF  04
+001B:  BTFSS  00.5
+001C:  GOTO   01F
+001D:  BTFSC  0C.5
+001E:  GOTO   032
+001F:  MOVF   22,W
+0020:  MOVWF  04
+0021:  MOVF   23,W
+0022:  MOVWF  77
+0023:  MOVF   24,W
+0024:  MOVWF  78
+0025:  MOVF   25,W
+0026:  MOVWF  79
+0027:  MOVF   26,W
+0028:  MOVWF  7A
+0029:  MOVF   27,W
+002A:  MOVWF  7B
+002B:  MOVF   20,W
+002C:  MOVWF  0A
+002D:  SWAPF  21,W
+002E:  MOVWF  03
+002F:  SWAPF  7F,F
+0030:  SWAPF  7F,W
+0031:  RETFIE
+0032:  BCF    0A.3
+0033:  BCF    0A.4
+0034:  GOTO   035
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4MHz) 
+.................... #use rs232(baud=9600,xmit=pin_c6,rcv=pin_c7) 
+....................  
+.................... // colocando esta diretiva, o compilador entende que toda  
+.................... // interrupção gerada ao receber dados do canal serial vai  
+.................... // ser tratada pelo bloco de código abaixo. 
+.................... #int_rda  
+.................... void serial() { 
+....................    putc(getc()); 
+0035:  BTFSS  0C.5
+0036:  GOTO   035
+0037:  MOVF   1A,W
+0038:  BTFSS  0C.4
+0039:  GOTO   038
+003A:  MOVWF  19
+.................... } 
+....................  
+....................  
+003B:  BCF    0C.5
+003C:  BCF    0A.3
+003D:  BCF    0A.4
+003E:  GOTO   01F
+.................... void main() { 
+003F:  CLRF   04
+0040:  BCF    03.7
+0041:  MOVLW  1F
+0042:  ANDWF  03,F
+0043:  MOVLW  19
+0044:  BSF    03.5
+0045:  MOVWF  19
+0046:  MOVLW  A6
+0047:  MOVWF  18
+0048:  MOVLW  90
+0049:  BCF    03.5
+004A:  MOVWF  18
+004B:  BSF    03.5
+004C:  BSF    1F.0
+004D:  BSF    1F.1
+004E:  BSF    1F.2
+004F:  BCF    1F.3
+0050:  MOVLW  07
+0051:  MOVWF  1C
+....................  
+....................    // habilitação recepção de dados  no canal serial 
+....................    enable_interrupts(int_rda); 
+0052:  BSF    0C.5
+....................     
+....................    // habilitação da chave geral das interrupções 
+....................    enable_interrupts(global); 
+0053:  MOVLW  C0
+0054:  BCF    03.5
+0055:  IORWF  0B,F
+....................     
+....................    while(true) { 
+....................        
+....................    } 
+0056:  GOTO   056
+....................  
+.................... } 
+0057:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

@@ -1,0 +1,216 @@
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*           Programação Em Pascal - Módulo B PIC16F877A       *
+*                             Exemplo 3                       *
+*                                                             *
+*             CENTRO DE TREINAMENTO - Cerne Tecnologia        *
+*                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*   VERSÃO : 1.0
+*   DATA : 22/07/2005
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                         Descrição geral                     *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ Implementar um relógio digital sem ajuste via teclado
+ O horário será apresentado no display de 7 segmentos}
+
+program LiquidCristal;       //Definição do programa
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*             Definição e inicialização das variáveis         *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir as variáveis globais do sistema}
+
+var
+
+ indice: byte;
+ teclado:word;
+ 
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
+*                      Declaração de Labels                   *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir todos os labels utilizadas pelo sistema}
+
+label  loop_principal;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
+*                      Constantes internas                    *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir as constantes utilizadas pelo sistema}
+
+const
+      tecla_0 = 0;
+      tecla_1 = 1;
+      tecla_2 = 2;
+      tecla_3 = 3;
+      tecla_4 = 4;
+      tecla_5 = 5;
+      tecla_6 = 6;
+      tecla_7 = 7;
+      tecla_8 = 8;
+      tecla_9 = 9;
+      tecla_C = 10;
+      tecla_E = 11;        //constantes para leitura de tecla
+
+      SEL_LINHA1 = %00001110;
+      SEL_LINHA2 = %00001101;
+      SEL_LINHA3 = %00001011;
+      SEL_LINHA4 = %00000111; //constantes para leitura de teclas
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                Declaração dos flags de software             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir os flags utilizados no sistema   }
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*               Declaração das saídas do software             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*               Declaração das entradas do software           *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+    col1 = 4;
+    col2 = 5;
+    col3 = 0;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*               Declaração de Rotinas e Interrupções          *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*               Rotina de Leitura de Teclas                    *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+procedure Le_Teclas;
+begin
+
+       inc(indice);
+       if indice=1 then
+        begin
+                   portd:=SEL_LINHA1;
+                   teclado.tecla_1:=0;
+                   teclado.tecla_2:=0;
+                   teclado.tecla_3:=0;
+
+                   if porta.col1 = 0 then
+                         teclado.tecla_1:=1;
+
+                   if porta.col2 = 0 then
+                         teclado.tecla_2:=1;
+                         
+                   if porte.col3 = 0 then
+                         teclado.tecla_3:=1;
+
+           end;
+
+         if indice=2 then
+          begin
+
+                   portd:=SEL_LINHA2;
+                   teclado.tecla_4:=0;
+                   teclado.tecla_5:=0;
+                   teclado.tecla_6:=0;
+
+                   if porta.col1 = 0 then
+                      teclado.tecla_4:=1;
+
+                   if porta.col2 = 0 then
+                      teclado.tecla_5:=1;
+
+                   if porte.col3 = 0 then
+                      teclado.tecla_6:=1;
+
+           end;
+
+           if indice=2 then
+            begin
+
+                   portd:=SEL_LINHA3;
+                   teclado.tecla_7:=0;
+                   teclado.tecla_8:=0;
+                   teclado.tecla_9:=0;
+
+                   if porta.col1 = 0 then
+                      teclado.tecla_7:=1;
+
+                   if porta.col2 = 0 then
+                      teclado.tecla_8:=1;
+
+                   if porte.col3 = 0 then
+                      teclado.tecla_9:=1;
+
+              end;
+
+            if indice=4 then
+               begin
+
+                   portd:=SEL_LINHA4;
+                   teclado.tecla_C:=0;
+                   teclado.tecla_0:=0;
+                   teclado.tecla_E:=0;
+
+                   if porta.col1 = 0 then
+                       teclado.tecla_C:=1;
+
+                   if porta.col2 = 0 then
+                       teclado.tecla_0:=1;
+
+                   if porte.col3 = 0 then
+                       teclado.tecla_E:=1;
+
+                   indice:=0;       //reinicia o indice
+          end;
+end;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Início do programa                    *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Nessa parte ficará o loop principal do sistema}
+
+begin
+
+   trisa:=%00110000;
+   trisb:=%00000000;
+   trisd:=%00000000;
+   trise:=%00000001;            //configura i/os
+   option_reg:=%10000000;       //configura prescaler do timer 0
+   indice:=0;                   //inicializa a variável de índice
+   teclado:=0;                 //inicializa variáveis do teclado
+   adcon1:=%00000111;           //desliga os a/ds
+   Lcd8_Config(PORTE, PORTD, 2, 1, 3, 7, 6, 5, 4, 3, 2, 1, 0);
+   Lcd8_Cmd(LCD_CLEAR);          //limpa o display
+   Lcd8_Cmd(LCD_CURSOR_OFF);     //Desliga o cursor
+   Lcd8_out(1, 1, 'Teste dos Botoes'); //Mostra mensagem no display
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Rotina Principal                      *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+loop_principal:
+
+     while true do
+      begin
+       Le_Teclas;       //Chama rotina para ler teclas
+       if teclado.tecla_0 = 1 then Lcd8_Out(2,3,'Botao 0 On');
+       if teclado.tecla_1 = 1 then Lcd8_Out(2,3,'Botao 1 On');
+       if teclado.tecla_2 = 1 then Lcd8_Out(2,3,'Botao 2 On');
+       if teclado.tecla_3 = 1 then Lcd8_Out(2,3,'Botao 3 On');
+       if teclado.tecla_4 = 1 then Lcd8_Out(2,3,'Botao 4 On');
+       if teclado.tecla_5 = 1 then Lcd8_Out(2,3,'Botao 5 On');
+       if teclado.tecla_6 = 1 then Lcd8_Out(2,3,'Botao 6 On');
+       if teclado.tecla_7 = 1 then Lcd8_Out(2,3,'Botao 7 On');
+       if teclado.tecla_8 = 1 then Lcd8_Out(2,3,'Botao 8 On');
+       if teclado.tecla_9 = 1 then Lcd8_Out(2,3,'Botao 9 On');
+       if teclado.tecla_C = 1 then Lcd8_Out(2,3,'Botao C On');
+       if teclado.tecla_E = 1 then Lcd8_Out(2,3,'Botao E On');
+    end;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Fim do programa                       *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+    end.

@@ -1,0 +1,11 @@
+ÀÄPIC C Compiler PCWHD_4
+   ÀÄMAIN  0/58  Ram=2
+      ÃÄ??0??
+      ÃÄrand  0/104  Ram=4
+      ³  ÃÄ@MUL3232  (Inline)  Ram=13
+      ³  ÀÄ@DIV1616  0/37  Ram=5
+      ÃÄ@DIV1616  0/37  Ram=5
+      ÃÄ@PRINTF_U_9600_62_63  0/58  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÀÄ@delay_ms1  0/23  Ram=1

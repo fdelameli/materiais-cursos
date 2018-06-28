@@ -1,0 +1,95 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	background-color: #F4EDE3;
+	background-image:url(imagens/bgl.gif);
+}
+p {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.texto {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	list-style-image: url(figuras/bullet.gif);
+}
+.texto table {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	list-style-image: url(figuras/bullet.gif);
+}
+.textoPeq {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	text-decoration: none;
+}
+.menu {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color: #000000;
+	text-decoration: none;
+}
+.menu:hover {
+	text-decoration: underline;
+}
+.titulo {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.subtitulo {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+}
+.branco {
+	color: #FFFFFF;
+}
+.preto {
+	color: #000000;
+}
+.laranja {
+	color: #EC9536;
+}
+.azul {
+	color: #0000FF;
+}
+.azulEscuro {
+	color: #000080;
+}
+.vermelho {
+	color: #FF0000;
+}
+.pontilhado {
+	background-repeat: repeat;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: dashed;
+	border-bottom-style: dashed;
+	border-left-style: dashed;
+	border-top-style: dashed;
+	border-top-color: #B4B4B4;
+	border-right-color: #B4B4B4;
+	border-bottom-color: #B4B4B4;
+	border-left-color: #B4B4B4;
+	padding-right: 15px;
+	padding-left: 15px;
+	padding-top: 10px;
+}
+.celConteudo {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.celConteudo p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.celConteudo table {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+}

@@ -1,0 +1,57 @@
+public interface Constants extends ParserConstants
+{
+    int EPSILON  = 0;
+    int DOLLAR   = 1;
+
+    int t_TOKEN_2 = 2; //"PROGRAMA"
+    int t_TOKEN_3 = 3; //"ROTULO"
+    int t_TOKEN_4 = 4; //"CONSTANTE"
+    int t_TOKEN_5 = 5; //"VARIAVEL"
+    int t_TOKEN_6 = 6; //"PROCEDIMENTO"
+    int t_TOKEN_7 = 7; //"INICIO"
+    int t_TOKEN_8 = 8; //"FIM"
+    int t_TOKEN_9 = 9; //"INTEIRO"
+    int t_TOKEN_10 = 10; //"VETOR"
+    int t_TOKEN_11 = 11; //"DE"
+    int t_TOKEN_12 = 12; //"CHAMADA"
+    int t_TOKEN_13 = 13; //"VAIPARA"
+    int t_TOKEN_14 = 14; //"SE"
+    int t_TOKEN_15 = 15; //"ENTAO"
+    int t_TOKEN_16 = 16; //"SENAO"
+    int t_TOKEN_17 = 17; //"ENQUANTO"
+    int t_TOKEN_18 = 18; //"FACA"
+    int t_TOKEN_19 = 19; //"REPITA"
+    int t_TOKEN_20 = 20; //"ATEQUE"
+    int t_TOKEN_21 = 21; //"LERLINHA"
+    int t_TOKEN_22 = 22; //"ESCREVELINHA"
+    int t_TOKEN_23 = 23; //"OU"
+    int t_TOKEN_24 = 24; //"E"
+    int t_TOKEN_25 = 25; //"NAO"
+    int t_IDENTIFICADOR = 26;
+    int t_INTEIRO = 27;
+    int t_TOKEN_28 = 28; //"PARA"
+    int t_TOKEN_29 = 29; //"ATE"
+    int t_TOKEN_30 = 30; //"CASO"
+    int t_TOKEN_31 = 31; //"+"
+    int t_TOKEN_32 = 32; //"-"
+    int t_TOKEN_33 = 33; //"*"
+    int t_TOKEN_34 = 34; //"/"
+    int t_TOKEN_35 = 35; //"["
+    int t_TOKEN_36 = 36; //"]"
+    int t_TOKEN_37 = 37; //"("
+    int t_TOKEN_38 = 38; //")"
+    int t_TOKEN_39 = 39; //":="
+    int t_TOKEN_40 = 40; //":"
+    int t_TOKEN_41 = 41; //"="
+    int t_TOKEN_42 = 42; //">"
+    int t_TOKEN_43 = 43; //">="
+    int t_TOKEN_44 = 44; //"<"
+    int t_TOKEN_45 = 45; //"<="
+    int t_TOKEN_46 = 46; //"<>"
+    int t_TOKEN_47 = 47; //","
+    int t_TOKEN_48 = 48; //";"
+    int t_LITERAL = 49;
+    int t_TOKEN_50 = 50; //"."
+    int t_TOKEN_51 = 51; //".."
+
+}

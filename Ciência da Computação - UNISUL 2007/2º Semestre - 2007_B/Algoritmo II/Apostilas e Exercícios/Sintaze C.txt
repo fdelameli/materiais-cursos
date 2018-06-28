@@ -1,0 +1,22 @@
+C
+
+algoritmo - não existe
+var - não existe
+int - int
+inicio - {
+<- - =
+para - for
+escreva - printf
+leia - scanf
+fim - }
+se - if
+então - não existe
+senão - else
+
+
+%i = inteiro
+%d = inteiro decimal
+%x = inteiro hexadecimal
+%c = caracter
+%f = float
+%s = string

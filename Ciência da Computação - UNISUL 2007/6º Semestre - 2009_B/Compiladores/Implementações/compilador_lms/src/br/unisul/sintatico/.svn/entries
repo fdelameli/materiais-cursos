@@ -1,0 +1,52 @@
+8
+
+dir
+23
+https://compiladorsintatico.googlecode.com/svn/trunk/compiladorsintatico/src/br/unisul/sintatico
+https://compiladorsintatico.googlecode.com/svn
+
+
+
+2009-06-30T21:45:33.561693Z
+23
+thiago.ghisi
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+95a72c54-2321-11de-9288-5f72e443383c
+
+Compilador_Sintatico.java
+file
+
+
+
+
+2009-06-30T21:45:33.000000Z
+5aa264371a842cf3afe69c6c0c9f453e
+2009-06-30T21:45:33.561693Z
+23
+thiago.ghisi
+
+ReadFile.java
+file
+
+
+
+
+2009-06-28T22:06:22.000000Z
+c778b73bb2677e8ef2139ea605f80734
+2009-06-28T22:06:22.000050Z
+14
+thiago.ghisi
+

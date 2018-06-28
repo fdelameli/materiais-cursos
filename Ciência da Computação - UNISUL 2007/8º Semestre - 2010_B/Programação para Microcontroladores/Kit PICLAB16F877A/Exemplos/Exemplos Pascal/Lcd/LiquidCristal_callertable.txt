@@ -1,0 +1,14 @@
+main
+	Le_Teclas
+	Lcd8_Out
+		Lcd8_Cmd
+			Delay_500us
+			Delay_5500us
+			Delay_1us
+	Lcd8_Cmd
+		Delay_500us
+		Delay_5500us
+		Delay_1us
+	Lcd8_Init
+		Delay_1us
+		Delay_5500us

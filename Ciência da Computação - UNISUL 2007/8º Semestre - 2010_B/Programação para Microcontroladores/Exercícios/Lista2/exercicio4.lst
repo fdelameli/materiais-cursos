@@ -1,0 +1,194 @@
+CCS PCM C Compiler, Version 4.038, 33467               21-set-10 17:12
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio4.lst
+
+               ROM used: 337 words (4%)
+                         Largest free fragment is 2048
+               RAM used: 10 (3%) at main() level
+                         19 (5%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0D5
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4Mhz) 
+00BE:  MOVLW  24
+00BF:  MOVWF  04
+00C0:  BCF    03.7
+00C1:  MOVF   00,W
+00C2:  BTFSC  03.2
+00C3:  GOTO   0D2
+00C4:  MOVLW  01
+00C5:  MOVWF  78
+00C6:  CLRF   77
+00C7:  DECFSZ 77,F
+00C8:  GOTO   0C7
+00C9:  DECFSZ 78,F
+00CA:  GOTO   0C6
+00CB:  MOVLW  4A
+00CC:  MOVWF  77
+00CD:  DECFSZ 77,F
+00CE:  GOTO   0CD
+00CF:  GOTO   0D0
+00D0:  DECFSZ 00,F
+00D1:  GOTO   0C4
+00D2:  BCF    0A.3
+00D3:  BCF    0A.4
+00D4:  GOTO   14D (RETURN)
+.................... #use rs232(baud=9600, xmit=pin_c6, rcv=pin_c7) 
+....................  
+....................  
+.................... #define DELAY 5000 
+....................  
+.................... void main() { 
+00D5:  CLRF   04
+00D6:  BCF    03.7
+00D7:  MOVLW  1F
+00D8:  ANDWF  03,F
+00D9:  MOVLW  19
+00DA:  BSF    03.5
+00DB:  MOVWF  19
+00DC:  MOVLW  A6
+00DD:  MOVWF  18
+00DE:  MOVLW  90
+00DF:  BCF    03.5
+00E0:  MOVWF  18
+00E1:  BSF    03.5
+00E2:  BSF    1F.0
+00E3:  BSF    1F.1
+00E4:  BSF    1F.2
+00E5:  BCF    1F.3
+00E6:  MOVLW  07
+00E7:  MOVWF  1C
+....................  
+....................    int VL_PORTB = 0; 
+00E8:  BCF    03.5
+00E9:  CLRF   21
+....................    int VL_PORTD = 0; 
+00EA:  CLRF   22
+....................  
+....................    while(true) { 
+....................    
+....................       VL_PORTB = input_b(); 
+00EB:  MOVLW  FF
+00EC:  BSF    03.5
+00ED:  MOVWF  06
+00EE:  BCF    03.5
+00EF:  MOVF   06,W
+00F0:  MOVWF  21
+....................       VL_PORTD = input_d(); 
+00F1:  MOVLW  FF
+00F2:  BSF    03.5
+00F3:  MOVWF  08
+00F4:  BCF    03.5
+00F5:  MOVF   08,W
+00F6:  MOVWF  22
+....................       printf("PORT_B: %d\r\n", VL_PORTB); 
+00F7:  CLRF   23
+00F8:  MOVF   23,W
+00F9:  CALL   004
+00FA:  INCF   23,F
+00FB:  MOVWF  77
+00FC:  MOVF   77,W
+00FD:  BTFSS  0C.4
+00FE:  GOTO   0FD
+00FF:  MOVWF  19
+0100:  MOVLW  08
+0101:  SUBWF  23,W
+0102:  BTFSS  03.2
+0103:  GOTO   0F8
+0104:  MOVF   21,W
+0105:  MOVWF  25
+0106:  MOVLW  1F
+0107:  MOVWF  26
+0108:  CALL   055
+0109:  MOVLW  0D
+010A:  BTFSS  0C.4
+010B:  GOTO   10A
+010C:  MOVWF  19
+010D:  MOVLW  0A
+010E:  BTFSS  0C.4
+010F:  GOTO   10E
+0110:  MOVWF  19
+....................       printf("PORT_D: %d\r\n", VL_PORTD); 
+0111:  CLRF   23
+0112:  MOVF   23,W
+0113:  CALL   015
+0114:  INCF   23,F
+0115:  MOVWF  77
+0116:  MOVF   77,W
+0117:  BTFSS  0C.4
+0118:  GOTO   117
+0119:  MOVWF  19
+011A:  MOVLW  08
+011B:  SUBWF  23,W
+011C:  BTFSS  03.2
+011D:  GOTO   112
+011E:  MOVF   22,W
+011F:  MOVWF  25
+0120:  MOVLW  1F
+0121:  MOVWF  26
+0122:  CALL   055
+0123:  MOVLW  0D
+0124:  BTFSS  0C.4
+0125:  GOTO   124
+0126:  MOVWF  19
+0127:  MOVLW  0A
+0128:  BTFSS  0C.4
+0129:  GOTO   128
+012A:  MOVWF  19
+....................       printf("PORT_B + PORT_D: %d\r\n", (VL_PORTB+VL_PORTD)); 
+012B:  MOVF   22,W
+012C:  ADDWF  21,W
+012D:  MOVWF  23
+012E:  CLRF   24
+012F:  MOVF   24,W
+0130:  CALL   026
+0131:  INCF   24,F
+0132:  MOVWF  77
+0133:  MOVF   77,W
+0134:  BTFSS  0C.4
+0135:  GOTO   134
+0136:  MOVWF  19
+0137:  MOVLW  11
+0138:  SUBWF  24,W
+0139:  BTFSS  03.2
+013A:  GOTO   12F
+013B:  MOVF   23,W
+013C:  MOVWF  25
+013D:  MOVLW  1F
+013E:  MOVWF  26
+013F:  CALL   055
+0140:  MOVLW  0D
+0141:  BTFSS  0C.4
+0142:  GOTO   141
+0143:  MOVWF  19
+0144:  MOVLW  0A
+0145:  BTFSS  0C.4
+0146:  GOTO   145
+0147:  MOVWF  19
+....................       delay_ms(DELAY); 
+0148:  MOVLW  14
+0149:  MOVWF  23
+014A:  MOVLW  FA
+014B:  MOVWF  24
+014C:  GOTO   0BE
+014D:  DECFSZ 23,F
+014E:  GOTO   14A
+....................     
+....................    } 
+014F:  GOTO   0EB
+....................  
+.................... } 
+0150:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

@@ -1,0 +1,31 @@
+
+						
+ Infra – Estrutura
+	
+• Transferência de dados acontece entre uma estação
+	
+	e um ponto de acesso (AP);
+	
+• Os AP’s podem agir como uma ponte para outra
+	
+	rede (cabeada ou sem fio);
+	
+• Problema: depende de uma infra-estrutura instalada
+	(AP’s, satélites e cabeamentos).
+
+
+
+	
+						
+ Ad – Hoc
+	
+• Cada estação se comunica diretamente com a outra
+	
+	estação;
+	
+• A comunicação entre 2 estações depende da área de
+	cobertura e de pontos entre elas;
+	
+• Acesso ao meio e problemas com estações
+	
+	escondidas são complexos.

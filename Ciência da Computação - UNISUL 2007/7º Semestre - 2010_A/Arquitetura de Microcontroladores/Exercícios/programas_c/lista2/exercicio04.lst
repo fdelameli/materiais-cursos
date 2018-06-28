@@ -1,0 +1,198 @@
+CCS PCM C Compiler, Version 4.038, 33467               25-jun-10 09:11
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista2\exercicio04.lst
+
+               ROM used: 138 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 9 (2%) at main() level
+                         13 (4%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   05B
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect 
+.................... #use delay(clock=4Mhz) 
+0004:  MOVLW  27
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   018
+000A:  MOVLW  01
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  4A
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  GOTO   016
+0016:  DECFSZ 00,F
+0017:  GOTO   00A
+0018:  RETLW  00
+....................  
+.................... void pisca_led(int16 delay); 
+....................  
+.................... void main() { 
+*
+005B:  CLRF   04
+005C:  BCF    03.7
+005D:  MOVLW  1F
+005E:  ANDWF  03,F
+005F:  BSF    03.5
+0060:  BSF    1F.0
+0061:  BSF    1F.1
+0062:  BSF    1F.2
+0063:  BCF    1F.3
+0064:  MOVLW  07
+0065:  MOVWF  1C
+....................     
+....................    int count; 
+....................    int16 delay = 500; 
+0066:  MOVLW  F4
+0067:  BCF    03.5
+0068:  MOVWF  22
+0069:  MOVLW  01
+006A:  MOVWF  23
+....................     
+....................    while(true) {  
+....................     
+....................       for(count = 0; count<5; count++){ 
+006B:  CLRF   21
+006C:  MOVF   21,W
+006D:  SUBLW  04
+006E:  BTFSS  03.0
+006F:  GOTO   077
+....................          pisca_led(delay); 
+0070:  MOVF   23,W
+0071:  MOVWF  25
+0072:  MOVF   22,W
+0073:  MOVWF  24
+0074:  GOTO   019
+....................       } 
+0075:  INCF   21,F
+0076:  GOTO   06C
+....................        
+....................       delay-=100; 
+0077:  MOVLW  64
+0078:  SUBWF  22,F
+0079:  MOVLW  00
+007A:  BTFSS  03.0
+007B:  MOVLW  01
+007C:  SUBWF  23,F
+....................     
+....................       if(delay==100) 
+007D:  MOVF   22,W
+007E:  SUBLW  64
+007F:  BTFSS  03.2
+0080:  GOTO   088
+0081:  MOVF   23,F
+0082:  BTFSS  03.2
+0083:  GOTO   088
+....................          delay = 500; 
+0084:  MOVLW  01
+0085:  MOVWF  23
+0086:  MOVLW  F4
+0087:  MOVWF  22
+....................     
+....................     
+....................    } 
+0088:  GOTO   06B
+....................  
+.................... } 
+....................  
+.................... void pisca_led(int16 d) { 
+....................       output_high(pin_b5); 
+*
+0019:  BSF    03.5
+001A:  BCF    06.5
+001B:  BCF    03.5
+001C:  BSF    06.5
+*
+0089:  SLEEP
+....................       delay_ms(d); 
+*
+001D:  MOVF   25,W
+001E:  MOVWF  26
+001F:  INCF   26,F
+0020:  DECF   26,F
+0021:  BTFSC  03.2
+0022:  GOTO   027
+0023:  MOVLW  FF
+0024:  MOVWF  27
+0025:  CALL   004
+0026:  GOTO   020
+0027:  MOVF   24,W
+0028:  MOVWF  27
+0029:  CALL   004
+....................       output_low(pin_b5); 
+002A:  BSF    03.5
+002B:  BCF    06.5
+002C:  BCF    03.5
+002D:  BCF    06.5
+....................       output_high(pin_b6); 
+002E:  BSF    03.5
+002F:  BCF    06.6
+0030:  BCF    03.5
+0031:  BSF    06.6
+....................       delay_ms(d); 
+0032:  MOVF   25,W
+0033:  MOVWF  26
+0034:  INCF   26,F
+0035:  DECF   26,F
+0036:  BTFSC  03.2
+0037:  GOTO   03C
+0038:  MOVLW  FF
+0039:  MOVWF  27
+003A:  CALL   004
+003B:  GOTO   035
+003C:  MOVF   24,W
+003D:  MOVWF  27
+003E:  CALL   004
+....................       output_low(pin_b6); 
+003F:  BSF    03.5
+0040:  BCF    06.6
+0041:  BCF    03.5
+0042:  BCF    06.6
+....................       output_high(pin_b7); 
+0043:  BSF    03.5
+0044:  BCF    06.7
+0045:  BCF    03.5
+0046:  BSF    06.7
+....................       delay_ms(d); 
+0047:  MOVF   25,W
+0048:  MOVWF  26
+0049:  INCF   26,F
+004A:  DECF   26,F
+004B:  BTFSC  03.2
+004C:  GOTO   051
+004D:  MOVLW  FF
+004E:  MOVWF  27
+004F:  CALL   004
+0050:  GOTO   04A
+0051:  MOVF   24,W
+0052:  MOVWF  27
+0053:  CALL   004
+....................       output_low(pin_b7); 
+0054:  BSF    03.5
+0055:  BCF    06.7
+0056:  BCF    03.5
+0057:  BCF    06.7
+.................... } 
+0058:  BCF    0A.3
+0059:  BCF    0A.4
+005A:  GOTO   075 (RETURN)
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

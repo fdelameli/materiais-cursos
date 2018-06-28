@@ -1,0 +1,45 @@
+
+ROM used: 30 (0%)
+          30 (0%) including unused fragments
+
+          0 Average locations per line
+          4 Average locations per statement
+
+RAM used: 6 (2%) at main() level
+          6 (2%) worst case
+
+Stack used: 0 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   23     8 100  exercicio08.c
+  309     0   0  ..\..\..\..\..\..\..\..\..\Program Files\PICC\devices\16f877A.h
+----- -----
+  332     8 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     26  87   0    84  2.3  main
+
+Program metrics:
+    Functions               1
+    Statements              8
+    Comments                73
+    Volume (V)              84
+    Difficilty (D)          2.3
+    Effort to implement (E) 188
+    Time to implement (T)   0 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   1
+    Maintainability (MI)    145
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF    26  2018  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

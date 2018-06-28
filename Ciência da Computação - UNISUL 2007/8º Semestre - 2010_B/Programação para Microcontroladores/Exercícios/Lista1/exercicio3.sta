@@ -1,0 +1,61 @@
+
+ROM used: 651 (8%)
+          651 (8%) including unused fragments
+
+          0 Average locations per line
+          1 Average locations per statement
+
+RAM used: 17 (5%) at main() level
+          28 (8%) worst case
+
+Stack used: 5 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   34    10   2  exercicio3.c
+  313     0   0  16F877A.h
+  107    58  10  Lcd_4.c
+ 1360   380  66  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\stdlib.h
+   28     0   0  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\stddef.h
+  417   126  22  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\string.h
+   28     0   0  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\ctype.h
+----- -----
+ 2287   574 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     21   3   1             @delay_ms1
+0      8   1   0   204  3.7  @const57
+0     42   6   1   352  2.8  lcd_send_nibble
+0     40   6   3   259  3.8  lcd_send_byte
+0     47   7   2   380  4.7  lcd_init
+0     25   4   4   246  6.0  lcd_gotoxy
+0     64  10   1   531  5.2  lcd_putc
+ Inline        2             @MUL88
+0    256  39   9  1815 10.5  atoi
+0     68  10   5   297  3.2  MAIN
+0     21   3   3             @DIV88
+0     55   8   2             @PRINTF_U_70
+
+Program metrics:
+    Functions               8
+    Statements              574
+    Comments                875
+    Volume (V)              5948
+    Difficilty (D)          39.3
+    Effort to implement (E) 233809
+    Time to implement (T)   3 hours, 36 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   21
+    Maintainability (MI)    43
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF   647  1397  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

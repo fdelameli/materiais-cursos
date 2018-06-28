@@ -1,0 +1,22 @@
+ÀÄlab
+   ÀÄmain  0/221  Ram=3
+      ÃÄ??0??
+      ÃÄ@const66  0/15  Ram=0
+      ÃÄleAd  0/21  Ram=1
+      ÃÄ@const67  0/18  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@delay_ms1  0/21  Ram=1
+      ÃÄ@const74  0/28  Ram=0
+      ÃÄ@const75  0/20  Ram=0
+      ÃÄleAd  0/21  Ram=1
+      ÃÄ@const67  0/18  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@delay_ms1  0/21  Ram=1
+      ÃÄ@const77  0/25  Ram=0
+      ÃÄleAd  0/21  Ram=1
+      ÃÄ@const78  0/29  Ram=0
+      ÀÄleAd  0/21  Ram=1

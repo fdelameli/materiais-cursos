@@ -1,0 +1,496 @@
+CCS PCM C Compiler, Version 3.245, 28193               11-fev-07 13:48
+
+               Filename: C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Relógio Digital\varredura.lst
+
+               ROM used: 284 words (3%)
+                         Largest free fragment is 2048
+               RAM used: 20 (11%) at main() level
+                         21 (12%) worst case
+               Stack:    3 worst case (1 in main + 2 for interrupts)
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   105
+0003:  NOP
+0004:  MOVWF  7F
+0005:  SWAPF  03,W
+0006:  CLRF   03
+0007:  MOVWF  21
+0008:  MOVF   0A,W
+0009:  MOVWF  20
+000A:  CLRF   0A
+000B:  MOVF   04,W
+000C:  MOVWF  22
+000D:  MOVF   77,W
+000E:  MOVWF  23
+000F:  MOVF   78,W
+0010:  MOVWF  24
+0011:  MOVF   79,W
+0012:  MOVWF  25
+0013:  MOVF   7A,W
+0014:  MOVWF  26
+0015:  MOVF   7B,W
+0016:  MOVWF  27
+0017:  BCF    03.7
+0018:  BCF    03.5
+0019:  MOVLW  8C
+001A:  MOVWF  04
+001B:  BTFSS  00.0
+001C:  GOTO   01F
+001D:  BTFSC  0C.0
+001E:  GOTO   036
+001F:  BTFSS  0B.5
+0020:  GOTO   023
+0021:  BTFSC  0B.2
+0022:  GOTO   039
+0023:  MOVF   22,W
+0024:  MOVWF  04
+0025:  MOVF   23,W
+0026:  MOVWF  77
+0027:  MOVF   24,W
+0028:  MOVWF  78
+0029:  MOVF   25,W
+002A:  MOVWF  79
+002B:  MOVF   26,W
+002C:  MOVWF  7A
+002D:  MOVF   27,W
+002E:  MOVWF  7B
+002F:  MOVF   20,W
+0030:  MOVWF  0A
+0031:  SWAPF  21,W
+0032:  MOVWF  03
+0033:  SWAPF  7F,F
+0034:  SWAPF  7F,W
+0035:  RETFIE
+0036:  BCF    0A.3
+0037:  BCF    0A.4
+0038:  GOTO   04F
+0039:  BCF    0A.3
+003A:  BCF    0A.4
+003B:  GOTO   07D
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *  			   Programação em C - Módulo B PIC16F877A            	   * 
+....................  *                               Exemplo 2                                 * 
+....................  *                                                                         * 
+....................  *                CENTRO DE TREINAMENTO - Cerne Tecnologia	               * 
+....................  *                                                                         * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *   VERSÃO : 1.0                                                          * 
+....................  *   DATA : 16/05/2005                                                     * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                             Descrição geral                           * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+.................... // Implementar a varredura de 4 displays para se montar um relógio digital 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                		 	Definição de Cabeçalho						 * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+....................  
+.................... #include	<16F877A.h>				//microcontrolador utilizado 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                         Configurações para gravação                   * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+....................  
+.................... #fuses xt,nolvp,nowdt,nolvp,nobrownout,put,nodebug,noprotect,nowrt,nocpd 
+....................  								   // Configurações da Máquina 
+....................                                    // Oscilador: XT 
+....................                                    // LVP: Off 
+....................                                    // WDT: On 
+....................                                    // Brown-out: Off 
+....................                                    // Power-up: Off 
+....................                                    // Debug: Off 
+....................                                    // CP: Off 
+....................                                    // CPD: Off 
+....................  
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                 Definição e inicialização das variáveis               * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+.................... //Aqui iremos definir as variáveis globais do sistema 
+....................  
+.................... int unidade=0,centena=0,dezena=0,milhar=0,indice=0; 
+*
+010F:  BCF    03.5
+0110:  CLRF   28
+0111:  CLRF   29
+0112:  CLRF   2A
+0113:  CLRF   2B
+0114:  CLRF   2C
+.................... int vezes_tmr1=120; 
+0115:  MOVLW  78
+0116:  MOVWF  2D
+.................... boolean pisca=0; 
+0117:  BCF    2E.0
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                           Constantes internas                         * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+.................... //Aqui iremos definir as constantes utilizadas pelo sistema 
+....................  
+.................... #define CHR_0  	0b00111111 
+.................... #define CHR_1  	0b00000110 
+.................... #define CHR_2  	0b01011011 
+.................... #define CHR_3  	0b01001111 
+.................... #define CHR_4  	0b01100110 
+.................... #define CHR_5  	0b01101101 
+.................... #define CHR_6  	0b01111101 
+.................... #define CHR_7  	0b00000111 
+.................... #define CHR_8  	0b01111111 
+.................... #define CHR_9  	0b01101111 
+.................... #define CHR_A  	0b01110111 
+.................... #define CHR_B  	0b01111100 
+.................... #define CHR_C  	0b00111001 
+.................... #define CHR_D  	0b01011110 
+.................... #define CHR_E  	0b01111001 
+.................... #define CHR_F  	0b01110001 
+....................  
+.................... const int converte_to_7seg[]={CHR_0,CHR_1,CHR_2,CHR_3,CHR_4,CHR_5,CHR_6, 
+....................                               CHR_7,CHR_9,CHR_A,CHR_B,CHR_C,CHR_D,CHR_E,CHR_F}; 
+....................                                     //Caracteres para o displayt de 7 segmentos 
+....................                            
+.................... #define BASE_TEMPO  (65536-62500)   //	Base de tempo para timer 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                                Saídas                               * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+.................... //Aqui iremos definir as saídas do sistema 
+....................  
+.................... #define SEL_UNIDADE   PIN_B4        // Define pino para seleção de display 
+.................... #define SEL_DEZENA    PIN_B3        // Define pino para seleção de display 
+.................... #define SEL_CENTENA   PIN_B2        // Define pino para seleção de display 
+.................... #define SEL_MILHAR    PIN_B1        // Define pino para seleção de display 
+.................... #define PINO_PISCA    PIN_D7        // Define pino para piscar o ponto 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                       Prototipagem das funções                      * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+.................... //Aqui iremos declarar todas as funções definidas pelo usuário 
+....................  
+.................... void Inicializa(void); 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                           Rotina Principal                		   * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+.................... //Nessa parte ficará o loop principal do sistema 
+....................  
+.................... void main(void) 
+.................... { 
+*
+0105:  CLRF   04
+0106:  MOVLW  1F
+0107:  ANDWF  03,F
+0108:  BSF    03.5
+0109:  BSF    1F.0
+010A:  BSF    1F.1
+010B:  BSF    1F.2
+010C:  BCF    1F.3
+010D:  MOVLW  07
+010E:  MOVWF  1C
+....................    Inicializa();                    // Chama rotina para inicializar a máquina 
+*
+0118:  GOTO   0DE
+....................    while(1) 
+....................       { 
+....................        restart_wdt();               // Entra em loop infinito e limpa o wdt 
+0119:  CLRWDT
+....................       } 
+011A:  GOTO   119
+.................... } 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                       Inicialização do Sistema                 	   * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+....................  
+.................... void Inicializa(void) 
+.................... { 
+011B:  SLEEP
+....................  
+....................    setup_wdt(WDT_2304MS);         	// Configura WDT para 2,304 s 
+*
+00DE:  MOVLW  0F
+00DF:  MOVWF  77
+00E0:  MOVLW  07
+00E1:  CLRF   01
+00E2:  MOVLW  81
+00E3:  MOVWF  04
+00E4:  MOVF   00,W
+00E5:  ANDLW  F0
+00E6:  IORLW  07
+00E7:  MOVWF  00
+00E8:  CLRWDT
+00E9:  MOVF   00,W
+00EA:  ANDLW  F7
+00EB:  BTFSC  77.3
+00EC:  ANDLW  F0
+00ED:  IORWF  77,W
+00EE:  MOVWF  00
+....................  
+....................    set_timer0(0);                 	// Inicializa timer 0 com 0 
+00EF:  CLRF   01
+....................    setup_timer_0(RTCC_INTERNAL | RTCC_DIV_1); 
+00F0:  BSF    03.5
+00F1:  MOVF   01,W
+00F2:  ANDLW  C7
+00F3:  IORLW  08
+00F4:  MOVWF  01
+....................          									// Timer configurado para clock 
+....................                                     // Interno com prescaler de 1:4 
+....................  
+....................    set_timer1(BASE_TEMPO);        	// Inicializa timer 1 
+00F5:  MOVLW  0B
+00F6:  BCF    03.5
+00F7:  MOVWF  0F
+00F8:  MOVLW  DC
+00F9:  MOVWF  0E
+....................    setup_timer_1(T1_INTERNAL | T1_DIV_BY_8); 
+00FA:  MOVLW  B5
+00FB:  MOVWF  10
+....................          									// Timer configurado para clock 
+....................                                     // Interno com prescaler de 1:8 
+....................  
+....................    enable_interrupts(INT_TIMER0);   // Habilita interrupção de timer 0 
+00FC:  BSF    0B.5
+....................    enable_interrupts(INT_TIMER1);   // Habilita interrupção de timer 1 
+00FD:  BSF    03.5
+00FE:  BSF    0C.0
+....................    enable_interrupts(GLOBAL);       // Habilita todas as interrupções 
+00FF:  MOVLW  C0
+0100:  BCF    03.5
+0101:  IORWF  0B,F
+.................... } 
+0102:  BCF    0A.3
+0103:  BCF    0A.4
+0104:  GOTO   119 (RETURN)
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                  Tratamento da Interrupção de Timer 1               * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+....................  
+.................... #int_timer1 
+.................... void Isr_Timer1(void) 
+.................... { 
+....................  
+....................    set_timer1(BASE_TEMPO);          // Recarrega timer 1 
+*
+004F:  MOVLW  0B
+0050:  MOVWF  0F
+0051:  MOVLW  DC
+0052:  MOVWF  0E
+....................    pisca=!pisca;                    // Inverte o estado do pisca 
+0053:  MOVLW  01
+0054:  XORWF  2E,F
+....................    vezes_tmr1--;                    // Decrementa variável 
+0055:  DECF   2D,F
+....................       if (vezes_tmr1) return;       // Verifica se variável chegou a zero 
+0056:  MOVF   2D,F
+0057:  BTFSS  03.2
+0058:  GOTO   079
+....................    vezes_tmr1=120;                  // Recarrega variável 
+0059:  MOVLW  78
+005A:  MOVWF  2D
+....................  
+....................    unidade++;                       // Incrementa unidade 
+005B:  INCF   28,F
+....................       if (unidade!=10) return;      // Verifica se variável chegou a 10 
+005C:  MOVF   28,W
+005D:  SUBLW  0A
+005E:  BTFSS  03.2
+005F:  GOTO   079
+....................    unidade=0;                       // Zera a variável 
+0060:  CLRF   28
+....................  
+....................    dezena++;                        // Incrementa dezena 
+0061:  INCF   2A,F
+....................       if (dezena!=6) return;        // Verifica se variável chegou a 6 
+0062:  MOVF   2A,W
+0063:  SUBLW  06
+0064:  BTFSS  03.2
+0065:  GOTO   079
+....................    dezena=0;                        // Zera a variável 
+0066:  CLRF   2A
+....................  
+....................    centena++;                       // Incrementa a variável 
+0067:  INCF   29,F
+....................  
+....................    if (milhar==2)                   // Verifica se milhar vale 2 
+0068:  MOVF   2B,W
+0069:  SUBLW  02
+006A:  BTFSS  03.2
+006B:  GOTO   073
+....................     { 
+....................       if (centena==4)               // Verifica se centena chegou a 4 
+006C:  MOVF   29,W
+006D:  SUBLW  04
+006E:  BTFSS  03.2
+006F:  GOTO   073
+....................          { 
+....................             milhar=0;               // Zera variável 
+0070:  CLRF   2B
+....................             centena=0;              // Zera variável 
+0071:  CLRF   29
+....................             return;                 // Zera variável 
+0072:  GOTO   079
+....................          } 
+....................     } 
+....................  
+....................       if (centena!=10) return;      // Verifica se variável chegou a 10 
+0073:  MOVF   29,W
+0074:  SUBLW  0A
+0075:  BTFSS  03.2
+0076:  GOTO   079
+....................    centena=0;                       // Limpa a variável 
+0077:  CLRF   29
+....................    milhar++;                        // Limpa a variável 
+0078:  INCF   2B,F
+.................... } 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                  Tratamento da Interrupção de Timer 0               * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+....................  
+0079:  BCF    0C.0
+007A:  BCF    0A.3
+007B:  BCF    0A.4
+007C:  GOTO   023
+.................... #int_timer0 
+.................... void Isr_Timer0(void) 
+.................... { 
+....................  
+....................    set_timer0(62000); 
+007D:  MOVLW  30
+007E:  MOVWF  01
+....................    indice++;                        // Incrementa indice 
+007F:  INCF   2C,F
+....................  
+....................    switch(indice)                   // Seleção de casos com indice 
+....................       { 
+0080:  MOVLW  01
+0081:  SUBWF  2C,W
+0082:  ADDLW  FC
+0083:  BTFSC  03.0
+0084:  GOTO   0D2
+0085:  ADDLW  04
+0086:  GOTO   0D6
+....................  
+....................          case 1:                    // Caso seja 1... 
+....................             output_low(SEL_UNIDADE);// Retira a seleção do display anterior 
+0087:  BSF    03.5
+0088:  BCF    06.4
+0089:  BCF    03.5
+008A:  BCF    06.4
+....................             output_d(converte_to_7seg[milhar]); 
+008B:  MOVF   2B,W
+008C:  CALL   03C
+008D:  MOVWF  2F
+008E:  BSF    03.5
+008F:  CLRF   08
+0090:  BCF    03.5
+0091:  MOVF   2F,W
+0092:  MOVWF  08
+....................             output_high(SEL_MILHAR);// Mostra o dado no barramento 
+0093:  BSF    03.5
+0094:  BCF    06.1
+0095:  BCF    03.5
+0096:  BSF    06.1
+....................             break;					   // Liga display selecionado 
+0097:  GOTO   0D2
+....................  
+....................          case 2:                     // Caso seja 2... 
+....................             output_low(SEL_MILHAR);  // Retira a seleção do display anterior 
+0098:  BSF    03.5
+0099:  BCF    06.1
+009A:  BCF    03.5
+009B:  BCF    06.1
+....................             output_d(Converte_to_7seg[centena]); 
+009C:  MOVF   29,W
+009D:  CALL   03C
+009E:  MOVWF  2F
+009F:  BSF    03.5
+00A0:  CLRF   08
+00A1:  BCF    03.5
+00A2:  MOVF   2F,W
+00A3:  MOVWF  08
+....................             output_high(SEL_CENTENA);// Mostra o dado no barramento 
+00A4:  BSF    03.5
+00A5:  BCF    06.2
+00A6:  BCF    03.5
+00A7:  BSF    06.2
+.................... 	           								 // Liga display selecionado 
+.................... 		    if (pisca) output_high(PINO_PISCA); 
+00A8:  BTFSS  2E.0
+00A9:  GOTO   0AE
+00AA:  BSF    03.5
+00AB:  BCF    08.7
+00AC:  BCF    03.5
+00AD:  BSF    08.7
+....................             break; 
+00AE:  GOTO   0D2
+....................  
+....................          case 3:                     // Caso seja 3... 
+....................             output_low(SEL_CENTENA); // Retira a seleção do display anterior 
+00AF:  BSF    03.5
+00B0:  BCF    06.2
+00B1:  BCF    03.5
+00B2:  BCF    06.2
+....................             output_d(Converte_to_7seg[dezena]); 
+00B3:  MOVF   2A,W
+00B4:  CALL   03C
+00B5:  MOVWF  2F
+00B6:  BSF    03.5
+00B7:  CLRF   08
+00B8:  BCF    03.5
+00B9:  MOVF   2F,W
+00BA:  MOVWF  08
+....................             output_high(SEL_DEZENA); // Mostra o dado no barramento 
+00BB:  BSF    03.5
+00BC:  BCF    06.3
+00BD:  BCF    03.5
+00BE:  BSF    06.3
+....................             break;					 // Liga display selecionado 
+00BF:  GOTO   0D2
+....................  
+....................          case 4:                     // Caso seja 4... 
+....................             indice=0;                // Reinicia indice 
+00C0:  CLRF   2C
+....................             output_low(SEL_DEZENA);  // Retira a seleção do display anterior 
+00C1:  BSF    03.5
+00C2:  BCF    06.3
+00C3:  BCF    03.5
+00C4:  BCF    06.3
+....................             output_d(Converte_to_7seg[unidade]); 
+00C5:  MOVF   28,W
+00C6:  CALL   03C
+00C7:  MOVWF  2F
+00C8:  BSF    03.5
+00C9:  CLRF   08
+00CA:  BCF    03.5
+00CB:  MOVF   2F,W
+00CC:  MOVWF  08
+....................             output_high(SEL_UNIDADE);// Mostra o dado no barramento 
+00CD:  BSF    03.5
+00CE:  BCF    06.4
+00CF:  BCF    03.5
+00D0:  BSF    06.4
+....................             break;					    // Liga display selecionado 
+00D1:  GOTO   0D2
+....................       } 
+.................... } 
+....................  
+.................... /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+....................  *                  		Fim do Programa              			   * 
+....................  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+00D2:  BCF    0B.2
+00D3:  BCF    0A.3
+00D4:  BCF    0A.4
+00D5:  GOTO   023
+
+Configuration Fuses:
+   Word  1: 3F31   XT NOWDT PUT NODEBUG NOPROTECT NOBROWNOUT NOLVP NOCPD NOWRT

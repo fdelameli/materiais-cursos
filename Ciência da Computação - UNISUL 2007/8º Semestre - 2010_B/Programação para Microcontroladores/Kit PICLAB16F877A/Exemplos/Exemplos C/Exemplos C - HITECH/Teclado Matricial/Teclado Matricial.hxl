@@ -1,0 +1,24 @@
+### HEXMate logfile and output summary ###
+### Memory Usage ###
+ Unused memory ranges:
+  Ah - F59h
+  
+ Teclado Matricial.hex ranges:
+  0h - 9h
+  F5Ah - FFFh
+  
+### Hex Memory Map ###
+ Legend:
+  - = Unused memory
+  F = Filled ROM
+  S = Stored serial code
+  A = Stored ASCII string
+  R = Reserved for checksum
+  C = Stored checksum result
+  T = Trailing code
+  & = Find & replace opcode
+  1 = Teclado Matricial.hex
+00000000: 1111111111------------------------------------------------------
+00000F40: --------------------------11111111111111111111111111111111111111
+00000F80: 1111111111111111111111111111111111111111111111111111111111111111
+00000FC0: 1111111111111111111111111111111111111111111111111111111111111111

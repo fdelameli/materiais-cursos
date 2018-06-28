@@ -1,0 +1,52 @@
+
+ROM used: 294 (4%)
+          294 (4%) including unused fragments
+
+          1 Average locations per line
+          14 Average locations per statement
+
+RAM used: 7 (2%) at main() level
+          8 (2%) worst case
+
+Stack used: 2 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   46    21 100  teste1.c
+  313     0   0  16F877A.h
+----- -----
+  359    21 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     23   8   1             @delay_ms1
+0     77  26   1   193  1.7  main
+0     15   5   0             @const63
+0     84  29   1   195  2.8  causa
+0     18   6   0             @const64
+0     24   8   0             @const65
+0     28  10   0             @const66
+0     21   7   0             @const67
+
+Program metrics:
+    Functions               2
+    Statements              21
+    Comments                77
+    Volume (V)              487
+    Difficilty (D)          3.9
+    Effort to implement (E) 1913
+    Time to implement (T)   2 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   4
+    Maintainability (MI)    95
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF   290  1754  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

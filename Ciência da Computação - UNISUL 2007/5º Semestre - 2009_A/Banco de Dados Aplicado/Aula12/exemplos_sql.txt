@@ -1,0 +1,115 @@
+/*
+ * Exemplo de select declarando explicitamente
+ * todas as variáveis utilizadas no algorítmo. 
+ *
+ */
+
+
+DECLARE
+  CURSOR C_CLI IS
+    SELECT CD_CLI, NM_CLI
+	FROM CLIENTE
+	ORDER BY NM_CLI;
+	
+  CURSOR C_VEN(PCD_CLI NUMBER) IS
+    SELECT CD_LOJ, CD_VEN, DT_VEN
+	FROM VENDA
+	WHERE CD_CLI = PCD_CLI;
+  
+  CURSOR C_PAR (PCD_LOJ NUMBER, PCD_VEN NUMBER) IS
+    SELECT CD_PAR, VL_PAR, DT_VCTO
+	FROM PARCELA
+	WHERE CD_LOJ = PCD_LOJ
+	  AND CD_VEN = PCD_VEN;
+  
+  WNR_CLI NUMBER(3);
+  WNR_VEN NUMBER(3);
+  WNR_PAR NUMBER(3);
+  WR_CLI C_CLI%ROWTYPE;
+  WR_VEN C_VEN%ROWTYPE;
+  WR_PAR C_PAR%ROWTYPE;
+
+BEGIN
+  SELECT COUNT(*) INTO WNR_CLI FROM CLIENTE;
+  OPEN C_CLI;
+  
+  FOR CONT IN 1..WNR_CLI LOOP
+    FETCH C_CLI INTO WR_CLI;
+	DBMS_OUTPUT.PUT_LINE('Cliente: '||WR_CLI.NM_CLI);
+	SELECT COUNT(*) INTO WNR_VEN FROM VENDA WHERE CD_CLI = WR_CLI.CD_CLI;
+	OPEN C_VEN(WR_CLI.CD_CLI);
+	
+	FOR CONT_VEN IN 1..WNR_VEN LOOP
+	  FETCH C_VEN INTO WR_VEN;
+  	  DBMS_OUTPUT.PUT_LINE('  Loja: '||WR_VEN.CD_LOJ||' - '||
+	  					'Venda: '||WR_VEN.CD_VEN||' - '||
+						'Data: '||WR_VEN.DT_VEN);
+	
+	  SELECT COUNT(*) INTO WNR_PAR FROM PARCELA WHERE CD_LOJ = WR_VEN.CD_LOJ AND CD_VEN = WR_VEN.CD_VEN;
+	
+  OPEN C_PAR(WR_VEN.CD_LOJ, WR_VEN.CD_VEN);
+	  FOR CONT_PAR IN 1..WNR_PAR LOOP
+	    FETCH C_PAR INTO WR_PAR;
+		DBMS_OUTPUT.PUT_LINE('    Parcela '||WR_PAR.CD_PAR||' - '||
+		                  'Valor: '||WR_PAR.VL_PAR||' - '||
+						  'Dt. Vcto: '||WR_PAR.DT_VCTO);
+	  
+	  END LOOP;
+	  CLOSE C_PAR;
+    END LOOP;
+	CLOSE C_VEN;
+  END LOOP;
+  CLOSE C_CLI;
+  
+END;
+
+
+
+
+
+/*
+ * Exemplo de select utilizando declaração
+ * implícita das variáveis utilizadas.
+ *
+ */
+
+DECLARE
+
+  CURSOR C_CLI IS
+    SELECT CD_CLI, NM_CLI
+	FROM CLIENTE
+	ORDER BY NM_CLI;
+	
+  CURSOR C_VEN(PCD_CLI NUMBER) IS
+    SELECT CD_LOJ, CD_VEN, DT_VEN
+	FROM VENDA
+	WHERE CD_CLI = PCD_CLI;
+  
+  CURSOR C_PAR (PCD_LOJ NUMBER, PCD_VEN NUMBER) IS
+    SELECT CD_PAR, VL_PAR, DT_VCTO
+	FROM PARCELA
+	WHERE CD_LOJ = PCD_LOJ
+	  AND CD_VEN = PCD_VEN;
+
+BEGIN
+
+	FOR WR_CLI IN C_CLI LOOP
+	  DBMS_OUTPUT.PUT_LINE('Cliente: '||WR_CLI.NM_CLI);
+
+	FOR WR_VEN IN C_VEN(WR_CLI.CD_CLI) LOOP
+  	  DBMS_OUTPUT.PUT_LINE('  Loja: '||WR_VEN.CD_LOJ||' - '||
+	  					'Venda: '||WR_VEN.CD_VEN||' - '||
+						'Data: '||WR_VEN.DT_VEN);
+
+	  FOR WR_PAR IN C_PAR(WR_VEN.CD_LOJ, WR_VEN.CD_VEN) LOOP
+		DBMS_OUTPUT.PUT_LINE('    Parcela '||WR_PAR.CD_PAR||' - '||
+		                  'Valor: '||WR_PAR.VL_PAR||' - '||
+						  'Dt. Vcto: '||WR_PAR.DT_VCTO);
+	  
+	  END LOOP;
+	  
+    END LOOP;
+	
+  END LOOP;
+
+END;

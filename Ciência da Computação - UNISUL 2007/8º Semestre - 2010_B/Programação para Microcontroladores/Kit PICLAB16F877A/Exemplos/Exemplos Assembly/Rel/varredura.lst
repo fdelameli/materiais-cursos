@@ -1,0 +1,771 @@
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;*      *       *       *       *       *       *       *       *       *
+                      00002 ;*                        ProgramaÁ„o em Assembly                       * 
+                      00003 ;*  EXEMPLO1: REL”GIO DIGITAL COM VARREDURA DE DISPLAY DE 7 SEGMENTOS   *
+                      00004 ;*                   APOSTILA M”DULO B  -  PIC16F877A                   *
+                      00005 ;*                    ¡PICE TECNOLOGIA E TREINAMENTO                    *
+                      00006 ;*          VERS√O 1.0                          DATA:03/05/2005         *
+                      00007 ;*                                                                      *
+                      00008 ;*      *       *       *       *       *       *       *       *       *
+                      00009 
+                      00010 ;*      *       *       *       *       *       *       *       *       *
+                      00011 ;*                       OBJETIVO DO ARQUIVO FONTE                      *
+                      00012 ;*                                                                      *
+                      00013 ;*       REL”GIO DIGITAL COM VARREDURA DE DISPLAY DE 7 SEGMENTOS        *
+                      00014 ;*                                                                      *
+                      00015 ;*      *       *       *       *       *       *       *       *       *
+                      00016 
+                      00017  #INCLUDE <P16F877.INC>         ;ARQUIVO PADR√O PARA PIC16F877A
+                      00001         LIST
+                      00002 ; P16F877.INC  Standard Header File, Version 1.00    Microchip Technology, Inc.
+                      00373         LIST
+2007   3F35           00018  __CONFIG _CP_OFF & _XT_OSC & _PWRTE_ON & _LVP_OFF & _WDT_ON & _BODEN_OFF & _CPD_OFF & _DEBUG_OFF
+                      00019         
+                      00020         ;NESTE PONTO … INFORMADO A CONFIGURA«√O DA M¡QUINA, OU SEJA, SE TER¡
+                      00021         ;C”DIGO DE PROTE«√O OU O TIPO DE CRISTAL QUE SER¡ UTILIZADO     
+                      00022 
+                      00023         ;CONFIGURA«√O DA M¡QUINA
+                      00024         ; CODE PROTECT                  -> DESLIGADO
+                      00025         ; OSCILADOR                     -> CRISTAL OU RESSONADOR
+                      00026         ; POWER-UP                      -> LIGADO
+                      00027         ; DEBUF                         -> DESLIGADO            
+                      00028         ; PROGRAMA«√O EM BAIXA VOLTAGEM -> DESLIGADO
+                      00029         ; WATCH DOG                     -> LIGADO
+                      00030         ; BROWN-OUT RESET               -> DESLIGADO
+                      00031         ; PROTE«√O DE EEPROM            -> DESLIGADO
+                      00032                 
+                      00033 ;*      *       *       *       *       *       *       *       *       *
+                      00034 ;*                         PAGINA«√O DE MEM”RIA                         *
+                      00035 ;*      *       *       *       *       *       *       *       *       *
+                      00036 
+                      00037 ; AQUI CRIAREMOS UM PSEUD‘NIMO PARA UM COMANDO. POR EXEMPLO, O COMANDO
+                      00038 ; "BCF STATUS,RP0" PODE SER SUBSTITUÕDO SEM PROBLEMAS POR "BANK0". O 
+                      00039 ; COMPILADOR IR¡ SUBSTITUIR INTERNAMENTE "BANK0" POR "BCF STATUS,RP0".
+                      00040 ; ESTA APLICA«√O … V¡LIDA PARA OUTROS TIPOS DE COMANDOS
+                      00041 
+                      00042 #DEFINE BANK0   BCF     STATUS,RP0      ; ESCOLHE BANCO DE MEM”RIA 0
+                      00043 #DEFINE BANK1   BSF     STATUS,RP0      ; ESCOLHE BANCO DE MEM”RIA 1
+                      00044 
+                      00045 ;*      *       *       *       *       *       *       *       *       *
+                      00046 ;*                           DEFINICAO DE RAM                           *
+                      00047 ;*      *       *       *       *       *       *       *       *       *
+                      00048 
+                      00049 ; AQUI IREMOS CRIAR AS VARI¡VEIS DO NOSSO SISTEMA
+                      00050 
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00051         CBLOCK 0x20     ; INÕCIO DO BLOCO DE RAM(GPR)
+  00000020            00052                 MILHAR  ; REGISTRADOR DO MILHAR
+  00000021            00053                 CENTENA ; REGISTRADOR DA CENTENA
+  00000022            00054                 DEZENA  ; REGISTRADOR DA DEZENA
+  00000023            00055                 UNIDADE ; REGISTRADOR DA UNIDADE
+  00000024            00056                 INDICE_DISPLAY ; INDICE PARA O DISPLAY
+  00000025            00057                 TEMP_INT       ; VARI¡VEL DE USO GERAL DA INTERRUP«√O
+  00000026            00058                 VEZES_TMR1     ; VARI¡VEL PARA CONTAR 1s        
+  00000027            00059                 FLAGS          ; VARI¡VEL DE FLAGS DO SISTEMA   
+                      00060         ENDC            ; FIM DO BLOCO DE RAM(GPR)
+                      00061         
+                      00062         CBLOCK 0x70     ; INÕCIO DO BLOCO DE RAM ESPELHADO(GPR)
+  00000070            00063                 W_TEMP          ; REGISTRADORES TEMPOR¡RIOS
+  00000071            00064                 STATUS_TEMP
+  00000072            00065                 FSR_TEMP
+  00000073            00066                 PCLATH_TEMP
+                      00067         ENDC            ; FIM DO BLOCO DE RAM ESPELHADO(GPR)
+                      00068         
+                      00069 ;*      *       *       *       *       *       *       *       *       *
+                      00070 ;*                        DEFINICAO DE FLAGS                            *
+                      00071 ;*      *       *       *       *       *       *       *       *       *
+                      00072 
+                      00073 ; AQUI S√O DEFINIDOS OS FLAGS QUE SER√O UTILIZADOS PELO SISTEMA
+                      00074         
+                      00075 #DEFINE  PISCA  FLAGS,0 ; DEFINE FLAG PARA PISCAR O DISPLAY
+                      00076         
+                      00077 ;*      *       *       *       *       *       *       *       *       *
+                      00078 ;*                      DEFINICAO DE CONSTANTES                         *
+                      00079 ;*      *       *       *       *       *       *       *       *       *
+                      00080 
+                      00081 ; AQUI S√O DEFINIDOS AS CONSTANTES QUE SER√O UTILIZADOS PELO SISTEMA
+                      00082 
+                      00083 #DEFINE TMR1_H  HIGH (.65536-.62500)    ; DEFINE CONSTANTES 
+                      00084 #DEFINE TMR1_L  LOW  (.65536-.62500)    ; PARA BASE DE TEMPO    
+                      00085 
+                      00086 ;*      *       *       *       *       *       *       *       *       *
+                      00087 ;*                         ENTRADAS DO SISTEMA                          *
+                      00088 ;*      *       *       *       *       *       *       *       *       *
+                      00089 ; AQUI S√O DEFINIDAS AS ENTRADAS QUE SER√O UTILIZADOS PELO SISTEMA
+                      00090 
+                      00091 ;*      *       *       *       *       *       *       *       *       *
+                      00092 ;*                          SAÕDAS DO SISTEMA                           *
+                      00093 ;*      *       *       *       *       *       *       *       *       *
+                      00094 ; AQUI S√O DEFINIDAS AS SAÕDAS QUE SER√O UTILIZADOS PELO SISTEMA
+                      00095 
+                      00096 #DEFINE BUS             PORTD   ; DEFINE O BARRAMENTO COMO O PORTD 
+                      00097 #DEFINE SEL_UNIDADE     PORTB,4 ; SELECIONA DISPLAY DA UNIDADE DE MILHAR
+                      00098 #DEFINE SEL_DEZENA      PORTB,3 ; SELECIONA DISPLAY DA CENTENA
+                      00099 #DEFINE SEL_CENTENA     PORTB,2 ; SELECIONA DISPLAY DA DEZENA
+                      00100 #DEFINE SEL_MILHAR      PORTB,1 ; SELECIONA DISPLAY DA UNIDADE
+                      00101 
+                      00102 ;*      *       *       *       *       *       *       *       *       *
+                      00103 ;*                          VETOR DE RESET                              *
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00104 ;*      *       *       *       *       *       *       *       *       *
+                      00105 
+0000                  00106         ORG     0x0000          ; ENDERE«O INICIAL DA M¡QUINA
+0000   2884           00107         GOTO    CONFIG_         ; SALTA PARA CONFIGURAR A M¡QUINA
+                      00108 
+                      00109 ;*      *       *       *       *       *       *       *       *       *
+                      00110 ;*                       VETOR DE INTERRUP«√O                           *
+                      00111 ;*      *       *       *       *       *       *       *       *       *
+                      00112 
+0004                  00113         ORG     0x0004          ; ENDERE«O INICIAL DO VETOR DE INTERRUP«√O
+0004                  00114 SALVA_CONTEXTO
+0004   00F0           00115         MOVWF   W_TEMP          ; SALVA W
+0005   0E03           00116         SWAPF   STATUS,W        
+0006   00F1           00117         MOVWF   STATUS_TEMP     ; SALVA STATUS
+0007   0804           00118         MOVF    FSR,W
+0008   00F2           00119         MOVWF   FSR_TEMP        ; SALVA FSR     
+0009   080A           00120         MOVF    PCLATH,W        
+000A   00F3           00121         MOVWF   PCLATH_TEMP     ; SALVA PCLATH
+                      00122         
+000B   0183           00123         CLRF    STATUS          ; GARANTE BANCO 0
+000C   018A           00124         CLRF    PCLATH          ; GARANTE P¡GINA 0
+                      00125         
+000D   190B           00126         BTFSC   INTCON,T0IF     ; INTERRUP«√O DE TIMER0?
+000E   281A           00127         GOTO    TRATA_TIMER0    ; SIM, ENT√O TRATA
+                      00128         
+000F   180C           00129         BTFSC   PIR1,TMR1IF     ; INTERRUP«√O DE TIMER1?
+0010   283D           00130         GOTO    TRATA_TIMER1    ; SIM, ENT√O TRATA
+                      00131         
+0011                  00132 SAI_INTERRUPCAO 
+0011   0872           00133         MOVF    FSR_TEMP,W
+0012   0084           00134         MOVWF   FSR             ; RECUPERA FSR
+0013   0873           00135         MOVF    PCLATH_TEMP,W   
+0014   008A           00136         MOVWF   PCLATH          ; RECUPERA PCLATH
+0015   0E71           00137         SWAPF   STATUS_TEMP,W
+0016   0083           00138         MOVWF   STATUS          ; RECUPERA STATUS
+0017   0EF0           00139         SWAPF   W_TEMP,F
+0018   0E70           00140         SWAPF   W_TEMP,W        ; RECUPERA W
+0019   0009           00141         RETFIE                  ; RETORNA DA INTERRUP«√O
+                      00142 
+                      00143 ;*      *       *       *       *       *       *       *       *       *
+                      00144 ;*                  TRATATAMENTO DE INTERRUP«√O DE TIMER0               *
+                      00145 ;*      *       *       *       *       *       *       *       *       *
+                      00146 
+001A                  00147 TRATA_TIMER0
+                      00148         
+001A   110B           00149         BCF     INTCON,T0IF      ; LIMPA FLAG DE INTERRUP«√O
+001B   0AA4           00150         INCF    INDICE_DISPLAY,F ; INCREMENTA INDICE DOS DISPLAYS
+001C   3003           00151         MOVLW   B'00000011'      
+001D   0524           00152         ANDWF   INDICE_DISPLAY,W ; MASCARA OS BITS SUPERIORES   
+001E   0782           00153         ADDWF   PCL,F            ; SOMA CONTE⁄DO COM PCL        
+001F   2823           00154         GOTO    DISPLAY_MILHAR   ; MOSTRA DISPLAY DE MILHAR
+0020   2829           00155         GOTO    DISPLAY_CENTENA  ; MOSTRA DISPLAY DE CENTENA
+0021   2831           00156         GOTO    DISPLAY_DEZENA   ; MOSTRA DISPLAY DE DEZENA
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0022   2837           00157         GOTO    DISPLAY_UNIDADE  ; MOSTRA DISPLAY DE UNIDADE
+                      00158         
+0023                  00159 DISPLAY_MILHAR
+                      00160         
+0023   1206           00161         BCF     SEL_UNIDADE     ; DESLIGA SELE«√O DE UNIDADE
+                      00162 
+0024   0820           00163         MOVF    MILHAR,W        ; MOVE CONTE⁄DO DE MILHAR PARA W
+0025   206C           00164         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERS√O
+0026   0088           00165         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+0027   1486           00166         BSF     SEL_MILHAR      ; SELECIONA O DISPLAY DE MILHAR
+0028   2811           00167         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUP«√O
+                      00168         
+                      00169 
+0029                  00170 DISPLAY_CENTENA
+                      00171         
+0029   1086           00172         BCF     SEL_MILHAR      ; DESLIGA SELE«√O DE MILHAR
+                      00173                 
+002A   0821           00174         MOVF    CENTENA,W       ; MOVE CONTE⁄DO DE CENTENA PARA W
+002B   206C           00175         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERS√O
+002C   0088           00176         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+002D   1827           00177         BTFSC   PISCA           ; DEVE ACENDER O PONTO?
+002E   1788           00178         BSF     BUS,7           ; SIM!
+002F   1506           00179         BSF     SEL_CENTENA     ; SELECIONA O DISPLAY DE CENTENA
+0030   2811           00180         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUP«√O
+                      00181                         
+0031                  00182 DISPLAY_DEZENA
+                      00183         
+                      00184 
+0031   1106           00185         BCF     SEL_CENTENA     ; DESLIGA SELE«√O DE CENTENA
+                      00186                 
+0032   0822           00187         MOVF    DEZENA,W        ; MOVE CONTE⁄DO DE DEZENA PARA W
+0033   206C           00188         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERS√O
+0034   0088           00189         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+0035   1586           00190         BSF     SEL_DEZENA      ; SELECIONA O DISPLAY DE DEZENA
+0036   2811           00191         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUP«√O
+                      00192         
+0037                  00193 DISPLAY_UNIDADE
+                      00194         
+0037   1186           00195         BCF     SEL_DEZENA      ; DESLIGA SELE«√O DE DEZENA
+                      00196                         
+0038   0823           00197         MOVF    UNIDADE,W       ; MOVE CONTE⁄DO DE DEZENA PARA W
+0039   206C           00198         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERS√O
+003A   0088           00199         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+003B   1606           00200         BSF     SEL_UNIDADE     ; SELECIONA O DISPLAY DE UNIDADE
+003C   2811           00201         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUP«√O
+                      00202 
+                      00203 ;*      *       *       *       *       *       *       *       *       *
+                      00204 ;*                  TRATATAMENTO DE INTERRUP«√O DE TIMER1               *
+                      00205 ;*      *       *       *       *       *       *       *       *       *
+                      00206 
+003D                  00207 TRATA_TIMER1
+                      00208         
+003D   100C           00209         BCF     PIR1,TMR1IF     ; LIMPA FLAG DE INTERRUP«√O
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00210         
+003E   30DC           00211         MOVLW   TMR1_L          ; RECARREGA BASE DE TEMPO       
+Message[305]: Using default destination of 1 (file).
+003F   078E           00212         ADDWF   TMR1L
+0040   1803           00213         BTFSC   STATUS,C
+0041   0A8F           00214         INCF    TMR1H,F
+                      00215         
+0042   300B           00216         MOVLW   TMR1_H
+Message[305]: Using default destination of 1 (file).
+0043   078F           00217         ADDWF   TMR1H
+                      00218         
+0044   1827           00219         BTFSC   PISCA           ; PISCA EST¡ APAGADO?
+0045   2848           00220         GOTO    $+3             ; N√O, ENT√O APAGA
+0046   1427           00221         BSF     PISCA           ; SIM, ENT√O ACENDE
+0047   2849           00222         GOTO    $+2             ; SALTA DUAS POSI«’ES
+0048   1027           00223         BCF     PISCA           ; APGA O PISCA
+                      00224         
+0049   0BA6           00225         DECFSZ  VEZES_TMR1,F    ; DECREMENTA VARI¡VEL, CHEGOU A ZERO?
+004A   2811           00226         GOTO    SAI_INTERRUPCAO ; N√O, ENT√O SAI DA INTERRUP«√O
+                      00227         
+004B   3078           00228         MOVLW   .120            ; CARREGA VEZES_TMR1 COM 120
+004C   00A6           00229         MOVWF   VEZES_TMR1      ; PARA CONTAR 1 SEGUNDO
+                      00230         
+004D   0AA3           00231         INCF    UNIDADE,F       ; INCREMENTA A UNIDADE  
+004E   300A           00232         MOVLW   .10             ; MOVE 10 PARA W        
+004F   0623           00233         XORWF   UNIDADE,W       ; COMPARA COM VARI¡VEL
+0050   1D03           00234         BTFSS   STATUS,Z        ; VARI¡VEL CHEGOU A 10?
+0051   2811           00235         GOTO    SAI_INTERRUPCAO ; N√O, ENT√O RETORNA DA INTERRUP«√O
+0052   01A3           00236         CLRF    UNIDADE         ; SIM, ENT√O LIMPA A UNIDADE
+                      00237         
+0053   0AA2           00238         INCF    DEZENA,F        ; INCREMENTA A DEZENA   
+0054   3006           00239         MOVLW   .6              ; MOVE 6 DECIMAL PARA W
+0055   0622           00240         XORWF   DEZENA,W        ; COMPARA COM VARI¡VEL  
+0056   1D03           00241         BTFSS   STATUS,Z        ; CHEGOU A 6?
+0057   2811           00242         GOTO    SAI_INTERRUPCAO ; N√O, ENT√O SAI DA INTERRUP«√O
+0058   01A2           00243         CLRF    DEZENA          ; SIM, LIMPA VARI¡VEL DE DEZENA
+                      00244         
+0059   0AA1           00245         INCF    CENTENA,F       ; INCREMENTA VARI¡VEL DE CENTENA
+005A   300A           00246         MOVLW   .10             ; MOVE 10 DECIMAL PARA W
+005B   0621           00247         XORWF   CENTENA,W       ; COMPARA COM VARI¡VEL
+005C   1D03           00248         BTFSS   STATUS,Z        ; CHEGOU A 10?
+005D   2861           00249         GOTO    VERIFICA_HORA   ; N√O, ENT√O SALTA PARA VERIFICAR A HORA
+005E   01A1           00250         CLRF    CENTENA         ; SIM, LIMPA VARI¡VEL DE CENTENA
+005F   0AA0           00251         INCF    MILHAR,F        ; INCREMENTA A VARI¡VEL DE MILHAR
+0060   2811           00252         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUP«√O
+                      00253         
+0061                  00254 VERIFICA_HORA
+                      00255         
+0061   3002           00256         MOVLW   .2              ; MOVE 2 PARA W
+0062   0620           00257         XORWF   MILHAR,W        ; COMPARA COM VARI¡VEL
+0063   1D03           00258         BTFSS   STATUS,Z        ; CHEGOU A 2?
+0064   2811           00259         GOTO    SAI_INTERRUPCAO ; N√O, ENT√O SAI DA INTERRUP«√O
+                      00260 
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0065   3004           00261         MOVLW   .4              ; MOVE 4 PARA W
+0066   0621           00262         XORWF   CENTENA,W       ; COMPARA COM VARI¡VEL
+0067   1D03           00263         BTFSS   STATUS,Z        ; CHEGOU A 4?
+0068   2811           00264         GOTO    SAI_INTERRUPCAO ; N√O, ENT√O SAI DA INTERRUP«√O
+                      00265         
+0069   01A1           00266         CLRF    CENTENA         ; SIM, ENT√O LIMPA VARI¡VEL DE CENTENA
+006A   01A0           00267         CLRF    MILHAR          ; LIMPA VARI¡VEL DE MILHAR
+006B   2811           00268         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUP«√O
+                      00269 
+                      00270 ;*      *       *       *       *       *       *       *       *       *
+                      00271 ;*                  ROTINA DE CONVERS√O BCD -> 7 SEGMENTOS              *
+                      00272 ;*      *       *       *       *       *       *       *       *       *
+                      00273 
+006C                  00274 CONVERTE
+                      00275         
+006C   00A5           00276         MOVWF   TEMP_INT        ; SALVA W EM VARI¡VEL
+                      00277         
+006D   3000           00278         MOVLW   HIGH SALTO_CONVERTE  ; MOVE A PARTE ALTA DO ENDERE«O PARA W
+006E   008A           00279         MOVWF   PCLATH          ; MOVE W PARA PCLATH    
+                      00280         
+006F   3074           00281         MOVLW   LOW SALTO_CONVERTE   ; MOVE PARTE BAIXA DO ENDERE«O PARA W      
+0070   0725           00282         ADDWF   TEMP_INT,W      ; ADICIONA COM VALOR DE TEMP_INT        
+0071   1803           00283         BTFSC   STATUS,C        ; HOUVE ESTOURO?        
+0072   0A8A           00284         INCF    PCLATH,F        ; SIM, ENT√O INCREMENTA PCLATH
+0073   0082           00285         MOVWF   PCL             ; MOVE W PARA PCL
+                      00286 
+0074                  00287 SALTO_CONVERTE
+                      00288         
+                      00289                  ;PGFEDCBA      ; POSI«√O DOS SEGUIMENTOS
+0074   343F           00290         RETLW   B'00111111'     ; RETORNA CARACTERE 0
+0075   3406           00291         RETLW   B'00000110'     ; RETORNA CARACTERE 1
+0076   345B           00292         RETLW   B'01011011'     ; RETORNA CARACTERE 2
+0077   344F           00293         RETLW   B'01001111'     ; RETORNA CARACTERE 3
+0078   3466           00294         RETLW   B'01100110'     ; RETORNA CARACTERE 4
+0079   346D           00295         RETLW   B'01101101'     ; RETORNA CARACTERE 5
+007A   347D           00296         RETLW   B'01111101'     ; RETORNA CARACTERE 6
+007B   3407           00297         RETLW   B'00000111'     ; RETORNA CARACTERE 7
+007C   347F           00298         RETLW   B'01111111'     ; RETORNA CARACTERE 8
+007D   346F           00299         RETLW   B'01101111'     ; RETORNA CARACTERE 9
+007E   3477           00300         RETLW   B'01110111'     ; RETORNA CARACTERE A
+007F   347C           00301         RETLW   B'01111100'     ; RETORNA CARACTERE B
+0080   3439           00302         RETLW   B'00111001'     ; RETORNA CARACTERE C
+0081   345E           00303         RETLW   B'01011110'     ; RETORNA CARACTERE D
+0082   3479           00304         RETLW   B'01111001'     ; RETORNA CARACTERE E
+0083   3471           00305         RETLW   B'01110001'     ; RETORNA CARACTERE F
+                      00306         
+                      00307 ;*      *       *       *       *       *       *       *       *       *
+                      00308 ;*                        CONFIGURACOES INICIAIS                        *
+                      00309 ;*      *       *       *       *       *       *       *       *       *
+                      00310 
+0084                  00311 CONFIG_
+                      00312 
+0084   0185           00313         CLRF    PORTA           ; LIMPA O PORTA
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0085   0186           00314         CLRF    PORTB           ; LIMPA O PORTB
+0086   0187           00315         CLRF    PORTC           ; LIMPA O PORTC
+0087   0188           00316         CLRF    PORTD           ; LIMPA O PORTD
+0088   0189           00317         CLRF    PORTE           ; LIMPA O PORTE
+                      00318         
+0089   1683           00319         BANK1                   ; SELECIONA BANCO1 DE MEM”RIA
+                      00320 
+008A   30C0           00321         MOVLW   B'11000000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+008B   0086           00322         MOVWF   TRISB           ; CONFIGURA I/O DO PORTB
+                      00323         
+008C   3000           00324         MOVLW   B'00000000'     ; CONFIGURA TODOS OS PINOS DESTE
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+008D   0088           00325         MOVWF   TRISD           ; PORTB COMO SAÕDA
+                      00326         
+008E   308F           00327         MOVLW   B'10001111'     ; DESLIGA PULL-UPS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+008F   0081           00328         MOVWF   OPTION_REG      ; WDT 1:128
+                      00329         
+0090   3001           00330         MOVLW   B'00000001'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0091   008C           00331         MOVWF   PIE1            ; HABILITA INTERRUP«√O DE TIMER1
+                      00332         
+0092   3060           00333         MOVLW   B'01100000'     ; HABILITA INTERRUP«√O DOS PERIF…RICOS
+0093   008B           00334         MOVWF   INTCON          ; HABILITA INTERRUP«√O DE TIMER 0
+                      00335         
+0094   1283           00336         BANK0
+                      00337         
+0095   1A03           00338         BTFSC   STATUS,NOT_TO   ; ESTOURO POR WDT?
+0096   2896           00339         GOTO    $               ; N√O, ENT√O AGUARDA
+                      00340         
+0097                  00341 LIMPEZA_DA_RAM
+                      00342                                 ; ROTINA DE LIMPEZA DA RAM
+                      00343                                 
+0097   3020           00344         MOVLW   0x20
+0098   0084           00345         MOVWF   FSR
+0099   0180           00346         CLRF    INDF
+009A   0A84           00347         INCF    FSR,F
+009B   3080           00348         MOVLW   0x80
+009C   0604           00349         XORWF   FSR,W
+009D   1D03           00350         BTFSS   STATUS,Z
+009E   2899           00351         GOTO    $-5
+                      00352                                                 
+                      00353 ;*      *       *       *       *       *       *       *       *       *
+                      00354 ;*                       INICIALIZA«√O DAS VARI¡VEIS                    *
+                      00355 ;*      *       *       *       *       *       *       *       *       *
+                      00356 
+009F   300B           00357         MOVLW   TMR1_H          ; CARREGA CONSTANTES
+00A0   008F           00358         MOVWF   TMR1H           ; DE BASE DE TEMPO
+00A1   30DC           00359         MOVLW   TMR1_L  
+00A2   008E           00360         MOVWF   TMR1L
+00A3   3031           00361         MOVLW   B'00110001'     ; PRESCALER 1:8
+00A4   0090           00362         MOVWF   T1CON           ; TIMER1 -> ON  
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00363         
+00A5   3078           00364         MOVLW   .120
+00A6   00A6           00365         MOVWF   VEZES_TMR1      ; VALOR INICIAL PARA CONTAR 1s
+                      00366         
+00A7   178B           00367         BSF     INTCON,GIE      ; LIGA AS INTERRUP«’ES
+                      00368         
+                      00369 ;*      *       *       *       *       *       *       *       *       *
+                      00370 ;*                          ROTINA PRINCIPAL                            *
+                      00371 ;*      *       *       *       *       *       *       *       *       *
+                      00372 
+00A8                  00373 LOOP
+00A8   0064           00374         CLRWDT                  ; LIMPA O WATCHDOG
+00A9   28A8           00375         GOTO    LOOP            ; SALTA PARA O LOOP PRINCIPAL
+                      00376                 
+                      00377 ;*      *       *       *       *       *       *       *       *       *
+                      00378 ;*                           FIM DO PROGRAMA                            *
+                      00379 ;*      *       *       *       *       *       *       *       *       *
+                      00380 
+                      00381 
+                      00382         END                     ; FIM DO PROGRAMA
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+BANK0                             BCF     STATUS,RP0
+BANK1                             BSF     STATUS,RP0
+BCLIE                             00000003
+BCLIF                             00000003
+BF                                00000000
+BRGH                              00000002
+BUS                               PORTD
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CENTENA                           00000021
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CKE                               00000006
+CKP                               00000004
+CONFIG_                           00000084
+CONVERTE                          0000006C
+CREN                              00000004
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DEZENA                            00000022
+DISPLAY_CENTENA                   00000029
+DISPLAY_DEZENA                    00000031
+DISPLAY_MILHAR                    00000023
+DISPLAY_UNIDADE                   00000037
+D_A                               00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FLAGS                             00000027
+FSR                               00000004
+FSR_TEMP                          00000072
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INDF                              00000000
+INDICE_DISPLAY                    00000024
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LIMPEZA_DA_RAM                    00000097
+LOOP                              000000A8
+MILHAR                            00000020
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_TEMP                       00000073
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PISCA                             FLAGS,0
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RBIE                              00000003
+RBIF                              00000000
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RSEN                              00000001
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RX9                               00000006
+RX9D                              00000000
+R_W                               00000002
+S                                 00000003
+SAI_INTERRUPCAO                   00000011
+SALTO_CONVERTE                    00000074
+SALVA_CONTEXTO                    00000004
+SEL_CENTENA                       PORTB,2
+SEL_DEZENA                        PORTB,3
+SEL_MILHAR                        PORTB,1
+SEL_UNIDADE                       PORTB,4
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STATUS_TEMP                       00000071
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TEMP_INT                          00000025
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR1_H                            HIGH (.65536-.62500)
+TMR1_L                            LOW  (.65536-.62500)
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRATA_TIMER0                      0000001A
+TRATA_TIMER1                      0000003D
+TRISA                             00000085
+TRISB                             00000086
+TRISC                             00000087
+TRISD                             00000088
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+UNIDADE                           00000023
+VERIFICA_HORA                     00000061
+VEZES_TMR1                        00000026
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+W_TEMP                            00000070
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00000FCF
+_CP_HALF                          00001FDF
+_CP_OFF                           00003FFF
+_CP_UPPER_256                     00002FEF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+MPASM 03.80.04 Internal                         VARREDURA.ASM   3-19-2005  10:17:14         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_ENABLE_OFF                   00003DFF
+_WRT_ENABLE_ON                    00003FFF
+_XT_OSC                           00003FFD
+__16F877                          00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXX------ ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   167
+Program Memory Words Free:  8025
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     6 reported,     0 suppressed
+
+Error[173]  : source file path exceeds 62 characters (D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM)

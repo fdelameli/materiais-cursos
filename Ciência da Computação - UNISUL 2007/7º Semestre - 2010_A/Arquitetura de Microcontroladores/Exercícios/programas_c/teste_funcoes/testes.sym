@@ -1,0 +1,149 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B-01C CCP_2
+01C     CCP_2_HIGH
+020-021 strtok.save
+022-025 _Randseed
+026-02B MAIN.v
+02C-02D MAIN.t
+02E-02F MAIN.r
+030-031 @SITOF.P1
+030     lcd_init.i
+030-031 atol.s
+030     MAIN.@SCRATCH
+031-032 @PRINTF_LU_61.P1
+031-034 @SFTOI.P2
+031     lcd_init.@SCRATCH
+031     MAIN.@SCRATCH
+032-033 atol.result
+032     MAIN.@SCRATCH
+033     MAIN.@SCRATCH
+033     @PRINTF_LU_61.@SCRATCH
+034-037 sqrt.x
+034     atol.sign
+034     @PRINTF_LU_61.@SCRATCH
+035     atol.base
+035     @PRINTF_LU_61.@SCRATCH
+036     atol.index
+036     @PRINTF_LU_61.@SCRATCH
+037     atol.c
+037     @PRINTF_LU_61.@SCRATCH
+038-039 @MUL1616.P1
+038-03B sqrt.y
+038     atol.@SCRATCH
+038     @PRINTF_LU_61.@SCRATCH
+039     atol.@SCRATCH
+039     @PRINTF_LU_61.@SCRATCH
+03A     lcd_putc.c
+03A-03B @MUL1616.P1
+03A     atol.@SCRATCH
+03B     lcd_gotoxy.x
+03B     @delay_ms1.P1
+03C-03F sqrt.res
+03C     lcd_gotoxy.y
+03C     @MUL1616.@SCRATCH
+03D     lcd_gotoxy.address
+03E     lcd_gotoxy.@SCRATCH
+03F     lcd_send_byte.address
+040-041 sqrt.p
+040     lcd_send_byte.n
+041     lcd_send_byte.@SCRATCH
+042-045 @ADDFF.P1
+042     lcd_send_nibble.nibble
+042-045 @DIVFF.P1
+042-045 @FLT.P2
+042     sqrt.@SCRATCH
+043     sqrt.@SCRATCH
+044     sqrt.@SCRATCH
+045     sqrt.@SCRATCH
+046-049 @ADDFF.P1
+046-049 @FLT.P2
+046-049 @DIVFF.P3
+046     sqrt.@SCRATCH
+047     sqrt.@SCRATCH
+048     sqrt.@SCRATCH
+04A     @ADDFF.@SCRATCH
+04A     @DIVFF.@SCRATCH
+04A     @FLT.@SCRATCH
+04B     @ADDFF.@SCRATCH
+04B     @DIVFF.@SCRATCH
+04B     @FLT.@SCRATCH
+04C     @ADDFF.@SCRATCH
+04C     @DIVFF.@SCRATCH
+04D     @ADDFF.@SCRATCH
+04D     @DIVFF.@SCRATCH
+04E     @ADDFF.@SCRATCH
+04E     @DIVFF.@SCRATCH
+04F     @ADDFF.@SCRATCH
+04F     @DIVFF.@SCRATCH
+050     @ADDFF.@SCRATCH
+051     @ADDFF.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+002D  @delay_ms1
+0004  LCD_INIT_STRING
+0041  lcd_send_nibble
+0071  lcd_send_byte
+009C  lcd_init
+01DE  lcd_gotoxy
+01F7  lcd_putc
+013E  @MUL1616
+042F  @ADDFF
+0355  @DIVFF
+00CB  atol
+02C1  @FLT
+059B  @SFTOI
+029A  @SITOF
+0300  sqrt
+05BC  MAIN
+000C  @const471
+0237  @PRINTF_LU_61
+001F  @const474
+05BC  @cinit
+0136  StrtoulGO
+0136  StrtolGO
+
+Project Files:
+    testes.c
+    16F877A.h
+    lcd_4.c
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stdlib.h
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\string.h
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\ctype.h
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\math.h
+
+Units:
+    C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      0
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.err
+    Ext Symbols: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.esym
+    INHX8:       C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.hex
+    Symbols:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.sym
+    List:        C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.lst
+    Debug/COFF:  C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.cof
+    Project:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste_funcoes\testes.PJT
+    Call Tree:   testes.tre
+    Statistics:  testes.sta

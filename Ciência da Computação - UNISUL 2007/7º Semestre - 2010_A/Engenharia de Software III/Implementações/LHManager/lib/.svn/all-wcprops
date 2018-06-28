@@ -1,0 +1,185 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/18/trunk/LHManeger/lib
+END
+swingx-beaninfo-0.9.4.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/34/trunk/LHManeger/lib/swingx-beaninfo-0.9.4.jar
+END
+ejb3-persistence.jar
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/36/trunk/LHManeger/lib/ejb3-persistence.jar
+END
+hibernate-commons-annotations.jar
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/36/trunk/LHManeger/lib/hibernate-commons-annotations.jar
+END
+hibernate-entitymanager.jar
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/36/trunk/LHManeger/lib/hibernate-entitymanager.jar
+END
+org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100.jar
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/18/trunk/LHManeger/lib/org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100.jar
+END
+asm-attrs.jar
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/36/trunk/LHManeger/lib/asm-attrs.jar
+END
+jta-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/36/trunk/LHManeger/lib/jta-1.1.jar
+END
+swt.jar
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/18/trunk/LHManeger/lib/swt.jar
+END
+dom4j-1.6.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/36/trunk/LHManeger/lib/dom4j-1.6.1.jar
+END
+log4j.jar
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/36/trunk/LHManeger/lib/log4j.jar
+END
+cglib.jar
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/36/trunk/LHManeger/lib/cglib.jar
+END
+asm.jar
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/36/trunk/LHManeger/lib/asm.jar
+END
+antlr.jar
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/36/trunk/LHManeger/lib/antlr.jar
+END
+org.eclipse.jface_3.5.1.M20090826-0800.jar
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/18/trunk/LHManeger/lib/org.eclipse.jface_3.5.1.M20090826-0800.jar
+END
+org.eclipse.core.commands_3.5.0.I20090525-2000.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/18/trunk/LHManeger/lib/org.eclipse.core.commands_3.5.0.I20090525-2000.jar
+END
+mail.jar
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/34/trunk/LHManeger/lib/mail.jar
+END
+hibernate3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/36/trunk/LHManeger/lib/hibernate3.jar
+END
+org.eclipse.nebula.widgets.calendarcombo-1.0-NIGHTLY.jar
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/36/trunk/LHManeger/lib/org.eclipse.nebula.widgets.calendarcombo-1.0-NIGHTLY.jar
+END
+swingx-0.9.4.jar
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/34/trunk/LHManeger/lib/swingx-0.9.4.jar
+END
+commons-collections-3.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/36/trunk/LHManeger/lib/commons-collections-3.1.jar
+END
+commons-collections.jar
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/36/trunk/LHManeger/lib/commons-collections.jar
+END
+antlr-2.7.6.jar
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/36/trunk/LHManeger/lib/antlr-2.7.6.jar
+END
+junit.jar
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/36/trunk/LHManeger/lib/junit.jar
+END
+hibernate-annotations.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/36/trunk/LHManeger/lib/hibernate-annotations.jar
+END
+junit-4.8.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/34/trunk/LHManeger/lib/junit-4.8.1.jar
+END
+slf4j-api-1.5.8.jar
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/36/trunk/LHManeger/lib/slf4j-api-1.5.8.jar
+END
+activation.jar
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/34/trunk/LHManeger/lib/activation.jar
+END
+mysql-connector-java-5.1.10-bin.jar
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/34/trunk/LHManeger/lib/mysql-connector-java-5.1.10-bin.jar
+END
+javassist-3.9.0.GA.jar
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/36/trunk/LHManeger/lib/javassist-3.9.0.GA.jar
+END
+slf4j-log4j12.jar
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/36/trunk/LHManeger/lib/slf4j-log4j12.jar
+END

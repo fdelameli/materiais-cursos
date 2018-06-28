@@ -1,0 +1,62 @@
+
+ROM used: 682 (8%)
+          682 (8%) including unused fragments
+
+          1 Average locations per line
+          4 Average locations per statement
+
+RAM used: 25 (7%) at main() level
+          31 (8%) worst case
+
+Stack used: 2 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   94    45  26  exercicio6.c
+  313     0   0  16f877a.h
+  417   126  74  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\string.h
+   28     0   0  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\stddef.h
+   28     0   0  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\ctype.h
+----- -----
+  880   171 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     21   3   1   720  4.7  @delay_ms1
+0     70  10   5   231  6.6  strcmp
+0    148  22   9   505  4.7  MAIN
+0     21   3   0   475  7.2  @const168
+0     21   3   0   436  7.9  @const170
+0     23   3   0   205  4.3  @const171
+0     54   8   3   119  1.6  liga_cooler
+0     21   3   0   224  6.7  @const173
+0     24   4   0   180  5.0  @const174
+0     50   7   3   123  1.6  liga_rele
+0     20   3   0   264  5.3  @const175
+0     23   3   0   178  5.3  @const176
+0    124  18   5   234  4.4  grava_senha
+0     24   4   0  1815 10.5  @const178
+0     34   5   4   215  4.5  le_senha
+
+Program metrics:
+    Functions               15
+    Statements              171
+    Comments                219
+    Volume (V)              9622
+    Difficilty (D)          80.8
+    Effort to implement (E) 777279
+    Time to implement (T)   12 hours, 0 minutes
+    Est Delivered Bugs (B)  3
+    Cyclomatic Complexity   23
+    Maintainability (MI)    80
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF   678  1366  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

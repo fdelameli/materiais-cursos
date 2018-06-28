@@ -1,0 +1,22 @@
+### HEXMate logfile and output summary ###
+### Memory Usage ###
+ Unused memory ranges:
+  6h - FD5h
+  
+ Serial.hex ranges:
+  0h - 5h
+  FD6h - FFFh
+  
+### Hex Memory Map ###
+ Legend:
+  - = Unused memory
+  F = Filled ROM
+  S = Stored serial code
+  A = Stored ASCII string
+  R = Reserved for checksum
+  C = Stored checksum result
+  T = Trailing code
+  & = Find & replace opcode
+  1 = Serial.hex
+00000000: 111111----------------------------------------------------------
+00000FC0: ----------------------111111111111111111111111111111111111111111

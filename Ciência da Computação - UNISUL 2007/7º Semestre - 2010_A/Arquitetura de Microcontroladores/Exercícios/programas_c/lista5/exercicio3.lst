@@ -1,0 +1,316 @@
+CCS PCM C Compiler, Version 4.038, 33467               27-mai-10 20:42
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio3.lst
+
+               ROM used: 239 words (3%)
+                         Largest free fragment is 2048
+               RAM used: 11 (3%) at main() level
+                         13 (4%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   02E
+0003:  NOP
+.................... #include "16F877A.h" 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, NOLVP, PROTECT 
+.................... #use DELAY(CLOCK=4MHZ) 
+0019:  MOVLW  25
+001A:  MOVWF  04
+001B:  BCF    03.7
+001C:  MOVF   00,W
+001D:  BTFSC  03.2
+001E:  GOTO   02D
+001F:  MOVLW  01
+0020:  MOVWF  78
+0021:  CLRF   77
+0022:  DECFSZ 77,F
+0023:  GOTO   022
+0024:  DECFSZ 78,F
+0025:  GOTO   021
+0026:  MOVLW  4A
+0027:  MOVWF  77
+0028:  DECFSZ 77,F
+0029:  GOTO   028
+002A:  GOTO   02B
+002B:  DECFSZ 00,F
+002C:  GOTO   01F
+002D:  RETLW  00
+....................  
+.................... void main() { 
+002E:  CLRF   04
+002F:  BCF    03.7
+0030:  MOVLW  1F
+0031:  ANDWF  03,F
+0032:  BSF    03.5
+0033:  BSF    1F.0
+0034:  BSF    1F.1
+0035:  BSF    1F.2
+0036:  BCF    1F.3
+0037:  MOVLW  07
+0038:  MOVWF  1C
+....................  
+....................    int count2 = 0; // para produtos de 2cm de altura 
+*
+003C:  CLRF   21
+....................    int count4 = 0; // para produtos de 4cm de altura 
+003D:  CLRF   22
+....................    int count10 = 0; // para produtos de 10cm de altura 
+003E:  CLRF   23
+....................  
+....................    while(true){ 
+....................     
+....................    // detectado produto de 2cm 
+....................    if(input(pin_a0)){ 
+003F:  BSF    03.5
+0040:  BSF    05.0
+0041:  BCF    03.5
+0042:  BTFSS  05.0
+0043:  GOTO   075
+....................        
+....................       count2++; 
+0044:  INCF   21,F
+....................        
+....................       output_b(count2/10); 
+0045:  MOVF   21,W
+0046:  MOVWF  24
+0047:  MOVLW  0A
+0048:  MOVWF  25
+0049:  CALL   004
+004A:  BSF    03.5
+004B:  CLRF   06
+004C:  BCF    03.5
+004D:  MOVF   78,W
+004E:  MOVWF  06
+....................       output_low(pin_b6); 
+004F:  BSF    03.5
+0050:  BCF    06.6
+0051:  BCF    03.5
+0052:  BCF    06.6
+....................       output_high(pin_b6); 
+0053:  BSF    03.5
+0054:  BCF    06.6
+0055:  BCF    03.5
+0056:  BSF    06.6
+....................        
+....................       output_b(count2%10); 
+0057:  MOVF   21,W
+0058:  MOVWF  24
+0059:  MOVLW  0A
+005A:  MOVWF  25
+005B:  CALL   004
+005C:  BSF    03.5
+005D:  CLRF   06
+005E:  BCF    03.5
+005F:  MOVF   77,W
+0060:  MOVWF  06
+....................       output_low(pin_b7); 
+0061:  BSF    03.5
+0062:  BCF    06.7
+0063:  BCF    03.5
+0064:  BCF    06.7
+....................       output_high(pin_b7); 
+0065:  BSF    03.5
+0066:  BCF    06.7
+0067:  BCF    03.5
+0068:  BSF    06.7
+....................        
+....................       delay_ms(500); 
+0069:  MOVLW  02
+006A:  MOVWF  24
+006B:  MOVLW  FA
+006C:  MOVWF  25
+006D:  CALL   019
+006E:  DECFSZ 24,F
+006F:  GOTO   06B
+....................        
+....................       if(count2==99){ 
+0070:  MOVF   21,W
+0071:  SUBLW  63
+0072:  BTFSS  03.2
+0073:  GOTO   075
+....................          count2=0; 
+0074:  CLRF   21
+....................       } 
+....................        
+....................    } 
+....................     
+....................       // detectado produto de 4cm 
+....................       if(input(pin_a1)){ 
+0075:  BSF    03.5
+0076:  BSF    05.1
+0077:  BCF    03.5
+0078:  BTFSS  05.1
+0079:  GOTO   0B7
+....................           
+....................          count4++; 
+007A:  INCF   22,F
+....................           
+....................          output_c(count4/10); 
+*
+0039:  MOVLW  FF
+003A:  BCF    03.5
+003B:  MOVWF  20
+*
+007B:  MOVF   22,W
+007C:  MOVWF  24
+007D:  MOVLW  0A
+007E:  MOVWF  25
+007F:  CALL   004
+0080:  MOVLW  00
+0081:  MOVWF  20
+0082:  BSF    03.5
+0083:  CLRF   07
+0084:  BCF    03.5
+0085:  MOVF   78,W
+0086:  MOVWF  07
+....................          output_low(pin_c6); 
+0087:  BCF    20.6
+0088:  MOVF   20,W
+0089:  BSF    03.5
+008A:  MOVWF  07
+008B:  BCF    03.5
+008C:  BCF    07.6
+....................          output_high(pin_c6); 
+008D:  BCF    20.6
+008E:  MOVF   20,W
+008F:  BSF    03.5
+0090:  MOVWF  07
+0091:  BCF    03.5
+0092:  BSF    07.6
+....................           
+....................          output_c(count4%10); 
+0093:  MOVF   22,W
+0094:  MOVWF  24
+0095:  MOVLW  0A
+0096:  MOVWF  25
+0097:  CALL   004
+0098:  MOVLW  00
+0099:  MOVWF  20
+009A:  BSF    03.5
+009B:  CLRF   07
+009C:  BCF    03.5
+009D:  MOVF   77,W
+009E:  MOVWF  07
+....................          output_low(pin_c7); 
+009F:  BCF    20.7
+00A0:  MOVF   20,W
+00A1:  BSF    03.5
+00A2:  MOVWF  07
+00A3:  BCF    03.5
+00A4:  BCF    07.7
+....................          output_high(pin_c7); 
+00A5:  BCF    20.7
+00A6:  MOVF   20,W
+00A7:  BSF    03.5
+00A8:  MOVWF  07
+00A9:  BCF    03.5
+00AA:  BSF    07.7
+....................           
+....................          delay_ms(500); 
+00AB:  MOVLW  02
+00AC:  MOVWF  24
+00AD:  MOVLW  FA
+00AE:  MOVWF  25
+00AF:  CALL   019
+00B0:  DECFSZ 24,F
+00B1:  GOTO   0AD
+....................           
+....................          if(count4==99){ 
+00B2:  MOVF   22,W
+00B3:  SUBLW  63
+00B4:  BTFSS  03.2
+00B5:  GOTO   0B7
+....................             count4=0; 
+00B6:  CLRF   22
+....................          } 
+....................       } 
+....................     
+....................       // detectado produto de 10cm 
+....................       if(input(pin_a2)){ 
+00B7:  BSF    03.5
+00B8:  BSF    05.2
+00B9:  BCF    03.5
+00BA:  BTFSS  05.2
+00BB:  GOTO   0ED
+....................           
+....................          count4++; 
+00BC:  INCF   22,F
+....................           
+....................          output_d(count10/10); 
+00BD:  MOVF   23,W
+00BE:  MOVWF  24
+00BF:  MOVLW  0A
+00C0:  MOVWF  25
+00C1:  CALL   004
+00C2:  BSF    03.5
+00C3:  CLRF   08
+00C4:  BCF    03.5
+00C5:  MOVF   78,W
+00C6:  MOVWF  08
+....................          output_low(pin_d6); 
+00C7:  BSF    03.5
+00C8:  BCF    08.6
+00C9:  BCF    03.5
+00CA:  BCF    08.6
+....................          output_high(pin_d6); 
+00CB:  BSF    03.5
+00CC:  BCF    08.6
+00CD:  BCF    03.5
+00CE:  BSF    08.6
+....................           
+....................          output_d(count10%10); 
+00CF:  MOVF   23,W
+00D0:  MOVWF  24
+00D1:  MOVLW  0A
+00D2:  MOVWF  25
+00D3:  CALL   004
+00D4:  BSF    03.5
+00D5:  CLRF   08
+00D6:  BCF    03.5
+00D7:  MOVF   77,W
+00D8:  MOVWF  08
+....................          output_low(pin_d7); 
+00D9:  BSF    03.5
+00DA:  BCF    08.7
+00DB:  BCF    03.5
+00DC:  BCF    08.7
+....................          output_high(pin_d7); 
+00DD:  BSF    03.5
+00DE:  BCF    08.7
+00DF:  BCF    03.5
+00E0:  BSF    08.7
+....................           
+....................          delay_ms(500); 
+00E1:  MOVLW  02
+00E2:  MOVWF  24
+00E3:  MOVLW  FA
+00E4:  MOVWF  25
+00E5:  CALL   019
+00E6:  DECFSZ 24,F
+00E7:  GOTO   0E3
+....................           
+....................          if(count10==99){ 
+00E8:  MOVF   23,W
+00E9:  SUBLW  63
+00EA:  BTFSS  03.2
+00EB:  GOTO   0ED
+....................             count10=0; 
+00EC:  CLRF   23
+....................          } 
+....................           
+....................       } 
+....................     
+....................    } 
+00ED:  GOTO   03F
+....................  
+.................... } 
+00EE:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

@@ -1,0 +1,102 @@
+Router>enable
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname EMPRESA
+
+- Senha do Console:
+
+EMPRESA(config)#line console 0
+EMPRESA(config-line)#password admin1
+EMPRESA(config-line)#login
+EMPRESA(config-line)#exit
+
+- Senha Modo PRivilegiado:
+
+EMPRESA(config)#enable secret admin2
+
+- Senha Telnet:
+
+EMPRESA(config)#line vty 0 4
+EMPRESA(config-line)#password admin3
+EMPRESA(config-line)#login
+EMPRESA(config-line)#exit
+
+- IP nA FAST do ROuter: (Obrigado se não ele nao se comunica)
+EMPRESA(config)#interface f 0/0
+EMPRESA(config-if)#ip add 192.168.14.1 255.255.255.0
+EMPRESA(config-if)#no shut
+
+%LINK-5-CHANGED: Interface FastEthernet0/0, changed state to up
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+EMPRESA(config-if)#
+%SYS-5-CONFIG_I: Configured from console by console
+EMPRESA#
+
+- Configurando a ACL:
+
+EMPRESA#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+EMPRESA(config)#acc
+EMPRESA(config)#access-list 1 denny 192.168.14.0 0.0.0.255
+                                 ^
+% Invalid input detected at '^' marker.
+	
+EMPRESA(config)#access-list 1 deny 192.168.14.0 0.0.0.255 - MASCARA TEM QUE SER CURINGA ... AO CONTRARIO DO GATWAY
+EMPRESA(config)#ACC
+EMPRESA(config)#ACCess-list 1 permit any
+
+
+- APLICAR A PORTA EM QUE VAI SER O FILTRO
+
+EMPRESA#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+EMPRESA(config)#interface f 0/0
+EMPRESA(config-if)#ip ac
+EMPRESA(config-if)#ip access-group 1 in
+EMPRESA(config-if)#
+
+- DELETANDO ACCESS LIST E ACCESS GROUP
+
+User Access Verification
+
+Password: 
+
+EMPRESA>enable
+Password: 
+EMPRESA#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+EMPRESA(config)#no acces
+EMPRESA(config)#no access-list 1
+EMPRESA(config)#interface f 0/0
+EMPRESA(config-if)#no ac
+EMPRESA(config-if)#no ip acce
+EMPRESA(config-if)#no ip access-group 
+% Incomplete command.
+EMPRESA(config-if)#no ip access-group f0/0
+% Incomplete command.
+EMPRESA(config-if)#no ip access-group in
+% Incomplete command.
+EMPRESA(config-if)#no ip access-group 1 in
+EMPRESA(config-if)#end
+%SYS-5-CONFIG_I: Configured from console by console
+EMPRESA#copy r s
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+EMPRESA#
+
+- Configurando e bloqueando apenas 1 IP
+
+EMPRESA(config)#ACCEss-list 2 deny host 192.168.14.2
+EMPRESA(config)#acce
+EMPRESA(config)#access-list 2 permit any
+EMPRESA(config)#interface f0/0
+EMPRESA(config-if)#ip acc
+EMPRESA(config-if)#ip access-group 2 in
+EMPRESA(config-if)#end
+%SYS-5-CONFIG_I: Configured from console by console
+EMPRESA#copy r s
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+EMPRESA#

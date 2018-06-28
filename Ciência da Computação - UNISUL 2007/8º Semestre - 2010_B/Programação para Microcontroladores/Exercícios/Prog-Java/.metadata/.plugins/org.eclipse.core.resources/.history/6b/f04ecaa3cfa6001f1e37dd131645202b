@@ -1,0 +1,22 @@
+package lista1;
+
+
+public class JButton extends javax.swing.JButton {
+
+	private static final long serialVersionUID = 1L;
+
+	
+	public JButton() {
+		
+	}
+	
+	@Override
+	public void setText( String text ) {
+		// Cria um botão com uma quebra de linha em seu texto
+		JButton btn = new JButton("<html><center>Clique<br>Aqui</center>");
+
+		super.setText( text );
+	}
+	
+	
+}

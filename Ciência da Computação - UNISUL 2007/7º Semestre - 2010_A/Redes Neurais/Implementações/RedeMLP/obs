@@ -1,0 +1,12 @@
+			Backpropagation backp = new Backpropagation(
+					"pv.mlp", // arquivo de pesos V
+					"pw.mlp", // arquivo de pesos W
+					0.5, // taxa de aprendizado
+					18125, // neurônios da camada de entrada
+					200, // nerônios da camada intermediária
+					5, // neurônios da camanda de saída
+					t, // target
+					400, // número de épocas
+					"arquivos/treinamento" // pasta contendo os arquivos de treinamento
+			);
+			backp.treinar();

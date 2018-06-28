@@ -1,0 +1,11 @@
+@relation Imagem
+
+@attribute unisul{1,2,3,4,5}
+@attribute curso{1,2,3,4,5}
+@attribute coordenador{1,2,3,4,5}
+
+@data
+1,1,2
+1,1,2
+1,1,2
+1,1,2

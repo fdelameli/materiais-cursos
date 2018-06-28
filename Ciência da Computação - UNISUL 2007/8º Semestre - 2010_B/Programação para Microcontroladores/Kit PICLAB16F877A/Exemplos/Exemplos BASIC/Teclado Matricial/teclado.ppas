@@ -1,0 +1,239 @@
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*           Programação Em Pascal - Módulo B PIC16F877A        *
+'*                             Exemplo 2                       *
+'*                                                             *
+'*             CENTRO DE TREINAMENTO - Ápice Tecnologia        *
+'*                                                             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*   VERSÃO : 1.0
+'*   DATA : 22/07/2005
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                         Descrição geral                     *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+' Implementar um relógio digital sem ajuste via teclado
+' O horário será apresentado no display de 7 segmentos}
+
+program Teclado;       //Definição do programa
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*             Definição e inicialização das variáveis         *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as variáveis globais do sistema}
+
+var
+
+teclado0,teclado1,indice: byte;
+vetor_display:array[4] of byte;
+
+{'* * * * * * * * *+ * * * * * * * * * * * * * * * * * * * * * * *
+'*                      Constantes internas                    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as constantes utilizadas pelo sistema}
+
+const
+     CHR_0	= %00111111;		// RETORNA CARACTERE 0
+     CHR_1	=	%00000110;		// RETORNA CARACTERE 1
+     CHR_2	=	%01011011;	  // RETORNA CARACTERE 2
+     CHR_3	=	%01001111;		// RETORNA CARACTERE 3
+     CHR_4	=	%01100110;		// RETORNA CARACTERE 4
+     CHR_5	=	%01101101;		// RETORNA CARACTERE 5
+     CHR_6	=	%01111101;		// RETORNA CARACTERE 6
+     CHR_7	=	%00000111;		// RETORNA CARACTERE 7
+     CHR_8	=	%01111111;		// RETORNA CARACTERE 8
+     CHR_9	=	%01101111;	  // RETORNA CARACTERE 9
+     CHR_A	=	%01110111;		// RETORNA CARACTERE A
+     CHR_B	=	%01111100;		// RETORNA CARACTERE B
+     CHR_C	=	%00111001;		// RETORNA CARACTERE C
+     CHR_D	=	%01011110;		// RETORNA CARACTERE D
+     CHR_E	=	%01111001;		// RETORNA CARACTERE E
+     CHR_F	= %01110001;		// RETORNA CARACTERE F
+     tecla_0 = 0;
+     tecla_1 = 1;
+     tecla_2 = 2;
+     tecla_3 = 3;
+     tecla_4 = 4;
+     tecla_5 = 5;
+     tecla_6 = 6;
+     tecla_7 = 7;
+     tecla_8 = 0;
+     tecla_9 = 1;
+     tecla_C = 2;
+     tecla_E = 3;        //constantes para leitura de tecla
+     SEL_LINHA1 = %00001110;
+     SEL_LINHA2 = %00001101;
+     SEL_LINHA3 = %00001011;
+     SEL_LINHA4 = %00000111; //constantes para leitura de teclas
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                Declaração dos flags de software             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir os flags utilizados no sistema }
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração das saídas do software             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração das entradas do software           *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+  COL1 = 4;
+  COL2 = 5;
+  COL3 = 0;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração de Rotinas e Interrupções          *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*           Rotina de conversão de BCD para 7 segmentos       *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+function Converte_to_7seg(dado:byte):byte;
+begin
+ case dado of          //tabela de conversão para display de 7 segmentos
+    0 : result:=CHR_0;
+    1 : result:=CHR_1;
+    2 : result:=CHR_2;
+    3 : result:=CHR_3;
+    4 : result:=CHR_4;
+    5 : result:=CHR_5;
+    6 : result:=CHR_6;
+    7 : result:=CHR_7;
+    8 : result:=CHR_8;
+    9 : result:=CHR_9;
+    10: result:=CHR_A;
+    11: result:=CHR_B;
+    12: result:=CHR_C;
+    13: result:=CHR_D;
+    14: result:=CHR_E;
+    15: result:=CHR_F;
+ end;
+end;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Tratamento de interrupção de timer 0          *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+procedure interrupt;
+begin
+       clearbit(intcon,t0if);
+       inc(indice);
+
+       if indice=1 then
+        begin
+               portb.4:=0;
+               Delay_us(5);          //tempo de acomodação
+               portd:=SEL_LINHA1;
+               teclado0.1:=0;
+               teclado0.2:=0;
+               teclado0.3:=0;
+                   if porta.4 = 0 then teclado0.1:=1;
+                   if porta.5 = 0 then teclado0.2:=1;
+                   if porte.0 = 0 then teclado0.3:=1;
+               portd:=vetor_display[0];
+               portb.1:=1;
+        end;
+
+       if indice=2 then
+        begin
+               portb.1:=0;
+               Delay_us(5);          //tempo de acomodação
+               portd:=SEL_LINHA2;
+               teclado0.4:=0;
+               teclado0.5:=0;
+               teclado0.6:=0;
+                   if porta.4 = 0 then teclado0.4:=1;
+                   if porta.5 = 0 then teclado0.5:=1;
+                   if porte.0 = 0 then teclado0.6:=1;
+               portd:=vetor_display[1];
+               portb.2:=1;
+        end;
+        
+       if indice=3 then
+         begin
+               portb.2:=0;
+               Delay_us(5);          //tempo de acomodação
+               portd:=SEL_LINHA3;
+               teclado0.7:=0;
+               teclado1.0:=0;
+               teclado1.1:=0;
+
+                   if porta.4 = 0 then teclado0.7:=1;
+                   if porta.5 = 0 then teclado1.0:=1;
+                   if porte.0 = 0 then teclado1.1:=1;
+
+               portd:=vetor_display[2];
+               portb.3:=1;
+         end;
+         
+       if indice=4 then
+         begin
+               portb.3:=0;
+               Delay_us(5);          //tempo de acomodação
+               portd:=SEL_LINHA4;
+               teclado1.2:=0;
+               teclado0.0:=0;
+               teclado1.3:=0;
+
+                   if porta.4 = 0 then teclado1.2:=1;
+                   if porta.5 = 0 then teclado0.0:=1;
+                   if porte.0 = 0 then teclado1.3:=1;
+
+               portd:=vetor_display[3];
+               portb.4:=1;
+               indice:=0;       //reinicia o indice
+               
+        end;
+end;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Início do programa                    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Nessa parte ficará o loop principal do sistema}
+
+begin
+
+   trisa:=%00110000;
+   trisb:=%00000000;
+   trisd:=%00000000;
+   trise:=%00000001;            //configura i/os
+   option_reg:=%10000000;       //configura prescaler do timer 0
+   indice:=0;                   //inicializa a variável de índice
+   teclado0:=0;
+   teclado1:=0;                 //inicializa variáveis do teclado
+   adcon1:=%00000111;           //desliga os a/ds
+   intcon:=%10100000;           //configura interrupção de timer0
+   vetor_display[0]:=0;
+   vetor_display[1]:=0;
+   vetor_display[2]:=0;
+   vetor_display[3]:=0;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Rotina Principal                      *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}
+
+     while true do
+     begin
+       if testbit(teclado0,tecla_1) = 1 then vetor_display[0]:=Converte_to_7seg(1);
+       if testbit(teclado0,tecla_2) = 1 then vetor_display[0]:=Converte_to_7seg(2);
+       if testbit(teclado0,tecla_3) = 1 then vetor_display[0]:=Converte_to_7seg(3);
+       if testbit(teclado0,tecla_4) = 1 then vetor_display[1]:=Converte_to_7seg(4);
+       if testbit(teclado0,tecla_5) = 1 then vetor_display[1]:=Converte_to_7seg(5);
+       if testbit(teclado0,tecla_6) = 1 then vetor_display[1]:=Converte_to_7seg(6);
+       if testbit(teclado0,tecla_7) = 1 then vetor_display[2]:=Converte_to_7seg(7);
+       if testbit(teclado1,tecla_8) = 1 then vetor_display[2]:=Converte_to_7seg(8);
+       if testbit(teclado1,tecla_9) = 1 then vetor_display[2]:=Converte_to_7seg(9);
+       if testbit(teclado1,tecla_C) = 1 then vetor_display[3]:=Converte_to_7seg(12);
+       if testbit(teclado0,tecla_0) = 1 then vetor_display[3]:=Converte_to_7seg(0);
+       if testbit(teclado1,tecla_E) = 1 then vetor_display[3]:=Converte_to_7seg(14);
+     end;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Fim do programa                       *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}
+    end.

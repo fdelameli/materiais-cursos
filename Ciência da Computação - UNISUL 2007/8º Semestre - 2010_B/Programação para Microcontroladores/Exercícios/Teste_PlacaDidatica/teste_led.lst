@@ -1,0 +1,256 @@
+CCS PCM C Compiler, Version 4.093, 5065               05-Aðu-10 10:04
+
+               Filename: C:\Documents and Settings\lab.academico\Desktop\PIC\Exercícios\Teste_PlacaDidatica\teste_led.lst
+
+               ROM used: 165 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 7 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   019
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4Mhz) 
+*
+0004:  MOVLW  21
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   018
+000A:  MOVLW  01
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  4A
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  GOTO   016
+0016:  DECFSZ 00,F
+0017:  GOTO   00A
+0018:  RETLW  00
+....................  
+....................  
+.................... // Renomeia o pino d0 para "led" 
+.................... #define led1 pin_d0 
+.................... #define led2 pin_d1 
+.................... #define led3 pin_d2 
+.................... #define led4 pin_d3 
+.................... #define led5 pin_d4 
+.................... #define led6 pin_d5 
+.................... #define led7 pin_d6 
+.................... #define led8 pin_d7 
+....................  
+.................... #define setLed pin_b5 
+.................... #define cooler pin_c2 
+....................  
+.................... #define DELAY 25 
+....................  
+.................... void main() { 
+0019:  CLRF   04
+001A:  BCF    03.7
+001B:  MOVLW  1F
+001C:  ANDWF  03,F
+001D:  BSF    03.5
+001E:  BSF    1F.0
+001F:  BSF    1F.1
+0020:  BSF    1F.2
+0021:  BCF    1F.3
+0022:  MOVLW  07
+0023:  MOVWF  1C
+....................  
+....................    // lega "chave geral" dos led's 
+....................    output_bit(setLed, 1); 
+*
+0027:  BSF    06.5
+0028:  BSF    03.5
+0029:  BCF    06.5
+....................    // liga o cooler 
+....................    output_bit(cooler, 1); 
+002A:  BCF    03.5
+002B:  BSF    07.2
+002C:  BCF    20.2
+002D:  MOVF   20,W
+002E:  BSF    03.5
+002F:  MOVWF  07
+....................    // limpa a porta d 
+....................    output_d(0x00); 
+0030:  CLRF   08
+0031:  BCF    03.5
+0032:  CLRF   08
+....................  
+....................    while(true) { 
+....................   
+....................       output_bit(led1, 1); 
+0033:  BSF    08.0
+0034:  BSF    03.5
+0035:  BCF    08.0
+....................       delay_ms(DELAY); 
+0036:  MOVLW  19
+0037:  BCF    03.5
+0038:  MOVWF  21
+0039:  CALL   004
+....................       output_bit(led1, 0); 
+003A:  BCF    08.0
+003B:  BSF    03.5
+003C:  BCF    08.0
+....................       delay_ms(DELAY); 
+003D:  MOVLW  19
+003E:  BCF    03.5
+003F:  MOVWF  21
+0040:  CALL   004
+....................        
+....................       output_bit(led2, 1); 
+0041:  BSF    08.1
+0042:  BSF    03.5
+0043:  BCF    08.1
+....................       delay_ms(DELAY); 
+0044:  MOVLW  19
+0045:  BCF    03.5
+0046:  MOVWF  21
+0047:  CALL   004
+....................       output_bit(led2, 0); 
+0048:  BCF    08.1
+0049:  BSF    03.5
+004A:  BCF    08.1
+....................       delay_ms(DELAY); 
+004B:  MOVLW  19
+004C:  BCF    03.5
+004D:  MOVWF  21
+004E:  CALL   004
+....................        
+....................       output_bit(led3, 1); 
+004F:  BSF    08.2
+0050:  BSF    03.5
+0051:  BCF    08.2
+....................       delay_ms(DELAY); 
+0052:  MOVLW  19
+0053:  BCF    03.5
+0054:  MOVWF  21
+0055:  CALL   004
+....................       output_bit(led3, 0); 
+0056:  BCF    08.2
+0057:  BSF    03.5
+0058:  BCF    08.2
+....................       delay_ms(DELAY); 
+0059:  MOVLW  19
+005A:  BCF    03.5
+005B:  MOVWF  21
+005C:  CALL   004
+....................        
+....................       output_bit(led4, 1); 
+005D:  BSF    08.3
+005E:  BSF    03.5
+005F:  BCF    08.3
+....................       delay_ms(DELAY); 
+0060:  MOVLW  19
+0061:  BCF    03.5
+0062:  MOVWF  21
+0063:  CALL   004
+....................       output_bit(led4, 0); 
+0064:  BCF    08.3
+0065:  BSF    03.5
+0066:  BCF    08.3
+....................       delay_ms(DELAY); 
+0067:  MOVLW  19
+0068:  BCF    03.5
+0069:  MOVWF  21
+006A:  CALL   004
+....................        
+....................       output_bit(led5, 1); 
+006B:  BSF    08.4
+006C:  BSF    03.5
+006D:  BCF    08.4
+....................       delay_ms(DELAY); 
+006E:  MOVLW  19
+006F:  BCF    03.5
+0070:  MOVWF  21
+0071:  CALL   004
+....................       output_bit(led5, 0); 
+0072:  BCF    08.4
+0073:  BSF    03.5
+0074:  BCF    08.4
+....................       delay_ms(DELAY); 
+0075:  MOVLW  19
+0076:  BCF    03.5
+0077:  MOVWF  21
+0078:  CALL   004
+....................        
+....................       output_bit(led6, 1); 
+0079:  BSF    08.5
+007A:  BSF    03.5
+007B:  BCF    08.5
+....................       delay_ms(DELAY); 
+007C:  MOVLW  19
+007D:  BCF    03.5
+007E:  MOVWF  21
+007F:  CALL   004
+....................       output_bit(led6, 0); 
+0080:  BCF    08.5
+0081:  BSF    03.5
+0082:  BCF    08.5
+....................       delay_ms(DELAY); 
+0083:  MOVLW  19
+0084:  BCF    03.5
+0085:  MOVWF  21
+0086:  CALL   004
+....................        
+....................       output_bit(led7, 1); 
+0087:  BSF    08.6
+0088:  BSF    03.5
+0089:  BCF    08.6
+....................       delay_ms(DELAY); 
+008A:  MOVLW  19
+008B:  BCF    03.5
+008C:  MOVWF  21
+008D:  CALL   004
+....................       output_bit(led7, 0); 
+008E:  BCF    08.6
+008F:  BSF    03.5
+0090:  BCF    08.6
+....................       delay_ms(DELAY); 
+0091:  MOVLW  19
+0092:  BCF    03.5
+0093:  MOVWF  21
+0094:  CALL   004
+....................        
+....................       output_bit(led8, 1); 
+0095:  BSF    08.7
+0096:  BSF    03.5
+0097:  BCF    08.7
+....................       delay_ms(DELAY); 
+0098:  MOVLW  19
+0099:  BCF    03.5
+009A:  MOVWF  21
+009B:  CALL   004
+....................       output_bit(led8, 0); 
+009C:  BCF    08.7
+009D:  BSF    03.5
+009E:  BCF    08.7
+....................       delay_ms(DELAY); 
+009F:  MOVLW  19
+00A0:  BCF    03.5
+00A1:  MOVWF  21
+00A2:  CALL   004
+....................   
+....................    } 
+00A3:  GOTO   033
+....................     
+.................... } 
+00A4:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

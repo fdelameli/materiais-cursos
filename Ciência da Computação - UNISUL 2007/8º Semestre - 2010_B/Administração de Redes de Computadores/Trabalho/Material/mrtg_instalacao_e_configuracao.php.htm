@@ -1,0 +1,1007 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+  <title>[Dicas-L] MRTG - Instalacao e Configuracao </title>
+  <meta http-equiv="Content-Type" content="text/html; 
+charset=ISO-8859-1">
+  <meta name="DicasL" content="Dicas-L - Software Livre e GNU/Linux">
+  <meta name="KEYWORDS" content="linux, unix, internet, dicas e truques,
+ software livre">
+  <link rel="StyleSheet" 
+href="mrtg_instalacao_e_configuracao.php_arquivos/all.css" 
+type="text/css">
+  <link rel="StyleSheet" 
+href="mrtg_instalacao_e_configuracao.php_arquivos/style.css" 
+type="text/css">
+  <link rel="StyleSheet" 
+href="mrtg_instalacao_e_configuracao.php_arquivos/navbar.css" 
+type="text/css">
+  <link rel="alternate" type="application/rss+xml" title="Dicas-L" 
+href="http://www.dicas-l.com.br/index.rdf">
+  <link rel="shortcut icon" href="http://www.dicas-l.com.br/favicon.ico">
+  <link rel="icon" 
+href="http://www.dicas-l.com.br/animated_favicon1.gif" type="image/gif">
+<link 
+href="mrtg_instalacao_e_configuracao.php_arquivos/hw_csspadrao_0_v15.css"
+ type="text/css" rel="stylesheet"><script src="mrtg_instalacao_e_configuracao.php_arquivos/script.js" charset="ISO-8859-1" type="text/javascript"></script><script src="mrtg_instalacao_e_configuracao.php_arquivos/mostraV2_003.js" charset="ISO-8859-1" type="text/javascript"></script><script src="mrtg_instalacao_e_configuracao.php_arquivos/mostraV2.js" charset="ISO-8859-1" type="text/javascript"></script><script src="mrtg_instalacao_e_configuracao.php_arquivos/mostraV2_002.js" charset="ISO-8859-1" type="text/javascript"></script><script src="mrtg_instalacao_e_configuracao.php_arquivos/mostraV2_004.js" charset="ISO-8859-1" type="text/javascript"></script></head><body><div
+ id="topleft">
+<img src="mrtg_instalacao_e_configuracao.php_arquivos/topo.jpg" 
+alt="Logotipo Dicas-L, por Ricardo Burile" width="122" height="79">
+</div>
+<div id="topright">
+<!-- SiteSearch Google -->
+<table>
+<tbody><tr>
+<td valign="top">
+<p style="font-size: 8pt; font-weight: bold; color: rgb(140, 0, 0);">Busca</p>
+</td>
+<td valign="top">
+<form method="get" action="http://www.google.com/custom" 
+target="google_window">
+<input name="domains" value="www.dicas-l.com.br" type="hidden">
+<input name="q" size="10" maxlength="255" type="text">
+<input name="sitesearch" value="www.dicas-l.com.br" checked="checked" 
+type="hidden">
+<input name="client" value="pub-7096961373083740" type="hidden">
+<input name="forid" value="1" type="hidden">
+<input name="ie" value="ISO-8859-1" type="hidden">
+<input name="oe" value="ISO-8859-1" type="hidden">
+<input name="cof" 
+value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:FFFFFF;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;LH:65;LW:200;L:http://www.dicas-l.com.br/imagens/dicas-L.jpg;S:http://www.dicas-l.com.br;FORID:1;"
+ type="hidden">
+<input name="hl" value="pt" type="hidden">
+</form></td>
+<td valign="top">
+<input name="sa" value="ok" type="submit">
+</td>
+</tr>
+</tbody></table>
+
+<!-- SiteSearch Google -->
+</div>
+
+<style>
+#wrap {
+margin: 0;
+width: auto;
+float: none !important;
+}
+.visite, .visite a {
+text-decoration: none;
+color: #b0b0b0;
+font-family: verdana, geneva, sans-serif, arial;
+font-size: 7pt
+}
+</style>
+<div style="z-index: 1000000; cursor: move; position: absolute; 
+visibility: hidden; display: none; width: 0pt; overflow: visible;" 
+id="HOTWordsTitle"><div id="HOTWordsTitleText"></div></div><div 
+id="wrap">
+<div class="visite" style="margin: 0px; border: 0px none;" 
+align="center"><b>Visite também</b>:
+<a href="http://segurancalinux.com/" target="_top">Segurança Linux</a>&nbsp;·&nbsp;
+<a href="http://under-linux.org/" target="_top">UnderLinux</a>&nbsp;·&nbsp;
+<a href="http://www.vivaolinux.com.br/" target="_parent">VivaOLinux</a>&nbsp;·&nbsp;
+<a href="http://www.linuxsecurity.com.br/" target="_parent">LinuxSecurity</a>&nbsp;·&nbsp;
+<a href="http://www.noticiaslinux.com.br/" target="_parent">NoticiasLinux</a>&nbsp;·&nbsp;
+<a href="http://br-linux.org/" target="_parent">BR-Linux</a>&nbsp;·&nbsp;
+<a href="http://www.softwarelivre.org/" target="_parent">SoftwareLivre.org</a>&nbsp;·&nbsp;
+<a href="http://br-linux.org/linux/comunidade/" target="_parent">[mais]</a>&nbsp;
+ &nbsp;
+</div>
+
+
+<div id="invertedtabs">
+<ul>
+<li style="margin-left: 1px;">
+    <a href="http://www.dicas-l.com.br/" title="Home">
+    <span>Home</span></a></li>
+<li id="current"><a href="http://www.dicas-l.com.br/arquivo/index.php" 
+title="Arquivo">
+    <span>Arquivo</span></a></li>
+<li><a href="http://www.dicas-l.com.br/colunistas.php" 
+title="Colunistas">
+    <span>Colunas</span></a></li>
+<li><a href="http://www.dicas-l.com.br/cursos/" title="Cursos e 
+Palestras">
+    <span>Cursos</span></a></li>
+<li><a href="http://www.dicas-l.com.br/artigos/" title="Artigos">
+    <span>Artigos</span></a></li>
+<li><a href="http://www.dicas-l.com.br/hotlinks/" title="Hot Links">
+    <span>Hot Links</span></a></li>	
+<li><a href="http://www.dicas-l.com.br/colabore/" title="Enviar Dica">
+    <span>Enviar Dica</span></a></li>	
+<li><a href="http://www.dicas-l.com.br/faq.php" title="Perguntas mais 
+Frequentes">
+    <span>F.A.Q.</span></a></li>	
+<li><a href="http://www.dicas-l.com.br/cadastro.php" 
+title="Cadastramento">
+    <span>Cadastro</span></a></li>	
+<li><a href="http://www.dicas-l.com.br/contato.php" title="Fale Conosco">
+    <span>Contato</span></a></li>	
+<li><a href="http://www.dicas-l.com.br/rss.php" title="RSS">
+    <span>RSS</span></a></li>	
+</ul>
+</div>
+<div id="invertedtabsline">&nbsp;</div>
+<br style="clear: left;">
+
+
+<!-----------------------  C  E  N  T  R  O ----------------------------------->
+<div id="maincenter">
+<div align="center">
+<p><b>Você está aqui: <a href="http://www.dicas-l.com.br/">Home</a>
+&nbsp;&#8594; 
+<a href="http://www.dicas-l.com.br/dicas-l">Arquivo Dicas-L</a></b>
+</p><p>&nbsp;</p>
+
+<div style="width: 726px; height: 88px; background-color: rgb(255, 255, 
+255); padding: 0pt; margin: 0pt; border: 1px solid rgb(217, 217, 217);">
+<a style="text-align: right; float: left; margin: 0pt; display: block; 
+padding: 0pt; width: 239px; height: 88px;" 
+href="http://www.zura.com.br/informatica.html#pr=9593&amp;site=13661" 
+target="_blank" title="Zura! Busque. Compare. Compre.">
+<img style="margin: 0pt; padding: 0pt; display: block; float: left;" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/header.jpg" alt="Zura! -
+ Busque. Compare. Compre." border="0">
+</a>
+<div style="width: 375px; height: 88px; margin: 0pt auto; float: left;">
+<iframe src="mrtg_instalacao_e_configuracao.php_arquivos/a.htm" 
+allowtransparency="true" style="background-color: transparent;" 
+width="375px" align="middle" frameborder="0" height="88px" 
+scrolling="no"></iframe>
+</div>
+<div style="width: 112px; height: 88px; text-align: center; float: 
+left;">
+<p style="text-align: center; font-weight: bold; color: rgb(140, 140, 
+139); font-family: Verdana,Arial,Helvetica,sans-serif; font-size: 10px; 
+margin: 12px auto 3px;">Outras ofertas</p>
+<p style="font-size: 10px; line-height: 10px; color: rgb(102, 102, 101);
+ font-family: Verdana,Arial,Helvetica,sans-serif; margin: 8px auto 3px; 
+padding: 0pt 6px; display: block;"><a style="color: rgb(102, 102, 101); 
+text-decoration: none;" 
+href="http://www.zura.com.br/notebook.html#pr=9593&amp;site=13661" 
+title="Notebook" target="_blank">Notebook</a></p>
+<p style="font-size: 10px; line-height: 10px; color: rgb(102, 102, 101);
+ font-family: Verdana,Arial,Helvetica,sans-serif; margin: 4px auto; 
+padding: 0pt 6px; display: block;"><a style="color: rgb(102, 102, 101); 
+text-decoration: none;" 
+href="http://www.zura.com.br/monitor.html#pr=9593&amp;site=13661" 
+title="Monitor" target="_blank">Monitor</a></p>
+<p style="font-size: 10px; line-height: 10px; color: rgb(102, 102, 101);
+ font-family: Verdana,Arial,Helvetica,sans-serif; margin: 4px auto; 
+padding: 0pt 6px; display: block;"><a style="color: rgb(102, 102, 101); 
+text-decoration: none;" 
+href="http://www.zura.com.br/impressora-multifuncional.%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20html#pr=9593&amp;site=13661"
+ title="Impressora" target="_blank">Impressora</a></p>
+</div>
+</div><div id="beacon_214" style="position: absolute; left: 0px; top: 
+0px; visibility: hidden;"><img 
+src="mrtg_instalacao_e_configuracao.php_arquivos/adlog.gif" alt="" 
+style="width: 0px; height: 0px;" width="0" height="0"></div>
+<!-- <font color=#8C0000><B>Oferta Submarino</B></FONT><BR>
+<a href=http://www.submarino.com.br/software_productdetails.asp?Query=ProductPage&ProdTypeId=10&CatId=11124&ProdId=21265419&ST=BV11124&OperId=0&CellType=2&franq=170707>Notebook 14.1 Core 2 Duo DV2670BR 2GB 160GB DVDRW Vista Business - HP<br>R$ 3.799,00</a>
+
+-->
+
+</div>
+
+<div align="center">
+<h3><img src="mrtg_instalacao_e_configuracao.php_arquivos/star.gif">Assine
+ a Lista Dicas-L<img 
+src="mrtg_instalacao_e_configuracao.php_arquivos/star.gif"></h3>
+<form action="/cgi-bin/mojo/mojo.cgi" method="POST">
+<input name="flavor" value="subscribe" type="hidden">
+<input name="email" size="20" type="text">
+<input name="list" value="dicas-l" type="hidden">
+<input value="OK" type="submit">
+</form>
+<p>Receba diariamente por email as dicas
+<br>de informática publicadas neste site
+<br>Para se descadastrar, clique <a 
+href="http://www.dicas-l.com.br/descadastramento.php">aqui</a>.
+</p></div>
+
+<!-- google_ad_section_start -->
+<div id="HOTWordsTxt" name="HOTWordsTxt">
+<h1>MRTG - Instalação e Configuração</h1>
+<p>
+<b><i>Colaboração: Alexandre Takahashi</i></b>
+</p>
+<p>
+<b><i>Data de Publicação: 27 de Junho de 2005</i></b>
+</p>
+<div align="center">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7096961373083740";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+google_color_border = "ffffff";
+google_color_bg = "ffffff";
+google_color_link = "8c0000";
+google_color_url = "7375FF";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript" src="mrtg_instalacao_e_configuracao.php_arquivos/show_ads.js">
+</script><script src="mrtg_instalacao_e_configuracao.php_arquivos/expansion_embed.js"></script><script src="mrtg_instalacao_e_configuracao.php_arquivos/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins
+ style="display: inline-table; border: medium none; height: 60px; 
+margin: 0pt; padding: 0pt; position: relative; visibility: visible; 
+width: 468px;"><ins id="google_ads_frame1_anchor" style="display: block;
+ border: medium none; height: 60px; margin: 0pt; padding: 0pt; position:
+ relative; visibility: visible; width: 468px;"><iframe 
+allowtransparency="true" hspace="0" id="google_ads_frame1" 
+marginheight="0" marginwidth="0" name="google_ads_frame" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/ads.htm" style="left: 
+0pt; position: absolute; top: 0pt;" vspace="0" width="468" 
+frameborder="0" height="60" scrolling="no"></iframe></ins></ins>
+</div>
+<p><taghw>
+O MRTG (Multi Router Traffic Grapher) é, inicialmente,
+uma ferramenta desenvolvida para monitorar o tráfego em
+links de rede.  Escrito em PERL, utiliza o SNMP para
+ler os dados dos roteadores e um programa em C para
+criar os gráficos, que são mostrados em páginas <a href="#" 
+onclick='Pal1481455152hw.aqkqhblqnaj("HTML");return false;' 
+style="color: rgb(0, 102, 0); text-decoration: underline; border-bottom:
+ 1px dotted;" onmouseover='Pal1481455152hw.hwShow(event, this, "HTML"); 
+this.style.cursor="hand"; this.style.textDecoration="underline"; 
+this.style.borderBottom="solid";' 
+onmouseout='Pal1481455152hw.hideMaybe(this, "HTML"); 
+this.style.cursor="hand"; this.style.textDecoration="underline"; 
+this.style.borderBottom="dotted 1px"; ' oncontextmenu="return false;">HTML</a>.
+O MRTG para *nix é distríbuido em Código Fonte, assim,
+você dever ter um compilador C e o PERL instalado em sua
+máquina, na maioria das distribuições *nix, ambos já estão
+disponíveis na instalação padrão, se não estiverem, leia
+o item Pré-Requisitos
+</taghw></p>
+<h2>Pré-Requisitos *nix</h2>
+<h3>GCC</h3>
+<p><taghw><taghw>
+O compilador GCC (GNU C Compiler) esta disponível na instalação padrão 
+da maioria
+dos <a href="#" onclick='Pal1481455152hw.aqkqhblqnaj("sistemas");return 
+false;' style="color: rgb(0, 102, 0); text-decoration: underline; 
+border-bottom: 1px dotted;" onmouseover='Pal1481455152hw.hwShow(event, 
+this, "sistemas"); this.style.cursor="hand"; 
+this.style.textDecoration="underline"; this.style.borderBottom="solid";'
+ onmouseout='Pal1481455152hw.hideMaybe(this, "sistemas"); 
+this.style.cursor="hand"; this.style.textDecoration="underline"; 
+this.style.borderBottom="dotted 1px"; ' oncontextmenu="return false;">sistemas</a>
+ *nix, é </taghw><a href="#" 
+onclick='Pal1481455152hw.aqkqhblqnaj("necessário");return false;' 
+style="color: rgb(0, 102, 0); text-decoration: underline; border-bottom:
+ 1px dotted;" onmouseover='Pal1481455152hw.hwShow(event, this, 
+"necessário"); this.style.cursor="hand"; 
+this.style.textDecoration="underline"; this.style.borderBottom="solid";'
+ onmouseout='Pal1481455152hw.hideMaybe(this, "necessário"); 
+this.style.cursor="hand"; this.style.textDecoration="underline"; 
+this.style.borderBottom="dotted 1px"; ' oncontextmenu="return false;">necessário</a>
+ para compilar o MRTG.
+</taghw></p>
+<p>
+Para procurar o gcc
+</p>
+<pre>  whereis gcc
+</pre>
+<p></p>
+<p>
+Em distribuições baseadas em RPM é possivel procurar pelo comando
+</p>
+<pre>  rpm -qa | grep gcc
+</pre>
+<p></p>
+<p>
+Caso você não tenha o gcc instalado, faça o download em
+</p>
+<p>
+<a href="http://gcc.gnu.org/">http://gcc.gnu.org/</a>
+</p>
+<h3>Perl</h3>
+<p><taghw>
+Grande parte do MRTG esta escrita em <a href="#" 
+onclick='Pal1481455152hw.aqkqhblqnaj("PERL");return false;' 
+style="color: rgb(0, 102, 0); text-decoration: underline; border-bottom:
+ 1px dotted;" onmouseover='Pal1481455152hw.hwShow(event, this, "PERL"); 
+this.style.cursor="hand"; this.style.textDecoration="underline"; 
+this.style.borderBottom="solid";' 
+onmouseout='Pal1481455152hw.hideMaybe(this, "PERL"); 
+this.style.cursor="hand"; this.style.textDecoration="underline"; 
+this.style.borderBottom="dotted 1px"; ' oncontextmenu="return false;">PERL</a>,
+ verifique se você tem o Perl
+instalado e qual a versão
+</taghw></p>
+<p>
+Para procurar o perl
+</p>
+<pre>  whereis perl
+</pre>
+<p></p>
+<p>
+Em distribuições baseadas em RPM é possivel procurar pelo comando
+</p>
+<pre>  rpm -qa | grep perl
+</pre>
+<p></p>
+<p>
+Caso o perl não esteja instalado faça o download em
+</p>
+<p>
+<a href="http://www.perl.com/">http://www.perl.com/</a>
+</p>
+<p>
+Para ver a versão do Perl
+</p>
+<pre>  perl -v
+</pre>
+<p></p>
+<p>
+A versão mínima requerida é a 5.005
+</p>
+<h3>gd</h3>
+<p>
+GD é uma biblioteca para gerar gráficos, no formato PNG
+</p>
+<p>
+Para procurar o gd
+</p>
+<pre>  whereis gd
+</pre>
+<p></p>
+<p>
+Em distribuições baseadas em RPM é possivel procurar pelo comando
+</p>
+<pre>  rpm -qa | grep gd
+</pre>
+<p></p>
+<p>
+Caso o gd não esteja instalado, faça o download em
+</p>
+<p>
+<a href="http://www.boutell.com/gd/">http://www.boutell.com/gd/</a>
+</p>
+<h3>libpng</h3>
+<p>
+Requerido pelo gd para gerar arquivos PNG
+</p>
+<p>
+Para procurar o libpng
+</p>
+<pre>  whereis libpng
+</pre>
+<p></p>
+<p>
+Em distribuições baseadas em RPM é possivel procurar pelo comando
+</p>
+<pre>  rpm -qa | grep libpng
+</pre>
+<p></p>
+<p>
+Caso o libpng não esteja instalado, faça o download em
+</p>
+<p>
+<a href="http://www.libpng.org/pub/png/">http://www.libpng.org/pub/png/</a>
+</p>
+<h3>zlib</h3>
+<p>
+Requerido para compactar os gráficos criados
+</p>
+<p>
+Para procurar o zlib
+</p>
+<pre>  whereis zlib
+</pre>
+<p></p>
+<p>
+Em distribuições baseadas em RPM é possivel procurar pelo comando
+</p>
+<pre>  rpm -qa | grep zlib
+</pre>
+<p></p>
+<p>
+Caso o libpng não esteja instalado, faça o download em
+</p>
+<p>
+<a href="http://www.info-zip.org/pub/infozip/zlib/">http://www.info-zip.org/pub/infozip/zlib/</a>
+</p>
+<h3>MRTG</h3>
+<p>
+Não esquecendo do principal, baixe o MRTG
+</p>
+<p>
+<a href="http://mrtg.hdl.com/pub/">http://mrtg.hdl.com/pub/</a>
+</p>
+<h2>Compilacação/Instalação</h2>
+<p>
+Para descompactar os arquivos execute o seguinte comando
+</p>
+<pre>  tar -xvzf &lt;&lt;arquivo&gt;&gt;
+</pre>
+<p></p>
+<p>
+Dentro de cada diretório , execute os seguintes comandos (<b>Deixe o 
+MRTG por último</b>)
+</p>
+<pre>  ./configure
+</pre>
+<p></p>
+<pre>  ./make
+</pre>
+<p></p>
+<pre>  ./make install
+</pre>
+<p></p>
+<p>
+Isto irá instalar todos os pacotes e o MRTG.
+</p>
+<h2>Configuração</h2>
+<p>
+A configuração é relativamente simples, não há a necessidade de criar um
+ arquivo de
+configuração manualmente, utilize o comando cfgmaker(usualmente no 
+diretorio /usr/local/mrtg-2/bin), como mostrado abaixo
+</p>
+<p>
+```./cfgmaker --global 'WorkDir: /var/www/mrtg' --global 'Options[_]: 
+bits,growright' --global 'RunAsDaemon:Yes' --output 
+/home/usuario/mrtg/mrtg.cfg &lt;comunidadesnmp (a) xxx xxx xxx xxx&gt;
+</p>
+<p>
+<i>WorkDir: /var/www/mrtg</i>
+</p>
+<p>
+Define o local onde sera gerada a pagina html com os graficos
+</p>
+<p>
+<i>Options[_]: bits,growright</i>
+</p>
+<p>
+A opção bits define que o gráfico trará as informações em bits e a opção
+ growright fará com que o
+gráfico caminhe da direita para a esquerda, sendo que o horário atual 
+fique a direita do gráfico
+</p>
+<p>
+<i>output /home/usuario/mrtg/mrtg.cfg</i>
+</p>
+<p>
+Define onde será armazenado o arquivo de configuracao (aqui chamado de 
+mrtg.cfg)
+</p>
+<p>
+<i>RunAsDaemon:Yes</i>
+</p>
+<p>
+Define que o MRTG rode como daemon(processo), ou seja, o MRTG ficará 
+carregado e vai buscar dados do
+equipamento conforme o parametro interval (--global 'Interval:10') se 
+este parametro não for
+definido, então o intervalo padrão será adotado (5 minutos)
+</p>
+<p>
+<i>comunidadesnmp</i>
+</p>
+<p>
+Comunidade snmp do equipamento a ser monitorado (roteador, switch, etc) 
+com permissão de leitura
+</p>
+<p>
+<i>xxx.xxx.xxx.xxx</i>
+</p>
+<p>
+Endereco IP do equipamento a ser monitorado.
+</p>
+<p>
+Para mais opções do <i>cfgmaker</i> consulte
+</p>
+<p>
+```./cfgmaker --man
+</p>
+<p>
+ou
+</p>
+<p>
+<a href="http://mrtg.hdl.com/cfgmaker.html">http://mrtg.hdl.com/cfgmaker.html</a>
+</p>
+<h2>Executando o MRTG</h2>
+<p>
+Para executar o MRTG
+</p>
+<pre>  /usr/local/mrtg-2/bin/mrtg /home/usuario/mrtg/mrtg.cfg
+</pre>
+<p></p>
+<p>
+Simples, não?? ;-)
+</p>
+<p>
+Se a opção RunAsDaemon:Yes estiver definida, então ele irá rodar como 
+daemon e os dados serão atualizados
+automaticamente, conforme o intervalo definido ou a cada 5 minutos.
+</p>
+<h2>Considerações Finais</h2>
+<p>
+O MRTG é uma excelente ferramente de monitoramento, mas não se restringe
+ apenas a ativos de rede,
+ele pode ser usado para monitorar qualquer equipamento com suporte a 
+SNMP, além de poder receber
+variáveis de scripts e em conjunto com outras ferramentas, o limite é a 
+criatividade de quem o usa ;-).
+Existem diversos artigos de utilização do MRTG combinado com outras 
+ferramentas e para outros fins(um deles postado aqui no <a 
+href="http://www.dicas-l.com.br/dicas-l/20041204.php">Dicas-L</a>
+sobre como monitorar performance em um servidor *nix.
+O MRTG roda também na plataforma MS.
+Espero que este pequeno tutorial ajude aqueles que ainda não conhecem o 
+MRTG.
+</p>
+<p><b><a href="http://www.dicas-l.com.br/autores/alexandretakahashi.php">Veja
+ a relação completa dos artigos de Alexandre Takahashi</a></b></p>
+<div align="center">
+<table>
+<tbody><tr align="center">
+
+<!-- Stumble Upon -->
+<td>
+<a 
+href="http://www.stumbleupon.com/submit?url=http://www.Dicas-L.com.br/dicas-l/20050627.php">
+<img src="mrtg_instalacao_e_configuracao.php_arquivos/stumbleupon.png" 
+alt="Stumble Upon" title="Stumble Upon" width="48" border="0" 
+height="48"></a>
+</td>
+
+<!-- Digg -->
+<td>
+<a 
+href="http://digg.com/submit?phase=2&amp;url=http://www.Dicas-L.com.br/dicas-l/20050627.php/&amp;title=MRTG%20-%20Instalacao%20e%20Configuracao">
+<img src="mrtg_instalacao_e_configuracao.php_arquivos/digg.png" 
+alt="Digg This" title="Digg This" width="48" border="0" height="48"></a>
+</td>
+
+<!-- Del.icio.us -->
+<td>
+<a 
+href="http://del.icio.us/post?url=http://www.Dicas-L.com.br/dicas-l/20050627.php/&amp;title=%22MRTG+-+Instalacao+e+Configuracao%22">
+<img src="mrtg_instalacao_e_configuracao.php_arquivos/delicious.png" 
+alt="Del.icio.us" title="Del.icio.us" width="48" border="0" height="48"></a>
+</td>
+
+<!-- twitter -->
+<td>
+<a 
+href="http://twitter.com/home?status=MRTG%20-%20Instalacao%20e%20Configuracao:+http://www.Dicas-L.com.br/dicas-l/20050627.php">
+<img src="mrtg_instalacao_e_configuracao.php_arquivos/twitter.png" 
+alt="Twitter" title="Twitter" width="48" border="0" height="48"></a>
+</td>
+
+<td>
+<a href="http://www.dicas-l.com.br/cgi-bin/aaf/aaf.cgi">
+<img alt="Recomendar este artigo a um amigo" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/comment_48.png" 
+title="Recomendar esta dica" width="48" border="0" height="48"></a>
+</td>
+
+<td>
+<a href="http://www.dicas-l.com.br/contato.php">
+<img alt="Entre em contato" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/mail_write_48.png" 
+title="Entre em contato" border="0"></a>
+</td>
+
+<td>
+<a href="http://www.dicas-l.com.br/pdf/20050627.pdf" rel="nofollow">
+<img alt="Formato PDF" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/application-pdf.png" 
+title="Arquivo PDF" border="0"></a><br>
+</td>
+
+<td>
+<a href="http://www.dicas-l.com.br/index.xml">
+<img alt="Newsfeed RSS" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/application-rssxml.png"
+ title="Newsfeed RSS" border="0"></a><br>
+</td>
+
+<td>
+<a href="http://www.dicas-l.com.br/print/20050627.html" rel="nofollow">
+<img alt="Formato para impressão" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/printer_48.png" 
+title="Formato para impressão" border="0"></a><br>
+</td>
+
+</tr>
+
+<tr align="center">
+<td><a 
+href="http://www.stumbleupon.com/submit?url=http://www.Dicas-L.com.br/dicas-l/20050627.php">StumbleUpon</a></td>
+<td><a 
+href="http://digg.com/submit?phase=2&amp;url=http://www.Dicas-L.com.br/dicas-l/20050627.php/&amp;title=MRTG%20-%20Instalacao%20e%20Configuracao">Digg</a></td>
+<td><a 
+href="http://del.icio.us/post?url=http://www.Dicas-L.com.br/dicas-l/20050627.php/&amp;title=%22MRTG+-+Instalacao+e+Configuracao%22">Del.icio.us</a></td>
+<td><a 
+href="http://twitter.com/home?status=MRTG%20-%20Instalacao%20e%20Configuracao:+http://www.Dicas-L.com.br/dicas-l/20050627.php">Twitter</a></td>
+<td><a href="http://www.dicas-l.com.br/cgi-bin/aaf/aaf.cgi">Recomendar</a></td>
+<td><a href="http://www.dicas-l.com.br/contato.php">Contato</a></td>
+<td><a href="http://www.dicas-l.com.br/pdf/20050627.pdf">PDF</a></td>
+<td><a href="http://www.dicas-l.com.br/index.xml">RSS</a></td>
+<td><a href="http://www.dicas-l.com.br/print/20050627.html">Imprimir</a></td>
+</tr>
+
+</tbody></table>
+</div>
+<h2>Referências Adicionais</h2>
+<p>Referências adicionais sobre os assuntos
+abordados neste site podem ser encontradas em nossa 
+<a href="http://www.dicas-l.com.br/bibliografia/">Bibliografia</a>.<!-- google_ad_section_end --></p><h2>Avalie
+ esta dica</h2><script type="text/javascript" language="javascript" src="mrtg_instalacao_e_configuracao.php_arquivos/behavior.js"></script>
+<script type="text/javascript" language="javascript" src="mrtg_instalacao_e_configuracao.php_arquivos/rating.js"></script>
+<link rel="stylesheet" type="text/css" 
+href="mrtg_instalacao_e_configuracao.php_arquivos/rating.css">
+<div class="ratingblock">
+
+<div id="unit_long20050627">
+		<ul id="unit_ul20050627" class="unit-rating" style="width: 150px;">
+		<li class="current-rating" style="width: 89.4px;">Currently 2.98/5</li>
+<li><a 
+href="http://www.dicas-l.com.br/arquivo/db.php?j=1&amp;q=20050627&amp;t=200.237.249.109&amp;c=5"
+ title="1 out of 5" class="r1-unit rater">1</a></li>
+<li><a 
+href="http://www.dicas-l.com.br/arquivo/db.php?j=2&amp;q=20050627&amp;t=200.237.249.109&amp;c=5"
+ title="2 out of 5" class="r2-unit rater">2</a></li>
+<li><a 
+href="http://www.dicas-l.com.br/arquivo/db.php?j=3&amp;q=20050627&amp;t=200.237.249.109&amp;c=5"
+ title="3 out of 5" class="r3-unit rater">3</a></li>
+<li><a 
+href="http://www.dicas-l.com.br/arquivo/db.php?j=4&amp;q=20050627&amp;t=200.237.249.109&amp;c=5"
+ title="4 out of 5" class="r4-unit rater">4</a></li>
+<li><a 
+href="http://www.dicas-l.com.br/arquivo/db.php?j=5&amp;q=20050627&amp;t=200.237.249.109&amp;c=5"
+ title="5 out of 5" class="r5-unit rater">5</a></li>
+	</ul>
+	<p>
+	Avaliação: <strong> 
+	3.0	</strong>/5 
+	(926 votos)
+	</p>
+</div>
+</div>
+<div align="center"><div align="center">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7096961373083740";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+google_color_border = "ffffff";
+google_color_bg = "ffffff";
+google_color_link = "8c0000";
+google_color_url = "7375FF";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript" src="mrtg_instalacao_e_configuracao.php_arquivos/show_ads.js">
+</script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins
+ style="display: inline-table; border: medium none; height: 60px; 
+margin: 0pt; padding: 0pt; position: relative; visibility: visible; 
+width: 468px;"><ins id="google_ads_frame2_anchor" style="display: block;
+ border: medium none; height: 60px; margin: 0pt; padding: 0pt; position:
+ relative; visibility: visible; width: 468px;"><iframe 
+allowtransparency="true" hspace="0" id="google_ads_frame2" 
+marginheight="0" marginwidth="0" name="google_ads_frame" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/ads_002.htm" 
+style="left: 0pt; position: absolute; top: 0pt;" vspace="0" width="468" 
+frameborder="0" height="60" scrolling="no"></iframe></ins></ins>
+</div>
+</div><style type="text/css">
+div#usernotes {
+	background-color: transparent;
+}
+div#usernotes div.head, div#usernotes div.foot {
+	background-color: transparent;
+	padding: 4px;
+}
+div#usernotes div.foot {
+	text-align: right;
+}
+div#usernotes div.foot a, div#usernotes div.head a {
+	background-color: transparent;
+}
+div#usernotes span.action {
+	float: right;
+}
+div#usernotes div.note {
+	margin-left: 2em; 
+	margin-right: 2em; 
+	border-bottom:1px dashed;
+	padding: 4px;
+}
+div#usernotes div.text {
+	padding: 2px;
+	margin-top: 4px;
+}
+</style>
+
+<div id="usernotes">
+ <div class="head">
+ <h3></h3><h2>Opinião dos Leitores</h2>
+ </div> <div class="note">
+  <div class="text">
+  <b>Seja o primeiro a comentar este artigo</b>
+  </div>
+ </div> <div class="foot">
+		<form method="POST" action="/cm/suaopiniao.php">
+	              <input name="action" value="add" type="hidden">
+		      <input name="href" 
+value="/arquivo/mrtg_instalacao_e_configuracao.php" type="hidden">
+		  <table align="center" cellpadding="2" cellspacing="1">
+		    <tbody><tr> 
+		      <td width="83" align="right"><font color="red">*</font>Nome: 
+		        </td>
+		      <td width="196" align="left">
+		        <input name="disc_name" maxlength="40" size="30" type="text">
+		        <input name="r_disc_name" value="O campo 'Nome' não deve estar
+ vazio" type="hidden">
+		        </td>
+		    </tr>
+		    <tr> 
+		      <td width="83" align="right">Email:</td>
+		      <td width="196" align="left">
+		        <input name="disc_email" size="30" maxlength="70" type="Text">
+		        </td>
+		    </tr>
+		    <tr> 
+		      <td width="83"></td>
+		      <td width="196" align="left">
+			<input name="email_me" type="checkbox"><font size="2"><nobr>Me 
+notifique sobre novos comentários nessa página</nobr></font><br>
+			<input name="dont_show_email" checked="checked" type="checkbox"><font
+ size="2"><nobr>Oculte meu email</nobr></font><br>
+		        </td>
+		    </tr>
+		    <tr> 
+		      <td width="83" align="right" valign="top"> 
+		        <font color="red">*</font>Texto:
+		      </td>
+		      <td width="196" align="left" valign="top">
+		        <textarea name="disc_body" cols="60" rows="20" wrap="VIRTUAL"></textarea>
+		        <input name="r_disc_body" value="O campo 'Texto' não deve 
+estar vazio" type="hidden">
+		        </td>
+		    </tr>
+		    
+		    <tr> 
+		      <td>&nbsp;</td>
+		      <td align="center" valign="top"> 
+		        <img 
+src="mrtg_instalacao_e_configuracao.php_arquivos/image.gif" 
+name="secimg">
+		        <input name="confirm_img_txt" 
+value="8bfe4455cd636f01b7cd6dba429d7300" type="hidden">
+		      </td>
+		    </tr>
+
+		    <tr> 
+		      <td>&nbsp;</td>
+		      <td align="center" valign="top"> 
+		        <font color="red">Para publicar seu comentário, 
+			   digite o código contido na imagem acima</font>
+		      </td>
+		   </tr>
+		   <tr>
+		      <td>&nbsp;</td>
+		      <td align="center" valign="top">
+		      <div align="center">
+		        <input name="img_txt" maxlength="6" size="6" type="text">
+		        <br><br><input name="Submit" value="Enviar" type="submit">
+			</div>
+		      </td>
+		    </tr>
+		  </tbody></table>
+		</form>
+		<!-- ScritsMill Comments Copyright Notice -->
+          Powered by  <a href="http://www.scriptsmill.com/comments.html">Scriptsmill
+ Comments Script</a>
+		<!-- /ScritsMill Comments Copyright Notice -->
+ </div>
+</div></div>
+</div>
+<!-----------------------  C  E  N  T  R  O ----------------------------------->
+<!----------------------------------------------------------------------------->
+
+<!----------------------------------------------------------------------------->
+<!-----------------------  D  I  R  E  I  T  A -------------------------------->
+<div id="mainright">
+
+<a 
+href="http://www.dicas-l.com.br/MaxMediaManager/adclick.php?maxparams=2__bannerid=207__zoneid=0__cb=ae66edcc87__maxdest=http://www.submarino.com.br/produto/1/21851127/twitter,+chiclete+e+camisinha:+como+construir+relacionamentos+e+...&amp;franq=170707"
+ target="_blank"><img 
+src="mrtg_instalacao_e_configuracao.php_arquivos/adimage.jpg" 
+alt="Twitter, Chiclete e Camisinha" title="Twitter, Chiclete e 
+Camisinha" width="180" border="0" height="180"></a><div id="beacon_207" 
+style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img
+ src="mrtg_instalacao_e_configuracao.php_arquivos/adlog_002.gif" alt="" 
+style="width: 0px; height: 0px;" width="0" height="0"></div><p></p><div 
+align="center">
+<script language="JavaScript1.1" type="text/javascript" src="mrtg_instalacao_e_configuracao.php_arquivos/get_banner.htm">
+</script><a name="a_sky" 
+href="http://www.submarino.com.br/portal/club-do-sub/?&amp;franq=170707&amp;utm_source=afiliados&amp;utm_medium=duraveis&amp;utm_campaign=sky"
+ target="_blank" title="Tudo para as crianças com frete gratis - 
+Submarino.com.br"><img name="img_sky" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/120x600_clubdosub.gif" 
+alt="Tudo para as crianças com frete gratis - Submarino.com.br" 
+border="0"></a><script languange="JavaScript1.1">
+var elmA = document.getElementsByName("a_sky");
+var elmIMG = document.getElementsByName("img_sky");
+var arrItens = new Array(3);
+arrItens[0] = "tvsdesconto700|http://www.submarino.com.br/portal/home-portais/?offset=0&limit=16&order=salesPrice&dir=desc&listid=sl80portaljulho&menuId=840&abagrupo=237005&p1=21816351&p2=21509635&franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=sky|TVs com até R$ 700 de desconto";
+arrItens[1] = "clubdosub|http://www.submarino.com.br/portal/club-do-sub/?&franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=sky|Tudo para as crianças com frete gratis";
+arrItens[2] = "smartphone|http://www.submarino.com.br/portal/hotsite-celular-nokia-n8?franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=sky|Lançamento Nokia N8";
+for (var i = 0; i < elmA.length; i++) {
+var item = Math.floor(Math.random() * 3);
+elmA[i].setAttribute("title", (arrItens[item].split("|")[2] + " - Submarino.com.br"));
+elmA[i].setAttribute("href", arrItens[item].split("|")[1]);
+setImg(item, i); } 
+function setImg (item, count) {
+for (var i = 0; i < elmIMG.length; i++) {
+if (count == i) { 
+elmIMG[i].setAttribute("src", ("http://i.s8.com.br/images/afiliados/banner/120x600_" + arrItens[item].split("|")[0] + ".gif"));
+elmIMG[i].setAttribute("alt", (arrItens[item].split("|")[2] + " - Submarino.com.br")); 
+break; } } }
+</script>
+
+</div>
+<br>
+<div class="box">
+<p style="text-align: center;">Encontre <a 
+href="http://www.imobilien.com.br/">imóveis, apartamentos e casas</a> a 
+venda no <b>Imobilien</b><br>
+<a href="http://www.imobilien.com.br/"><b>Saiba mais</b></a></p>
+</div>
+<div class="box">
+<p><a href="http://www.muccashop.com.br/roupas-e-moda/">Roupas, moda</a>
+ e
+<a href="http://www.muccashop.com.br/bolsas-femininas/">bolsas femininas</a>
+ no
+<a href="http://www.muccashop.com.br/">MuccaShop</a>. 
+</p></div>
+<p></p>
+</div>
+
+<!----------------------------------------------------------------------------->
+<!-----------------------  E  S  Q  U  E  R  D  A ----------------------------->
+<!----------------------------------------------------------------------------->
+<div id="mainleft">
+<div align="center">
+<div align="center">
+<script language="JavaScript1.1" type="text/javascript" src="mrtg_instalacao_e_configuracao.php_arquivos/get_banner_002.htm">
+</script><a name="a_botao" 
+href="http://www.submarino.com.br/portal/home-portais/?offset=0&amp;limit=16&amp;order=salesPrice&amp;dir=desc&amp;listid=sl80portaljulho&amp;menuId=840&amp;abagrupo=237005&amp;p1=21816351&amp;p2=21509635&amp;franq=170707&amp;utm_source=afiliados&amp;utm_medium=duraveis&amp;utm_campaign=botao"
+ target="_blank" title="TVs com até R$ 700 de desconto - 
+Submarino.com.br"><img name="img_botao" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/125x125_tvsdesconto700.gif"
+ alt="TVs com até R$ 700 de desconto - Submarino.com.br" border="0"></a><script languange="JavaScript1.1">
+var elmA = document.getElementsByName("a_botao");
+var elmIMG = document.getElementsByName("img_botao");
+var arrItens = new Array(3);
+arrItens[0] = "tvsdesconto700|http://www.submarino.com.br/portal/home-portais/?offset=0&limit=16&order=salesPrice&dir=desc&listid=sl80portaljulho&menuId=840&abagrupo=237005&p1=21816351&p2=21509635&franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=botao|TVs com até R$ 700 de desconto";
+arrItens[1] = "clubdosub|http://www.submarino.com.br/portal/club-do-sub/?&franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=botao|Tudo para as crianças com frete gratis";
+arrItens[2] = "smartphone|http://www.submarino.com.br/portal/hotsite-celular-nokia-n8?franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=botao|Lançamento Nokia N8";
+for (var i = 0; i < elmA.length; i++) {
+var item = Math.floor(Math.random() * 3);
+elmA[i].setAttribute("title", (arrItens[item].split("|")[2] + " - Submarino.com.br"));
+elmA[i].setAttribute("href", arrItens[item].split("|")[1]);
+setImg(item, i); } 
+function setImg (item, count) {
+for (var i = 0; i < elmIMG.length; i++) {
+if (count == i) { 
+elmIMG[i].setAttribute("src", ("http://i.s8.com.br/images/afiliados/banner/125x125_" + arrItens[item].split("|")[0] + ".gif"));
+elmIMG[i].setAttribute("alt", (arrItens[item].split("|")[2] + " - Submarino.com.br")); 
+break; } } }
+</script>
+
+</div><div id="beacon_105" style="position: absolute; left: 0px; top: 
+0px; visibility: hidden;"><img 
+src="mrtg_instalacao_e_configuracao.php_arquivos/adlog_003.gif" alt="" 
+style="width: 0px; height: 0px;" width="0" height="0"></div><p>&nbsp;</p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-7096961373083740";
+/* 120x600, criado 19/07/09 */
+google_ad_slot = "6995766516";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="mrtg_instalacao_e_configuracao.php_arquivos/show_ads.js">
+</script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins
+ style="display: inline-table; border: medium none; height: 600px; 
+margin: 0pt; padding: 0pt; position: relative; visibility: visible; 
+width: 120px;"><ins id="google_ads_frame3_anchor" style="display: block;
+ border: medium none; height: 600px; margin: 0pt; padding: 0pt; 
+position: relative; visibility: visible; width: 120px;"><iframe 
+allowtransparency="true" hspace="0" id="google_ads_frame3" 
+marginheight="0" marginwidth="0" name="google_ads_frame" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/ads_003.htm" 
+style="left: 0pt; position: absolute; top: 0pt;" vspace="0" width="120" 
+frameborder="0" height="600" scrolling="no"></iframe></ins></ins>
+</div>
+</div>
+
+<!----------------------------------------------------------------------------->
+<!-----------------------  D  I  R  E  I  T  A -------------------------------->
+<!----------------------------------------------------------------------------->
+<div id="footer">
+<p align="center">
+</p><p><a href="http://www.dicas-l.com.br/privacy.php">Privacy Policy</a>
+
+</p><p>O material veiculado neste site poderá ser livremente distribuído<br>
+ para fins não comerciais, segundo os termos da licença da<br> 
+<a href="http://creativecommons.org/licenses/by-nc-sa/2.0/br/deed.pt">
+<img src="mrtg_instalacao_e_configuracao.php_arquivos/somerights20.gif" 
+border="0">
+<br>Creative Commons</a><br>.
+
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.0/br/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.0/br/">
+<permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+<permits rdf:resource="http://web.resource.org/cc/Distribution" />
+<requires rdf:resource="http://web.resource.org/cc/Notice" />
+<requires rdf:resource="http://web.resource.org/cc/Attribution" />
+<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse" />
+<permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+<requires rdf:resource="http://web.resource.org/cc/ShareAlike" />
+</License>
+</rdf:RDF>
+-->
+</p><p>
+    <a 
+href="http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fwww.dicas-l.com.br%2Fcss%2Fstyle.css&amp;profile=css21&amp;usermedium=all&amp;warning=1">
+        <img style="border: 0pt none; width: 88px; height: 31px;" 
+src="mrtg_instalacao_e_configuracao.php_arquivos/vcss.gif" alt="Valid 
+CSS!">
+    </a>
+</p></div>
+
+<!----------------------------------------------------------------------------->
+<!-------- C  R  E  A  T  I  V  E    C  O  M  M  O  N  S ---------------------->
+<rdf:rdf xmlns="http://web.resource.org/cc/" 
+xmlns:dc="http://purl.org/dc/elements/1.1/" 
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<work rdf:about="">
+<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text">
+<license 
+rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.0/br/">
+</license>
+<license 
+rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.0/br/">
+<permits rdf:resource="http://web.resource.org/cc/Reproduction">
+<permits rdf:resource="http://web.resource.org/cc/Distribution">
+<requires rdf:resource="http://web.resource.org/cc/Notice">
+<requires rdf:resource="http://web.resource.org/cc/Attribution">
+<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse">
+<permits rdf:resource="http://web.resource.org/cc/DerivativeWorks">
+<requires rdf:resource="http://web.resource.org/cc/ShareAlike">
+</requires>
+</permits>
+<!-------- C  R  E  A  T  I  V  E    C  O  M  M  O  N  S ---------------------->
+<!----------------------------------------------------------------------------->
+<script src="mrtg_instalacao_e_configuracao.php_arquivos/show.jsp"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="mrtg_instalacao_e_configuracao.php_arquivos/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4077352-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</prohibits></requires></requires></permits></permits></license></dc:type></work></rdf:rdf></div></body></html>

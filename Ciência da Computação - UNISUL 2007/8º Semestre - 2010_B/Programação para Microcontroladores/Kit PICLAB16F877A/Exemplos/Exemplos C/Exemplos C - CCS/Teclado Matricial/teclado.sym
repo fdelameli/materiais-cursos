@@ -1,0 +1,79 @@
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020     @INTERRUPT_AREA
+021     @INTERRUPT_AREA
+022     @INTERRUPT_AREA
+023     @INTERRUPT_AREA
+024     @INTERRUPT_AREA
+025     @INTERRUPT_AREA
+026     @INTERRUPT_AREA
+027     @INTERRUPT_AREA
+028     milhar
+029     centena
+02A     dezena
+02B     unidade
+02C     indice
+02D.0   tecla0
+02D.1   tecla1
+02D.2   tecla2
+02D.3   tecla3
+02D.4   tecla4
+02D.5   tecla5
+02D.6   tecla6
+02D.7   tecla7
+02E.0   tecla8
+02E.1   tecla9
+02E.2   teclaE
+02E.3   teclaC
+02F     Ist_Timer0.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+07F     @INTERRUPT_AREA
+09C.6   C1OUT
+09C.7   C2OUT
+0FF     @INTERRUPT_AREA
+17F     @INTERRUPT_AREA
+1FF     @INTERRUPT_AREA
+27F     @INTERRUPT_AREA
+2FF     @INTERRUPT_AREA
+37F     @INTERRUPT_AREA
+3FF     @INTERRUPT_AREA
+
+0033  @const51
+011F  main
+00FB  Inicializa
+0046  Ist_Timer0
+00F3  @goto10080
+011F  @cinit
+
+Project Files:
+    C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.c
+    C:\Arquivos de programas\PICC\devices\16F877A.h
+
+Units:
+    C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   8
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.err
+    INHX8:       C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.hex
+    Symbols:     C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.sym
+    List:        C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.lst
+    Debug/COFF:  C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.cof
+    Call Tree:   C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.tre
+    Statistics:  C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.sta

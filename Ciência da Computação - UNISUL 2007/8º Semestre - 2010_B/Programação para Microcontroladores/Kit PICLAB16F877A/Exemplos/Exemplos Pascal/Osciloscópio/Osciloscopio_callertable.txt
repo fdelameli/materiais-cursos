@@ -1,0 +1,21 @@
+main
+	WordToStr
+		Div_16x16_U
+	Mul_16x16_U
+	USART_Write
+	Div_16x16_U
+	ADC_read
+		Delay_22us
+	USART_init
+	Lcd8_Out
+		Lcd8_Cmd
+			Delay_500us
+			Delay_5500us
+			Delay_1us
+	Lcd8_Cmd
+		Delay_500us
+		Delay_5500us
+		Delay_1us
+	Lcd8_Init
+		Delay_1us
+		Delay_5500us

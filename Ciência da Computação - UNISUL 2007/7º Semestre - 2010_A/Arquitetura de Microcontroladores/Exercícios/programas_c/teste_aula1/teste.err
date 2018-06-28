@@ -1,0 +1,3 @@
+>>> Warning 202 "teste.c" Line 10(16,19): Variable never used:   led
+      Memory usage:   ROM=0%      RAM=2% - 2%
+      0 Errors,  1 Warnings.

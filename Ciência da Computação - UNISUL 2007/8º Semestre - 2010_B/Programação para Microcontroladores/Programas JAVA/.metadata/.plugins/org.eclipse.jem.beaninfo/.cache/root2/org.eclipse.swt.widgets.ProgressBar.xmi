@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<change:ChangeDescription xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:change="http://www.eclipse.org/emf/2003/Change" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.jem.internal.beaninfo.beaninfo="http:///org/eclipse/jem/internal/beaninfo/beaninfo.ecore" xmlns:org.eclipse.jem.java="java.xmi">
+  <objectChanges xsi:type="change:EObjectToChangesMapEntry" key="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.widgets#ProgressBar">
+    <value xsi:type="change:FeatureChange" featureName="eAnnotations">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.0"/>
+    </value>
+    <value xsi:type="change:FeatureChange" featureName="eStructuralFeatures">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.1 #//@objectsToAttach.2 #//@objectsToAttach.3"/>
+    </value>
+  </objectChanges>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanDecorator" implicitlySetBits="2161727821137838094" implicitDecoratorFlag="IMPLICIT_DECORATOR" mergeSuperMethods="false">
+    <attributes xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:FeatureAttributeMapEntry" key="org.eclipse.ve.sweet.stylebits" value="implicit,[5][]{[4]{&quot;controlOrientation&quot;,&quot;controlOrientation&quot;,true,[6]{&quot;LEFT_TO_RIGHT&quot;,&quot;org.eclipse.swt.SWT.LEFT_TO_RIGHT&quot;,33554432,&quot;RIGHT_TO_LEFT&quot;,&quot;org.eclipse.swt.SWT.RIGHT_TO_LEFT&quot;,67108864}},[4]{&quot;orientation&quot;,&quot;orientation&quot;,false,[6]{&quot;HORIZONTAL&quot;,&quot;org.eclipse.swt.SWT.HORIZONTAL&quot;,256,&quot;VERTICAL&quot;,&quot;org.eclipse.swt.SWT.VERTICAL&quot;,512}},[4]{&quot;smooth&quot;,&quot;smooth&quot;,false,[3]{&quot;SMOOTH&quot;,&quot;org.eclipse.swt.SWT.SMOOTH&quot;,65536}},[4]{&quot;border&quot;,&quot;border&quot;,false,[3]{&quot;BORDER&quot;,&quot;org.eclipse.swt.SWT.BORDER&quot;,2048}},[4]{&quot;indeterminate&quot;,&quot;indeterminate&quot;,false,[3]{&quot;INDETERMINATE&quot;,&quot;org.eclipse.swt.SWT.INDETERMINATE&quot;,2}}}"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="maximum" eType="org.eclipse.jem.java:JavaDataType java:/#int" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="The maximum value which the receiver will allow." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#ProgressBar.getMaximum(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#ProgressBar.setMaximum(int"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="minimum" eType="org.eclipse.jem.java:JavaDataType java:/#int" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="The minimum value which the receiver will allow." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#ProgressBar.getMinimum(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#ProgressBar.setMinimum(int"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="selection" eType="org.eclipse.jem.java:JavaDataType java:/#int" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="The single selection that is the receiver's position." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#ProgressBar.getSelection(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#ProgressBar.setSelection(int"/>
+  </objectsToAttach>
+</change:ChangeDescription>

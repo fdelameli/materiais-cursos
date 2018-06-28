@@ -1,0 +1,113 @@
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*           Programação Em Basic - Módulo B PIC16F877A        *
+'*                             Exemplo 11                      *
+'*                                                             *
+'*             CENTRO DE TREINAMENTO - Cerne Tecnologia        *
+'*                                                             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*   VERSÃO : 1.0
+'*   DATA : 22/07/2005
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                         Descrição geral                     *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Utilização do PWM do pic para controlar a rotação do ventilador
+'permitindo desta forma medir o RPM do mesmo
+
+program MedicaoIR     'Definição do programa
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração das saídas do software             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+symbol RESISTOR = PORTC.1
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração das entradas do software           *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*             Definição e inicialização das variáveis         *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as variáveis globais do sistema
+
+dim leitura_ad as word
+dim string_ad as string[10]
+dim leitura_ir as word
+dim string_ir as string[10]
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                      Declaração de Labels                   *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir todos os labels utilizadas pelo sistema
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                      Constantes internas                    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as constantes utilizadas pelo sistema
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                Declaração dos flags de software             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir os flags utilizados no sistema
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração de Rotinas e Interrupções          *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Início do programa                    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Nessa parte ficará o loop principal do sistema
+
+   adcon1=%10000100
+   adcon0=%01011001                           ' Configura o ad
+   trisa=%11111111                            ' põe todos os pinos para entrada
+   trisc=%00000001
+   trisd=%00000000
+   trise=%00000001                             'configura i/os
+
+   t1con=%00000111                             'prescaler 1:1
+                                               'timer1 como contador externo
+                                               
+   option_reg=%10000000                        'configura prescaler do timer 0
+   Lcd8_Config(PORTE, PORTD, 2, 1, 3, 7, 6, 5, 4, 3, 2, 1, 0)
+   Lcd8_Cmd(LCD_CLEAR)                         'limpa o display
+   Lcd8_Cmd(LCD_CURSOR_OFF)                    'Desliga o cursor
+   Lcd8_out(1, 1, "Duty-Cycle:")                'Mostra mensagem no display
+   Pwm_Init(1000)                              'Configura o módulo PWM para trabalhar a 1kHz
+   Pwm_Start                                   'Inicia o PWM
+   RESISTOR=1                                  'liga o resistor
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Rotina Principal                      *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+     while 1 = 1
+
+       leitura_ad= ADC_read(0) / 4             'faz a leitura do ad
+       Pwm_Change_Duty(leitura_ad)             'Atualiza PWM
+       leitura_ad=(leitura_ad * 100)/255       'Converte para faixa de 0 até 100
+       wordtostr(leitura_ad,string_ad)         'Converte para string
+       strcat(string_ad," % ")                 'concatena a string
+       Lcd8_out(1,12,string_ad)                'imprime o dado no lcd
+
+       tmr1h=0
+       tmr1l=0
+       delay_ms(1000)
+       leitura_ir=tmr1h*256
+       leitura_ir=leitura_ir or tmr1l
+       leitura_ir=leitura_ir / 7               'divide pelo número de alestas
+       leitura_ir=leitura_ir * 60              'acha o RPM multiplicando por 60
+       wordtostr(leitura_ir,string_ir)         'Converte para string
+       Lcd8_out(2,1,"RPM: ")                   'imprime o dado no lcd
+       Lcd8_out(2,6,string_ir)                 'imprime o dado no lcd
+
+      wend
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Fim do programa                       *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    end.

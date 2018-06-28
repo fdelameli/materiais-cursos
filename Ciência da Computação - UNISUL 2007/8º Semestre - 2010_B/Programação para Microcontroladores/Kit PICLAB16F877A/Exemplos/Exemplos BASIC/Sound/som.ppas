@@ -1,0 +1,100 @@
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*           Programação Em Pascal - Módulo B PIC16F877A       *
+*                             Exemplo 10                      *
+*                                                             *
+*             CENTRO DE TREINAMENTO - Ápice Tecnologia        *
+*                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*   VERSÃO : 1.0
+*   DATA : 22/07/2005
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                         Descrição geral                     *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Iremos neste exemplo utilizar a função de linguagem "sound"
+desta forma, iremos produzir vários sons de frequências diferentes
+na saída de som}
+
+program som;       //Definição do programa
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*             Definição e inicialização das variáveis         *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir as variáveis globais do sistema}
+
+var ValorAdc:word;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
+*                      Declaração de Labels                   *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir todos os labels utilizadas pelo sistema}
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
+*                      Constantes internas                    *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir as constantes utilizadas pelo sistema}
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                Declaração dos flags de software             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Aqui iremos definir os flags utilizados no sistema   }
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*               Declaração das saídas do software             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*               Declaração das entradas do software            *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *}
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*               Declaração de Rotinas e Interrupções           *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *}
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Início do programa                    *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Nessa parte ficará o loop principal do sistema}
+
+begin
+      trisc:=0;
+      trisd:=0;             //configura o portd
+      trisb:=0;             //configura o portb
+      adcon1:=%10000100;
+      adcon0:=%01000001;    //Configura o ad
+      Sound_Init(PORTC,5);  //Inicializa a máquina de som
+      portb:=%00100000;     //liga a seleção de leds
+      
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Rotina Principal                      *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+     while true do
+      begin
+        ValorAdc:= ADC_read(0);   //Pega os 8 bits menos significativos
+        ValorAdc:=ValorAdc/4;
+
+        portd:=0;
+        if ValorAdc>=250  then portd.7:=1;
+        if ValorAdc>=224  then portd.6:=1;
+        if ValorAdc>=192  then portd.5:=1;
+        if ValorAdc>=160  then portd.4:=1;
+        if ValorAdc>=128  then portd.3:=1;
+        if ValorAdc>=96   then portd.2:=1;
+        if ValorAdc>=64   then portd.1:=1;
+        if ValorAdc>=32   then portd.0:=1;
+        
+        Sound_Play(ValorAdc, 200);    //Toca o som
+      end;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Fim do programa                       *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+    end.
+
+
+
+
+

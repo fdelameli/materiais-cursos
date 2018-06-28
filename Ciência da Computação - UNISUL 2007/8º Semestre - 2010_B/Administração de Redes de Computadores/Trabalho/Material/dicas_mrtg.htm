@@ -1,0 +1,309 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<style type="text/css" title="LinuxBrazil">
+p, td,
+ul,li,
+dt     {
+            font-size: 11px;
+            color :white;
+            font-family: Verdana,Arial,Geneva,Helvetica,sans-serif;
+            text-align: left;
+            text-decoration: none;
+       }
+tt     {
+            text-align: left;
+            font-size: 11px;
+            color : #d0d0d0;
+            font-family: "courier new",courier, fixed;
+       }
+pre    {
+            text-align: left;
+            font-size: 11px;
+            color : #d0d0d0;
+            font-family: "courier new",courier, fixed;
+            padding-left: 25px;
+       }
+a      {
+            text-align: left;
+            font-size: 11px;
+            color : #FFFF00;
+            font-family: Verdana,Arial,Geneva,Helvetica,sans-serif;
+            text-decoration: none
+}
+.regua {
+            font-size: 8px;
+            color : #FFFF00;
+            font-family: Verdana,Arial,Geneva,Helvetica,sans-serif;
+            text-decoration: none;
+	    text-align: right;
+	    border-top: thin solid white;
+}
+H1,H2,
+H3     {
+            font-size: 12px;
+            color :white;
+            font-family: lucida, verdana, arial, sans-serif;
+            text-align: left;
+       }
+.titl1 {
+         font-family: verdana, arial, sans;
+         font-size: 18px;
+         color: #CCC;
+         font-weight:bold;
+         text-align: right
+       }
+.titl2 {
+         font-family: verdana, arial, sans;
+         font-size: 16px;
+         color: white;
+         text-align: right
+       }
+.titl3 {
+         font-family: verdana, arial, sans;
+         font-size: 22px;
+         color: white;
+         text-align: center
+       }
+</style>
+<title>Linux in Brazil (
+MRTG
+ )</title></head><body bgcolor="black">
+<table width="100%"><tbody><tr><td><img 
+src="dicas_mrtg_arquivos/logo-peq.jpg"></td><td valign="middle"><div 
+class="titl3">
+MRTG
+</div></td><td valign="bottom"><p></p><div class="titl1">Linux in Brazil</div><br>
+<div class="titl2">Documentação original<br>
+e de qualidade<br>
+em bom português</div><p></p></td></tr>
+</tbody></table>
+
+<div class="regua"><a href="http://br-linux.org/faq_intro.htm">Dúvidas 
+comuns</a> | <a href="http://br-linux.org/forum/geral/">Perguntar no 
+Fórum</a> | <a href="http://br-linux.org/linuxnews/">Notícias</a> | <a 
+href="http://br-linux.org/tab_mapa.htm">Mais documentos</a> | <a 
+target="_blank" href="http://br-linux.org/feedback.htm">Contato</a></div>
+
+
+<!-- texto-inicio -->
+
+<h3>Monitoramento com o MRTG</h3>
+
+<p>Augusto C. Campos - brain@matrix.com.br
+
+</p><p align="justify">
+O MRTG (www.mrtg.org) é um software livre que facilita enormemente a 
+tarefa de acompanhar
+o funcionamento do seus sistema. Embora o seu foco seja o acompanhamento
+ de
+componentes de rede através do protocolo SNMP, você pode muito bem 
+utilizar
+este software para verificar o funcionamento do seu computador doméstico
+ ou
+estação de trabalho.
+
+</p><p align="justify">
+O site do MRTG tem muitos exemplos de como monitorar roteadores e outros
+ 
+equipamentos de rede, mas muita gente procura informações sobre a 
+interface
+do MRTG com programas externos.
+
+</p><p align="justify">
+Nesta dica demonstrarei como utilizar o MRTG para gerar um gráfico do
+uso de
+sua CPU, ocupação da memória e tráfego de dados em uma conexão PPP. As
+explicações sobre o funcionamento do software ficam para outra ocasião
+(aguardem ;-), ou para o site oficial do MRTG (www.mrtg.org). Se você 
+tem alguma noção de
+programação shell, não terá dificuldade em extrapolar os exemplos e 
+monitorar o que
+quiser e puder.
+
+</p><p align="justify">
+Para completar, montaremos uma página HTML bastante interessante para
+deixar
+como abertura do seu Netscape.
+
+</p><p align="justify">
+Em primeiro lugar, é preciso ter o pacote MRTG instalado (todas as
+diostribuições comerciais de Linux o incluem), e o seu kernel deve ter
+suporte ao pseudo-filesystem <tt>/proc</tt> habilitado e em operação, 
+pois
+iremos coletar dados diretamente de seus componentes.
+
+</p><p align="justify">
+Nossos arquivos de exemplo serão instalados no diretório
+/home/brain/mrtg,
+mude de acordo com a sua conveniência.
+
+
+</p><h3>
+</h3><h3>Os scripts de aquisição de dados</h3>
+
+
+<p align="justify">
+Os scripts para interface com o MRTG se caracterizam por sempre
+retornarem
+dois valores, um em cada linha, na saída padrão a cada vez que são
+executados. Estes valores correspondem às variáveis (sempre duas)
+monitoradas pelo script.
+
+</p><p align="justify"> 
+O script abaixo, bastante simples, extrai dados sobre
+o tráfego na sua interface ppp0. Grave-o com o nome de pppstats, e
+torne-o executável com o comando "chmod 755 /home/brain/mrtg/pppstats").
+Se quiser que ele grave os dados de sua placa de rede, ao invés do
+modem, substitua o <tt>ppp0</tt> por <tt>eth0</tt>:
+
+</p><pre>#!/bin/awk -f
+/ppp0:/ { $0=substr($0,index($0,":")+1);
+          print $1;print $9} 
+</pre>
+
+<p align="justify">
+Este segundo script extrai informações sobre o uso da CPU e da memória,
+transforma em percentual e repassa ao MRTG. Grave-o com o nome de 
+cpustats,
+e torne-o executável com o comando "chmod 755 
+/home/brain/mrtg/cpustats")
+
+</p><pre>#!/bin/sh
+mem=$(/usr/bin/free|grep ^-)
+cpu=$(grep '^cpu ' /proc/stat)
+/bin/awk -v cpu="$cpu" -v mem="$mem" '
+BEGIN {
+  split(cpu,cpustats)
+  print 100-int(100*cpustats[4]/(cpustats[1]+\
+        cpustats[2]+cpustats[3]+cpustats[4]))
+  split(mem,memstats);
+  print int(100*memstats[3]/(memstats[3]+\
+        memstats[4]));
+}'
+</pre>
+
+<p align="justify">
+Agora, trate de criar um arquivo de configuração para o MRTG, e grave-o
+com o
+nome de mrtg.conf:
+
+</p><pre>WorkDir: /home/brain/mrtg
+Target[ppp0]: `/home/brain/mrtg/pppstats /proc/net/dev`
+Title[ppp0]:"Tráfego na interface PPP0"              
+PageTop[ppp0]: &lt;h1&gt;Tráfego de dados no modem local&lt;/h1&gt;
+MaxBytes[ppp0]:7168 
+Options[ppp0]: growright,bits,noinfo                          
+#Unscaled[ppp0]:ymwd
+
+<p>
+Target[perf]:`/home/brain/mrtg/cpustats`
+Title[perf]:"CPU e memória"
+PageTop[perf]:"&lt;h1&gt;Uso de CPU e memória&lt;/h1&gt;"
+MaxBytes[perf]:100
+Unscaled[perf]:ymwd
+Options[perf]: growright,noinfo,gauge
+YLegend[perf]: Percentual
+ShortLegend[perf]: %
+Legend1[perf]: Uso de tempo da CPU
+Legend2[perf]: Uso da memória real
+LegendI[perf]: CPU
+LegendO[perf]: Mem
+</p></pre>
+
+
+<h3>
+<p align="justify"> 
+Tudo está pronto! Agora inclua na sua <a class="ref" 
+href="http://br-linux.org/dicas_cron.htm">crontab</a> a linha para 
+executar o mrtg a cada 5
+minutos, passando como parâmetro o nome do arquivo de configuração que
+você criou, conforme o exemplo:
+</p></h3>
+
+<pre>*/5 * * * * /usr/bin/mrtg /home/brain/mrtg/mrtg.conf
+</pre>
+
+<p align="justify">
+Após 5 minutos você poderá ver o início dos seus gráficos se formando
+nos arquivos em
+formato html que serão criados no diretório /home/brain/mrtg. Antes de 5
+ minutos, os 
+dados aparecerão zerados, mesmo que você execute várias vezes o mrtg 
+manualmente - isto é
+uma consequência do modo como ele calcula suas estatísticas.
+
+</p><h3>Usando em uma página de abertura do Netscape</h3>
+
+<p align="justify">
+Minha página de abertura do Netscape (configurada através do menu Edit |
+Preferences) é
+o arquivo HTML copiado abaixo (com o nome de abertura.html), contendo um
+ formulário para
+pesquisa rápida no google.com, link para os sites que visito com mais 
+frequência, e
+inclusão de duas imagens geradas automaticamente pelo MRTG. Para usar o 
+meu arquivo, tudo
+o que você tem que fazer é colá-lo em um arquivo abertura.html no seu 
+diretório do mrtg,
+e depois editá-lo até ficar a seu gosto.
+
+</p><p align="justify">
+Veja a listagem do abertura.html:
+
+</p><ul><dt>
+<p>
+&lt;head&gt; &lt;title&gt;Augusto C. Campos&lt;/title&gt; &lt;/head&gt;
+&lt;body bgcolor=black text=yellow link=white 
+vlink=white&gt;
+
+</p><p>
+&lt;h1 align=center&gt;Augusto César Campos&lt;/h1&gt; &lt;table
+border=0 width=100%&gt; &lt;tr&gt;&lt;td&gt;
+
+</p><p>
+&lt;form action=http://www.google.com/search
+method=get name=f&gt; &lt;table&gt;&lt;tr&gt;&lt;td&gt; &lt;input
+type=text value="" framewidth=4 name=q size=55
+maxlength=256&gt; &lt;font size=-1
+face=arial,sans-serif&gt; &lt;br&gt;&lt;center&gt;&lt;input
+type=radio name=lr value="" checked&gt;Pesquisar na
+Web &lt;input type=radio name=lr value=lang_pt
+&gt;Pesquisar páginas em Português&lt;/center&gt; &lt;/font&gt;
+&lt;/td&gt;&lt;td&gt; &lt;input name=btnG type=submit
+value="Pesquisa Google"&gt; &lt;br&gt;&lt;input name=btnI
+type=submit value="Busca Direta"&gt;&lt;input name=hl
+type=hidden value=pt&gt; &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt; 
+&lt;/form&gt;
+
+</p><p>
+&lt;/td&gt;&lt;td&gt; &lt;a
+href=http://www.linux.trix.net/&gt;Linux in
+Brazil&lt;/a&gt; &lt;br&gt;&lt;a
+href=http://www.linux.trix.net/forum/geral&gt;Fórum&lt;/a&gt;
+&lt;br&gt;&lt;a
+href=file:///home/brain/.netscape/bookmarks.html&gt;Bookm$&lt;br&gt;&lt;a
+href=http://slashdot.org/&gt;Slashdot&lt;/a&gt;
+  
+&lt;br&gt;&lt;a href=http://pontobr.org/&gt;PontoBR&lt;/a&gt;
+&lt;br&gt;&lt;a href=http://linuxtoday.com/&gt;LinuxToday&lt;/a&gt;
+&lt;br&gt;&lt;a href=http://freshmeat.net/&gt;Freshmeat&lt;/a&gt;
+&lt;/td&gt;&lt;/tr&gt;  
+
+</p><p>
+&lt;tr&gt;&lt;td colspan=2&gt;&lt;center&gt; &lt;p&gt;&lt;h1&gt;Uso da 
+CPU e
+memória nas últimas 24 horas&lt;/h1&gt; &lt;img
+src=perf-day.png&gt; &lt;br&gt;(em verde: CPU ocupada. Em
+azul: memória ocupada) &lt;h1&gt;Uso do modem nas
+últimas 24 horas&lt;/h1&gt; &lt;img src=ppp0-day.png&gt;   
+&lt;br&gt;(em verde: tráfego recebido. Em azul: tráfego
+enviado) &lt;/center&gt;&lt;/td&gt;&lt;/tr&gt; &lt;/table&gt;   
+
+</p><p>
+&lt;/body&gt;
+</p></dt></ul>
+
+<!-- texto-final -->
+
+
+</body></html>

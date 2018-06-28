@@ -1,0 +1,46 @@
+
+ROM used: 61 (1%)
+          61 (1%) including unused fragments
+
+          0 Average locations per line
+          10 Average locations per statement
+
+RAM used: 8 (2%) at main() level
+          9 (2%) worst case
+
+Stack used: 1 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   19     6 100  teste_swap.c
+  309     0   0  ..\..\..\..\..\..\..\..\Program Files\PICC\devices\16F877A.h
+----- -----
+  328     6 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     21  34   1             @delay_ms1
+0     36  59   2   115  2.1  main
+
+Program metrics:
+    Functions               1
+    Statements              6
+    Comments                74
+    Volume (V)              117
+    Difficilty (D)          2.0
+    Effort to implement (E) 233
+    Time to implement (T)   0 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   1
+    Maintainability (MI)    151
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF    57  1987  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

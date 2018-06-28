@@ -1,0 +1,58 @@
+package com.br.lhmanager.model.bo;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.br.lhmanager.controller.entitys.Despesa;
+import com.br.lhmanager.model.dao.DespesaDAO;
+
+public class DespesaBo {
+
+	DespesaDAO dao = new DespesaDAO();
+
+	public String validaCadastro( Despesa d ) {
+		if ( d.getDescricao().trim().equals( "" ) ) {
+			return "Campo [DESCRIÇÃO] é obrigatório";
+		}
+		if ( d.getValor() < 0.0 ) {
+			return "Campo [VALOR] é obrigatório";
+		}
+		if ( d.getTipoDespesa() == null ) {
+			return "Campo [TIPO DA DESPESA] é obrigatório";
+		}
+		return "";
+	}
+
+	public String inserir( Despesa d ) throws SQLException {
+		String msg = validaCadastro( d );
+		if ( msg.equals( "" ) ) {
+			dao.inserir( d );
+			msg = "Cadastro Confirmado";
+		}
+		return msg;
+	}
+
+	public String alterar( Despesa d ) throws SQLException {
+		String msg = validaCadastro( d );
+		if ( msg.equals( "" ) ) {
+			dao.alterar( d );
+			msg = "Alteração Confirmada";
+		}
+		return msg;
+	}
+
+	public String excluir( Despesa d ) throws SQLException {
+		dao.excluir( d );
+		return "Exclusão confirmada";
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public ArrayList<Despesa> consultar() throws SQLException {
+		return dao.consultar();
+	}
+
+	public Despesa findById( Object obj ) throws SQLException {
+		return (Despesa ) dao.findById( obj );
+	}
+
+}

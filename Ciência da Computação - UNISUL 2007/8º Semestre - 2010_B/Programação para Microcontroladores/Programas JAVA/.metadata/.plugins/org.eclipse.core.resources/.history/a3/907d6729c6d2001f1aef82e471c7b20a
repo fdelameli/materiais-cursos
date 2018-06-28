@@ -1,0 +1,121 @@
+package swt;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Shell;
+
+
+public class ProgressBarTest {
+
+	private Shell sShell = null; // @jve:decl-index=0:visual-constraint="10,10"
+	private Composite composite = null;
+	private ProgressBar progressBar = null;
+	private CLabel label = null;
+	private Button btIniciar = null;
+
+
+	/**
+	 * This method initializes sShell
+	 */
+	public Shell createSShell() {
+		sShell = new Shell();
+		sShell.setText( "Teste Barra de Progresso" );
+		sShell.setSize( new Point( 300, 173 ) );
+		sShell.setLayout( null );
+		createComposite();
+		return sShell;
+	}
+
+	/**
+	 * This method initializes composite
+	 */
+	private void createComposite() {
+		composite = new Composite( sShell, SWT.NONE );
+		composite.setLayout( null );
+		composite.setBounds( new Rectangle( 0, 0, 284, 136 ) );
+		progressBar = new ProgressBar( composite, SWT.SMOOTH | SWT.BORDER );
+		progressBar.setBounds( new Rectangle( 23, 22, 238, 21 ) );
+		progressBar.setMinimum( 0 );
+		progressBar.setMaximum( 100 );
+		label = new CLabel( composite, SWT.CENTER );
+		label.setText( "0%" );
+		label.setBounds( new Rectangle( 116, 44, 48, 20 ) );
+		btIniciar = new Button( composite, SWT.NONE );
+		btIniciar.setBounds( new Rectangle( 68, 74, 143, 41 ) );
+		btIniciar.setText( "INICIAR" );
+		btIniciar.addSelectionListener( new SelectionListener() {
+
+			public void widgetSelected( SelectionEvent arg0 ) {
+				startProgressBar();
+			}
+
+			public void widgetDefaultSelected( SelectionEvent arg0 ) {
+			}
+		} );
+	}
+
+
+	/**
+	 * This method starts the progressBar
+	 */
+	private void startProgressBar() {
+		new Thread( new Runnable() {
+			public void run() {
+				final int max = 100;
+				for ( int i = 0; i <= max; i++ ) {
+					final int value = i;
+					if ( !sShell.isDisposed() && !sShell.getDisplay().isDisposed() ) {
+						sShell.getDisplay().asyncExec( new Runnable() {
+							public void run() {
+								if ( value == 0 ) // ENTRA APENAS NA PRIMEIRA VEZ (PARA SETAR O VALOR MÁXIMO)
+									progressBar.setMaximum( max );
+								progressBar.setSelection( value );
+								double percent =  100 * value / max;
+								delay( 100 ); // DETERMINA O INTERVALO DE ATUALIZAÇÃO DA BARRA DE PROGRESSO
+								label.setText( String.format( "%.2f%s", percent, "%" ) );
+							}
+						} );
+						
+					}
+				}
+			}
+		} ).start();
+	}
+
+
+	/**
+	 * This method provokes a delay
+	 */
+	private void delay( long time ) {
+		try {
+			Thread.sleep( time );
+		} catch ( InterruptedException e ) {
+			e.printStackTrace();
+		}
+	}
+
+
+	/**
+	 * This is the main method that starts the program
+	 */
+	public static void main( String[] args ) {
+
+		Display display = Display.getDefault();
+		Shell shell = new ProgressBarTest().createSShell();
+		shell.open();
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() )
+				display.sleep();
+		}
+		display.dispose();
+	}
+
+}

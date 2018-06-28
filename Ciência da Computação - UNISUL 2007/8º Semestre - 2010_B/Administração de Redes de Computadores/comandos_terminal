@@ -1,0 +1,110 @@
+su - // entra no modo de administrador
+yum install // instala algum pacote
+cd // acessa os diretórios
+
+service nome_serviço restart // reinicializa algum serivço
+service nome_serviço start // inicializa algum serivço
+service nome_serviço stop // para algum serivço
+service nome_serviço status // informa o status de algum serivço
+
+service dhcpd restart // inicializa o serviço dhcp
+/usr/sbin/dhcpd -d -f // inicializa o serviço dhcp em modo de depuração
+
+mcedit /etc/dhcpd.conf // abre o arquivo de configuracao com o mcedit
+
+//coloca endereço na placa de rede
+ifconfig eth__ 10.7.4.1 netmask 255.255.255.0 <enter>
+ping 10.1.4.1 // testa a conectividade
+/usr/sbin/dhcpd -d -f
+
+// visualiza o conteudo do log
+tail -f /var/lib/dhcpd/dhcpd.leases
+
+
+// vai para o diretório onte está o arquivos de conf
+cd /etc/xinetd.d/
+mcedit telnet // abre o conf do telnet com o mcedit
+
+// para o firewall
+service iptables stop
+
+cp telnet vsftp // criou uma cópia do arquivo telnet com o nome vsftp
+
+
+
+FTP
+
+autenticacao:
+anonymous - download
+autenticado - upload/download	
+
+porta 21 - ftp_control (autenticação)
+porta 20 - ftp_data (transferencia de dados)
+
+
+service vsftpd restart // reinicia o serviço ftp em standalone
+nmap // verifica o estado da porta
+
+//migrando serviço vsftpd para xinetd
+mcedit /etc/vsftpd/vsftpd.conf //abre o arquivo de configuracao
+mudar o parâmetro "listen=YES" para "listen=NO"
+configurar ftp no xinetd no caminho /etc/xinetd.d
+
+
+service xinetd restart // inicia xinetd
+
+
+ 
+// liberar acessos
+/etc/hosts.allow
+
+// negar acessos
+/etc/hosts.deny
+
+
+// criando novos usuarios
+adduser ftpupload // cria o usuario ftpupload
+passwd ftpupload // muda senha do usuario ftpupload
+
+//negar acesso ftp
+editar aquivo: /etc/vsftpd/ftpusers
+e adicionar o usuário a ser restrito
+
+
+
+//servidor web
+//configurando o apache
+
+//caminho do arquivo
+/etc/httpd/conf/httpd.conf
+
+//as paginas ficam no caminho:
+/var/www/html
+
+//disponibilizar paginas para usuários
+passo 1: comentar o UserDir disabled
+passo 2: descomentar o UserDir public_html
+passo 3: reiniciar o service httpd
+passo 4: criar um diretório na pasta do usuário chamado public_html
+passo 5: criar as páginas dento do diretório
+passo 6: dar permissões) chmod -R o=rx aluno/
+
+
+//configurando diretiva ALIAS
+passo1: acessar o diretório /usr/ e criar a pasta www
+passo2: acessar o diretório www/ e criar a pasta redirect
+passo3: acessar o diretório redirect e criar um arquivo index.html
+passo4: acessar o diretório /usr/ e dar permissoes: chmod -R o=rx www
+passo5: acessar o diretório /etc/httpd/conf
+passo6: Editar o arquivo httpd.conf e configurar a diretiva ALIAS
+
+
+//confirurando diretorio com autenticação
+passo1: acessar o diretório /var/www/html e criar a pasta seguro
+passo2: acessar o diretório seguro/ e criar o index.html
+passo3: criar o arquivo .htaccess no diretorio seguro/
+passo4: acessar o diretorio /etc/httpd/conf
+passo5: usar o comando: htpasswd -c httpd.passwd seguro (que cria uma senha para o usuário seguro)
+passo6: editar o arquivo httpd.conf e mudar o parametro AllowOverride None para AlowOverride AuthConfig
+passo7: reiniciar service httpd restart
+

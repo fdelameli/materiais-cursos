@@ -1,0 +1,19 @@
+document.write('<a name="a_sky" href="" target="_blank" title=""><img name="img_sky" src="" border="0" alt="" /></a>');document.write('<script languange="JavaScript1.1">\n');
+document.write('var elmA = document.getElementsByName("a_sky");\n');
+document.write('var elmIMG = document.getElementsByName("img_sky");\n');
+document.write('var arrItens = new Array(3);\n')
+document.write('arrItens[0] = "tvsdesconto700|http://www.submarino.com.br/portal/home-portais/?offset=0&limit=16&order=salesPrice&dir=desc&listid=sl80portaljulho&menuId=840&abagrupo=237005&p1=21816351&p2=21509635&franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=sky|TVs com até R$ 700 de desconto";\n')
+document.write('arrItens[1] = "clubdosub|http://www.submarino.com.br/portal/club-do-sub/?&franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=sky|Tudo para as crianças com frete gratis";\n')
+document.write('arrItens[2] = "smartphone|http://www.submarino.com.br/portal/hotsite-celular-nokia-n8?franq=170707&utm_source=afiliados&utm_medium=duraveis&utm_campaign=sky|Lançamento Nokia N8";\n')
+document.write('for (var i = 0; i < elmA.length; i++) {\n');
+document.write('var item = Math.floor(Math.random() * 3);\n')
+document.write('elmA[i].setAttribute("title", (arrItens[item].split("|")[2] + " - Submarino.com.br"));\n')
+document.write('elmA[i].setAttribute("href", arrItens[item].split("|")[1]);\n')
+document.write('setImg(item, i); } \n')
+document.write('function setImg (item, count) {\n')
+document.write('for (var i = 0; i < elmIMG.length; i++) {\n');
+document.write('if (count == i) { \n');
+document.write('elmIMG[i].setAttribute("src", ("http://i.s8.com.br/images/afiliados/banner/120x600_" + arrItens[item].split("|")[0] + ".gif"));\n')
+document.write('elmIMG[i].setAttribute("alt", (arrItens[item].split("|")[2] + " - Submarino.com.br")); \n')
+document.write('break; } } }\n')
+document.write('</script>\n');

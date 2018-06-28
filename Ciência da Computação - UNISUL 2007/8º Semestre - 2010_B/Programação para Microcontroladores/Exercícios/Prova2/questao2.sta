@@ -1,0 +1,67 @@
+
+ROM used: 1247 (15%)
+          1247 (15%) including unused fragments
+
+          1 Average locations per line
+          2 Average locations per statement
+
+RAM used: 20 (5%) at main() level
+          32 (9%) worst case
+
+Stack used: 3 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   79    45   8  questao2.c
+  309     0   0  ..\..\..\..\..\..\..\..\Program Files\PICC\devices\16F877A.h
+  893   380  69  ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stdlib.h
+   28     0   0  ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+  417   126  23  ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\string.h
+   28     0   0  ..\..\..\..\..\..\..\..\Program Files\PICC\drivers\ctype.h
+----- -----
+ 1754   551 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     21   2   1             @delay_ms1
+ Inline        5             @MUL1616
+ Inline       11  1808 10.4  atol
+0    173  14   3   909  6.2  MAIN
+0     35   3   0             @const337
+0     21   2   3             @DIV88
+0    107   9   6             @PRINTF_D_9600_62_63
+0     36   3   0             @const344
+0     56   4   2             @PRINTF_U_9600_62_63
+0     35   3   0             @const348
+0     60   5   0             @const349
+0    390  31   4   176  2.3  setarBits
+0     53   4   0             @const350
+0     32   3   0             @const351
+0     31   2   0             @const352
+0     49   4   1   108  2.7  setarRolagem
+0     65   5   0             @const353
+0     40   3   0             @const354
+0     39   3   0             @const355
+
+Program metrics:
+    Functions               4
+    Statements              551
+    Comments                831
+    Volume (V)              3754
+    Difficilty (D)          20.5
+    Effort to implement (E) 76918
+    Time to implement (T)   1 hours, 11 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   16
+    Maintainability (MI)    38
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF  1243  801  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

@@ -1,0 +1,260 @@
+CCS PCM C Compiler, Version 4.038, 33467               07-mai-10 10:15
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista2\exercicio01.lst
+
+               ROM used: 170 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 24 (7%) at main() level
+                         25 (7%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   02D
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect 
+.................... #use delay(clock=4Mhz) 
+0019:  MOVLW  12
+001A:  SUBWF  30,F
+001B:  BTFSS  03.0
+001C:  GOTO   02C
+001D:  MOVLW  30
+001E:  MOVWF  04
+001F:  BCF    03.7
+0020:  MOVLW  FC
+0021:  ANDWF  00,F
+0022:  BCF    03.0
+0023:  RRF    00,F
+0024:  RRF    00,F
+0025:  MOVF   00,W
+0026:  BTFSC  03.2
+0027:  GOTO   02C
+0028:  GOTO   02A
+0029:  NOP
+002A:  DECFSZ 00,F
+002B:  GOTO   029
+002C:  RETLW  00
+....................  
+.................... byte display [10]; 
+.................... int TIME = 100; 
+*
+0038:  MOVLW  64
+0039:  BCF    03.5
+003A:  MOVWF  2A
+....................  
+.................... void main() { 
+*
+002D:  CLRF   04
+002E:  BCF    03.7
+002F:  MOVLW  1F
+0030:  ANDWF  03,F
+0031:  BSF    03.5
+0032:  BSF    1F.0
+0033:  BSF    1F.1
+0034:  BSF    1F.2
+0035:  BCF    1F.3
+0036:  MOVLW  07
+0037:  MOVWF  1C
+....................  
+....................    int opcao = 0; // 0 = soma; 1 = subtração; 2 = multiplicação; 3 = divisão // 
+*
+003B:  CLRF   2B
+....................    int numero1 = 0; 
+003C:  CLRF   2C
+....................    int numero2 = 0; 
+003D:  CLRF   2D
+....................    int resultado = 0; 
+003E:  CLRF   2E
+....................    int aux = 0; 
+003F:  CLRF   2F
+....................     
+....................    display[0]=0b0111111; 
+0040:  MOVLW  3F
+0041:  MOVWF  20
+....................    display[1]=0b0000110; 
+0042:  MOVLW  06
+0043:  MOVWF  21
+....................    display[2]=0b1011011; 
+0044:  MOVLW  5B
+0045:  MOVWF  22
+....................    display[3]=0b1001111; 
+0046:  MOVLW  4F
+0047:  MOVWF  23
+....................    display[4]=0b1100110; 
+0048:  MOVLW  66
+0049:  MOVWF  24
+....................    display[5]=0b1101101; 
+004A:  MOVLW  6D
+004B:  MOVWF  25
+....................    display[6]=0b1111101; 
+004C:  MOVLW  7D
+004D:  MOVWF  26
+....................    display[7]=0b0100111; 
+004E:  MOVLW  27
+004F:  MOVWF  27
+....................    display[8]=0b1111111; 
+0050:  MOVLW  7F
+0051:  MOVWF  28
+....................    display[9]=0b1101111; 
+0052:  MOVLW  6F
+0053:  MOVWF  29
+....................  
+....................    while(true) { 
+....................     
+....................       // não sai do loop enquanto não escolher uma opção. 
+....................       /*while (true) {  
+....................          if(input(pin_a1)) { 
+....................             opcao = 0; 
+....................             break; 
+....................          } 
+....................          if(input(pin_a2)) { 
+....................             opcao = 1; 
+....................             break; 
+....................          } 
+....................          if(input(pin_a3)) { 
+....................             opcao = 2; 
+....................             break; 
+....................          } 
+....................          if(input(pin_a5)) { 
+....................             opcao = 3; 
+....................             break; 
+....................          } 
+....................       } 
+....................        
+....................        
+....................       while(!input(pin_e0)); 
+....................       
+....................       // pega o primeiro valor de entrada na porta c 
+....................       numero1 = input_c(); 
+....................        
+....................       // pega o segundo valor de entrada na porta d 
+....................       numero2 = input_d(); 
+....................        
+....................       // efetua a operação de acordo com a opção selecionada 
+....................       switch(opcao) { 
+....................          case 0 : resultado = numero1 + numero2; break; 
+....................          case 1 : resultado = numero1 - numero2; break; 
+....................          case 2 : resultado = numero1 * numero2; break; 
+....................          case 3 : resultado = numero1 / numero2; break; 
+....................       } 
+....................       */ 
+....................       resultado=12; 
+0054:  MOVLW  0C
+0055:  MOVWF  2E
+....................       while (true) { 
+....................        
+....................          output_b(display[resultado/100]); 
+0056:  MOVF   2E,W
+0057:  MOVWF  30
+0058:  MOVLW  64
+0059:  MOVWF  31
+005A:  CALL   004
+005B:  MOVLW  20
+005C:  ADDWF  78,W
+005D:  MOVWF  04
+005E:  BCF    03.7
+005F:  MOVF   00,W
+0060:  MOVWF  31
+0061:  BSF    03.5
+0062:  CLRF   06
+0063:  BCF    03.5
+0064:  MOVF   31,W
+0065:  MOVWF  06
+....................          output_low(pin_a0); 
+0066:  BSF    03.5
+0067:  BCF    05.0
+0068:  BCF    03.5
+0069:  BCF    05.0
+....................          delay_us(TIME); 
+006A:  MOVF   2A,W
+006B:  MOVWF  30
+006C:  CALL   019
+....................          output_high(pin_a0); 
+006D:  BSF    03.5
+006E:  BCF    05.0
+006F:  BCF    03.5
+0070:  BSF    05.0
+....................           
+....................          output_b(display[resultado/10]); 
+0071:  MOVF   2E,W
+0072:  MOVWF  30
+0073:  MOVLW  0A
+0074:  MOVWF  31
+0075:  CALL   004
+0076:  MOVLW  20
+0077:  ADDWF  78,W
+0078:  MOVWF  04
+0079:  BCF    03.7
+007A:  MOVF   00,W
+007B:  MOVWF  31
+007C:  BSF    03.5
+007D:  CLRF   06
+007E:  BCF    03.5
+007F:  MOVF   31,W
+0080:  MOVWF  06
+....................          output_low(pin_e2); 
+0081:  BSF    03.5
+0082:  BCF    09.2
+0083:  BCF    03.5
+0084:  BCF    09.2
+....................          delay_us(TIME); 
+0085:  MOVF   2A,W
+0086:  MOVWF  30
+0087:  CALL   019
+....................          output_high(pin_e2); 
+0088:  BSF    03.5
+0089:  BCF    09.2
+008A:  BCF    03.5
+008B:  BSF    09.2
+....................           
+....................          output_b(display[resultado%10]); 
+008C:  MOVF   2E,W
+008D:  MOVWF  30
+008E:  MOVLW  0A
+008F:  MOVWF  31
+0090:  CALL   004
+0091:  MOVLW  20
+0092:  ADDWF  77,W
+0093:  MOVWF  04
+0094:  BCF    03.7
+0095:  MOVF   00,W
+0096:  MOVWF  31
+0097:  BSF    03.5
+0098:  CLRF   06
+0099:  BCF    03.5
+009A:  MOVF   31,W
+009B:  MOVWF  06
+....................          output_low(pin_e1); 
+009C:  BSF    03.5
+009D:  BCF    09.1
+009E:  BCF    03.5
+009F:  BCF    09.1
+....................          delay_us(TIME); 
+00A0:  MOVF   2A,W
+00A1:  MOVWF  30
+00A2:  CALL   019
+....................          output_high(pin_e1); 
+00A3:  BSF    03.5
+00A4:  BCF    09.1
+00A5:  BCF    03.5
+00A6:  BSF    09.1
+....................           
+....................          //output_b(resultado); 
+....................           
+....................       } 
+00A7:  GOTO   056
+....................        
+....................    } 
+00A8:  GOTO   054
+....................  
+.................... } 
+00A9:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

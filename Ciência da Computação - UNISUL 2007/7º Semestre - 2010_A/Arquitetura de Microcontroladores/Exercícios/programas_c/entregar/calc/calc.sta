@@ -1,0 +1,77 @@
+
+ROM used: 3257 (40%)
+          3332 (41%) including unused fragments
+
+          1 Average locations per line
+          3 Average locations per statement
+
+RAM used: 49 (13%) at main() level
+          82 (22%) worst case
+
+Stack used: 7 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  337   209  21  calc.c
+  309     0   0  16F877A.h
+  107    58   6  lcd_4.c
+  893   380  38  ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stdlib.h
+   28     0   0  ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+  417   126  12  ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\string.h
+   28     0   0  ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\ctype.h
+  765   238  24  ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\math.h
+----- -----
+ 2884  1011 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     20   1   1             @delay_ms1
+0      8   0   0             @const48
+0     48   1   1   352  2.8  lcd_send_nibble
+0     43   1   3   259  3.8  lcd_send_byte
+0     47   1   2   380  4.7  lcd_init
+0     25   1   4   246  6.0  lcd_gotoxy
+0     64   2   1   531  5.2  lcd_putc
+0    301   9  21  1168  9.5  atof
+0    117   4  13             @MULFF
+0     29   1   2             @ITOF
+0    321  10  16             @ADDFF
+0    202   6  14             @DIVFF
+0     63   2  10             @FLT
+1    156   5  21   438  8.4  sqrt
+1    880  27  23  3731 10.0  MAIN
+0     15   0   5   120  3.4  reset_vector
+1    238   7   2   403  7.5  calc_functions
+1     10   0   0   403  7.5  @goto11854
+0     24   1   1   119  3.0  is_oper
+0     22   1   1   105  3.4  test_key
+ Inline        5   169  2.9  refresh_display_char
+0     11   0   0             @const497
+0     17   1   4    43  1.5  refresh_display
+ Inline        5             @FTOSD
+0     66   2  13             @DIV3232
+0    233   7  13             @PRINTF_L32D_61FPFPF
+0    293   9   0  1777  2.5  le_teclado
+
+Program metrics:
+    Functions               16
+    Statements              1011
+    Comments                1083
+    Volume (V)              15627
+    Difficilty (D)          83.2
+    Effort to implement (E) 1300084
+    Time to implement (T)   20 hours, 4 minutes
+    Est Delivered Bugs (B)  4
+    Cyclomatic Complexity   81
+    Maintainability (MI)    76
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF  1969  75  
+00800-00FFF  1284  764  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

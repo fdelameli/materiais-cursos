@@ -1,0 +1,1045 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+	<title>  Configurando o MRTG - Devin</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="index,follow">
+	<meta name="generator" content="WordPress 2.9.2">
+	<link rel="stylesheet" 
+href="Configurando%20o%20MRTG%20-%20Devin_arquivos/style.css" 
+type="text/css" media="screen">
+	<!--[if IE 6]> 
+	<link rel="stylesheet" href="http://www.devin.com.br/wp-content/themes/devin/ie6only.css" type="text/css" media="screen"> 
+	<![endif]-->
+	<link rel="alternate" type="application/rss+xml" title="Devin RSS Feed"
+ href="http://www.devin.com.br/feed/">
+	<link rel="pingback" href="http://www.devin.com.br/xmlrpc.php">
+	<link rel="alternate" type="application/rss+xml" title="Devin » 
+Configurando o MRTG  Feed de comentários" 
+href="http://www.devin.com.br/mrtg/feed/">
+<link rel="stylesheet" id="wp-postratings-css" 
+href="Configurando%20o%20MRTG%20-%20Devin_arquivos/postratings-css.css" 
+type="text/css" media="all">
+<script type="text/javascript" src="Configurando%20o%20MRTG%20-%20Devin_arquivos/jquery.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" 
+href="http://www.devin.com.br/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" 
+href="http://www.devin.com.br/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="Devin" href="http://www.devin.com.br/">
+<link rel="start" title="Comentários das distribuições Linux" 
+href="http://www.devin.com.br/distro_comments/">
+<link rel="prev" title="Recompilando o kernel do Linux" 
+href="http://www.devin.com.br/recomp_kernel/">
+<link rel="next" title="Tomcat: Como desabilitar a listagem de 
+diretórios quando não há um index?" 
+href="http://www.devin.com.br/tomcat-como-desabilitar-a-listagem-de-diretorios-quando-nao-ha-um-index/">
+<meta name="generator" content="WordPress 2.9.2">
+<link rel="canonical" href="http://www.devin.com.br/mrtg/">
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+	<link rel="stylesheet" 
+href="Configurando%20o%20MRTG%20-%20Devin_arquivos/branding.css" 
+type="text/css" media="screen">
+</head><body>
+
+<div id="titulo">
+	<div id="toprss">
+           <a href="http://twitter.com/eitchugo"><img 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/followtwitter.gif" 
+alt=""></a>
+           <a href="feed://http//www.devin.com.br/feed/"><img 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/grabrss.gif" alt=""></a>
+        </div>
+	<a href="http://www.devin.com.br/"><img 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/devin_logo.gif" 
+alt="devin" width="254" height="101"></a>
+</div> <!-- Fecha Titulo -->
+
+<div id="wrapper">
+
+<div id="nav">
+<ul>
+
+<li>
+<a href="http://www.devin.com.br/palestras"><span>Palestras</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/curriculum"><span>Curriculum</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/nostalgia"><span>Nostalgia</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/guestbook"><span>Livro de Visitas</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/sobre"><span>Sobre a Devin</span></a>
+</li>
+
+</ul>
+</div> <!-- Fecha Nav -->
+
+<div id="nav2">
+<ul>
+
+<li>
+<a href="http://www.devin.com.br/" title="Home"><span>Principal</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/cat/tutoriais"><span>Tutoriais</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/cat/dicas"><span>Dicas</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/traducoes"><span>Traduções</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/programas"><span>Programas</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/tlm/"><span>The Linux Manual</span></a>
+</li>
+
+<li>
+<a href="http://www.devin.com.br/blog"><span>Blog Pessoal</span></a>
+</li>
+
+</ul>
+</div> <!-- Fecha Nav2 -->
+
+<div class="topcurvewhite">
+	<div class="topcurvewhiteleft">
+		<div class="topcurvewhiteright"></div>
+	</div>
+</div>
+
+<div id="main">
+
+<div id="allsidebars">
+
+
+
+
+<div class="sidebarsB">
+
+<div class="adsense_sidebar"><!-- Insert your adsense code for a 336x280 rectangle right under here -->
+</div>
+
+<div class="sidebar1">
+
+<ul>
+
+	<li>
+<!-- Insert your adsense code for a 160x600 banner right under here -->
+<script type="text/javascript"><!--
+google_ad_client = "pub-9615963589819332";
+google_ad_slot = "2992791666";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="Configurando%20o%20MRTG%20-%20Devin_arquivos/show_ads.js">
+</script><script src="Configurando%20o%20MRTG%20-%20Devin_arquivos/expansion_embed.js"></script><script src="Configurando%20o%20MRTG%20-%20Devin_arquivos/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins
+ style="display: inline-table; border: medium none; height: 600px; 
+margin: 0pt; padding: 0pt; position: relative; visibility: visible; 
+width: 160px;"><ins id="google_ads_frame1_anchor" style="display: block;
+ border: medium none; height: 600px; margin: 0pt; padding: 0pt; 
+position: relative; visibility: visible; width: 160px;"><iframe 
+allowtransparency="true" hspace="0" id="google_ads_frame1" 
+marginheight="0" marginwidth="0" name="google_ads_frame" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/ads.htm" style="left: 
+0pt; position: absolute; top: 0pt;" vspace="0" width="160" 
+frameborder="0" height="600" scrolling="no"></iframe></ins></ins>
+
+	</li>
+
+<li id="text-226434071" class="sidebaritem"><h2 class="widgettitle">Parceiros</h2>
+			<div class="textwidget"><div align="center">
+<a href="http://www.coletivodigital.org.br/"><img 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/logo_coletivodigital.png"
+ alt="Coletivo Digital" border="0"></a>
+<br>
+<a href="http://br-linux.org/"><img alt="BR-Linux.org" title="Notícias e
+ informações sobre Linux e Software Livre - BR-Linux" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/br-linux-120-peng-b.png"
+ width="120" border="0" height="60"></a>
+</div></div>
+		</li><li id="meta-2" class="sidebaritem"><h2 class="widgettitle">Meta</h2>
+			<ul>
+						<li><a href="http://www.devin.com.br/wp-login.php">Login</a></li>
+			<li><a href="http://www.devin.com.br/feed/" title="Assinar este site 
+usando RSS 2.0">Posts <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://www.devin.com.br/comments/feed/" title="Os 
+comentários mais recentes de todos os posts em RSS"><abbr title="em 
+inglês: Really Simple Syndication">RSS</abbr> dos comentários</a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, uma 
+plataforma semântica de vanguarda para publicação pessoal.">WordPress.org</a></li>
+						</ul>
+</li></ul>
+
+</div>  <!-- Closes Sidebar1 -->
+
+<div class="sidebar2">
+
+<ul>
+<li>
+<div class="cse-branding-logo">
+  <img 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/poweredby_FFFFFF.gif" 
+alt="Google">
+</div>
+<div class="cse-branding-bottom" style="background-color: rgb(255, 255, 
+255); color: rgb(0, 0, 0);">
+  <div class="cse-branding-form">
+    <form action="http://www.google.com.br/cse" id="cse-search-box">
+      <div style="font-size: 9pt;">
+        <input name="cx" 
+value="partner-pub-9615963589819332:tk5sl4u8elx" type="hidden">
+        <input name="ie" value="UTF-8" type="hidden">
+        <input name="q" size="17" type="text">
+	<br>
+	<input id="custom" name="cx" 
+value="partner-pub-9615963589819332:tk5sl4u8elx" checked="checked" 
+type="radio">
+	  <label for="custom"> devin.com.br</label>
+	<input id="www" name="cx" 
+value="!partner-pub-9615963589819332:tk5sl4u8elx" type="radio">
+	  <label for="www"> Web </label>
+	<br>
+        <input name="sa" value="Pesquisar" type="submit">
+      </div>
+    </form>
+  </div>
+</div>
+</li>
+
+		<li id="recent-comments-2" class="sidebaritem">			<h2 
+class="widgettitle">Últimos Comentários</h2>			<ul id="recentcomments"><li
+ class="recentcomments"><a href="http://www.krem.com.br/" rel="external 
+nofollow" class="url">karem</a> em <a 
+href="http://www.devin.com.br/guestbook/comment-page-5/#comment-2440">Livro
+ de Visitas</a></li><li class="recentcomments">gdardani em <a 
+href="http://www.devin.com.br/copias-remotas-de-arquivos/comment-page-1/#comment-2437">Cópias
+ remotas de arquivos</a></li><li class="recentcomments">wfelipe em <a 
+href="http://www.devin.com.br/copias-remotas-de-arquivos/comment-page-1/#comment-2436">Cópias
+ remotas de arquivos</a></li><li class="recentcomments"><a 
+href="http://www.hc-host.net/" rel="external nofollow" class="url">guilherme</a>
+ em <a href="http://www.devin.com.br/qmail/comment-page-1/#comment-2435">Montando
+ um servidor de E-Mail com o qmail</a></li><li class="recentcomments"><a
+ 
+href="http://dimitriguilherme.wordpress.com/2010/09/21/particoes-em-arquivos/"
+ rel="external nofollow" class="url">Partições em Arquivos | Dimitri 
+Guilherme</a> em <a 
+href="http://www.devin.com.br/dev_loop/comment-page-1/#comment-2433">Partições
+ em Arquivos</a></li></ul>
+		</li><li id="rss-226299531" class="sidebaritem"><h2 
+class="widgettitle"><a class="rsswidget" 
+href="http://br-linux.org/feed/" title="Assinar este conteúdo"><img 
+style="background: none repeat scroll 0% 0% orange; color: white; 
+border: medium none;" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/rss.png" alt="RSS" 
+width="14" height="14"></a> <a class="rsswidget" 
+href="http://br-linux.org/" title="Linux levado a sério desde 1996">BR-Linux</a></h2><ul><li><a
+ class="rsswidget" 
+href="http://br-linux.org/2010/intel-diz-que-plataforma-meego-so-chega-em-2011/"
+ title="Trechos do iG Tecnologia: Os tablets e smartphones com o sistema
+ operacional MeeGo só devem chegar às lojas a partir de janeiro de 2011,
+ diz Doug Fisher, vice-presidente de software da Intel, em entrevista a 
+revista americana Forbes. A plataforma baseada em Linux é desenvolvida 
+pela Nokia e Intel, que fecharam um acordo em fevereiro deste [...] […]">Intel
+ diz que plataforma MeeGo só chega em 2011</a> <span class="rss-date">8 
+de outubro de 2010</span></li><li><a class="rsswidget" 
+href="http://br-linux.org/2010/tv-digital-brasileira-no-linux-mais-drivers-experimentais-disponiveis/"
+ title="O Mauro Carvalho Chehab (mchehabΘredhat·com) mandou o aviso: 
+“Estive trabalhando no meu tempo livre com alguns cartões novos de TV 
+Digital que recebi. Agradeço a todos aqueles que nos tem ajudado, 
+colocando estes cartões à nossa disposição. Basicamente, estou 
+adicionando, em caráter experimental, o suporte a 3 dispositivos que 
+trabalhei recentemente, capazes […]">TV digital brasileira no Linux: 
+mais drivers experimentais disponíveis</a> <span class="rss-date">8 de 
+outubro de 2010</span></li><li><a class="rsswidget" 
+href="http://br-linux.org/2010/ubuntu-jeos-gnome-em-menos-de-1-gb/" 
+title="Enviado por Christian Guerreiro (christian·guerreiroΘgmail·com): 
+“Utilizo algumas máquinas virtuais nas minhas aulas, e precisava de 
+máquinas mais “portáteis” (leia-se menores). Pesquisando acabei 
+encontrando informações muito interessantes sobre como instalar o Gnome 
+“cru”, “seco”, mínimo mesmo. Juntei isso ao fato de que as máquinas 
+virtuais já usavam o Ub […]">Ubuntu JeOS + Gnome em menos de 1 GB</a> <span
+ class="rss-date">8 de outubro de 2010</span></li><li><a 
+class="rsswidget" 
+href="http://br-linux.org/2010/novatec-anuncia-javascript-guia-do-programador/"
+ title="Enviado por Mariana Prates (mariana·pratesΘnovatec·com·br): “A 
+Novatec Editora lança o novo do livro do Maujor: JavaScript Guia do 
+Programador. Em JavaScript Guia do Programador, Maujor aborda os 
+fundamentos da linguagem JavaScript, desde os conceitos básicos de 
+programação web até as funcionalidades de orientação a objetos. Descreve
+ detalhadamente objetos,  […]">Novatec anuncia: JavaScript Guia do 
+Programador</a> <span class="rss-date">8 de outubro de 2010</span></li><li><a
+ class="rsswidget" 
+href="http://br-linux.org/2010/webservices-um-exemplo-introdutorio/" 
+title="Enviado por Matheus Bratfisch (matheusbratΘgmail·com): “A 
+publicação do link abaixo possui os códigos de um Cliente, de um Cliente
+ que também é um WebService e também um WebService puro. O mesmo 
+consiste em um sistema, de procura em lojas, onde o Cliente faz uma 
+requisição para um Coletor e o coletor faz as buscas nas stores [...] 
+[…]">WebServices: Um exemplo introdutório</a> <span class="rss-date">8 
+de outubro de 2010</span></li><li><a class="rsswidget" 
+href="http://br-linux.org/2010/rio-curso-preparatorio-para-a-certificacao-lpic-1/"
+ title="Enviado por Susana Mello (contatoΘcitbr·com·br): “Para quem mora
+ no Rio, o Centro de Inovação Tecnológica do Brasil estará ministrando 
+no dia 22 de novembro o curso Administrador de Redes – nível 1, 
+preparatório para profissionais que almejam a certificação LPIC-1 
+(provas 101/102).Seguindo cronograma oficial da certificação, o curso 
+será 100% hands on. Mais  […]">Rio: Curso preparatório para a 
+certificação LPIC-1</a> <span class="rss-date">8 de outubro de 2010</span></li><li><a
+ class="rsswidget" 
+href="http://br-linux.org/2010/firefox-4-vai-incluir-busca-do-bing-e-remover-a-do-creative-commons/"
+ title="Na nota “Firefox 4 to add Bing and remove Creative Commons 
+search” o The H sumariza os detalhes sobre as alterações nas opções de 
+busca inseridas no Firefox 4. A busca do Google permanece como default, 
+mas o Microsoft Bing será oferecido como alternativa (“oferece uma 
+experiência de usuário que achamos que os usuários irão considerar [...]
+ […]">Firefox 4 vai incluir busca do Bing e remover a do Creative 
+Commons</a> <span class="rss-date">7 de outubro de 2010</span></li><li><a
+ class="rsswidget" 
+href="http://br-linux.org/2010/falha-em-implementacao-na-libc-coloca-servidores-ftp-em-risco/"
+ title="Embora para meus próprios usos o protocolo FTP já seja algo do 
+passado, ele continua sendo uma das formas de transferência de arquivos 
+disponibilizadas em muitos ambientes. Assim, a se confirmar a 
+vulnerabilidade na função glob() da libc, usada por várias 
+implementações comuns de servidores FTP, muitos servidores de grande 
+tráfego (incluindo nomes como ftp.a […]">Falha em implementação na libc 
+coloca servidores FTP em risco</a> <span class="rss-date">7 de outubro 
+de 2010</span></li><li><a class="rsswidget" 
+href="http://br-linux.org/2010/smeegol-opensuse-meego/" title="Enviado 
+por Nícolas Wildner[Ironmaniaco] (nicolasgauchoΘgmail·com): “A equipe 
+Goblin do projeto openSUSE anuncia o primeiro release do projeto 
+Smeegol. O Smeegol é uma compilação do openSUSE, que tem como foco os 
+netbooks. Sua interface padrão é o MeeGo, o player de música é o 
+banshee, cliente de email o Evolution Express, possui um cliente de 
+agenda, e vári […]">Smeegol =  openSUSE + MeeGo</a> <span 
+class="rss-date">7 de outubro de 2010</span></li><li><a 
+class="rsswidget" 
+href="http://br-linux.org/2010/openhatch-facilitando-os-primeiros-passos-na-colaboracao-com-o-software-livre/"
+ title="Enviado por Camila Ayres (smayresΘgmail·com): “OpenHatch é um 
+projeto em andamento para ajudar novos contribuidores a acharem o seu 
+lugar em projetos de software livre. Ele é muito importante por 
+facilitar os primeiros passos para quem quer colaborar. Por se parecer 
+muito com os objetivos do nosso grupo, KDE-Lovelace, resolvemos traduzir
+ o post OpenHatch: Ma […]">OpenHatch: facilitando os primeiros passos na
+ colaboração com o software livre</a> <span class="rss-date">7 de 
+outubro de 2010</span></li></ul></li><li id="text-248629691" 
+class="sidebaritem"><h2 class="widgettitle">Amigos</h2>			<div 
+class="textwidget"><ul>
+<li><a href="http://hdoria.archlinux-br.org/">Hugo Dória</a></li>
+<li><a href="http://contosdezumbi.wordpress.com/">Contos de Zumbi</a></li>
+<li><a href="http://www.licio.eti.br/">Licio Fernando</a></li>
+<li><a href="http://almerindo.devin.com.br/">Almerindo Rehem</a></li>
+</ul></div>
+		</li>		<li id="recent-posts-3" class="sidebaritem">		<h2 
+class="widgettitle">Últimos Posts</h2>		<ul>
+				<li><a href="http://www.devin.com.br/copias-remotas-de-arquivos/" 
+title="Cópias remotas de arquivos">Cópias remotas de arquivos </a></li>
+				<li><a 
+href="http://www.devin.com.br/rotacao-de-logs-binarios-no-mysql/" 
+title="Rotação de logs binários no MySQL">Rotação de logs binários no 
+MySQL </a></li>
+				<li><a 
+href="http://www.devin.com.br/shell-script-tratamento-de-argumentos-e-opcoes/"
+ title="Shell Script: tratamento de argumentos e opções">Shell Script: 
+tratamento de argumentos e opções </a></li>
+				<li><a href="http://www.devin.com.br/um-portal-web-com-wordpress/" 
+title="Um portal Web com Wordpress?">Um portal Web com Wordpress? </a></li>
+				<li><a href="http://www.devin.com.br/proxy-para-ambientes-mistos/" 
+title="Proxy para ambientes mistos">Proxy para ambientes mistos </a></li>
+				</ul>
+		</li></ul>
+
+</div> <!-- Closes Sidebar2 -->
+
+<div class="cleared"></div>
+</div> <!-- Closes SidebarsB -->
+
+
+</div> <!-- Closes allsidebars -->
+
+
+
+
+<div class="post">
+
+<h1 class="pageTitle">Configurando o MRTG</h1>
+<div class="postMeta">
+<span class="date">06 de fev de 2003</span>, em
+<span class="filed"><a 
+href="http://www.devin.com.br/cat/tutoriais/tutoriais-linux/" title="Ver
+ todos os posts em Linux" rel="category tag">Linux</a>,  <a 
+href="http://www.devin.com.br/cat/tutoriais/" title="Ver todos os posts 
+em Tutoriais" rel="category tag">Tutoriais</a></span>
+<br>
+<span class="tags">Tags: <a 
+href="http://www.devin.com.br/tag/estatistica/" rel="tag">estatística</a>,
+ <a href="http://www.devin.com.br/tag/graficos/" rel="tag">gráficos</a>,
+ <a href="http://www.devin.com.br/tag/linux/" rel="tag">linux</a>, <a 
+href="http://www.devin.com.br/tag/mrtg/" rel="tag">mrtg</a>, <a 
+href="http://www.devin.com.br/tag/plot/" rel="tag">plot</a>, <a 
+href="http://www.devin.com.br/tag/rede/" rel="tag">rede</a>, <a 
+href="http://www.devin.com.br/tag/servidores/" rel="tag">servidores</a></span>
+<br>
+<span class="viewcount">Visualizado 25164 vezes, 23 só hoje</span>
+<br>
+<div id="post-ratings-483" class="post-ratings">Avaliação: <img 
+id="rating_483_1" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/rating_on.gif" 
+alt="Inútil" title="Inútil" onmouseover="current_rating(483, 1, 
+'Inútil');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" 
+onkeypress="rate_post();" style="cursor: pointer; border: 0px none;"><img
+ id="rating_483_2" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/rating_on.gif" 
+alt="Genérico" title="Genérico" onmouseover="current_rating(483, 2, 
+'Genérico');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" 
+onkeypress="rate_post();" style="cursor: pointer; border: 0px none;"><img
+ id="rating_483_3" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/rating_on.gif" 
+alt="Bom" title="Bom" onmouseover="current_rating(483, 3, 'Bom');" 
+onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" 
+onkeypress="rate_post();" style="cursor: pointer; border: 0px none;"><img
+ id="rating_483_4" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/rating_on.gif" 
+alt="Ótimo" title="Ótimo" onmouseover="current_rating(483, 4, 'Ótimo');"
+ onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" 
+onkeypress="rate_post();" style="cursor: pointer; border: 0px none;"><img
+ id="rating_483_5" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/rating_on.gif" 
+alt="MARAVILHA!" title="MARAVILHA!" onmouseover="current_rating(483, 5, 
+'MARAVILHA!');" onmouseout="ratings_off(5, 0, 0);" 
+onclick="rate_post();" onkeypress="rate_post();" style="cursor: pointer;
+ border: 0px none;"> (<strong>1</strong> votos, média: <strong>5,00</strong>
+ de 5)<br><span class="post-ratings-text" id="ratings_483_text"></span></div>
+<div id="post-ratings-483-loading" class="post-ratings-loading"><img 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/loading.gif" 
+alt="Loading ..." title="Loading ..." class="post-ratings-image" 
+width="16" height="16">&nbsp;Loading ...</div>
+<br>
+<span class="author">Por Hugo Cisneiros (Eitch)</span>
+</div>
+<br>
+<!-- Insert your adsense code for a 468x15 retangle links right under here -->
+<script type="text/javascript"><!--
+google_ad_client = "pub-9615963589819332";
+google_ad_slot = "5097370042";
+google_ad_width = 468;
+google_ad_height = 15;
+//-->
+</script>
+<script type="text/javascript" src="Configurando%20o%20MRTG%20-%20Devin_arquivos/show_ads.js">
+</script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins
+ style="display: inline-table; border: medium none; height: 15px; 
+margin: 0pt; padding: 0pt; position: relative; visibility: visible; 
+width: 468px;"><ins id="google_ads_frame2_anchor" style="display: block;
+ border: medium none; height: 15px; margin: 0pt; padding: 0pt; position:
+ relative; visibility: visible; width: 468px;"><iframe 
+allowtransparency="true" hspace="0" id="google_ads_frame2" 
+marginheight="0" marginwidth="0" name="google_ads_frame" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/ads_002.htm" 
+style="left: 0pt; position: absolute; top: 0pt;" vspace="0" width="468" 
+frameborder="0" height="15" scrolling="no"></iframe></ins></ins>
+<br>
+<div class="postContent"><p>Como configurar o MRTG para analisar o 
+tráfego de seu roteador, e gerar gráficos em tempo real a partir dele.</p>
+<p><span id="more-483"></span></p>
+<p>O MRTG é um programa feito em perl muito útil para análisar o tráfego
+ utilizado em sua rede/link. Ele gera gráficos que te mostram o uso da 
+banda em termos de velocidade. Para configurar não é tão complicado, 
+dependendo do caso, é claro. Você precisará pegar o MRTG, seja como 
+código-fonte, ou como pacote. No caso dos pacotes, uma compilação não é 
+necessária, e os arquivos já estarão instalados no sistema (portanto é 
+só configurar). Mas como quero cobrir tudo aqui, colocarei os passos de 
+compilação e instalação manual.</p>
+<ul>
+<li>Exemplo de gráficos – <a 
+href="http://www.switch.ch/network/operation/statistics/geant2.html">http://www.switch.ch/network/operation/statistics/geant2.html</a></li>
+</ul>
+<p>Se você tem uma distribuição que possui o utilitário “apt”, ótimo, 
+porque provavelmente você só terá que digitar o comando “apt-get install
+ mrtg” e o programa irá baixar e instalar automaticamente. Agora se você
+ quiser baixá-lo, visite a página oficial do MRTG:</p>
+<ul>
+<li>MRTG – <a href="http://oss.oetiker.ch/mrtg/">http://oss.oetiker.ch/mrtg/</a></li>
+</ul>
+<p>Neste endereço você poderá encontrar as versões mais atuais, tanto 
+como código-fonte, quanto pré-compilados em pacotes ou em um binário 
+para Windows (sim! O MRTG também funciona no Windows, se tiver o perl! 
+Mas aqui só vou falar da instalação no linux :P) No meu caso, eu peguei a
+ versão “2.9.25″.</p>
+<p>O MRTG requer o seguinte para compilar e funcionar no seu Linux: gcc,
+ perl, gd, libpng, zlib. Provavelmente sua distribuição já veio com 
+esses pacotes, então não os cobrirei neste tutorial. Vamos agora começar
+ a instalação:</p>
+<pre class="code"># tar zpfx mrtg-2.9.25.tar.gz
+# cd mrtg-2.9.25
+# ./configure --prefix=/usr --sysconfdir=/etc/mrtg
+
+[...configurando a compilação...]
+
+# make
+
+[...compilando...]
+
+# make install</pre>
+<p>E pronto. Se tudo ocorrer bem, o MRTG estará instalado corretamente 
+no seu sistema, e pronto para o uso! Mas antes, teremos que criar um 
+arquivo de configuração para o MRTG usar. Para isso utilizaremos um 
+utilitário do MRTG chamado “cfgmaker”. Tenha em mãos o IP do seu 
+roteador e a senha “community” dele… Se você não souber o que diabos é 
+isso, então está precisando mexer um pouco mais com o roteador :) 
+Execute o comando:</p>
+<pre class="code">cfgmaker --global 'WorkDir: /var/www/html/mrtg'  \
+          --global 'Options[_]: bits,growright' \
+          --output /etc/mrtg/exemplo.cfg \
+           community@xxx.xxx.xxx.xxx</pre>
+<p>Onde “xxx.xxx.xxx.xxx” é o IP do seu roteador. Este comando irá gerar
+ o arquivo “/etc/mrtg/exemplo.cfg” e servirá para alterarmos 
+manualmente, comparando com o resultado. Veja este exemplo de 
+configuração final comentada:</p>
+<pre class="code"># ---------------------
+# Configurações Globais
+# ---------------------
+
+# Diretório onde vai ficar a página com os gráficos gerados
+# pelo MRTG
+WorkDir: /var/www/html/mrtg
+
+# Língua usada pelo MRTG para as mensagens na página
+Language: brazilian
+
+# Opções:
+# bits = Mostrar a velocidade em bits (bits/bytes)
+# growright = O gráfico cresce para a direita
+Options[_]: bits,growright
+
+# Rodar como Daemon? Assim não será preciso colocar
+# no crontab, só precisará colocar um comando na
+# inicialização do Linux.
+RunAsDaemon: yes
+
+# --------------------------------
+# Configuração do link 1 (256kbps)
+# --------------------------------
+
+# Aqui você terá de comparar com o exemplo gerado
+# pelo comando 'cfgmaker', coloque o valor igual
+# ao que foi mostrado. O primeiro número é essencial
+# para saber a ligação que estamos usando no roteador.
+Target[EXEMPLO]: 1:community@xxx.xxx.xxx.xxx:
+
+# A quantidade de bytes que o link suporta.
+# 64kbps = 8000
+# 256kbps = 32000
+MaxBytes[EXEMPLO]: 32000
+AbsMax[EXEMPLO]: 32000
+
+# Com essa opção, todos os 4 gráficos não serão
+# redimensionados de acordo com o uso do link. Eles sempre
+# terão a altura do máximo de tráfego que se pode chegar
+# (de acordo com os itens acima).
+Unscaled[EXEMPLO]: dwmy
+
+# Configurações da página. Título e frase no Topo.
+Title[EXEMPLO]: Exemplo de Análise de Tráfego para link de 256kbps
+PageTop[EXEMPLO]: &lt;h1&gt;Exemplo de Análise de Tráfego para link de 256kbps&lt;/h1&gt;</pre>
+<p>Pronto. Já temos uma configuração básica para o MRTG. Agora vamos 
+rodá-lo:</p>
+<pre class="code"># mrtg</pre>
+<p>Como colocamos a opção “RunAsDaemon”, ele ficará rodando e estará 
+atualizando o gráfico de 5 em 5 minutos. Os gráficos estarão localizados
+ no diretório “/var/www/html/mrtg, com o nome de “exemplo.html”. Claro 
+que este diretório teria que estar disponível no seu servidor Web para 
+verificarmos o gráfico.</p>
+<p>Só que quando reiniciarmos o computador, o mrtg não estará rodando 
+mais. Se você instalou o MRTG a partir de um pacote pré-compilado, ele 
+já deve ter vindo com um scrip de inicialização no diretório 
+“/etc/init.d”, então coloque este script na inicialização do seu Linux. 
+Caso você queira fazer isso manualmente, é só colocar a seguinte linha 
+no seu arquivo “/etc/rc.d/rc.local”:</p>
+<pre class="code"># Roda o MRTG
+/usr/bin/mrtg</pre>
+<p>Assim, toda vez que seu sistema for iniciado, ele chama o MRTG para 
+rodar como Daemon e gerar os gráficos de 5 em 5 minutos.</p>
+<p>O uso do MRTG é bem extenso, e não se limita àpenas monitorar o 
+tráfego de um roteador. Mas por enquanto vamos cobrir apenas este 
+assunto. O arquivo de configuração que usamos é muito simples, e se você
+ quiser se aprofundar mais no assunto, dê uma olhada no manual de 
+referência do arquivo de configuração:</p>
+<p>MRTG Configuration Reference – <a 
+href="http://oss.oetiker.ch/mrtg/doc/mrtg-reference.en.html">http://oss.oetiker.ch/mrtg/doc/mrtg-reference.en.html</a></p>
+<p>E boa sorte! :)</p>
+<h3>Gostou?</h3>
+<a href="http://www.devin.com.br/mrtg/print/" title="Imprimir esta 
+página" rel="nofollow"><img class="WP-PrintIcon" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/print.gif" 
+alt="Imprimir esta página" title="Imprimir esta página" style="border: 
+0px none;"></a>&nbsp;<a href="http://www.devin.com.br/mrtg/print/" 
+title="Imprimir esta página" rel="nofollow">Imprimir esta página</a>
+<h3>Leia também:</h3>
+<ol><li><a href="http://www.devin.com.br/lilo/" rel="bookmark" 
+title="Permanent Link: Configurando o LILO">Configurando o LILO</a></li>
+<li><a href="http://www.devin.com.br/crontab/" rel="bookmark" 
+title="Permanent Link: Utilizando o crontab">Utilizando o crontab</a></li>
+<li><a href="http://www.devin.com.br/webalizer/" rel="bookmark" 
+title="Permanent Link: Montando estatísticas com o Webalizer">Montando 
+estatísticas com o Webalizer</a></li>
+<li><a href="http://www.devin.com.br/recomp_kernel/" rel="bookmark" 
+title="Permanent Link: Recompilando o kernel do Linux">Recompilando o 
+kernel do Linux</a></li>
+<li><a href="http://www.devin.com.br/aplicacoes_gui_remotas/" 
+rel="bookmark" title="Permanent Link: Executando aplicações gráficas 
+remotamente">Executando aplicações gráficas remotamente</a></li>
+</ol><br>
+</div> <!-- Closes Post -->
+</div>
+
+
+<div class="comment">
+
+<!-- You can start editing here. -->
+
+	<h3 id="comments">6 Comentários em “Configurando o MRTG”</h3>
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-511">
+
+<img alt="" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/dc5c479b4c62be797b147418c863bd31.png"
+ class="avatar avatar-30 photo" width="30" height="30">
+			<div class="commentbody">
+			<strong><cite>Rogerio Ferreira</cite></strong>
+						<br>
+
+			<small class="commentmetadata">25 de mar de 2008 em 6:39 pm </small>
+			<p>Boa noite, gostaria que me passasse um link para eu baixar o MRTG,
+ pois o link acima nao abre nada. Muito obrigado desde ja e ficou muito 
+bem explicado</p>
+
+			</div>
+
+
+
+		</li>
+
+	
+	
+		<li id="comment-512">
+
+<img alt="" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/146eecc236278fd5c4d89ce267fee070.png"
+ class="avatar avatar-30 photo" width="30" height="30">
+			<div class="commentbody">
+			<strong><cite>Eitch</cite></strong>
+						<br>
+
+			<small class="commentmetadata">26 de mar de 2008 em 12:53 am </small>
+			<p>Tentarei mudar mais em frente os links. Pelo que vi a página do 
+mrtg foi mudada para o seguinte endereço:</p>
+<p><a href="http://oss.oetiker.ch/mrtg/" rel="nofollow">http://oss.oetiker.ch/mrtg/</a></p>
+
+			</div>
+
+
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-513">
+
+<img alt="" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/02ea068694ea3895323a54a865a14c6f.png"
+ class="avatar avatar-30 photo" width="30" height="30">
+			<div class="commentbody">
+			<strong><cite>Leonardo</cite></strong>
+						<br>
+
+			<small class="commentmetadata">26 de jun de 2008 em 2:53 pm </small>
+			<p>presciso gerar graficos a redes especificas, exmplo, enlaces 
+brazil 200,189,201, tres graficos expecificos, saindo pela mesma 
+interface..</p>
+<p>[]’s</p>
+
+			</div>
+
+
+
+		</li>
+
+	
+	
+		<li id="comment-1778">
+
+<img alt="" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/dc8863c573e420b1a7a235c6ff1dbeed.png"
+ class="avatar avatar-30 photo" width="30" height="30">
+			<div class="commentbody">
+			<strong><cite>Rodrigo</cite></strong>
+						<br>
+
+			<small class="commentmetadata">24 de abr de 2009 em 12:56 pm </small>
+			<p>O QUE ESTOU FAZENDO DE ERRADO???<br>
+root@mail:/# cfgmaker –global ‘WorkDir: /var/www/html/mrtg’ \ –global 
+‘Options[_]: bits,growright’ \ –output /etc/mrtg/exemplo.cfg \ <a 
+href="mailto:mail@200.228.176">mail@200.228.176</a>.1:<br>
+Error:<br>
+  can’t resolve ” –global” to IP address<br>
+ at /usr/share/perl5/SNMP_util.pm line 426<br>
+SNMPWALK Problem for public@ –global::::::v4only<br>
+ at /usr/bin/cfgmaker line 925<br>
+WARNING: Skipping public@ –global: as no info could be retrieved</p>
+<p>Error:<br>
+  can’t resolve “Options[_]” to IP address<br>
+ at /usr/share/perl5/SNMP_util.pm line 426<br>
+SNMPWALK Problem for public@Options[_]: bits,growright:::::v4only<br>
+ at /usr/bin/cfgmaker line 925<br>
+WARNING: Skipping public@Options[_]: bits,growright as no info could be 
+retrieved</p>
+<p>Error:<br>
+  can’t resolve ” –output” to IP address<br>
+ at /usr/share/perl5/SNMP_util.pm line 426<br>
+SNMPWALK Problem for public@ –output::::::v4only<br>
+ at /usr/bin/cfgmaker line 925<br>
+WARNING: Skipping public@ –output: as no info could be retrieved</p>
+<p>Error:<br>
+  can’t resolve “/etc/mrtg/exemplo.cfg” to IP address<br>
+ at /usr/share/perl5/SNMP_util.pm line 426<br>
+SNMPWALK Problem for public@/etc/mrtg/exemplo.cfg::::::v4only<br>
+ at /usr/bin/cfgmaker line 925<br>
+WARNING: Skipping public@/etc/mrtg/exemplo.cfg: as no info could be 
+retrieved</p>
+<p>SNMP Error:<br>
+no response received<br>
+SNMPv1_Session (remote host: “200.228.176.1″ [200.228.176.1].161)<br>
+                  community: ” mail”<br>
+                 request ID: -105050952<br>
+                PDU bufsize: 8000 bytes<br>
+                    timeout: 2s<br>
+                    retries: 5<br>
+                    backoff: 1)<br>
+ at /usr/share/perl5/SNMP_util.pm line 627<br>
+SNMPWALK Problem for 1.3.6.1.2.1.1 on  <a href="mailto:mail@200.228.176">mail@200.228.176</a>.1::::::v4only<br>
+ at /usr/bin/cfgmaker line 925<br>
+WARNING: Skipping  <a href="mailto:mail@200.228.176">mail@200.228.176</a>.1:
+ as no info could be retrieved</p>
+<p># Created by<br>
+# /usr/bin/cfgmaker –global ‘WorkDir: /var/www/html/mrtg’ ‘ –global’ 
+‘Options[_]: bits,growright’ ‘ –output’ /etc/mrtg/exemplo.cfg ‘ <a 
+href="mailto:mail@200.228.176">mail@200.228.176</a>.1:’</p>
+<p>### Global Config Options</p>
+<p>#  for UNIX<br>
+# WorkDir: /home/http/mrtg</p>
+<p>#  for Debian<br>
+WorkDir: /var/www/mrtg</p>
+<p>#  or for NT<br>
+# WorkDir: c:\mrtgdata</p>
+<p>### Global Defaults</p>
+<p>#  to get bits instead of bytes and graphs growing to the right<br>
+# Options[_]: growright, bits</p>
+<p>EnableIPv6: no<br>
+WorkDir: /var/www/html/mrtg</p>
+<p>######################################################################<br>
+# System:<br>
+# Description:<br>
+# Contact:<br>
+# Location:<br>
+######################################################################</p>
+<p>######################################################################<br>
+# System:<br>
+# Description:<br>
+# Contact:<br>
+# Location:<br>
+######################################################################</p>
+<p>######################################################################<br>
+# System:<br>
+# Description:<br>
+# Contact:<br>
+# Location:<br>
+######################################################################</p>
+<p>######################################################################<br>
+# System:<br>
+# Description:<br>
+# Contact:<br>
+# Location:<br>
+######################################################################</p>
+<p>######################################################################<br>
+# System:<br>
+# Description:<br>
+# Contact:<br>
+# Location:<br>
+######################################################################</p>
+<p>root@mail:/# mrtg<br>
+———————————————————————–<br>
+ERROR: Mrtg will most likely not work properly when the environment<br>
+       variable LANG is set to UTF-8. Please run mrtg in an environment<br>
+       where this is not the case. Try the following command to start:</p>
+<p>       env LANG=C /usr/bin/mrtg<br>
+———————————————————————–<br>
+root@mail:/# env LANG=C /usr/bin/mrtg</p>
+
+			</div>
+
+
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-1825">
+
+<img alt="" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/a97b61210274fffa86911b5e6d03e022.png"
+ class="avatar avatar-30 photo" width="30" height="30">
+			<div class="commentbody">
+			<strong><cite>Marcio</cite></strong>
+						<br>
+
+			<small class="commentmetadata">15 de mai de 2009 em 9:05 am </small>
+			<p>Estou tentando usar o MRTG para monitorar minha placa de rede, 
+mas, mesmo instalando o SNMP, PERL, MRTG e configurando tudo, o gráfico 
+fica “zerado” e não atualiza. O que pode ser?</p>
+
+			</div>
+
+
+
+		</li>
+
+	
+	
+		<li id="comment-1967">
+
+<img alt="" 
+src="Configurando%20o%20MRTG%20-%20Devin_arquivos/8dc75a66aefaaa9902a6f18f92b8fa7f.png"
+ class="avatar avatar-30 photo" width="30" height="30">
+			<div class="commentbody">
+			<strong><cite><a href="http://www.megaprocedimentos.com.br/" 
+rel="external nofollow" class="url">Diego</a></cite></strong>
+						<br>
+
+			<small class="commentmetadata">15 de ago de 2009 em 7:41 pm </small>
+			<p>Ótima explicação, curta objetiva e didática! Parabéns! Aprendi 
+bastante com o seu post.</p>
+<p>Abçs.</p>
+
+			</div>
+
+
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Deixe uma Resposta</h3>
+
+
+<form action="http://www.devin.com.br/wp-comments-post.php" 
+method="post" id="commentform">
+
+
+<p><input name="author" id="author" size="22" tabindex="1" type="text">
+<label for="author"><small>Nome (required)</small></label></p>
+
+<p><input name="email" id="email" size="22" tabindex="2" type="text">
+<label for="email"><small>E-Mail (não será publicado) (required)</small></label></p>
+
+<p><input name="url" id="url" size="22" tabindex="3" type="text">
+<label for="url"><small>Website</small></label></p>
+
+
+<p><small><strong>XHTML:</strong> Você pode utilizar estas tags: <code>&lt;a
+ href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; 
+&lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del 
+datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; 
+&lt;strong&gt; </code></small></p>
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" 
+tabindex="4"></textarea></p>
+
+<p><input name="submit" id="submit" tabindex="5" value="" type="submit">
+<input name="comment_post_ID" value="483" type="hidden">
+</p>
+
+</form>
+
+
+</div> <!-- Closes Comments -->
+
+
+
+<div class="cleared"></div>
+
+</div> <!-- Fecha Main -->
+
+<div class="bottomcurvewhite">
+	<div class="bottomcurvewhiteleft">
+		<div class="bottomcurvewhiteright">
+			<div class="bottomcurvewhitemiddle"></div>
+		</div>
+	</div>
+</div>
+
+
+<div class="topcurve">
+	<div class="topcurveleft">
+		<div class="topcurveright">
+			<div class="topcurvemiddle"></div>
+		</div>
+	</div>
+</div>
+
+<div id="footer">
+<p>&nbsp;</p><div><a href="http://www.devin.com.br/tag/administracao/" 
+class="tag-link-99" title="3 tópicos" style="font-size: 9.35484pt;">administração</a>
+<a href="http://www.devin.com.br/tag/apache/" class="tag-link-51" 
+title="7 tópicos" style="font-size: 12.7419pt;">apache</a>
+<a href="http://www.devin.com.br/tag/apt/" class="tag-link-23" title="2 
+tópicos" style="font-size: 8pt;">apt</a>
+<a href="http://www.devin.com.br/tag/arquivos/" class="tag-link-13" 
+title="2 tópicos" style="font-size: 8pt;">arquivos</a>
+<a href="http://www.devin.com.br/tag/backup/" class="tag-link-28" 
+title="4 tópicos" style="font-size: 10.4839pt;">backup</a>
+<a href="http://www.devin.com.br/tag/banco-de-dados/" 
+class="tag-link-224" title="3 tópicos" style="font-size: 9.35484pt;">banco
+ de dados</a>
+<a href="http://www.devin.com.br/tag/bash/" class="tag-link-152" 
+title="4 tópicos" style="font-size: 10.4839pt;">bash</a>
+<a href="http://www.devin.com.br/tag/certification/" 
+class="tag-link-117" title="3 tópicos" style="font-size: 9.35484pt;">certification</a>
+<a href="http://www.devin.com.br/tag/comandos/" class="tag-link-12" 
+title="13 tópicos" style="font-size: 15.5645pt;">comandos</a>
+<a href="http://www.devin.com.br/tag/configuracao/" class="tag-link-54" 
+title="3 tópicos" style="font-size: 9.35484pt;">configuração</a>
+<a href="http://www.devin.com.br/tag/css/" class="tag-link-209" title="3
+ tópicos" style="font-size: 9.35484pt;">css</a>
+<a href="http://www.devin.com.br/tag/desenvolvimento/" 
+class="tag-link-251" title="3 tópicos" style="font-size: 9.35484pt;">desenvolvimento</a>
+<a href="http://www.devin.com.br/tag/devin/" class="tag-link-195" 
+title="3 tópicos" style="font-size: 9.35484pt;">devin</a>
+<a href="http://www.devin.com.br/tag/distribuicoes/" class="tag-link-10"
+ title="3 tópicos" style="font-size: 9.35484pt;">distribuições</a>
+<a href="http://www.devin.com.br/tag/dos/" class="tag-link-84" title="2 
+tópicos" style="font-size: 8pt;">dos</a>
+<a href="http://www.devin.com.br/tag/e-mail/" class="tag-link-75" 
+title="3 tópicos" style="font-size: 9.35484pt;">e-mail</a>
+<a href="http://www.devin.com.br/tag/exam/" class="tag-link-123" 
+title="3 tópicos" style="font-size: 9.35484pt;">exam</a>
+<a href="http://www.devin.com.br/tag/ftp/" class="tag-link-30" title="2 
+tópicos" style="font-size: 8pt;">ftp</a>
+<a href="http://www.devin.com.br/tag/htaccess/" class="tag-link-53" 
+title="2 tópicos" style="font-size: 8pt;">htaccess</a>
+<a href="http://www.devin.com.br/tag/html/" class="tag-link-208" 
+title="3 tópicos" style="font-size: 9.35484pt;">html</a>
+<a href="http://www.devin.com.br/tag/internet/" class="tag-link-32" 
+title="5 tópicos" style="font-size: 11.3871pt;">internet</a>
+<a href="http://www.devin.com.br/tag/iptables/" class="tag-link-34" 
+title="3 tópicos" style="font-size: 9.35484pt;">iptables</a>
+<a href="http://www.devin.com.br/tag/kernel/" class="tag-link-55" 
+title="3 tópicos" style="font-size: 9.35484pt;">kernel</a>
+<a href="http://www.devin.com.br/tag/linha-de-comando/" 
+class="tag-link-67" title="4 tópicos" style="font-size: 10.4839pt;">linha
+ de comando</a>
+<a href="http://www.devin.com.br/tag/linux/" class="tag-link-11" 
+title="52 tópicos" style="font-size: 22pt;">linux</a>
+<a href="http://www.devin.com.br/tag/lpi/" class="tag-link-127" title="3
+ tópicos" style="font-size: 9.35484pt;">lpi</a>
+<a href="http://www.devin.com.br/tag/mod_rewrite/" class="tag-link-175" 
+title="3 tópicos" style="font-size: 9.35484pt;">mod_rewrite</a>
+<a href="http://www.devin.com.br/tag/mysql/" class="tag-link-172" 
+title="4 tópicos" style="font-size: 10.4839pt;">mysql</a>
+<a href="http://www.devin.com.br/tag/pacotes/" class="tag-link-15" 
+title="2 tópicos" style="font-size: 8pt;">pacotes</a>
+<a href="http://www.devin.com.br/tag/particoes/" class="tag-link-62" 
+title="2 tópicos" style="font-size: 8pt;">partições</a>
+<a href="http://www.devin.com.br/tag/php/" class="tag-link-171" title="9
+ tópicos" style="font-size: 13.871pt;">php</a>
+<a href="http://www.devin.com.br/tag/programacao/" class="tag-link-173" 
+title="4 tópicos" style="font-size: 10.4839pt;">programação</a>
+<a href="http://www.devin.com.br/tag/proxy/" class="tag-link-87" 
+title="3 tópicos" style="font-size: 9.35484pt;">proxy</a>
+<a href="http://www.devin.com.br/tag/rpm/" class="tag-link-25" title="3 
+tópicos" style="font-size: 9.35484pt;">rpm</a>
+<a href="http://www.devin.com.br/tag/servidores/" class="tag-link-159" 
+title="3 tópicos" style="font-size: 9.35484pt;">servidores</a>
+<a href="http://www.devin.com.br/tag/shell/" class="tag-link-150" 
+title="6 tópicos" style="font-size: 12.1774pt;">shell</a>
+<a href="http://www.devin.com.br/tag/shell-script/" class="tag-link-151"
+ title="5 tópicos" style="font-size: 11.3871pt;">shell-script</a>
+<a href="http://www.devin.com.br/tag/ssh/" class="tag-link-48" title="4 
+tópicos" style="font-size: 10.4839pt;">ssh</a>
+<a href="http://www.devin.com.br/tag/texto/" class="tag-link-191" 
+title="3 tópicos" style="font-size: 9.35484pt;">texto</a>
+<a href="http://www.devin.com.br/tag/usuarios/" class="tag-link-64" 
+title="2 tópicos" style="font-size: 8pt;">usuários</a>
+<a href="http://www.devin.com.br/tag/vida/" class="tag-link-139" 
+title="3 tópicos" style="font-size: 9.35484pt;">vida</a>
+<a href="http://www.devin.com.br/tag/web/" class="tag-link-52" title="6 
+tópicos" style="font-size: 12.1774pt;">web</a>
+<a href="http://www.devin.com.br/tag/windows/" class="tag-link-46" 
+title="4 tópicos" style="font-size: 10.4839pt;">windows</a>
+<a href="http://www.devin.com.br/tag/wordpress/" class="tag-link-262" 
+title="3 tópicos" style="font-size: 9.35484pt;">Wordpress</a>
+<a href="http://www.devin.com.br/tag/x11/" class="tag-link-49" title="2 
+tópicos" style="font-size: 8pt;">x11</a></div>
+<br>
+<div id="credits">
+<p>Devin - Tema modificado do <a 
+href="http://www.dailyblogtips.com/wordpress-themes/">StudioPress Theme</a></p>
+<p><a href="feed://http//www.devin.com.br/feed/">RSS Completo</a> - <a 
+href="feed://http//www.devin.com.br/comments/feed/">RSS dos Comentários</a></p>
+</div>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var ratingsL10n = {
+	plugin_url: "http://www.devin.com.br/wp-content/plugins/wp-postratings",
+	ajax_url: "http://www.devin.com.br/wp-content/plugins/wp-postratings/wp-postratings.php",
+	text_wait: "Please rate only 1 post at a time.",
+	image: "stars",
+	image_ext: "gif",
+	max: "5",
+	show_loading: "1",
+	show_fading: "1",
+	custom: "0"
+};
+var ratings_mouseover_image=new Image();ratings_mouseover_image.src=ratingsL10n.plugin_url+"/images/"+ratingsL10n.image+"/rating_over."+ratingsL10n.image_ext;
+/* ]]> */
+</script>
+<script type="text/javascript" src="Configurando%20o%20MRTG%20-%20Devin_arquivos/postratings-js.js"></script>
+
+<div class="cleared"></div>
+</div> <!-- Closes Footer -->
+
+</div> <!-- Closes Wrapper -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="Configurando%20o%20MRTG%20-%20Devin_arquivos/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5647977-1");
+pageTracker._trackPageview();
+</script>
+</body></html>

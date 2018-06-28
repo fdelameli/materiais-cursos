@@ -1,0 +1,50 @@
+
+ROM used: 57 (1%)
+          57 (1%) including unused fragments
+
+          0 Average locations per line
+          0 Average locations per statement
+
+RAM used: 9 (2%) at main() level
+          9 (2%) worst case
+
+Stack used: 0 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   44    12   6  exercicio4.c
+  313     0   0  16F877A.h
+  107    58  30  Lcd_4.c
+   28     0   0  constants.c
+  417   126  64  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\string.h
+   28     0   0  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\stddef.h
+   28     0   0  ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\ctype.h
+----- -----
+  965   196 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     53  93   1   258  4.1  MAIN
+
+Program metrics:
+    Functions               1
+    Statements              196
+    Comments                239
+    Volume (V)              258
+    Difficilty (D)          4.1
+    Effort to implement (E) 1054
+    Time to implement (T)   1 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   3
+    Maintainability (MI)    10
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF    53  1991  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

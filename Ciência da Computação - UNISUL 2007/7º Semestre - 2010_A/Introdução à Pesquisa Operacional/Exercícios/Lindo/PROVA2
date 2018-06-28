@@ -1,0 +1,16 @@
+max
+ lucro) 75A + 79B + 85C 80D + 100E
+st
+ corte) 5A + 5B + 3C + 3D + 4E <= 180
+ fresag) 3A + 3B + 4C + 4D + 2E <= 135
+ furacao) 5A + 4B + 3C + 2D + 2E <= 225
+ lixam) 6A + 3B + 2C + 5D + 4E <= 225
+ selagem) 6A + 5B + 3C + 3D + 4E <= 225
+ pintura) 5A + 2B + 4C + 5D + 3E <= 135
+ empacot) 2A + 2B + 2C + 3D + 2E <= 90
+ dminA) A >= 4
+ dminB) B >= 4
+ dminC) C >= 5
+ dminD) D >= 2
+ dminE) E >= 3
+end

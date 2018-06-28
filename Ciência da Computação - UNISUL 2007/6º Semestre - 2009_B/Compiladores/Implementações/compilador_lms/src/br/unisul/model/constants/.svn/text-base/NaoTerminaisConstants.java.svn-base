@@ -1,0 +1,48 @@
+package br.unisul.model.constants;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class NaoTerminaisConstants {
+
+	public static final Map<String, Integer> NAOTERMINAIS;
+	
+	static{
+		NAOTERMINAIS = new HashMap<String, Integer>();
+		NAOTERMINAIS.put("<PROGRAMA>", 52);
+		NAOTERMINAIS.put("<BLOCO>", 53);
+		NAOTERMINAIS.put("<DCLROT>", 54);
+		NAOTERMINAIS.put("<LID>", 55);
+		NAOTERMINAIS.put("<REPIDENT>", 56);
+		NAOTERMINAIS.put("<DCLCONST>", 57);
+		NAOTERMINAIS.put("<LDCONST>", 58);
+		NAOTERMINAIS.put("<DCLVAR>", 59);
+		NAOTERMINAIS.put("<LDVAR>", 60);
+		NAOTERMINAIS.put("<TIPO>", 61);
+		NAOTERMINAIS.put("<DCLPROC>", 62);
+		NAOTERMINAIS.put("<DEFPAR>", 63);
+		NAOTERMINAIS.put("<CORPO>", 64);
+		NAOTERMINAIS.put("<REPCOMANDO>", 65);
+		NAOTERMINAIS.put("<COMANDO>", 66);
+		NAOTERMINAIS.put("<RCOMID>", 67);
+		NAOTERMINAIS.put("<RVAR>", 68);
+		NAOTERMINAIS.put("<PARAMETROS>", 69);
+		NAOTERMINAIS.put("<REPPAR>", 70);
+		NAOTERMINAIS.put("<ELSEPARTE>", 71);
+		NAOTERMINAIS.put("<VARIAVEL>", 72);
+		NAOTERMINAIS.put("<VARIAVEL1>", 73);
+		NAOTERMINAIS.put("<REPVARIAVEL>", 74);
+		NAOTERMINAIS.put("<ITEMSAIDA>", 75);
+		NAOTERMINAIS.put("<REPITEM>", 76);
+		NAOTERMINAIS.put("<EXPRESSAO>", 77);
+		NAOTERMINAIS.put("<REPEXPSIMP>", 78);
+		NAOTERMINAIS.put("<EXPSIMP>", 79);
+		NAOTERMINAIS.put("<REPEXP>", 80);
+		NAOTERMINAIS.put("<TERMO>", 81);
+		NAOTERMINAIS.put("<REPTERMO>", 82);
+		NAOTERMINAIS.put("<FATOR>", 83);
+		NAOTERMINAIS.put("<CONDCASE>", 84);
+		NAOTERMINAIS.put("<CONTCASE>", 85);
+		NAOTERMINAIS.put("<RPINTEIRO>", 86);
+	}
+}

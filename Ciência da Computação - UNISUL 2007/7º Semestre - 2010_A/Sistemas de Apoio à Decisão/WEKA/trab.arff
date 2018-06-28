@@ -1,0 +1,124 @@
+@relation teste
+
+@attribute estado{sc, pr,sp}
+@attribute curso{adm,ccp, jnl}
+@attribute tempo{1,2,3}
+@attribute sexo{m,f}
+@attribute salario{a,m,b}
+
+
+
+@data
+sc	adm	2	m	b
+sc	adm	2	f	b
+pr	adm	2	m	b
+sc	ccp	2	f	b
+sc	ccp	3	m	a
+sc	jnl	3	m	m
+sc	ccp	2	f	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	m	a
+sp	ccp	3	f	a
+sp	ccp	3	f	a
+sp	ccp	3	f	a
+pr	ccp	3	m	a
+pr	ccp	3	m	a
+pr	ccp	3	m	m
+pr	ccp	3	m	a
+pr	ccp	3	m	m
+pr	ccp	3	m	a
+pr	ccp	3	m	m
+pr	ccp	3	m	m
+pr	ccp	3	m	m
+pr	ccp	3	m	a
+pr	ccp	3	m	m
+pr	ccp	3	m	m
+sc	ccp	3	m	a
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sc	ccp	3	m	m
+sp	ccp	2	m	m
+sp	ccp	2	m	m
+sp	ccp	2	m	m
+sp	ccp	2	m	m
+sp	ccp	2	m	m
+sp	ccp	2	m	m
+sp	ccp	2	f	m
+sp	ccp	2	f	m
+sp	ccp	2	f	m
+sp	ccp	2	f	m
+sp	ccp	2	f	m
+sp	ccp	2	f	m
+pr	ccp	2	m	m
+pr	ccp	2	m	m
+pr	ccp	2	m	m
+pr	ccp	2	m	b
+pr	ccp	2	m	b
+pr	ccp	2	m	m
+pr	ccp	2	f	m
+pr	ccp	2	f	b
+pr	ccp	2	f	m
+pr	ccp	2	f	b
+pr	ccp	2	f	b
+pr	ccp	2	f	m
+sc	ccp	2	m	b
+sc	ccp	2	m	b
+sc	ccp	2	m	m
+sc	ccp	2	m	b
+sc	ccp	2	m	b
+sc	ccp	2	m	m
+sc	ccp	2	f	b
+sc	ccp	2	f	b
+sc	ccp	2	f	b
+sc	ccp	2	f	b
+sc	ccp	2	f	b
+sc	ccp	2	f	b
+sp	jnl	3	m	a
+sp	jnl	3	m	a
+sp	adm	3	m	m
+sp	adm	3	m	m
+sp	adm	3	m	m
+sp	adm	3	m	m
+sp	adm	3	f	m
+sp	adm	3	f	m
+sp	adm	3	f	m
+sp	adm	3	f	m
+sp	adm	3	f	m
+sp	adm	3	f	m
+pr	adm	3	m	m
+pr	adm	3	m	m
+pr	adm	1	m	m
+pr	adm	1	m	b
+pr	adm	1	m	b
+pr	adm	1	m	m
+pr	adm	1	f	b
+pr	adm	1	f	m
+pr	adm	1	f	b
+pr	adm	1	f	b
+pr	adm	1	f	m
+sc	adm	1	m	b
+sc	adm	1	m	b
+sc	adm	1	m	b
+sc	adm	1	m	b
+sc	adm	1	m	m
+sc	adm	1	f	b
+sc	adm	1	f	b
+sc	adm	1	f	b
+sc	adm	1	f	b
+sc	adm	1	f	m
+sc	adm	1	f	m

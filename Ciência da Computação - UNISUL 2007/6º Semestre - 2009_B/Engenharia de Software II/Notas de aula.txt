@@ -1,0 +1,4 @@
+Diagrama de Casos de Uso
+
+   - Não apresenta fluxo (sequência) de Processos
+   - Atores possuem interação com o sistema

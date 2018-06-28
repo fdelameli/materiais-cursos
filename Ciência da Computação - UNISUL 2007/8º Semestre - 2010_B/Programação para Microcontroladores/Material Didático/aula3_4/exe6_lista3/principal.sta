@@ -1,0 +1,57 @@
+
+ROM used: 539 (7%)
+          539 (7%) including unused fragments
+
+          1 Average locations per line
+          3 Average locations per statement
+
+RAM used: 25 (7%) at main() level
+          31 (8%) worst case
+
+Stack used: 2 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   70    40  24  principal.c
+  313     0   0  16f877a.h
+  417   126  76  string.h
+   28     0   0  stddef.h
+   28     0   0  ctype.h
+----- -----
+  856   166 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     21   4   1             @delay_ms1
+0     70  13   5   231  6.6  strcmp
+0    172  32   9   676  4.8  MAIN
+0     21   4   0   222  4.3  @const164
+0     18   3   0             @const165
+0     19   4   0   222  4.3  @const166
+0     21   4   0             @const168
+0    136  25   5   271  4.4  gravaSenha
+0     23   4   0   271  4.4  @const170
+0     34   6   4   215  4.5  leSenha
+
+Program metrics:
+    Functions               7
+    Statements              166
+    Comments                215
+    Volume (V)              3190
+    Difficilty (D)          33.1
+    Effort to implement (E) 105732
+    Time to implement (T)   1 hours, 38 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   6
+    Maintainability (MI)    125
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF   535  1509  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/model/dao
+END
+TerminalDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/TerminalDAO.java
+END
+ProdutoDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/ProdutoDAO.java
+END
+VendaDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/VendaDAO.java
+END
+ICrudBase.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/ICrudBase.java
+END
+PromocaoDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/PromocaoDAO.java
+END
+TipoDespesaDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/36/trunk/LHManeger/src/com/br/lhmanager/model/dao/TipoDespesaDAO.java
+END
+LogDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/LogDAO.java
+END
+ImpressaoDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/ImpressaoDAO.java
+END
+ClienteDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/ClienteDAO.java
+END
+DespesaDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/37/trunk/LHManeger/src/com/br/lhmanager/model/dao/DespesaDAO.java
+END
+CampeonatoDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/CampeonatoDAO.java
+END
+UsuarioDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/UsuarioDAO.java
+END
+AtendimentoDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/AtendimentoDAO.java
+END
+CreditoDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/34/trunk/LHManeger/src/com/br/lhmanager/model/dao/CreditoDAO.java
+END

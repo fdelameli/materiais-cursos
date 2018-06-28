@@ -1,0 +1,7 @@
+ÀÄPIC C Compiler PCWHD_4
+   ÀÄMAIN  0/91  Ram=4
+      ÃÄ??0??
+      ÃÄwrite_int16_eeprom  0/59  Ram=7
+      ÃÄ@const95  0/15  Ram=0
+      ÃÄread_int16_eeprom  0/42  Ram=7
+      ÀÄ@PRINTF_LU_9600_62_63  0/91  Ram=9

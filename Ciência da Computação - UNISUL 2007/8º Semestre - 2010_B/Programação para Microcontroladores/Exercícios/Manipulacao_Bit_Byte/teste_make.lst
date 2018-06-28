@@ -1,0 +1,121 @@
+CCS PCM C Compiler, Version 4.038, 33467               28-out-10 10:08
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Manipulacao_Bit_Byte\teste_make.lst
+
+               ROM used: 255 words (3%)
+                         Largest free fragment is 2048
+               RAM used: 15 (4%) at main() level
+                         40 (11%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0B6
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4MHz) 
+.................... #use rs232(baud=9600,xmit=pin_c6,rcv=pin_c7) 
+....................  
+.................... void main() { 
+00B6:  CLRF   04
+00B7:  BCF    03.7
+00B8:  MOVLW  1F
+00B9:  ANDWF  03,F
+00BA:  MOVLW  19
+00BB:  BSF    03.5
+00BC:  MOVWF  19
+00BD:  MOVLW  A6
+00BE:  MOVWF  18
+00BF:  MOVLW  90
+00C0:  BCF    03.5
+00C1:  MOVWF  18
+00C2:  BSF    03.5
+00C3:  BSF    1F.0
+00C4:  BSF    1F.1
+00C5:  BSF    1F.2
+00C6:  BCF    1F.3
+00C7:  MOVLW  07
+00C8:  MOVWF  1C
+....................  
+....................    /* 
+....................    int16 valor = 6000; 
+....................    int i = 0; 
+....................    i = make8(valor,0); 
+....................    printf("Primeiro Byte: %u\r\n", i); 
+....................    // 00010111 0111000 - binário do 6000 divido em dois bytes 
+....................    i = make8(valor,1); 
+....................    printf("Segundo Byte: %u\r\n", i); 
+....................    */ 
+....................     
+....................    int32 valor = 0; 
+00C9:  BCF    03.5
+00CA:  CLRF   21
+00CB:  CLRF   22
+00CC:  CLRF   23
+00CD:  CLRF   24
+....................    int i = 2; 
+00CE:  MOVLW  02
+00CF:  MOVWF  25
+....................    int j = 3; 
+00D0:  MOVLW  03
+00D1:  MOVWF  26
+....................    int k = 4; 
+00D2:  MOVLW  04
+00D3:  MOVWF  27
+....................    int l = 5; 
+00D4:  MOVLW  05
+00D5:  MOVWF  28
+....................    valor = make32(i,j,k,l); 
+00D6:  MOVF   25,W
+00D7:  MOVWF  24
+00D8:  MOVF   26,W
+00D9:  MOVWF  23
+00DA:  MOVF   27,W
+00DB:  MOVWF  22
+00DC:  MOVF   28,W
+00DD:  MOVWF  21
+....................    printf("Valor: %lu\r\n", valor); 
+00DE:  CLRF   29
+00DF:  MOVF   29,W
+00E0:  CALL   004
+00E1:  INCF   29,F
+00E2:  MOVWF  77
+00E3:  MOVF   77,W
+00E4:  BTFSS  0C.4
+00E5:  GOTO   0E4
+00E6:  MOVWF  19
+00E7:  MOVLW  07
+00E8:  SUBWF  29,W
+00E9:  BTFSS  03.2
+00EA:  GOTO   0DF
+00EB:  MOVLW  41
+00EC:  MOVWF  04
+00ED:  MOVF   24,W
+00EE:  MOVWF  2D
+00EF:  MOVF   23,W
+00F0:  MOVWF  2C
+00F1:  MOVF   22,W
+00F2:  MOVWF  2B
+00F3:  MOVF   21,W
+00F4:  MOVWF  2A
+00F5:  GOTO   057
+00F6:  MOVLW  0D
+00F7:  BTFSS  0C.4
+00F8:  GOTO   0F7
+00F9:  MOVWF  19
+00FA:  MOVLW  0A
+00FB:  BTFSS  0C.4
+00FC:  GOTO   0FB
+00FD:  MOVWF  19
+....................     
+.................... } 
+00FE:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

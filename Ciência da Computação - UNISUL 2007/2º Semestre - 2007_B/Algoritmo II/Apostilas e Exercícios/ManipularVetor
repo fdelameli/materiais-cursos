@@ -1,0 +1,133 @@
+algoritmo vetor1
+Inicio
+	principal
+Fim
+
+Procedimento Principal
+Var
+	vetor[8] de inteiro numero
+	inteiro n, numero, op
+Inicio
+	n = 0
+	repita
+		escreva "1 - inserir"
+		escreva "2 - Listar"
+		escreva "3 - Alterar"
+		escreva "4 - Excluir"
+		escreva "5 - Inserir Posição"
+		escreva "6 - sair"
+		leia op
+		Escolha op
+			caso 1
+				ler numero
+				se(inserirValor(n, num, numero) = V) então
+					escreva "Sucesso"
+					n = n+1
+				senao
+					escreva "Erro - Limite Vetor"
+				FimSe
+			FimCaso1
+			caso 2:
+				listar(n, num)
+			FimCaso2
+			caso 3:
+				ler nAlt
+				pos = verificaPosicao(n, num, nAlt)
+				se(pos>=0) entao
+					ler nNum
+					inserirPosicao(num, nNum, pos)
+				senao
+					escreva "Erro - valor inexistente"
+			FimCaso3
+			caso 4:
+				ler nExc
+				pos = verificaPosicao(n, num, nExc)
+				se(pos>=0) entao
+					excluir(n, num, pos)
+					n = n-1
+				senao	
+					escreva "Valor Inexistente"
+				FimSe
+			FimCaso4
+			caso 5:
+				ler pos
+				Se(verificaPosicaoValida(pos, n)) entao
+					ler numero
+					inserePosicaoVetor(n, pos, num, numero)
+					n = n+1
+				Senao
+					escreva "Erro - Posição Inexistente"
+				FimSe
+			FimCaso5
+		FimEscolha
+	Enquanto(op != 6)
+
+
+
+
+funcao inserirValor(inteiro n, inteiro[] vator num, int numero): logico
+Inicio
+	se(n<8) então
+		vetor num[n] = numero
+		insereValor = V
+	senao
+		insereValor = F
+	FimSe
+Fim
+
+
+procedimento listar(inteiro n, inteiro [] vetor num)
+Var
+	inteiro i
+Inicio
+	Para i de 0 ate (n-1) faça
+		escreva vetorNum[i]
+	FimPara
+Fim
+
+
+função verificarPosicao(inteiro n, inteiro [] vetor num, inteiro nAlt): inteiro
+Var
+	inteiro i
+Inicio
+	Para i de 0 ate (n-1) faça
+		se (num[i] = nAlt) então
+			verificaPosicao = i
+		FimSe
+	FimPara
+	verificaPosicao = -1
+Fim
+
+Procedimento inserePosicao(inteiro [] vetor numAlt, inteiro nNum, inteiro pos)
+Inicio
+	num[pos] = nNum
+Fim
+
+Procedimento excluir(inteiro n,inteiro [] vetor num, inteiro pos)
+Var
+	inteiro i
+Inicio
+	Para i de 0 ate n-2 faça
+		vetorNum[i] = vetorNum[i+1]
+	FimPara
+Fim
+
+
+função verifficaPosicaoValida(inteiro pos, inteiro n): lógico
+Inicio
+	Se(pos<=n && n<8) então
+		verificaPosicaoValida = .V.
+	Senao
+		verificaPosicaoValida = .F.
+	FimSe
+Fim
+
+procedimento inserePosicaoVetor(inteiro n, inteiro pos, inteiro [] num)
+Var
+	inteiro i
+Inicio
+	Para i de n ate (pos+1) dec 1 faça
+		num[i] = num [i-1]
+	FimPara
+	num[pos] = numero
+Fim

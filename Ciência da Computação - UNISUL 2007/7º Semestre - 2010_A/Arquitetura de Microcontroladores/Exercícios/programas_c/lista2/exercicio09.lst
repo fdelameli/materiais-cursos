@@ -1,0 +1,144 @@
+CCS PCM C Compiler, Version 4.038, 33467               23-abr-10 08:41
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista1\exercicio09.lst
+
+               ROM used: 91 words (1%)
+                         Largest free fragment is 2048
+               RAM used: 8 (2%) at main() level
+                         9 (2%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   019
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect 
+.................... #use delay(clock=4Mhz) 
+0004:  MOVLW  23
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   018
+000A:  MOVLW  01
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  4A
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  GOTO   016
+0016:  DECFSZ 00,F
+0017:  GOTO   00A
+0018:  RETLW  00
+....................  
+.................... void main() { 
+0019:  CLRF   04
+001A:  BCF    03.7
+001B:  MOVLW  1F
+001C:  ANDWF  03,F
+001D:  BSF    03.5
+001E:  BSF    1F.0
+001F:  BSF    1F.1
+0020:  BSF    1F.2
+0021:  BCF    1F.3
+0022:  MOVLW  07
+0023:  MOVWF  1C
+....................  
+....................    int i = 0; 
+0024:  BCF    03.5
+0025:  CLRF   21
+....................  
+....................    while(i<20) { 
+0026:  MOVF   21,W
+0027:  SUBLW  13
+0028:  BTFSS  03.0
+0029:  GOTO   04A
+....................    
+....................       output_high(pin_a1); 
+002A:  BSF    03.5
+002B:  BCF    05.1
+002C:  BCF    03.5
+002D:  BSF    05.1
+....................       output_high(pin_a2); 
+002E:  BSF    03.5
+002F:  BCF    05.2
+0030:  BCF    03.5
+0031:  BSF    05.2
+....................    
+....................       delay_ms(500); 
+0032:  MOVLW  02
+0033:  MOVWF  22
+0034:  MOVLW  FA
+0035:  MOVWF  23
+0036:  CALL   004
+0037:  DECFSZ 22,F
+0038:  GOTO   034
+....................    
+....................       output_low(pin_a1); 
+0039:  BSF    03.5
+003A:  BCF    05.1
+003B:  BCF    03.5
+003C:  BCF    05.1
+....................       output_low(pin_a2); 
+003D:  BSF    03.5
+003E:  BCF    05.2
+003F:  BCF    03.5
+0040:  BCF    05.2
+....................  
+....................       delay_ms(500); 
+0041:  MOVLW  02
+0042:  MOVWF  22
+0043:  MOVLW  FA
+0044:  MOVWF  23
+0045:  CALL   004
+0046:  DECFSZ 22,F
+0047:  GOTO   043
+....................        
+....................       i++; 
+0048:  INCF   21,F
+....................  
+....................    }  
+0049:  GOTO   026
+....................   
+....................    if (input_state(pin_a1)) { 
+004A:  BTFSS  05.1
+004B:  GOTO   050
+....................       output_low(pin_a1); 
+004C:  BSF    03.5
+004D:  BCF    05.1
+004E:  BCF    03.5
+004F:  BCF    05.1
+....................    } 
+....................     
+....................    if (input_state(pin_a2)) { 
+0050:  BTFSS  05.2
+0051:  GOTO   056
+....................       output_low(pin_a2); 
+0052:  BSF    03.5
+0053:  BCF    05.2
+0054:  BCF    03.5
+0055:  BCF    05.2
+....................    } 
+....................     
+....................    output_high(pin_a3); 
+0056:  BSF    03.5
+0057:  BCF    05.3
+0058:  BCF    03.5
+0059:  BSF    05.3
+....................  
+.................... } 
+005A:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

@@ -1,0 +1,40 @@
+if (typeof(__atlas_ad_info)=="undefined") 
+var __atlas_ad_info = new Object(); 
+var PAID = "2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742";
+var TopLayer_version = "52";
+var A4E_DELIMITER = "a4edelim";
+var pubClick = (""!="") ? "" : "%pub_click_url%";
+__atlas_ad_info["2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"] = 
+{site_alias: "246733006",
+ad_id: "157845645",
+atlas_view_url: "http://view.atdmt.com/jview/246733006/direct;ai.157845645;vt.2/01", 
+click_url_t: "http://clk.atdmt.com/go/246733006/direct;vt.1;ai.157845645;ct.",
+event_url_t: " http://clk.atdmt.com/go/246733006/direct;vt.1;ai.157845645;ct.i",
+duration_url_t: "http://clk.atdmt.com/go/246733006/direct;vt.1;ai.157845645;ct.d;ea.",
+report_suffix: "/01/",
+pub_click_url: pubClick,
+pub_view_url: "%pub_view_url%",
+buster_url: "%buster_url%",
+ds_path: "ec.atdmt.com/ds/NMMBLUMBMDEV",
+streaming_url : "undefined", 
+advertiserID : "",
+TL_files_path : ""
+};
+var sNullGUID = "00000000000000000000000000000000";
+var sDir = PAID.substring(32);
+var imageServerURL = "HTTP" + "://rmd.atdmt.com/tl/";
+var checkObject = eval('__atlas_ad_info["'+PAID+'"]');
+var startPoint = checkObject.ds_path.lastIndexOf("/");
+if (startPoint != -1)
+checkObject.advertiserID = checkObject.ds_path.substr(startPoint+1);
+else
+checkObject.advertiserID = "";	
+imageServerURL = imageServerURL + checkObject.advertiserID + "/" ;
+var sURL = imageServerURL + sDir + "/"+PAID+".js?ver=" + parseInt(TopLayer_version);
+checkObject.TL_files_path = imageServerURL + sDir + "/";
+sURL = sURL + "&atdmt=";
+checkObject.streaming_url = checkObject.streaming_url + checkObject.advertiserID + "/" ;
+if ((checkObject.pub_click_url != "") && (checkObject.pub_click_url.indexOf("pub_click_url") == -1)) sURL = sURL + "&a4eclickmacro=" + checkObject.pub_click_url + A4E_DELIMITER;
+if ((checkObject.pub_view_url != "") && (checkObject.pub_view_url.indexOf("pub_view_url") == -1)) sURL = sURL + "&a4eviewmacro=" + checkObject.pub_view_url + A4E_DELIMITER;
+if ((checkObject.buster_url != "") && (checkObject.buster_url.indexOf("buster_url") == -1)) sURL = sURL + "&a4ehtm=" + checkObject.buster_url + A4E_DELIMITER;
+document.writeln("<scr" + "ipt language='javascript' " + "src='" + sURL + "'></scr" + "ipt>"); 

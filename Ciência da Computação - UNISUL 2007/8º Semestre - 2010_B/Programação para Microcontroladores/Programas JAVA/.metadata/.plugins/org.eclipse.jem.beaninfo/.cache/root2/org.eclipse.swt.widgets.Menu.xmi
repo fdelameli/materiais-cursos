@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<change:ChangeDescription xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:change="http://www.eclipse.org/emf/2003/Change" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.jem.internal.beaninfo.beaninfo="http:///org/eclipse/jem/internal/beaninfo/beaninfo.ecore" xmlns:org.eclipse.jem.java="java.xmi">
+  <objectChanges xsi:type="change:EObjectToChangesMapEntry" key="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.widgets#Menu">
+    <value xsi:type="change:FeatureChange" featureName="eAnnotations">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.0"/>
+    </value>
+    <value xsi:type="change:FeatureChange" featureName="eStructuralFeatures">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.1 #//@objectsToAttach.2 #//@objectsToAttach.3 #//@objectsToAttach.4"/>
+    </value>
+    <value xsi:type="change:FeatureChange" featureName="events">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.5 #//@objectsToAttach.6"/>
+    </value>
+  </objectChanges>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanDecorator" implicitlySetBits="2161727821137838094" implicitDecoratorFlag="IMPLICIT_DECORATOR" mergeSuperMethods="false">
+    <attributes xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:FeatureAttributeMapEntry" key="org.eclipse.ve.sweet.stylebits" value="implicit,[1][]{[4]{&quot;style&quot;,&quot;style&quot;,false,[9]{&quot;BAR&quot;,&quot;org.eclipse.swt.SWT.BAR&quot;,2,&quot;POPUP&quot;,&quot;org.eclipse.swt.SWT.POP_UP&quot;,8,&quot;DROPDOWN&quot;,&quot;org.eclipse.swt.SWT.DROP_DOWN&quot;,4}}}"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="defaultItem" eType="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.widgets#MenuItem" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="The default menu item or null if none has been previously set." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.getDefaultItem(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.setDefaultItem(org.eclipse.swt.widgets.MenuItem"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="enabled" eType="org.eclipse.jem.java:JavaDataType java:/#boolean" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="True if the receiver is enabled, and false otherwise." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.isEnabled(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.setEnabled(boolean"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="itemCount" eType="org.eclipse.jem.java:JavaDataType java:/#int" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="The number of items contained in the receiver." implicitlySetBits="6629298651489370164" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.getItemCount("/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="visible" eType="org.eclipse.jem.java:JavaDataType java:/#boolean" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="True if the receiver is visible, and false otherwise." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.isVisible(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.setVisible(boolean"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanEvent" name="help">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:EventSetDecorator" implicitlySetBits="2017612633061982333" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" inDefaultEventSet="true" addListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.addHelpListener(org.eclipse.swt.events.HelpListener" listenerType="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.events#HelpListener" removeListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.removeHelpListener(org.eclipse.swt.events.HelpListener">
+      <serListMthd xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodProxy" name="helpRequested" method="org.eclipse.jem.java:Method java:/org.eclipse.swt.events#HelpListener.helpRequested(org.eclipse.swt.events.HelpEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" implicitlySetBits="2017612633061982208"/>
+      </serListMthd>
+    </eAnnotations>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanEvent" name="menu">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:EventSetDecorator" implicitlySetBits="2017612633061982333" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" inDefaultEventSet="true" addListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.addMenuListener(org.eclipse.swt.events.MenuListener" listenerType="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.events#MenuListener" removeListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#Menu.removeMenuListener(org.eclipse.swt.events.MenuListener">
+      <serListMthd xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodProxy" name="menuHidden" method="org.eclipse.jem.java:Method java:/org.eclipse.swt.events#MenuListener.menuHidden(org.eclipse.swt.events.MenuEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" implicitlySetBits="2017612633061982208"/>
+      </serListMthd>
+      <serListMthd xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodProxy" name="menuShown" method="org.eclipse.jem.java:Method java:/org.eclipse.swt.events#MenuListener.menuShown(org.eclipse.swt.events.MenuEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" implicitlySetBits="2017612633061982208"/>
+      </serListMthd>
+    </eAnnotations>
+  </objectsToAttach>
+</change:ChangeDescription>

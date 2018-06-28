@@ -1,0 +1,24 @@
+main
+	Div_16x16_U
+	Mul_16x16_U
+	PWM_Init
+	Lcd8_Init
+		Delay_1us
+		Delay_5500us
+	strcat
+	WordToStr
+		Div_16x16_U
+	PWM_Change_Duty
+		Mul_16x16_U
+	ADC_read
+		Delay_22us
+	PWM_Start
+	Lcd8_Out
+		Lcd8_Cmd
+			Delay_500us
+			Delay_5500us
+			Delay_1us
+	Lcd8_Cmd
+		Delay_500us
+		Delay_5500us
+		Delay_1us

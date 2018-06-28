@@ -1,0 +1,32 @@
+//------------- ESTRUTURA DA APRESENTAÇÃO -------------\\
+|							|
+|							|
+|	1 - CAPA (nome, entegrantes, local...);		|
+|							|
+|	2 - AGENDA/CRONOGRAMA;				|
+|							|
+|	3 - INTRODUÇÃO;					|
+|							|
+|	4 - OBJETIVOS;					|
+|							|
+|	5 - "DESENVOLVIMENTO";				|
+|							|
+|	6 - CONCLUSÕES;					|
+|							|
+|	7 - REFERÊNCIAS.				|
+|							|
+\-------------------------------------------------------/
+
+
+//--------------------- REGRAS ------------------------\\
+|							|
+|							|
+|	1 - ESPAÇO ENTRE LINHAS: 1,5;			|
+|							|
+|	2 - CADA SLIDE NÃO PODE TER MAIS		|
+|	    QUE 5 TÓPICOS;				|
+|							|
+|	3 - CADA TÓPICO NÃO PODE TER MAIS		|
+|	    QUE 3 LINHAS.				|
+|							|
+\-------------------------------------------------------/

@@ -1,0 +1,45 @@
+
+ROM used: 34 (0%)
+          34 (0%) including unused fragments
+
+          0 Average locations per line
+          4 Average locations per statement
+
+RAM used: 7 (2%) at main() level
+          7 (2%) worst case
+
+Stack used: 0 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   62     8 100  teste.c
+  309     0   0  ..\..\..\..\..\..\..\..\..\Program Files\PICC\devices\16f877A.h
+----- -----
+  371     8 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     30  88   1   143  3.0  main
+
+Program metrics:
+    Functions               1
+    Statements              8
+    Comments                109
+    Volume (V)              143
+    Difficilty (D)          3.0
+    Effort to implement (E) 433
+    Time to implement (T)   0 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   1
+    Maintainability (MI)    89
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF    30  2014  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

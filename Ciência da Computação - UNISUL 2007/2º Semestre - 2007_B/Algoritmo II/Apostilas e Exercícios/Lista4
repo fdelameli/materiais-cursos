@@ -1,0 +1,75 @@
+Lista4
+
+algoritmos colaboradores1
+Var
+	inteiro op, nDp
+	literal nome, nCarteira, dataInicio, dataFim, telefone, dados
+	real salario, salarioFinal, vHora, nHora, calculo
+Inicio
+	Repita
+		escreva "1 - Mensalidade"
+		escreva "2 - Horista"
+		escreva "3 - Estagiario"
+		escreva "4 - Sair"
+		escreva "Digite a sua opção"
+		leia op
+		Escolha
+			caso (op = 1) então
+				mensalista
+			caso (op = 2) então
+				horista
+			caso (op = 3) então
+				estagiario
+			senao
+				escreva "Operação Inválida"
+		Fim Escolha
+	Enquanto (op != 4)
+Fim
+
+Procedimeto mensalista
+Inicio
+	dados
+	escreva "Digite Sálario Mensal"
+	leia salario
+	escreva "Salário Funcionário", salarioFinal
+	escreva "Salário: ", calculoSalario
+Fim
+
+Procedimento horista
+Inicio
+	dados
+	escreva"Digite valor hora: "
+	leia vHora
+	escreva "Digite número de horas trabalhadas: "
+	leia nHora
+	salario = vHora*nHora
+	escreva "Salário Funcionário: ", calculoSalario
+Fim
+
+Procedimento estagiario
+	dados
+	escreva "Digite data Inicio: "
+	leia dataInicio
+	escreva "Digite date fim: "
+	leia dataFim
+	escreva "Digite salário: "
+	leia salario
+	escreva "Salário Funcionário: ", calculoSalario
+Fim
+
+Procedimento dados
+Inicio
+	escreva "Digite Nome: "
+	leia nome
+	escreva "Digite Telefone: "
+	leia telefone
+	escreva "Digite número da carteira de trabalho: "
+	leia nCarteira
+	Escreva "Digite número de dependentes: "
+	leia nDep
+Fim
+
+Funcao calculoSalario: real
+Inicio
+	calculoSalario = salario + (salario*0.10*nDep)
+Fim

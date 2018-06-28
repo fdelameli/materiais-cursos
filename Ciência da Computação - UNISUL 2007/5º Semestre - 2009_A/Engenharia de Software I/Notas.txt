@@ -1,0 +1,17 @@
+1 - Estudo preliminar (visibilidade).
+
+2 - Análise e definição de requisitos.
+
+3 - Modelagem conceitual
+    Casos de Uso
+    Modelo classes
+    Modelo conceitual de Dados (ER)
+
+4 - Modelagem física
+    Arquitetura do sistema
+    Modelo classes definitivo
+    Diagramas
+
+5 - Codificação e testes (construção)
+
+6 - Implantação.

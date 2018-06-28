@@ -1,0 +1,93 @@
+package swing;
+
+import java.awt.Dimension;
+import java.awt.Rectangle;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
+
+public class JProgressBarTest extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel jContentPane = null;
+	private JProgressBar jProgressBar = null;
+	private JButton btInicar = null;
+
+	/**
+	 * This is the default constructor
+	 */
+	public JProgressBarTest() {
+		super();
+		initialize();
+	}
+
+	/**
+	 * This method initializes this
+	 * 
+	 * @return void
+	 */
+	private void initialize() {
+		this.setSize(300, 165);
+		this.setContentPane( getJContentPane() );
+		this.setTitle("Teste Barra de Progresso");
+	}
+
+	/**
+	 * This method initializes jContentPane
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJContentPane() {
+		if ( jContentPane == null ) {
+			jContentPane = new JPanel();
+			jContentPane.setLayout(null);
+			jContentPane.add(getJProgressBar(), null);
+			jContentPane.add(getBtInicar(), null);
+		}
+		return jContentPane;
+	}
+
+	/**
+	 * This method initializes jProgressBar	
+	 * 	
+	 * @return javax.swing.JProgressBar	
+	 */
+	private JProgressBar getJProgressBar() {
+		if ( jProgressBar == null ) {
+			jProgressBar = new JProgressBar();
+			jProgressBar.setBounds(new Rectangle(26, 19, 230, 23));
+			jProgressBar.setStringPainted(true);
+			jProgressBar.setPreferredSize(new Dimension(150, 15));
+		}
+		return jProgressBar;
+	}
+
+	/**
+	 * This method initializes btInicar	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getBtInicar() {
+		if ( btInicar == null ) {
+			btInicar = new JButton();
+			btInicar.setBounds(new Rectangle(70, 64, 139, 29));
+			btInicar.setText("INICIAR");
+		}
+		return btInicar;
+	}
+	
+	
+	/**
+	 * This is the main method thats initializes the program
+	 */
+	public static void main( String[] args ) {
+		JProgressBarTest app = new JProgressBarTest();
+		app.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		app.setVisible( true );
+	}
+	
+
+}  //  @jve:decl-index=0:visual-constraint="10,10"

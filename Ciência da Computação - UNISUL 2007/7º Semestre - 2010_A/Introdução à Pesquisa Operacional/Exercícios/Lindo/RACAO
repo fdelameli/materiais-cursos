@@ -1,0 +1,10 @@
+!Formulação de Ração
+
+MIN
+ Custo) 0,03A + 0,04B
+SUBJECT TO
+ VITAMIN1) 5A + 25B    50
+ VITAMIN2) 25A + 10B    100
+ VITAMIN3) 10A+  10B    60
+ VITAMIN4) 35A + 20B    180
+END

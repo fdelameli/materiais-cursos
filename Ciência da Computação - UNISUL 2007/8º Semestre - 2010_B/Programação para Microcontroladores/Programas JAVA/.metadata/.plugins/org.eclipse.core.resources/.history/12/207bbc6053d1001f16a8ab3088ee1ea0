@@ -1,0 +1,36 @@
+package com.br.olaria.main;
+
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
+import com.br.olaria.serial.PortaSerial;
+import com.br.olaria.util.SwtUtils;
+import com.br.olaria.view.GUI;
+
+/**
+ * Classe principal do programa.
+ * @author Fabio Dela Bruna.
+ */
+public class Main {
+
+//	public static PortaSerial porta;
+//
+//	/**
+//	 * Método que inicia a aplicação.
+//	 */
+//	public static void main( String[] args ) {
+//		porta = new PortaSerial();
+//		porta.abre( "COM4", 1000 );
+//
+//		Display display = Display.getDefault();
+//		Shell sShell = new GUI().createSShell( porta );
+//		sShell.open();
+//		SwtUtils.centralize( sShell );
+//		while ( !sShell.isDisposed() ) {
+//			if ( !display.readAndDispatch() )
+//				display.sleep();
+//		}
+//		display.dispose();
+//	}
+
+}

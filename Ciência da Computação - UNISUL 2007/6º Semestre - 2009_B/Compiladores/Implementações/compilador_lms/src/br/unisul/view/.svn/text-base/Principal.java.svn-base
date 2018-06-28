@@ -1,0 +1,136 @@
+package br.unisul.view;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import br.unisul.lexico.Compilador_Lexico;
+import br.unisul.model.Token;
+import br.unisul.sintatico.Compilador_Sintatico;
+
+/**
+ * Interface Gráfica Swing para Teste do Compilador para a linguagem LMS.
+ * 
+ * @author Almir Hoepers, Guilherme Azevedo, Thiago Ghisi
+ */
+public class Principal extends JFrame implements ActionListener
+{
+	private static final long serialVersionUID = -1944813614059405753L;
+	
+	private static final int JANELA_ALTURA = 800;
+	private static final int JANELA_LARGURA = 600;
+	private JTextArea entradaArea;
+	private JButton analisarButton;
+
+	private Compilador_Lexico analisadorLexico;
+
+	public Principal()
+	{
+		//Coloca um Titulo na Barra de Titulo da Janela
+		super("Compilador LMS --> Almir, Guilherme e Thiago");
+
+		this.analisadorLexico = new Compilador_Lexico();
+
+		//Abre janela no tamanho de 800 X 600
+		this.setSize(JANELA_ALTURA, JANELA_LARGURA);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		//Criamos um container para organizar os componentes na tela
+		Container c = this.getContentPane();
+        
+		this.entradaArea = new JTextArea();
+        JScrollPane entradaScrollPane = new JScrollPane(this.entradaArea);
+		c.add(entradaScrollPane, BorderLayout.CENTER);
+		
+		JPanel southPanel = new JPanel();
+		c.add(southPanel, BorderLayout.SOUTH);
+		
+		this.analisarButton = new JButton("Executar Compilação e Programa");
+		this.analisarButton.addActionListener(this);
+		southPanel.add(this.analisarButton);
+	}
+	
+	public static void main( String[] args )
+	{
+		Principal lexGUI = new Principal();
+		
+		lexGUI.setVisible(true);
+	}
+
+	public void actionPerformed( ActionEvent e )
+	{
+		if(e.getSource() == this.analisarButton)
+		{
+			List<Token> tokens = this.analisadorLexico.analisar(this.entradaArea.getText() + "$");
+			
+			if(tokens != null && tokens.size() >= 0)
+			{
+				StringBuilder resposta = new StringBuilder();
+				
+				resposta.append("Código");
+				resposta.append("\t");
+				resposta.append("Token");
+				resposta.append("\t");
+				resposta.append("Descrição");
+				resposta.append("\n");
+				resposta.append("\n");
+				
+				boolean sucess = true;
+				for(Token token : tokens)
+				{
+					//verifica se não teve nenhum erro na analise lexica
+					if(token.getCdToken() == -1){
+						sucess = false;
+					}
+					
+					resposta.append(token.getCdToken());
+					resposta.append("\t");
+					resposta.append(token.getNmToken());
+					resposta.append("\t");
+					resposta.append(token.getTpToken());
+					resposta.append("\n");
+				}
+				
+				
+				
+				JFrame respostaFrame = new JFrame("Resposta da análise léxica: ");
+				respostaFrame.setSize(640, 480);
+				respostaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				JTextArea respostaArea = new JTextArea(resposta.toString());
+				respostaArea.setEditable(false);
+				respostaFrame.add(new JScrollPane(respostaArea));
+				respostaFrame.setVisible(true);
+				
+				if(sucess){
+					Compilador_Sintatico cs = new Compilador_Sintatico();
+					List<Token> suporte = new ArrayList<Token>();
+					for (Token token : tokens) {
+						if(token.getCdToken() != 0 && token.getCdToken() != 51){
+							suporte.add(token);
+						}else{
+							System.err.println("[WARNING] Ignorou Token Inválido! --> "+token.getCdToken());
+//							JOptionPane.showMessageDialog(null, "Ignorou --> "+token.getCdToken());
+						}
+					}
+					cs.analisarBaseInteiro(suporte);
+				}else{
+					JOptionPane.showMessageDialog(null, "ERRO NA ANÁLISE LÉXICA, ANÁLISE SINTÁTICA NÃO EXECUTADA!");
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "ERRO!!!");
+			}
+		}
+	}
+}

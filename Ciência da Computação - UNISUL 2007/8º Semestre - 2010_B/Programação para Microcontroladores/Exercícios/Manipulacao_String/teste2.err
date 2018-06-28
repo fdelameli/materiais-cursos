@@ -1,0 +1,6 @@
+>>> Warning 202 "teste2.c" Line 10(17,18): Variable never used:   n
+>>> Warning 202 "teste2.c" Line 11(9,10): Variable never used:   c
+>>> Warning 202 "teste2.c" Line 12(9,10): Variable never used:   s
+>>> Warning 202 "teste2.c" Line 12(16,21): Variable never used:   outro
+      Memory usage:   ROM=0%      RAM=8% - 8%
+      0 Errors,  4 Warnings.

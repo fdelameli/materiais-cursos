@@ -1,0 +1,23 @@
+[DeviceName]
+Value=P16F877
+
+[DeviceClock]
+Value=4
+
+[MainUnit]
+Value=sound.ppas
+
+[DeviceFlags]
+Count=0
+
+[ProjectFiles]
+Count=0
+
+[SearchPath]
+Count=3
+Value0=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROPASCAL\Defs\
+Value1=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROPASCAL\Uses\p16\
+Value2=D:\Curso\PIC\Basic\Módulo B\Sound\
+
+[EEPROMinfo]
+isused=0

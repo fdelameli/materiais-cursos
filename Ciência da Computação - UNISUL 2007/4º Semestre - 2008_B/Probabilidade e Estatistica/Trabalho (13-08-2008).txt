@@ -1,0 +1,11 @@
+4 tabelas
+4 gráficos
+
+
+COLUNA
+SETORES
+POLAR
+CARTOGRAMA
+PICTOGRAMA
+
+* é obrigatório conter do tipo SETORES e POLAR

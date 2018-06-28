@@ -1,0 +1,46 @@
+
+ROM used: 165 (2%)
+          165 (2%) including unused fragments
+
+          0 Average locations per line
+          5 Average locations per statement
+
+RAM used: 8 (2%) at main() level
+          9 (2%) worst case
+
+Stack used: 1 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   62    35 100  teste_serial.c
+  313     0   0  16F877A.h
+----- -----
+  375    35 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     21  13   1             @delay_ms1
+0    140  85   1  1142  3.9  main
+
+Program metrics:
+    Functions               1
+    Statements              35
+    Comments                75
+    Volume (V)              1144
+    Difficilty (D)          3.9
+    Effort to implement (E) 4416
+    Time to implement (T)   4 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   3
+    Maintainability (MI)    114
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF   161  1883  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

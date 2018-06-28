@@ -1,0 +1,12 @@
+program teste6;
+Var a,b,c,I:integer;
+Begin
+  Readln(a,b);
+  Readln(i); 
+  c:=0;
+  Case i of
+    1,4 : c:= a+b;
+    2,3,5 : c:= a-b
+  End;
+Writeln(c);
+End.

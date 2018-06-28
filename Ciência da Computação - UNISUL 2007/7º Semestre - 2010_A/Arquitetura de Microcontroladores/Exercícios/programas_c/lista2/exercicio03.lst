@@ -1,0 +1,66 @@
+CCS PCM C Compiler, Version 4.038, 33467               14-abr-10 16:28
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista1\exercicio03.lst
+
+               ROM used: 31 words (0%)
+                         Largest free fragment is 2048
+               RAM used: 6 (2%) at main() level
+                         6 (2%) worst case
+               Stack:    0 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect 
+.................... #use delay(clock=4Mhz) 
+....................  
+.................... void main() { 
+0004:  CLRF   04
+0005:  BCF    03.7
+0006:  MOVLW  1F
+0007:  ANDWF  03,F
+0008:  BSF    03.5
+0009:  BSF    1F.0
+000A:  BSF    1F.1
+000B:  BSF    1F.2
+000C:  BCF    1F.3
+000D:  MOVLW  07
+000E:  MOVWF  1C
+....................     
+....................    while(true) {  
+....................     
+....................       if (input(pin_a2)) { 
+000F:  BSF    05.2
+0010:  BCF    03.5
+0011:  BTFSS  05.2
+0012:  GOTO   018
+....................          output_high(pin_b3); 
+0013:  BSF    03.5
+0014:  BCF    06.3
+0015:  BCF    03.5
+0016:  BSF    06.3
+....................       } else { 
+0017:  GOTO   01C
+....................          output_low(pin_b3); 
+0018:  BSF    03.5
+0019:  BCF    06.3
+001A:  BCF    03.5
+001B:  BCF    06.3
+....................       }   
+....................     
+....................    } 
+001C:  BSF    03.5
+001D:  GOTO   00F
+....................  
+.................... } 
+001E:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

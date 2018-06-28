@@ -1,0 +1,6 @@
+>>> Warning 202 "exercicio01.c" Line 10(14,19): Variable never used:   opcao
+>>> Warning 202 "exercicio01.c" Line 11(16,23): Variable never used:   numero1
+>>> Warning 202 "exercicio01.c" Line 12(16,23): Variable never used:   numero2
+>>> Warning 202 "exercicio01.c" Line 14(12,15): Variable never used:   aux
+      Memory usage:   ROM=2%      RAM=7% - 7%
+      0 Errors,  4 Warnings.

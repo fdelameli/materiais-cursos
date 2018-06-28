@@ -1,0 +1,39 @@
+[PROJECT]
+Target=teclado.HEX
+Development_Mode=2
+Processor=0x877A
+ToolSuite=CCS
+
+[Directories]
+Include=
+Library=
+LinkerScript=
+
+[Target Data]
+FileList=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.c
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+
+[teclado.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+
+[mru-list]
+1=C:\Cerne\CDs\KI3100~1\Exemplos\EXEMPL~1\TECLAD~1\teclado.c
+
+[Windows]
+0=0000 C:\Cerne\CDs\KI3100~1\Exemplos\EXEMPL~1\TECLAD~1\teclado.c 0 0 796 451 3 0
+
+[Opened Files]
+1=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.c
+2=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Relógio Digital\varredura.c
+3=
+[Units]
+Count=1
+1=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Teclado Matricial\teclado.c (main)

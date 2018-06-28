@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/20/trunk/LHManeger/src/com/br/lhmanager/controller/entitys
+END
+Promocao.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Promocao.java
+END
+TipoDespesa.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/36/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/TipoDespesa.java
+END
+ICrudBase.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/20/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/ICrudBase.java
+END
+Log.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Log.java
+END
+Impressao.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Impressao.java
+END
+Cliente.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Cliente.java
+END
+Despesa.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/37/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Despesa.java
+END
+Campeonato.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Campeonato.java
+END
+Atendimento.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Atendimento.java
+END
+Usuario.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Usuario.java
+END
+Credito.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Credito.java
+END
+Terminal.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Terminal.java
+END
+Produto.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Produto.java
+END
+Venda.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/19/trunk/LHManeger/src/com/br/lhmanager/controller/entitys/Venda.java
+END

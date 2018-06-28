@@ -1,0 +1,103 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020     @TRIS_C
+021-022 MAIN.dado
+023-024 read_int16_ext_eeprom.address
+023-024 @PRINTF_LU_9600_62_63.P1
+023-024 write_int16_ext_eeprom.address
+023     MAIN.@SCRATCH1
+025-026 write_int16_ext_eeprom.data
+025     read_int16_ext_eeprom.i
+025     @PRINTF_LU_9600_62_63.@SCRATCH1
+026-027 read_int16_ext_eeprom.data
+026     @PRINTF_LU_9600_62_63.@SCRATCH2
+027     write_int16_ext_eeprom.i
+027     @PRINTF_LU_9600_62_63.@SCRATCH3
+028     write_int16_ext_eeprom.@SCRATCH1
+028     read_int16_ext_eeprom.@SCRATCH1
+028     @PRINTF_LU_9600_62_63.@SCRATCH4
+029     write_int16_ext_eeprom.@SCRATCH2
+029     read_int16_ext_eeprom.@SCRATCH2
+029     @PRINTF_LU_9600_62_63.@SCRATCH5
+02A     write_int16_ext_eeprom.@SCRATCH3
+02A     read_int16_ext_eeprom.@SCRATCH3
+02A     @PRINTF_LU_9600_62_63.@SCRATCH6
+02B-02C write_ext_eeprom.address
+02B     write_int16_ext_eeprom.@SCRATCH4
+02B     read_int16_ext_eeprom.@SCRATCH4
+02B     @PRINTF_LU_9600_62_63.@SCRATCH7
+02C-02D read_ext_eeprom.address
+02D     write_ext_eeprom.data
+02E     read_ext_eeprom.data
+02E     write_ext_eeprom.@SCRATCH1
+02F     @I2C_READ_1.P1
+02F.0   ext_eeprom_ready.ack
+02F     read_ext_eeprom.@SCRATCH1
+030     @I2C_WRITE_1.P1
+030     @I2C_READ_1.@SCRATCH1
+031     @I2C_READ_1.@SCRATCH2
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+01A8  @I2C_READ_1
+0020  @I2C_WRITE_1
+0013  init_ext_eeprom
+006A  ext_eeprom_ready
+00C8  write_ext_eeprom
+013C  read_ext_eeprom
+00A5  write_int16_ext_eeprom
+011E  read_int16_ext_eeprom
+0271  MAIN
+0004  @const109
+0216  @PRINTF_LU_9600_62_63
+0271  @cinit
+
+
+User Memory space: 
+
+Project Directory:
+    C:\Documents and Settings\lab.academico\Desktop\teste_i2c\
+
+Project Files:
+    principal.c
+    16f877a.h
+    2404.c
+    external_eeprom.c
+
+Units:
+    C:\Documents and Settings\lab.academico\Desktop\teste_i2c\principal.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      principal.err
+    Ext Symbols: principal.esym
+    INHX8:       principal.hex
+    Symbols:     principal.sym
+    List:        principal.lst
+    Debug/COFF:  principal.cof
+    Project:     principal.PJT
+    Call Tree:   principal.tre
+    Statistics:  principal.sta

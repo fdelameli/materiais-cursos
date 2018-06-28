@@ -1,0 +1,230 @@
+CCS PCM C Compiler, Version 4.093, 5065               26-Aðu-10 11:48
+
+               Filename: C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Teste_EEPROM\teste1.lst
+
+               ROM used: 193 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 17 (5%) at main() level
+                         17 (5%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   013
+0003:  NOP
+.................... #include <16f877a.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses HS, PROTECT, BROWNOUT 
+.................... #use delay(clock=4Mhz) 
+.................... #use rs232(baud=9600, xmit=pin_c6, rcv=pin_c7) 
+....................  
+.................... void main() { 
+0013:  CLRF   04
+0014:  BCF    03.7
+0015:  MOVLW  1F
+0016:  ANDWF  03,F
+0017:  MOVLW  19
+0018:  BSF    03.5
+0019:  MOVWF  19
+001A:  MOVLW  A6
+001B:  MOVWF  18
+001C:  MOVLW  90
+001D:  BCF    03.5
+001E:  MOVWF  18
+001F:  BSF    03.5
+0020:  BSF    1F.0
+0021:  BSF    1F.1
+0022:  BSF    1F.2
+0023:  BCF    1F.3
+0024:  MOVLW  07
+0025:  MOVWF  1C
+....................    int i=0; 
+0026:  BCF    03.5
+0027:  CLRF   21
+....................    char c[]; 
+....................    char nome[] = {"Fabio\0"}; 
+0028:  MOVLW  46
+0029:  MOVWF  24
+002A:  MOVLW  61
+002B:  MOVWF  25
+002C:  MOVLW  62
+002D:  MOVWF  26
+002E:  MOVLW  69
+002F:  MOVWF  27
+0030:  MOVLW  6F
+0031:  MOVWF  28
+0032:  CLRF   29
+0033:  CLRF   2A
+....................     
+....................    while(true) { 
+....................       if(kbhit()) { 
+0034:  BTFSS  0C.5
+0035:  GOTO   03D
+....................          c=getc(); 
+0036:  BTFSS  0C.5
+0037:  GOTO   036
+0038:  MOVF   1A,W
+0039:  CLRF   7A
+003A:  MOVWF  22
+003B:  MOVF   7A,W
+003C:  MOVWF  23
+....................       } 
+....................       if(c == 'e') { // escrever 
+003D:  MOVF   22,W
+003E:  SUBLW  65
+003F:  BTFSS  03.2
+0040:  GOTO   09B
+0041:  MOVF   23,F
+0042:  BTFSS  03.2
+0043:  GOTO   09B
+....................          i=0; 
+0044:  CLRF   21
+....................          while(nome[i] != '\0') { 
+0045:  MOVLW  24
+0046:  ADDWF  21,W
+0047:  MOVWF  04
+0048:  BCF    03.7
+0049:  MOVF   00,F
+004A:  BTFSC  03.2
+004B:  GOTO   071
+....................             write_eeprom(i,nome[i]); 
+004C:  MOVLW  24
+004D:  ADDWF  21,W
+004E:  MOVWF  04
+004F:  BCF    03.7
+0050:  MOVF   00,W
+0051:  MOVWF  2B
+0052:  MOVF   21,W
+0053:  BSF    03.6
+0054:  MOVWF  0D
+0055:  BCF    03.6
+0056:  MOVF   2B,W
+0057:  BSF    03.6
+0058:  MOVWF  0C
+0059:  BSF    03.5
+005A:  BCF    0C.7
+005B:  BSF    0C.2
+005C:  BCF    03.5
+005D:  BCF    03.6
+005E:  MOVF   0B,W
+005F:  MOVWF  77
+0060:  BCF    0B.7
+0061:  BSF    03.5
+0062:  BSF    03.6
+0063:  MOVLW  55
+0064:  MOVWF  0D
+0065:  MOVLW  AA
+0066:  MOVWF  0D
+0067:  BSF    0C.1
+0068:  BTFSC  0C.1
+0069:  GOTO   068
+006A:  BCF    0C.2
+006B:  MOVF   77,W
+006C:  BCF    03.5
+006D:  BCF    03.6
+006E:  IORWF  0B,F
+....................             i++; 
+006F:  INCF   21,F
+....................          } 
+0070:  GOTO   045
+....................          write_eeprom(i, '\0'); 
+0071:  MOVF   21,W
+0072:  BSF    03.6
+0073:  MOVWF  0D
+0074:  CLRF   0C
+0075:  BSF    03.5
+0076:  BCF    0C.7
+0077:  BSF    0C.2
+0078:  BCF    03.5
+0079:  BCF    03.6
+007A:  MOVF   0B,W
+007B:  MOVWF  77
+007C:  BCF    0B.7
+007D:  BSF    03.5
+007E:  BSF    03.6
+007F:  MOVLW  55
+0080:  MOVWF  0D
+0081:  MOVLW  AA
+0082:  MOVWF  0D
+0083:  BSF    0C.1
+0084:  BTFSC  0C.1
+0085:  GOTO   084
+0086:  BCF    0C.2
+0087:  MOVF   77,W
+0088:  BCF    03.5
+0089:  BCF    03.6
+008A:  IORWF  0B,F
+....................          c=' '; 
+008B:  CLRF   23
+008C:  MOVLW  20
+008D:  MOVWF  22
+....................          printf("Escreveu\r\n"); 
+008E:  CLRF   2B
+008F:  MOVF   2B,W
+0090:  CALL   004
+0091:  INCF   2B,F
+0092:  MOVWF  77
+0093:  MOVF   77,W
+0094:  BTFSS  0C.4
+0095:  GOTO   094
+0096:  MOVWF  19
+0097:  MOVLW  0A
+0098:  SUBWF  2B,W
+0099:  BTFSS  03.2
+009A:  GOTO   08F
+....................       } 
+....................       if(c == 'l') { //ler 
+009B:  MOVF   22,W
+009C:  SUBLW  6C
+009D:  BTFSS  03.2
+009E:  GOTO   0BF
+009F:  MOVF   23,F
+00A0:  BTFSS  03.2
+00A1:  GOTO   0BF
+....................          i=0; 
+00A2:  CLRF   21
+....................          while((c=read_eeprom(i)) != '\0') { 
+00A3:  MOVF   21,W
+00A4:  BSF    03.6
+00A5:  MOVWF  0D
+00A6:  BSF    03.5
+00A7:  BCF    0C.7
+00A8:  BSF    0C.0
+00A9:  BCF    03.5
+00AA:  MOVF   0C,W
+00AB:  CLRF   7A
+00AC:  BCF    03.6
+00AD:  MOVWF  22
+00AE:  MOVF   7A,W
+00AF:  MOVWF  23
+00B0:  MOVF   22,F
+00B1:  BTFSS  03.2
+00B2:  GOTO   0B6
+00B3:  MOVF   23,F
+00B4:  BTFSC  03.2
+00B5:  GOTO   0BC
+....................             printf("%C", c); 
+00B6:  MOVF   22,W
+00B7:  BTFSS  0C.4
+00B8:  GOTO   0B7
+00B9:  MOVWF  19
+....................             i++; 
+00BA:  INCF   21,F
+....................          } 
+00BB:  GOTO   0A3
+....................          c=' '; 
+00BC:  CLRF   23
+00BD:  MOVLW  20
+00BE:  MOVWF  22
+....................       } 
+....................    }   
+00BF:  GOTO   034
+.................... } 
+00C0:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F72   HS NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

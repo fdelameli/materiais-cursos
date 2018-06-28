@@ -1,0 +1,30 @@
+ÀÄProgramação para Microcontroladores - Prof
+   ÀÄMAIN  0/312  Ram=6
+      ÃÄ??0??
+      ÃÄ@const333  0/15  Ram=0
+      ÃÄatoi  0/254  Ram=9
+      ³  ÀÄ@MUL88  (Inline)  Ram=2
+      ÃÄ@const334  0/23  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@const341  0/21  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@const342  0/17  Ram=0
+      ÃÄatoi  0/254  Ram=9
+      ³  ÀÄ@MUL88  (Inline)  Ram=2
+      ÃÄ@const334  0/23  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@const341  0/21  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@const345  0/16  Ram=0
+      ÃÄatoi  0/254  Ram=9
+      ³  ÀÄ@MUL88  (Inline)  Ram=2
+      ÃÄ@const346  0/15  Ram=0
+      ÀÄ@const347  0/16  Ram=0

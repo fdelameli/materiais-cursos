@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/22/trunk/compiladorsintatico/src/br/unisul/model
+END
+Simbolo.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/16/trunk/compiladorsintatico/src/br/unisul/model/Simbolo.java
+END
+Token.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/16/trunk/compiladorsintatico/src/br/unisul/model/Token.java
+END
+Pilha.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/22/trunk/compiladorsintatico/src/br/unisul/model/Pilha.java
+END
+TabelaSimbolos.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/22/trunk/compiladorsintatico/src/br/unisul/model/TabelaSimbolos.java
+END

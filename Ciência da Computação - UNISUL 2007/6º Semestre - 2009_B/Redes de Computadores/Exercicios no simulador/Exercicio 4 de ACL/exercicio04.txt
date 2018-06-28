@@ -1,0 +1,83 @@
+1 - Deletar a ACL 100 (no access-list 2) (IP access-group 100 in)
+
+2 - Configurar uma ACL estendida de numero 101 para bloquear o tráfego do icmp (ping) proveniente do PC1 (192.168.14.3)
+    para o gateway. Permitir o tráfego IP dos demais hosts da rede.
+
+3 - Aplicar a ACL 101 na fast que interliga o rauter ao switch para filtrar os pacotes de chegada (entrada/in) 
+
+
+- ESTE É DO EXERCÍCIO 03
+
+EMPRESA#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+EMPRESA(config)#ac
+EMPRESA(config)#access-list ?
+  <1-99>     IP standard access list
+  <100-199>  IP extended access list
+EMPRESA(config)#access-list 100 ?
+  deny    Specify packets to reject
+  permit  Specify packets to forward
+  remark  Access list entry comment
+EMPRESA(config)#access-list 100 deny ?
+  eigrp  Cisco's EIGRP routing protocol
+  icmp   Internet Control Message Protocol
+  ip     Any Internet Protocol
+  ospf   OSPF routing protocol
+  tcp    Transmission Control Protocol
+  udp    User Datagram Protocol
+EMPRESA(config)#access-list 100 deny tcp ?
+  A.B.C.D  Source address
+  any      Any source host
+  host     A single source host
+EMPRESA(config)#access-list 100 deny tcp host 192.168.14.3?
+A.B.C.D  
+EMPRESA(config)#access-list 100 deny tcp host 192.168.14.3 ?
+  A.B.C.D  Destination address
+  any      Any destination host
+  eq       Match only packets on a given port number
+  gt       Match only packets with a greater port number
+  host     A single destination host
+  lt       Match only packets with a lower port number
+  neq      Match only packets not on a given port number
+  range    Match only packets in the range of port numbers
+EMPRESA(config)#access-list 100 deny tcp host 192.168.14.3 host 192.168.14.1 ?
+  eq           Match only packets on a given port number
+  established  established
+  gt           Match only packets with a greater port number
+  lt           Match only packets with a lower port number
+  neq          Match only packets not on a given port number
+  range        Match only packets in the range of port numbers
+  <cr>
+EMPRESA(config)#access-list 100 deny tcp host 192.168.14.3 host 192.168.14.1 eq ?
+  <0-65535>  Port number
+  ftp        File Transfer Protocol (21)
+  pop3       Post Office Protocol v3 (110)
+  smtp       Simple Mail Transport Protocol (25)
+  telnet     Telnet (23)
+  www        World Wide Web (HTTP, 80)
+EMPRESA(config)#access-list 100 deny tcp host 192.168.14.3 host 192.168.14.1 eq  telnet
+EMPRESA(config)#acc
+EMPRESA(config)#access-list 100 permit ip any any
+EMPRESA(config)#exit
+%SYS-5-CONFIG_I: Configured from console by console
+EMPRESA#copy r s
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+EMPRESA#show ac
+EMPRESA#show access-lists 
+Extended IP access list 100
+    deny tcp host 192.168.14.3 host 192.168.14.1 eq telnet
+    permit ip any any
+EMPRESA#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+EMPRESA(config)#interface f0/0
+EMPRESA(config-if)#ip acc
+EMPRESA(config-if)#ip access-group 100 in
+EMPRESA(config-if)#end
+%SYS-5-CONFIG_I: Configured from console by console
+EMPRESA#copy r s
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+EMPRESA#

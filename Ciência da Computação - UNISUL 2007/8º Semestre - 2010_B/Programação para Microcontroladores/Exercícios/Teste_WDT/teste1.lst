@@ -1,0 +1,255 @@
+CCS PCM C Compiler, Version 4.093, 5065               30-Eyl-10 10:30
+
+               Filename: C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Teste_WDT\teste1.lst
+
+               ROM used: 294 words (4%)
+                         Largest free fragment is 2048
+               RAM used: 7 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0D9
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT, BROWNOUT, WDT 
+.................... #use delay(clock=4MHz) 
+*
+00C2:  MOVLW  22
+00C3:  MOVWF  04
+00C4:  BCF    03.7
+00C5:  MOVF   00,W
+00C6:  BTFSC  03.2
+00C7:  GOTO   0D6
+00C8:  MOVLW  01
+00C9:  MOVWF  78
+00CA:  CLRF   77
+00CB:  DECFSZ 77,F
+00CC:  GOTO   0CB
+00CD:  DECFSZ 78,F
+00CE:  GOTO   0CA
+00CF:  MOVLW  4A
+00D0:  MOVWF  77
+00D1:  DECFSZ 77,F
+00D2:  GOTO   0D1
+00D3:  GOTO   0D4
+00D4:  DECFSZ 00,F
+00D5:  GOTO   0C8
+00D6:  BCF    0A.3
+00D7:  BCF    0A.4
+00D8:  GOTO   11D (RETURN)
+.................... #use rs232(baud=9600,xmit=pin_c6,rcv=pin_c7) 
+....................  
+.................... #define LEDS pin_b5 
+....................  
+.................... void causa(); 
+....................  
+.................... void main() { 
+00D9:  CLRF   04
+00DA:  BCF    03.7
+00DB:  MOVLW  1F
+00DC:  ANDWF  03,F
+00DD:  MOVLW  19
+00DE:  BSF    03.5
+00DF:  MOVWF  19
+00E0:  MOVLW  A6
+00E1:  MOVWF  18
+00E2:  MOVLW  90
+00E3:  BCF    03.5
+00E4:  MOVWF  18
+00E5:  BSF    03.5
+00E6:  BSF    1F.0
+00E7:  BSF    1F.1
+00E8:  BSF    1F.2
+00E9:  BCF    1F.3
+00EA:  MOVLW  07
+00EB:  MOVWF  1C
+....................  
+....................    causa(); 
+00EC:  BCF    03.5
+00ED:  CALL   06E
+....................    setup_wdt(WDT_2304MS); 
+00EE:  MOVLW  0F
+00EF:  MOVWF  77
+00F0:  CLRF   01
+00F1:  MOVLW  81
+00F2:  MOVWF  04
+00F3:  BCF    03.7
+00F4:  MOVF   00,W
+00F5:  ANDLW  F0
+00F6:  IORLW  07
+00F7:  MOVWF  00
+00F8:  CLRWDT
+00F9:  MOVF   00,W
+00FA:  ANDLW  F7
+00FB:  BTFSC  77.3
+00FC:  ANDLW  F0
+00FD:  IORWF  77,W
+00FE:  MOVWF  00
+....................    printf("Iniciado\r\n"); 
+00FF:  CLRF   21
+0100:  MOVF   21,W
+0101:  CALL   004
+0102:  INCF   21,F
+0103:  MOVWF  77
+0104:  MOVF   77,W
+0105:  BTFSS  0C.4
+0106:  GOTO   105
+0107:  MOVWF  19
+0108:  MOVLW  0A
+0109:  SUBWF  21,W
+010A:  BTFSS  03.2
+010B:  GOTO   100
+....................    output_high(LEDS); 
+010C:  BSF    03.5
+010D:  BCF    06.5
+010E:  BCF    03.5
+010F:  BSF    06.5
+....................    
+....................     
+....................    while(true) { 
+....................       restart_wdt(); 
+0110:  CLRWDT
+....................       //getc(); // forca ele a travar e reiniciar (caso nao seja digitado nada na serial) 
+....................       sleep(); // modo dormência. Consumo 4uA 
+0111:  SLEEP
+....................       causa(); 
+0112:  CALL   06E
+....................       output_d(0x01); 
+0113:  BSF    03.5
+0114:  CLRF   08
+0115:  MOVLW  01
+0116:  BCF    03.5
+0117:  MOVWF  08
+....................       delay_ms(300); 
+0118:  MOVLW  02
+0119:  MOVWF  21
+011A:  MOVLW  96
+011B:  MOVWF  22
+011C:  GOTO   0C2
+011D:  DECFSZ 21,F
+011E:  GOTO   11A
+....................       output_d(0x10); 
+011F:  BSF    03.5
+0120:  CLRF   08
+0121:  MOVLW  10
+0122:  BCF    03.5
+0123:  MOVWF  08
+....................    } 
+0124:  GOTO   110
+....................  
+.................... } 
+....................  
+.................... void causa(){ 
+....................    switch(restart_cause()){ 
+*
+006E:  MOVF   03,W
+006F:  ANDLW  18
+0070:  BSF    03.5
+0071:  BTFSS  0E.1
+0072:  BSF    0E.0
+0073:  MOVWF  77
+0074:  MOVF   0E,W
+0075:  ANDLW  03
+0076:  IORWF  77,W
+0077:  BSF    0E.0
+0078:  BSF    0E.1
+0079:  BSF    03.3
+007A:  BSF    03.4
+007B:  XORLW  03
+007C:  BCF    03.5
+007D:  BTFSC  03.2
+007E:  GOTO   089
+007F:  XORLW  08
+0080:  BTFSC  03.2
+0081:  GOTO   097
+0082:  XORLW  12
+0083:  BTFSC  03.2
+0084:  GOTO   0A5
+0085:  XORLW  0A
+0086:  BTFSC  03.2
+0087:  GOTO   0B3
+0088:  GOTO   0C1
+*
+0125:  SLEEP
+....................       case WDT_FROM_SLEEP:  
+....................          printf("Modo Sleep!\n\r"); 
+*
+0089:  CLRF   21
+008A:  MOVF   21,W
+008B:  CALL   013
+008C:  INCF   21,F
+008D:  MOVWF  77
+008E:  MOVF   77,W
+008F:  BTFSS  0C.4
+0090:  GOTO   08F
+0091:  MOVWF  19
+0092:  MOVLW  0D
+0093:  SUBWF  21,W
+0094:  BTFSS  03.2
+0095:  GOTO   08A
+....................          break; 
+0096:  GOTO   0C1
+....................       case WDT_TIMEOUT:  
+....................          printf("Estouro de Tempo!\r\n");  
+0097:  CLRF   21
+0098:  MOVF   21,W
+0099:  CALL   025
+009A:  INCF   21,F
+009B:  MOVWF  77
+009C:  MOVF   77,W
+009D:  BTFSS  0C.4
+009E:  GOTO   09D
+009F:  MOVWF  19
+00A0:  MOVLW  13
+00A1:  SUBWF  21,W
+00A2:  BTFSS  03.2
+00A3:  GOTO   098
+....................          break; 
+00A4:  GOTO   0C1
+....................       case NORMAL_POWER_UP:  
+....................          printf("Inicializacao Normal!\r\n");  
+00A5:  CLRF   21
+00A6:  MOVF   21,W
+00A7:  CALL   03D
+00A8:  INCF   21,F
+00A9:  MOVWF  77
+00AA:  MOVF   77,W
+00AB:  BTFSS  0C.4
+00AC:  GOTO   0AB
+00AD:  MOVWF  19
+00AE:  MOVLW  17
+00AF:  SUBWF  21,W
+00B0:  BTFSS  03.2
+00B1:  GOTO   0A6
+....................          break; 
+00B2:  GOTO   0C1
+....................       case MCLR_FROM_SLEEP:  
+....................          printf("Reset pr MCLR!\r\n");  
+00B3:  CLRF   21
+00B4:  MOVF   21,W
+00B5:  CALL   059
+00B6:  INCF   21,F
+00B7:  MOVWF  77
+00B8:  MOVF   77,W
+00B9:  BTFSS  0C.4
+00BA:  GOTO   0B9
+00BB:  MOVWF  19
+00BC:  MOVLW  10
+00BD:  SUBWF  21,W
+00BE:  BTFSS  03.2
+00BF:  GOTO   0B4
+....................          break; 
+00C0:  GOTO   0C1
+....................    } 
+.................... } 
+00C1:  RETLW  00
+
+Configuration Fuses:
+   Word  1: 1F75   XT WDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

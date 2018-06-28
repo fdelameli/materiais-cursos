@@ -1,0 +1,258 @@
+CCS PCM C Compiler, Version 4.038, 33467               21-set-10 17:22
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio5.lst
+
+               ROM used: 399 words (5%)
+                         Largest free fragment is 2048
+               RAM used: 9 (2%) at main() level
+                         18 (5%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0C6
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4Mhz) 
+.................... #use rs232(baud=9600, xmit=pin_c6, rcv=pin_c7) 
+....................  
+....................  
+.................... void main() { 
+00C6:  CLRF   04
+00C7:  BCF    03.7
+00C8:  MOVLW  1F
+00C9:  ANDWF  03,F
+00CA:  MOVLW  19
+00CB:  BSF    03.5
+00CC:  MOVWF  19
+00CD:  MOVLW  A6
+00CE:  MOVWF  18
+00CF:  MOVLW  90
+00D0:  BCF    03.5
+00D1:  MOVWF  18
+00D2:  BSF    03.5
+00D3:  BSF    1F.0
+00D4:  BSF    1F.1
+00D5:  BSF    1F.2
+00D6:  BCF    1F.3
+00D7:  MOVLW  07
+00D8:  MOVWF  1C
+....................  
+....................    char c = ' '; 
+00D9:  MOVLW  20
+00DA:  BCF    03.5
+00DB:  MOVWF  21
+....................  
+....................    while(true) { 
+....................      
+....................       if (kbhit()) { 
+00DC:  BTFSS  0C.5
+00DD:  GOTO   18D
+....................           
+....................          c = getc(); 
+00DE:  BTFSS  0C.5
+00DF:  GOTO   0DE
+00E0:  MOVF   1A,W
+00E1:  MOVWF  21
+....................           
+....................          if(c == 'A') { 
+00E2:  MOVF   21,W
+00E3:  SUBLW  41
+00E4:  BTFSS  03.2
+00E5:  GOTO   10D
+....................             output_bit(pin_d0, !input_state(pin_d0)); 
+00E6:  BTFSS  08.0
+00E7:  GOTO   0EA
+00E8:  BCF    08.0
+00E9:  GOTO   0EB
+00EA:  BSF    08.0
+00EB:  BSF    03.5
+00EC:  BCF    08.0
+....................             printf("PIN_D0: %d\r\n", input_state(pin_d0)); 
+00ED:  MOVLW  00
+00EE:  BCF    03.5
+00EF:  BTFSC  08.0
+00F0:  MOVLW  01
+00F1:  MOVWF  22
+00F2:  CLRF   23
+00F3:  MOVF   23,W
+00F4:  CALL   004
+00F5:  INCF   23,F
+00F6:  MOVWF  77
+00F7:  MOVF   77,W
+00F8:  BTFSS  0C.4
+00F9:  GOTO   0F8
+00FA:  MOVWF  19
+00FB:  MOVLW  08
+00FC:  SUBWF  23,W
+00FD:  BTFSS  03.2
+00FE:  GOTO   0F3
+00FF:  MOVF   22,W
+0100:  MOVWF  24
+0101:  MOVLW  1F
+0102:  MOVWF  25
+0103:  CALL   05D
+0104:  MOVLW  0D
+0105:  BTFSS  0C.4
+0106:  GOTO   105
+0107:  MOVWF  19
+0108:  MOVLW  0A
+0109:  BTFSS  0C.4
+010A:  GOTO   109
+010B:  MOVWF  19
+....................          } else if(c == 'B') { 
+010C:  GOTO   18D
+010D:  MOVF   21,W
+010E:  SUBLW  42
+010F:  BTFSS  03.2
+0110:  GOTO   138
+....................             output_bit(pin_d1, !input_state(pin_d1)); 
+0111:  BTFSS  08.1
+0112:  GOTO   115
+0113:  BCF    08.1
+0114:  GOTO   116
+0115:  BSF    08.1
+0116:  BSF    03.5
+0117:  BCF    08.1
+....................             printf("PIN_D1: %d\r\n", input_state(pin_d1)); 
+0118:  MOVLW  00
+0119:  BCF    03.5
+011A:  BTFSC  08.1
+011B:  MOVLW  01
+011C:  MOVWF  22
+011D:  CLRF   23
+011E:  MOVF   23,W
+011F:  CALL   015
+0120:  INCF   23,F
+0121:  MOVWF  77
+0122:  MOVF   77,W
+0123:  BTFSS  0C.4
+0124:  GOTO   123
+0125:  MOVWF  19
+0126:  MOVLW  08
+0127:  SUBWF  23,W
+0128:  BTFSS  03.2
+0129:  GOTO   11E
+012A:  MOVF   22,W
+012B:  MOVWF  24
+012C:  MOVLW  1F
+012D:  MOVWF  25
+012E:  CALL   05D
+012F:  MOVLW  0D
+0130:  BTFSS  0C.4
+0131:  GOTO   130
+0132:  MOVWF  19
+0133:  MOVLW  0A
+0134:  BTFSS  0C.4
+0135:  GOTO   134
+0136:  MOVWF  19
+....................          } else if(c == 'C') { 
+0137:  GOTO   18D
+0138:  MOVF   21,W
+0139:  SUBLW  43
+013A:  BTFSS  03.2
+013B:  GOTO   163
+....................             output_bit(pin_d2, !input_state(pin_d2)); 
+013C:  BTFSS  08.2
+013D:  GOTO   140
+013E:  BCF    08.2
+013F:  GOTO   141
+0140:  BSF    08.2
+0141:  BSF    03.5
+0142:  BCF    08.2
+....................             printf("PIN_D2: %d\r\n", input_state(pin_d2)); 
+0143:  MOVLW  00
+0144:  BCF    03.5
+0145:  BTFSC  08.2
+0146:  MOVLW  01
+0147:  MOVWF  22
+0148:  CLRF   23
+0149:  MOVF   23,W
+014A:  CALL   026
+014B:  INCF   23,F
+014C:  MOVWF  77
+014D:  MOVF   77,W
+014E:  BTFSS  0C.4
+014F:  GOTO   14E
+0150:  MOVWF  19
+0151:  MOVLW  08
+0152:  SUBWF  23,W
+0153:  BTFSS  03.2
+0154:  GOTO   149
+0155:  MOVF   22,W
+0156:  MOVWF  24
+0157:  MOVLW  1F
+0158:  MOVWF  25
+0159:  CALL   05D
+015A:  MOVLW  0D
+015B:  BTFSS  0C.4
+015C:  GOTO   15B
+015D:  MOVWF  19
+015E:  MOVLW  0A
+015F:  BTFSS  0C.4
+0160:  GOTO   15F
+0161:  MOVWF  19
+....................          } else if(c == 'D') { 
+0162:  GOTO   18D
+0163:  MOVF   21,W
+0164:  SUBLW  44
+0165:  BTFSS  03.2
+0166:  GOTO   18D
+....................             output_bit(pin_d3, !input_state(pin_d3)); 
+0167:  BTFSS  08.3
+0168:  GOTO   16B
+0169:  BCF    08.3
+016A:  GOTO   16C
+016B:  BSF    08.3
+016C:  BSF    03.5
+016D:  BCF    08.3
+....................             printf("PIN_D3: %d\r\n", input_state(pin_d3)); 
+016E:  MOVLW  00
+016F:  BCF    03.5
+0170:  BTFSC  08.3
+0171:  MOVLW  01
+0172:  MOVWF  22
+0173:  CLRF   23
+0174:  MOVF   23,W
+0175:  CALL   037
+0176:  INCF   23,F
+0177:  MOVWF  77
+0178:  MOVF   77,W
+0179:  BTFSS  0C.4
+017A:  GOTO   179
+017B:  MOVWF  19
+017C:  MOVLW  08
+017D:  SUBWF  23,W
+017E:  BTFSS  03.2
+017F:  GOTO   174
+0180:  MOVF   22,W
+0181:  MOVWF  24
+0182:  MOVLW  1F
+0183:  MOVWF  25
+0184:  CALL   05D
+0185:  MOVLW  0D
+0186:  BTFSS  0C.4
+0187:  GOTO   186
+0188:  MOVWF  19
+0189:  MOVLW  0A
+018A:  BTFSS  0C.4
+018B:  GOTO   18A
+018C:  MOVWF  19
+....................          } 
+....................        
+....................       } 
+....................        
+....................    } 
+018D:  GOTO   0DC
+....................  
+.................... } 
+018E:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

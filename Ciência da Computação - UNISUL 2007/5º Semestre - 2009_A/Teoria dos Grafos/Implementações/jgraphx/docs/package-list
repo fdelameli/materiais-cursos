@@ -1,0 +1,13 @@
+com.mxgraph.algebra
+com.mxgraph.canvas
+com.mxgraph.io
+com.mxgraph.layout
+com.mxgraph.model
+com.mxgraph.reader
+com.mxgraph.sharing
+com.mxgraph.swing
+com.mxgraph.swing.handler
+com.mxgraph.swing.util
+com.mxgraph.swing.view
+com.mxgraph.util
+com.mxgraph.view

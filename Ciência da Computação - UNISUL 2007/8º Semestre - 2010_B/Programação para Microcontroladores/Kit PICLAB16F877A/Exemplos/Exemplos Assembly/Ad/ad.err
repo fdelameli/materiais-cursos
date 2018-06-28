@@ -1,0 +1,8 @@
+Message[302] C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 498 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 501 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 504 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 507 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 510 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 513 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 520 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Error[173]   C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM 605 : source file path exceeds 62 characters (C:\CERNE\TREINAMENTO\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\AD\AD.ASM)

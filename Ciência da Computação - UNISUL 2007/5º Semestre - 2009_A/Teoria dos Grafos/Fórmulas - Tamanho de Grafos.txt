@@ -1,0 +1,81 @@
+Grafos não dirigido e não valorado:
+
+|-----------------------|
+|Listas de adjacência	|
+|			|
+|Tamanho = 2 * |E|	|
+|			|
+|			|
+|			|
+|Matriz de adjacência	|
+|			|
+|Tamanho = |V| * |V|	|
+|			|
+|			|
+|			|
+|Matriz de incidência	|
+|			|
+|Tamanho = |V| * |E|	|
+|			|
+|			|
+|			|
+|Listas de arestas	|
+|			|
+|Tamanho = 2 * |E|	|
+|-----------------------|
+
+--------------||----------------------
+
+Grafos dirigidos:
+
+|-----------------------|
+|Listas de adjacência	|
+|			|
+|Tamanho = |E|		|
+|			|
+|			|
+|			|
+|Matriz de adjacência	|
+|			|
+|Tamanho = |V| * |V|	|
+|			|
+|			|
+|			|
+|Matriz de incidência	|
+|			|
+|Tamanho = |V| * |E|	|
+|			|
+|			|
+|			|
+|Listas de arestas	|
+|			|
+|Tamanho = 2 * |E|	|
+|-----------------------|
+
+--------------||----------------------
+
+Grafos valorados:
+
+|-----------------------|
+|Listas de adjacência	|
+|			|
+|Tamanho = 2 * |E|	|
+|			|
+|			|
+|			|
+|Matriz de adjacência	|
+|			|
+|Tamanho = |V| * |V|	|
+|			|
+|			|
+|			|
+|Matriz de incidência	|
+|			|
+|Tamanho = |V| * |E|	|
+|			|
+|			|
+|			|
+|Listas de arestas	|
+|			|
+|Tamanho = 3 * |E|	|
+|-----------------------|

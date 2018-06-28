@@ -1,0 +1,17 @@
+main
+	Lcd8_Chr
+		Lcd8_Cmd
+			Delay_500us
+			Delay_5500us
+			Delay_1us
+	USART_Write
+	USART_Read
+	USART_Data_Ready
+	USART_init
+	Lcd8_Cmd
+		Delay_500us
+		Delay_5500us
+		Delay_1us
+	Lcd8_Init
+		Delay_1us
+		Delay_5500us

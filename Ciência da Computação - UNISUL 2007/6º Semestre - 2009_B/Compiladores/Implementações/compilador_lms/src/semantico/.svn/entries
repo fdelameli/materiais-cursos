@@ -1,0 +1,55 @@
+8
+
+dir
+23
+https://compiladorsintatico.googlecode.com/svn/trunk/compiladorsintatico/src/semantico
+https://compiladorsintatico.googlecode.com/svn
+
+
+
+2009-06-30T21:45:33.561693Z
+23
+thiago.ghisi
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+95a72c54-2321-11de-9288-5f72e443383c
+
+Compilador_Semantico.java
+file
+
+
+
+
+2009-06-30T21:45:33.000000Z
+e8d2424cf47de0df1d19c64dcfebdb32
+2009-06-30T21:45:33.561693Z
+23
+thiago.ghisi
+
+MaquinaVirtual.java
+file
+
+
+
+
+2009-06-30T21:26:10.000000Z
+100583ca1ed2a74f093c9e1d612bdb48
+2009-06-30T21:26:10.120068Z
+22
+thiago.ghisi
+
+view
+dir
+

@@ -1,0 +1,50 @@
+
+SELECT NM_LOJ, CD_VEN, DT_VEN, NM_VDD
+FROM VENDA, LOJA, VENDEDOR
+WHERE VENDA.CD_LOJ = LOJA.CD_LOJ
+AND VENDA.CD_VDD = VENDEDOR.CD_VDD
+AND DT_VEN BETWEEN '01/01/2006' AND '31/12/2006'
+ORDER BY DT_VEN;
+
+
+
+SELECT V.CD_LOJ, V.CD_VEN, DT_VEN, CD_PAR, DT_VCTO
+	FROM VENDA V, PARCELA P
+	WHERE V.CD_LOJ = P.CD_LOJ
+	AND V.CD_VEN = P.CD_VEN
+;
+
+
+
+/* 
+  Selecionando os produtos vendidos, o código da loja, 
+  da venda e a data em que foram vendidos. 
+*/ 
+SELECT NM_PRO, V.CD_VEN, V.CD_LOJ, DT_VEN
+    FROM PRODUTO P, ITEM_VENDA ITV, VENDA V
+	WHERE ITV.CD_LOJ = V.CD_LOJ
+	AND ITV.CD_VEN = V.CD_VEN
+	AND ITV.CD_PRO = P.CD_PRO
+;
+
+
+
+/* 
+  Resolvendo problemas de auto-relacionamento. 
+*/ 
+SELECT V.CD_VDD "Código Vendedor", V.NM_VDD "Nome Vendedor", S.NM_VDD "Nome Supervisor"
+FROM VENDEDOR V, VENDEDOR S
+WHERE V.CD_SUPERVISOR = S.CD_VDD
+;
+
+
+
+
+/* 
+  OUTER JOIN - .  (+)  -   LEFT OR RIGHT JOIN
+*/ 
+SELECT NM_VDD, CD_LOJ, CD_VEN, DT_VEN
+FROM VENDEDOR VDD, VENDA V
+WHERE VDD.CD_VDD = V.CD_VDD (+)
+ORDER BY NM_VDD DESC
+;

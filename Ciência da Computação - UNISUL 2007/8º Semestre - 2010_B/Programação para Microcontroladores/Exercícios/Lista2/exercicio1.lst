@@ -1,0 +1,151 @@
+CCS PCM C Compiler, Version 4.038, 33467               21-set-10 16:55
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio1.lst
+
+               ROM used: 136 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 8 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   02C
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4Mhz) 
+.................... #use rs232(baud=9600, xmit=pin_c6, rcv=pin_c7) 
+....................  
+....................  
+.................... void main() { 
+002C:  CLRF   04
+002D:  BCF    03.7
+002E:  MOVLW  1F
+002F:  ANDWF  03,F
+0030:  MOVLW  19
+0031:  BSF    03.5
+0032:  MOVWF  19
+0033:  MOVLW  A6
+0034:  MOVWF  18
+0035:  MOVLW  90
+0036:  BCF    03.5
+0037:  MOVWF  18
+0038:  BSF    03.5
+0039:  BSF    1F.0
+003A:  BSF    1F.1
+003B:  BSF    1F.2
+003C:  BCF    1F.3
+003D:  MOVLW  07
+003E:  MOVWF  1C
+....................  
+....................    char c = ' '; 
+003F:  MOVLW  20
+0040:  BCF    03.5
+0041:  MOVWF  21
+....................  
+....................    while(true) { 
+....................     
+....................       if(kbhit()) { 
+0042:  BTFSS  0C.5
+0043:  GOTO   086
+....................           
+....................          c = getc(); 
+0044:  BTFSS  0C.5
+0045:  GOTO   044
+0046:  MOVF   1A,W
+0047:  MOVWF  21
+....................           
+....................          if(c == '0') { 
+0048:  MOVF   21,W
+0049:  SUBLW  30
+004A:  BTFSS  03.2
+004B:  GOTO   051
+....................             output_bit(pin_a0, 1); 
+004C:  BSF    05.0
+004D:  BSF    03.5
+004E:  BCF    05.0
+....................          } else if (c == '1') { 
+004F:  GOTO   058
+0050:  BCF    03.5
+0051:  MOVF   21,W
+0052:  SUBLW  31
+0053:  BTFSS  03.2
+0054:  GOTO   059
+....................             output_bit(pin_a1, 1); 
+0055:  BSF    05.1
+0056:  BSF    03.5
+0057:  BCF    05.1
+0058:  BCF    03.5
+....................          } 
+....................           
+....................           
+....................          if (input(pin_a0)) { 
+0059:  BSF    03.5
+005A:  BSF    05.0
+005B:  BCF    03.5
+005C:  BTFSS  05.0
+005D:  GOTO   070
+....................             printf("Pressionou A0\r\n"); 
+005E:  CLRF   22
+005F:  MOVF   22,W
+0060:  CALL   004
+0061:  INCF   22,F
+0062:  MOVWF  77
+0063:  MOVF   77,W
+0064:  BTFSS  0C.4
+0065:  GOTO   064
+0066:  MOVWF  19
+0067:  MOVLW  0F
+0068:  SUBWF  22,W
+0069:  BTFSS  03.2
+006A:  GOTO   05F
+....................             output_bit(pin_a0, 0); 
+006B:  BCF    05.0
+006C:  BSF    03.5
+006D:  BCF    05.0
+....................          } else if (input(pin_a1)) { 
+006E:  GOTO   085
+006F:  BCF    03.5
+0070:  BSF    03.5
+0071:  BSF    05.1
+0072:  BCF    03.5
+0073:  BTFSS  05.1
+0074:  GOTO   086
+....................             printf("Pressionou A1\r\n"); 
+0075:  CLRF   22
+0076:  MOVF   22,W
+0077:  CALL   018
+0078:  INCF   22,F
+0079:  MOVWF  77
+007A:  MOVF   77,W
+007B:  BTFSS  0C.4
+007C:  GOTO   07B
+007D:  MOVWF  19
+007E:  MOVLW  0F
+007F:  SUBWF  22,W
+0080:  BTFSS  03.2
+0081:  GOTO   076
+....................             output_bit(pin_a1, 0); 
+0082:  BCF    05.1
+0083:  BSF    03.5
+0084:  BCF    05.1
+0085:  BCF    03.5
+....................          } 
+....................           
+....................           
+....................       } 
+....................     
+....................    } 
+0086:  GOTO   042
+....................  
+.................... } 
+0087:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

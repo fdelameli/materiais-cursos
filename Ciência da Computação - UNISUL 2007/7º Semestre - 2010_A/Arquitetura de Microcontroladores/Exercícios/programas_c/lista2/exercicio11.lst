@@ -1,0 +1,81 @@
+CCS PCM C Compiler, Version 4.038, 33467               23-abr-10 10:26
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista1\exercicio11.lst
+
+               ROM used: 40 words (0%)
+                         Largest free fragment is 2048
+               RAM used: 8 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    0 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+.................... #include <16f877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect 
+.................... #use delay(clock=4Mhz) 
+....................  
+.................... void main() { 
+0004:  CLRF   04
+0005:  BCF    03.7
+0006:  MOVLW  1F
+0007:  ANDWF  03,F
+0008:  BSF    03.5
+0009:  BSF    1F.0
+000A:  BSF    1F.1
+000B:  BSF    1F.2
+000C:  BCF    1F.3
+000D:  MOVLW  07
+000E:  MOVWF  1C
+....................  
+....................    int count = 0; 
+*
+0012:  CLRF   21
+....................  
+....................    while(true){ 
+....................     
+....................       if(input(pin_a0)){ 
+0013:  BSF    03.5
+0014:  BSF    05.0
+0015:  BCF    03.5
+0016:  BTFSS  05.0
+0017:  GOTO   026
+....................          count++; 
+0018:  INCF   21,F
+....................           
+....................          while(input(pin_a0)){ 
+0019:  BSF    03.5
+001A:  BSF    05.0
+001B:  BCF    03.5
+001C:  BTFSS  05.0
+001D:  GOTO   026
+....................             output_c(count); 
+*
+000F:  MOVLW  FF
+0010:  BCF    03.5
+0011:  MOVWF  20
+*
+001E:  MOVLW  00
+001F:  MOVWF  20
+0020:  BSF    03.5
+0021:  CLRF   07
+0022:  BCF    03.5
+0023:  MOVF   21,W
+0024:  MOVWF  07
+....................          } 
+0025:  GOTO   019
+....................           
+....................       }    
+....................    } 
+0026:  GOTO   013
+.................... } 
+0027:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

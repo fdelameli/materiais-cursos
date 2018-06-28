@@ -1,0 +1,113 @@
+CCS PCM C Compiler, Version 4.038, 33467               14-abr-10 16:17
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\teste1\teste.lst
+
+               ROM used: 34 words (0%)
+                         Largest free fragment is 2048
+               RAM used: 7 (2%) at main() level
+                         7 (2%) worst case
+               Stack:    0 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+.................... #include <16f877A.h>       // inclui uma biblioteca (biblioteca do microcontrolador 16f877A). 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect  // xt - oscilador do tipo XT (de 1 a 4 Mhz) --- hs - (>4 e <= 20MHz) 
+....................                            // nolvp - se vai ser gravado em alta(12V) ou em baixa tensão(5V), nesse caso é em baixa tensão. 
+....................                            // protege o código no hardware  
+.................... #use delay(clock=4Mhz)     // deixa o tempo sincronizado 
+....................  
+.................... void main() {     // programa principal 
+0004:  CLRF   04
+0005:  BCF    03.7
+0006:  MOVLW  1F
+0007:  ANDWF  03,F
+0008:  BSF    03.5
+0009:  BSF    1F.0
+000A:  BSF    1F.1
+000B:  BSF    1F.2
+000C:  BCF    1F.3
+000D:  MOVLW  07
+000E:  MOVWF  1C
+....................     
+.................... //   int v = 0; 
+....................    boolean led = false; 
+000F:  BCF    03.5
+0010:  BCF    21.0
+....................     
+....................    while(true) {  // sempre tem que ter, para deixar o programa executando 
+....................  
+....................  
+.................... /* Teste1     
+....................       v = input_b(); // lê porta B 
+....................        
+....................       if (v == 15) { 
+....................          output_high(pin_a0); // liga bit a0 
+....................       } else { 
+....................          output_low(pin_a0); // desliga bit a0 
+....................       } 
+.................... */  
+....................    
+.................... /* Teste2 
+....................       if (input(pin_c0)) { // testa se c0 possui nível lógico 1 
+....................          output_high(pin_a0); // liga 
+....................       } else { 
+....................          output_low(pin_a0); // desliga 
+....................       } 
+.................... */ 
+....................  
+.................... // Teste3 
+.................... /* 
+....................       if (!input(pin_c0)) { // testa se c0 possui nível lógico 0 
+....................          output_b(0x0A); 
+....................       } else { 
+....................          output_b(0xFF); 
+....................       } 
+.................... */ 
+....................  
+.................... // Teste4 
+.................... /* 
+....................       output_bit(pin_a0, led); // seta o valor da variável led no pino a0. 
+....................       led = !led; // nega o valor do da variável led. 
+....................       delay_ms(500); // instrução de retardo (trava o programa por 500 milisegundos). 
+.................... */ 
+....................  
+.................... // Teste 5 
+....................       
+....................      output_high(pin_a0); 
+0011:  BSF    03.5
+0012:  BCF    05.0
+0013:  BCF    03.5
+0014:  BSF    05.0
+....................      if (input_state(pin_a0)) { 
+0015:  BTFSS  05.0
+0016:  GOTO   01C
+....................          output_high(pin_a1); 
+0017:  BSF    03.5
+0018:  BCF    05.1
+0019:  BCF    03.5
+001A:  BSF    05.1
+....................      } else { 
+001B:  GOTO   020
+....................          output_low(pin_a1); 
+001C:  BSF    03.5
+001D:  BCF    05.1
+001E:  BCF    03.5
+001F:  BCF    05.1
+....................      } 
+....................       
+....................       
+....................    } 
+0020:  GOTO   011
+....................     
+.................... } 
+0021:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

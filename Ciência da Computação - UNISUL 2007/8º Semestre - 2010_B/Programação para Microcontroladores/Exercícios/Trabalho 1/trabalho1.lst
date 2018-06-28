@@ -1,0 +1,647 @@
+CCS PCM C Compiler, Version 4.038, 33467               07-out-10 11:01
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.lst
+
+               ROM used: 845 words (10%)
+                         Largest free fragment is 2048
+               RAM used: 10 (3%) at main() level
+                         23 (6%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   165
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #device adc=10 
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4Mhz) 
+014E:  MOVLW  24
+014F:  MOVWF  04
+0150:  BCF    03.7
+0151:  MOVF   00,W
+0152:  BTFSC  03.2
+0153:  GOTO   162
+0154:  MOVLW  01
+0155:  MOVWF  78
+0156:  CLRF   77
+0157:  DECFSZ 77,F
+0158:  GOTO   157
+0159:  DECFSZ 78,F
+015A:  GOTO   156
+015B:  MOVLW  4A
+015C:  MOVWF  77
+015D:  DECFSZ 77,F
+015E:  GOTO   15D
+015F:  GOTO   160
+0160:  DECFSZ 00,F
+0161:  GOTO   154
+0162:  BCF    0A.3
+0163:  BCF    0A.4
+0164:  GOTO   349 (RETURN)
+.................... #use rs232(baud=9600, xmit=pin_c6, rcv=pin_c7) 
+....................  
+.................... #define EXAUSTOR1 pin_d0 
+.................... #define EXAUSTOR2 pin_d1 
+.................... #define EXAUSTOR3 pin_d2 
+....................  
+.................... #define PARAM_SENSOR_TEMP 0.2944 
+.................... #define PARAM_SENSOR_UMID 0.0977 
+....................  
+....................  
+.................... // Função que lê determinado canal analógico. 
+.................... int16 leAd(int canal); 
+....................  
+....................  
+.................... void main() { 
+0165:  CLRF   04
+0166:  BCF    03.7
+0167:  MOVLW  1F
+0168:  ANDWF  03,F
+0169:  MOVLW  19
+016A:  BSF    03.5
+016B:  MOVWF  19
+016C:  MOVLW  A6
+016D:  MOVWF  18
+016E:  MOVLW  90
+016F:  BCF    03.5
+0170:  MOVWF  18
+0171:  BSF    03.5
+0172:  BSF    1F.0
+0173:  BSF    1F.1
+0174:  BSF    1F.2
+0175:  BCF    1F.3
+0176:  MOVLW  07
+0177:  MOVWF  1C
+....................  
+....................    char c = ' '; 
+0178:  MOVLW  20
+0179:  BCF    03.5
+017A:  MOVWF  21
+....................    int temp = 0; 
+017B:  CLRF   22
+....................     
+....................    setup_adc_ports(ALL_ANALOG);  
+017C:  BSF    03.5
+017D:  BCF    1F.0
+017E:  BCF    1F.1
+017F:  BCF    1F.2
+0180:  BCF    1F.3
+....................    setup_adc(ADC_CLOCK_INTERNAL); 
+0181:  BCF    1F.6
+0182:  BCF    03.5
+0183:  BSF    1F.6
+0184:  BSF    1F.7
+0185:  BSF    03.5
+0186:  BSF    1F.7
+0187:  BCF    03.5
+0188:  BSF    1F.0
+....................     
+....................    while(true) { 
+....................    
+....................       if (kbhit()) { 
+0189:  BTFSS  0C.5
+018A:  GOTO   1B5
+....................          c = getc(); 
+018B:  BTFSS  0C.5
+018C:  GOTO   18B
+018D:  MOVF   1A,W
+018E:  MOVWF  21
+....................          if (c == '1') { 
+018F:  MOVF   21,W
+0190:  SUBLW  31
+0191:  BTFSS  03.2
+0192:  GOTO   19C
+....................             output_bit(EXAUSTOR1, !input_state(EXAUSTOR1)); 
+0193:  BTFSS  08.0
+0194:  GOTO   197
+0195:  BCF    08.0
+0196:  GOTO   198
+0197:  BSF    08.0
+0198:  BSF    03.5
+0199:  BCF    08.0
+....................          } else if (c == '2') { 
+019A:  GOTO   1B4
+019B:  BCF    03.5
+019C:  MOVF   21,W
+019D:  SUBLW  32
+019E:  BTFSS  03.2
+019F:  GOTO   1A9
+....................             output_bit(EXAUSTOR2, !input_state(EXAUSTOR2)); 
+01A0:  BTFSS  08.1
+01A1:  GOTO   1A4
+01A2:  BCF    08.1
+01A3:  GOTO   1A5
+01A4:  BSF    08.1
+01A5:  BSF    03.5
+01A6:  BCF    08.1
+....................          } else if (c == '3') { 
+01A7:  GOTO   1B4
+01A8:  BCF    03.5
+01A9:  MOVF   21,W
+01AA:  SUBLW  33
+01AB:  BTFSS  03.2
+01AC:  GOTO   1B5
+....................             output_bit(EXAUSTOR3, !input_state(EXAUSTOR3)); 
+01AD:  BTFSS  08.2
+01AE:  GOTO   1B1
+01AF:  BCF    08.2
+01B0:  GOTO   1B2
+01B1:  BSF    08.2
+01B2:  BSF    03.5
+01B3:  BCF    08.2
+01B4:  BCF    03.5
+....................          } 
+....................       } 
+....................       
+....................       // le sensor de temperatura 1 
+....................       temp = leAd(0) * PARAM_SENSOR_TEMP; 
+01B5:  CLRF   23
+01B6:  CALL   004
+01B7:  MOVF   79,W
+01B8:  MOVWF  24
+01B9:  MOVF   78,W
+01BA:  MOVWF  23
+01BB:  MOVF   79,W
+01BC:  MOVWF  26
+01BD:  MOVF   78,W
+01BE:  MOVWF  25
+01BF:  CALL   01F
+01C0:  MOVF   7A,W
+01C1:  MOVWF  28
+01C2:  MOVF   79,W
+01C3:  MOVWF  27
+01C4:  MOVF   78,W
+01C5:  MOVWF  26
+01C6:  MOVF   77,W
+01C7:  MOVWF  25
+01C8:  MOVLW  99
+01C9:  MOVWF  2C
+01CA:  MOVLW  BB
+01CB:  MOVWF  2B
+01CC:  MOVLW  16
+01CD:  MOVWF  2A
+01CE:  MOVLW  7D
+01CF:  MOVWF  29
+01D0:  CALL   03C
+01D1:  MOVF   7A,W
+01D2:  MOVWF  28
+01D3:  MOVF   79,W
+01D4:  MOVWF  27
+01D5:  MOVF   78,W
+01D6:  MOVWF  26
+01D7:  MOVF   77,W
+01D8:  MOVWF  25
+01D9:  CALL   0B1
+01DA:  MOVF   78,W
+01DB:  MOVWF  22
+....................       printf("%d;", temp); 
+01DC:  MOVF   22,W
+01DD:  MOVWF  23
+01DE:  MOVLW  1F
+01DF:  MOVWF  24
+01E0:  CALL   0E5
+01E1:  MOVLW  3B
+01E2:  BTFSS  0C.4
+01E3:  GOTO   1E2
+01E4:  MOVWF  19
+....................        
+....................       // le sensor de temperatura 2 
+....................       temp = leAd(1) * PARAM_SENSOR_TEMP; 
+01E5:  MOVLW  01
+01E6:  MOVWF  23
+01E7:  CALL   004
+01E8:  MOVF   79,W
+01E9:  MOVWF  24
+01EA:  MOVF   78,W
+01EB:  MOVWF  23
+01EC:  MOVF   79,W
+01ED:  MOVWF  26
+01EE:  MOVF   78,W
+01EF:  MOVWF  25
+01F0:  CALL   01F
+01F1:  MOVF   7A,W
+01F2:  MOVWF  28
+01F3:  MOVF   79,W
+01F4:  MOVWF  27
+01F5:  MOVF   78,W
+01F6:  MOVWF  26
+01F7:  MOVF   77,W
+01F8:  MOVWF  25
+01F9:  MOVLW  99
+01FA:  MOVWF  2C
+01FB:  MOVLW  BB
+01FC:  MOVWF  2B
+01FD:  MOVLW  16
+01FE:  MOVWF  2A
+01FF:  MOVLW  7D
+0200:  MOVWF  29
+0201:  CALL   03C
+0202:  MOVF   7A,W
+0203:  MOVWF  28
+0204:  MOVF   79,W
+0205:  MOVWF  27
+0206:  MOVF   78,W
+0207:  MOVWF  26
+0208:  MOVF   77,W
+0209:  MOVWF  25
+020A:  CALL   0B1
+020B:  MOVF   78,W
+020C:  MOVWF  22
+....................       printf("%d;", temp); 
+020D:  MOVF   22,W
+020E:  MOVWF  23
+020F:  MOVLW  1F
+0210:  MOVWF  24
+0211:  CALL   0E5
+0212:  MOVLW  3B
+0213:  BTFSS  0C.4
+0214:  GOTO   213
+0215:  MOVWF  19
+....................        
+....................       // le sensor de temperatura 3 
+....................       temp = leAd(2) * PARAM_SENSOR_TEMP; 
+0216:  MOVLW  02
+0217:  MOVWF  23
+0218:  CALL   004
+0219:  MOVF   79,W
+021A:  MOVWF  24
+021B:  MOVF   78,W
+021C:  MOVWF  23
+021D:  MOVF   79,W
+021E:  MOVWF  26
+021F:  MOVF   78,W
+0220:  MOVWF  25
+0221:  CALL   01F
+0222:  MOVF   7A,W
+0223:  MOVWF  28
+0224:  MOVF   79,W
+0225:  MOVWF  27
+0226:  MOVF   78,W
+0227:  MOVWF  26
+0228:  MOVF   77,W
+0229:  MOVWF  25
+022A:  MOVLW  99
+022B:  MOVWF  2C
+022C:  MOVLW  BB
+022D:  MOVWF  2B
+022E:  MOVLW  16
+022F:  MOVWF  2A
+0230:  MOVLW  7D
+0231:  MOVWF  29
+0232:  CALL   03C
+0233:  MOVF   7A,W
+0234:  MOVWF  28
+0235:  MOVF   79,W
+0236:  MOVWF  27
+0237:  MOVF   78,W
+0238:  MOVWF  26
+0239:  MOVF   77,W
+023A:  MOVWF  25
+023B:  CALL   0B1
+023C:  MOVF   78,W
+023D:  MOVWF  22
+....................       printf("%d;", temp); 
+023E:  MOVF   22,W
+023F:  MOVWF  23
+0240:  MOVLW  1F
+0241:  MOVWF  24
+0242:  CALL   0E5
+0243:  MOVLW  3B
+0244:  BTFSS  0C.4
+0245:  GOTO   244
+0246:  MOVWF  19
+....................        
+....................       // le sensor de temperatura 4 
+....................       temp = leAd(3) * PARAM_SENSOR_TEMP; 
+0247:  MOVLW  03
+0248:  MOVWF  23
+0249:  CALL   004
+024A:  MOVF   79,W
+024B:  MOVWF  24
+024C:  MOVF   78,W
+024D:  MOVWF  23
+024E:  MOVF   79,W
+024F:  MOVWF  26
+0250:  MOVF   78,W
+0251:  MOVWF  25
+0252:  CALL   01F
+0253:  MOVF   7A,W
+0254:  MOVWF  28
+0255:  MOVF   79,W
+0256:  MOVWF  27
+0257:  MOVF   78,W
+0258:  MOVWF  26
+0259:  MOVF   77,W
+025A:  MOVWF  25
+025B:  MOVLW  99
+025C:  MOVWF  2C
+025D:  MOVLW  BB
+025E:  MOVWF  2B
+025F:  MOVLW  16
+0260:  MOVWF  2A
+0261:  MOVLW  7D
+0262:  MOVWF  29
+0263:  CALL   03C
+0264:  MOVF   7A,W
+0265:  MOVWF  28
+0266:  MOVF   79,W
+0267:  MOVWF  27
+0268:  MOVF   78,W
+0269:  MOVWF  26
+026A:  MOVF   77,W
+026B:  MOVWF  25
+026C:  CALL   0B1
+026D:  MOVF   78,W
+026E:  MOVWF  22
+....................       printf("%d;", temp); 
+026F:  MOVF   22,W
+0270:  MOVWF  23
+0271:  MOVLW  1F
+0272:  MOVWF  24
+0273:  CALL   0E5
+0274:  MOVLW  3B
+0275:  BTFSS  0C.4
+0276:  GOTO   275
+0277:  MOVWF  19
+....................        
+....................       // le sensor de umidade 1 
+....................       temp = leAd(4) * PARAM_SENSOR_UMID; 
+0278:  MOVLW  04
+0279:  MOVWF  23
+027A:  CALL   004
+027B:  MOVF   79,W
+027C:  MOVWF  24
+027D:  MOVF   78,W
+027E:  MOVWF  23
+027F:  MOVF   79,W
+0280:  MOVWF  26
+0281:  MOVF   78,W
+0282:  MOVWF  25
+0283:  CALL   01F
+0284:  MOVF   7A,W
+0285:  MOVWF  28
+0286:  MOVF   79,W
+0287:  MOVWF  27
+0288:  MOVF   78,W
+0289:  MOVWF  26
+028A:  MOVF   77,W
+028B:  MOVWF  25
+028C:  MOVLW  F0
+028D:  MOVWF  2C
+028E:  MOVLW  16
+028F:  MOVWF  2B
+0290:  MOVLW  48
+0291:  MOVWF  2A
+0292:  MOVLW  7B
+0293:  MOVWF  29
+0294:  CALL   03C
+0295:  MOVF   7A,W
+0296:  MOVWF  28
+0297:  MOVF   79,W
+0298:  MOVWF  27
+0299:  MOVF   78,W
+029A:  MOVWF  26
+029B:  MOVF   77,W
+029C:  MOVWF  25
+029D:  CALL   0B1
+029E:  MOVF   78,W
+029F:  MOVWF  22
+....................       printf("%d;", temp); 
+02A0:  MOVF   22,W
+02A1:  MOVWF  23
+02A2:  MOVLW  1F
+02A3:  MOVWF  24
+02A4:  CALL   0E5
+02A5:  MOVLW  3B
+02A6:  BTFSS  0C.4
+02A7:  GOTO   2A6
+02A8:  MOVWF  19
+....................        
+....................       // le sensor de umidade 2 
+....................       temp = leAd(5) * PARAM_SENSOR_UMID; 
+02A9:  MOVLW  05
+02AA:  MOVWF  23
+02AB:  CALL   004
+02AC:  MOVF   79,W
+02AD:  MOVWF  24
+02AE:  MOVF   78,W
+02AF:  MOVWF  23
+02B0:  MOVF   79,W
+02B1:  MOVWF  26
+02B2:  MOVF   78,W
+02B3:  MOVWF  25
+02B4:  CALL   01F
+02B5:  MOVF   7A,W
+02B6:  MOVWF  28
+02B7:  MOVF   79,W
+02B8:  MOVWF  27
+02B9:  MOVF   78,W
+02BA:  MOVWF  26
+02BB:  MOVF   77,W
+02BC:  MOVWF  25
+02BD:  MOVLW  F0
+02BE:  MOVWF  2C
+02BF:  MOVLW  16
+02C0:  MOVWF  2B
+02C1:  MOVLW  48
+02C2:  MOVWF  2A
+02C3:  MOVLW  7B
+02C4:  MOVWF  29
+02C5:  CALL   03C
+02C6:  MOVF   7A,W
+02C7:  MOVWF  28
+02C8:  MOVF   79,W
+02C9:  MOVWF  27
+02CA:  MOVF   78,W
+02CB:  MOVWF  26
+02CC:  MOVF   77,W
+02CD:  MOVWF  25
+02CE:  CALL   0B1
+02CF:  MOVF   78,W
+02D0:  MOVWF  22
+....................       printf("%d;", temp); 
+02D1:  MOVF   22,W
+02D2:  MOVWF  23
+02D3:  MOVLW  1F
+02D4:  MOVWF  24
+02D5:  CALL   0E5
+02D6:  MOVLW  3B
+02D7:  BTFSS  0C.4
+02D8:  GOTO   2D7
+02D9:  MOVWF  19
+....................        
+....................       // le sensor de umidade 3 
+....................       temp = leAd(6) * PARAM_SENSOR_UMID; 
+02DA:  MOVLW  06
+02DB:  MOVWF  23
+02DC:  CALL   004
+02DD:  MOVF   79,W
+02DE:  MOVWF  24
+02DF:  MOVF   78,W
+02E0:  MOVWF  23
+02E1:  MOVF   79,W
+02E2:  MOVWF  26
+02E3:  MOVF   78,W
+02E4:  MOVWF  25
+02E5:  CALL   01F
+02E6:  MOVF   7A,W
+02E7:  MOVWF  28
+02E8:  MOVF   79,W
+02E9:  MOVWF  27
+02EA:  MOVF   78,W
+02EB:  MOVWF  26
+02EC:  MOVF   77,W
+02ED:  MOVWF  25
+02EE:  MOVLW  F0
+02EF:  MOVWF  2C
+02F0:  MOVLW  16
+02F1:  MOVWF  2B
+02F2:  MOVLW  48
+02F3:  MOVWF  2A
+02F4:  MOVLW  7B
+02F5:  MOVWF  29
+02F6:  CALL   03C
+02F7:  MOVF   7A,W
+02F8:  MOVWF  28
+02F9:  MOVF   79,W
+02FA:  MOVWF  27
+02FB:  MOVF   78,W
+02FC:  MOVWF  26
+02FD:  MOVF   77,W
+02FE:  MOVWF  25
+02FF:  CALL   0B1
+0300:  MOVF   78,W
+0301:  MOVWF  22
+....................       printf("%d;", temp); 
+0302:  MOVF   22,W
+0303:  MOVWF  23
+0304:  MOVLW  1F
+0305:  MOVWF  24
+0306:  CALL   0E5
+0307:  MOVLW  3B
+0308:  BTFSS  0C.4
+0309:  GOTO   308
+030A:  MOVWF  19
+....................        
+....................       // le sensor de umidade 4 
+....................       temp = leAd(7) * PARAM_SENSOR_UMID; 
+030B:  MOVLW  07
+030C:  MOVWF  23
+030D:  CALL   004
+030E:  MOVF   79,W
+030F:  MOVWF  24
+0310:  MOVF   78,W
+0311:  MOVWF  23
+0312:  MOVF   79,W
+0313:  MOVWF  26
+0314:  MOVF   78,W
+0315:  MOVWF  25
+0316:  CALL   01F
+0317:  MOVF   7A,W
+0318:  MOVWF  28
+0319:  MOVF   79,W
+031A:  MOVWF  27
+031B:  MOVF   78,W
+031C:  MOVWF  26
+031D:  MOVF   77,W
+031E:  MOVWF  25
+031F:  MOVLW  F0
+0320:  MOVWF  2C
+0321:  MOVLW  16
+0322:  MOVWF  2B
+0323:  MOVLW  48
+0324:  MOVWF  2A
+0325:  MOVLW  7B
+0326:  MOVWF  29
+0327:  CALL   03C
+0328:  MOVF   7A,W
+0329:  MOVWF  28
+032A:  MOVF   79,W
+032B:  MOVWF  27
+032C:  MOVF   78,W
+032D:  MOVWF  26
+032E:  MOVF   77,W
+032F:  MOVWF  25
+0330:  CALL   0B1
+0331:  MOVF   78,W
+0332:  MOVWF  22
+....................       printf("%d\r\n;", temp); 
+0333:  MOVF   22,W
+0334:  MOVWF  23
+0335:  MOVLW  1F
+0336:  MOVWF  24
+0337:  CALL   0E5
+0338:  MOVLW  0D
+0339:  BTFSS  0C.4
+033A:  GOTO   339
+033B:  MOVWF  19
+033C:  MOVLW  0A
+033D:  BTFSS  0C.4
+033E:  GOTO   33D
+033F:  MOVWF  19
+0340:  MOVLW  3B
+0341:  BTFSS  0C.4
+0342:  GOTO   341
+0343:  MOVWF  19
+....................        
+....................       delay_ms(1500); 
+0344:  MOVLW  06
+0345:  MOVWF  23
+0346:  MOVLW  FA
+0347:  MOVWF  24
+0348:  GOTO   14E
+0349:  DECFSZ 23,F
+034A:  GOTO   346
+....................        
+....................    } 
+034B:  GOTO   189
+....................     
+.................... } 
+....................  
+....................  
+.................... int16 leAd(int canal) { 
+....................    set_adc_channel(canal); 
+*
+0004:  RLF    23,W
+0005:  MOVWF  77
+0006:  RLF    77,F
+0007:  RLF    77,F
+0008:  MOVLW  F8
+0009:  ANDWF  77,F
+000A:  MOVF   1F,W
+000B:  ANDLW  C7
+000C:  IORWF  77,W
+000D:  MOVWF  1F
+*
+034C:  SLEEP
+....................    delay_us(15); 
+*
+000E:  MOVLW  04
+000F:  MOVWF  77
+0010:  DECFSZ 77,F
+0011:  GOTO   010
+0012:  GOTO   013
+....................    return read_adc(); 
+0013:  BSF    1F.2
+0014:  BTFSC  1F.2
+0015:  GOTO   014
+0016:  MOVF   1E,W
+0017:  MOVWF  7A
+0018:  BSF    03.5
+0019:  MOVF   1E,W
+001A:  MOVWF  78
+001B:  MOVF   7A,W
+001C:  MOVWF  79
+.................... } 
+001D:  BCF    03.5
+001E:  RETLW  00
+....................  
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

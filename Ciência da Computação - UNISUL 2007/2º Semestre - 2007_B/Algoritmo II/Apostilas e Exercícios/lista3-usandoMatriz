@@ -1,0 +1,66 @@
+Exercicio1_caderno
+Var
+	vetor[4][5] de inteiro n
+	inteiro l, c, ST, SC, SL
+Inicio
+	Para l de 0 ate 3 faça
+		Para c de 0 ate 4 faça
+			leia n [l][c]
+		FimPara
+	FimPara
+	ST = 0
+	Para l de 0 ate 3 faça
+		Para c de 0 ate 4 faça
+			ST = ST + n[l][c]
+		FimPara
+	FimPara
+	Escreva ST
+	SC = 0
+	Para c de 0 ate 4 faça
+		Para l de 0 ate 3 faça
+			SC = SC + numero[l][c]
+		FimPara
+		Escreva SC
+		SC = 0
+	FimPara
+	
+	Para l de 0 ate 3 faça
+		SL = 0
+		Para c de 0 ate 4 faça
+			SL = SL + n[l][c]
+		FimPara
+		escreva SL
+	FimPara
+Fim
+
+
+
+
+
+Lista 03 (utilizando matriz)
+
+
+
+exercicio 6:
+Var
+	vetor [5][1000] literal pessoa
+	inteiro i, n, meio;
+Inicio
+	leia n;
+	Para i de 0 ate n-1 faça
+		escreva "Nome"
+		leia pessoa[0][i];
+		escreva "Idade"
+		leia pessoa[1][i];
+		escreva "Altura"
+		leia pessoa [2][i];
+		escreva "Peso"
+		leia pessoa [3][i];
+		escreva "Sexo"
+		leia pessoa [4][i];
+	FimPara
+	meio = n/2;
+	Para i de 0 ate 4 faca
+		escreva pessoa[i][meio];
+	FimPara
+Fim

@@ -1,0 +1,31 @@
+package com.br.olaria.main;
+
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
+import com.br.olaria.util.SwtUtils;
+import com.br.olaria.view.GUI;
+
+
+/**
+ * Classe principal do programa.
+ * @author Fabio Dela Bruna.
+ */
+public class Main {
+
+	/**
+	 * Método que inicia a aplicação.
+	 */
+	public static void main( String[] args ) {
+		Display display = Display.getDefault();
+		Shell sShell = new GUI().createSShell();
+		sShell.open();
+		SwtUtils.centralize( sShell );
+		while ( !sShell.isDisposed() ) {
+			if ( !display.readAndDispatch() )
+				display.sleep();
+
+		}
+	}
+
+}

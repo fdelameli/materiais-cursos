@@ -1,0 +1,121 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B-01C CCP_2
+01C     CCP_2_HIGH
+020-021 strtok.save
+022-025 _Randseed
+026-027 new
+028     @TRIS_C
+029     MAIN.c
+02A     MAIN.qtd
+02B     MAIN.hora
+02C     MAIN.minuto
+02D     MAIN.segundo
+02E-02F strtol.s
+02E     lcd_setcursor.visible
+02E     @PRINTF_U_61.P1
+02E     lcd_init.i
+02E     MAIN.@SCRATCH
+02F     lcd_setcursor.blink
+02F     @PRINTF_U_61.P1
+02F     lcd_init.@SCRATCH
+02F     MAIN.@SCRATCH
+030     lcd_putc.c
+030     @DIV88.P1
+030-031 strtol.endptr
+030     lcd_setcursor.@SCRATCH
+031     lcd_gotoxy.x
+031     @delay_ms1.P1
+031     @DIV88.P2
+031     lcd_setcursor.@SCRATCH
+032     strtol.base
+032     lcd_gotoxy.y
+032     @DIV88.@SCRATCH
+033     lcd_gotoxy.address
+033-034 strtol.sc
+034     lcd_gotoxy.@SCRATCH
+035     lcd_send_byte.address
+035-036 strtol.s1
+036     lcd_send_byte.n
+037-038 strtol.sd
+037     lcd_send_byte.@SCRATCH
+038     lcd_send_nibble.nibble
+039-03A strtol.x
+03B     strtol.sign
+03C-05F strtol.digits
+060     strtol.@SCRATCH
+061     strtol.@SCRATCH
+062-063 memchr.s
+062-063 @MUL1616.P1
+062     strtol.@SCRATCH
+064     memchr.c
+064-065 @MUL1616.P1
+065     memchr.n
+066     memchr.uc
+066     @MUL1616.@SCRATCH
+067-068 memchr.su
+069     memchr.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+000C  @delay_ms1
+0004  LCD_INIT_STRING
+0020  lcd_send_nibble
+0050  lcd_send_byte
+007B  lcd_init
+00AA  lcd_gotoxy
+017E  lcd_putc
+00C3  lcd_setcursor
+01BE  memchr
+034E  @MUL1616
+01E1  strtol
+041B  MAIN
+03D1  @DIV88
+03E6  @PRINTF_U_61
+00CD  leTeclado
+041B  @cinit
+0136  StrtoulGO
+03A1  StrtolGO
+
+Project Files:
+    exercicio5.c
+    16F877A.h
+    lcd_4.c
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stdlib.h
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\string.h
+    ..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\ctype.h
+
+Units:
+    C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      0
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.err
+    Ext Symbols: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.esym
+    INHX8:       C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.hex
+    Symbols:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.sym
+    List:        C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.lst
+    Debug/COFF:  C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.cof
+    Project:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio5.PJT
+    Call Tree:   exercicio5.tre
+    Statistics:  exercicio5.sta

@@ -1,0 +1,199 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015     CCP_1_LOW
+015-016 CCP_1
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020-021 strtok.save
+022-025 _Randseed
+026-029 memoria
+02A-02D numb1
+02E-031 numb2
+032     oper
+033     @TRIS_C
+034     MAIN.c
+035     MAIN.char_ant
+036-03F MAIN.number
+040     MAIN.pos
+041     MAIN.dot
+042-045 MAIN.tmp
+046.0   MAIN.mem
+047-048 atof.s
+047-04A sqrt.x
+047     calc_functions.op
+047     is_oper.c
+047-048 reset_vector.v
+047     test_key.c
+047     lcd_init.i
+047     MAIN.@SCRATCH
+048.0   calc_functions.erro
+048     lcd_init.@SCRATCH
+048     MAIN.@SCRATCH
+049     refresh_display_char.res
+049     reset_vector.count
+049-04C atof.pow10
+049     MAIN.@SCRATCH
+04A     MAIN.@SCRATCH
+04A     reset_vector.@SCRATCH
+04A     refresh_display_char.@SCRATCH
+04B-04E sqrt.y
+04B     reset_vector.@SCRATCH
+04B     refresh_display_char.@SCRATCH
+04C     refresh_display_char.@SCRATCH
+04D-050 atof.result
+04D     refresh_display_char.@SCRATCH
+04E-051 refresh_display.res
+04F-052 sqrt.res
+051     atof.sign
+052     atof.c
+052-055 @PRINTF_L32D_61FPFPF.P1
+053     atof.ptr
+053-054 sqrt.p
+054     atof.@SCRATCH
+055-058 @FLT.P1
+055-058 @DIVFF.P2
+055     atof.@SCRATCH
+055     sqrt.@SCRATCH
+056     @PRINTF_L32D_61FPFPF.P1
+056     atof.@SCRATCH
+056     sqrt.@SCRATCH
+057     atof.@SCRATCH
+057     sqrt.@SCRATCH
+057     @PRINTF_L32D_61FPFPF.@SCRATCH
+058-059 @ITOF.P1
+058     atof.@SCRATCH
+058     sqrt.@SCRATCH
+058     @PRINTF_L32D_61FPFPF.@SCRATCH
+059-05C @FLT.P1
+059-05C @DIVFF.P2
+059     atof.@SCRATCH
+059     sqrt.@SCRATCH
+059     @PRINTF_L32D_61FPFPF.@SCRATCH
+05A     atof.@SCRATCH
+05A     sqrt.@SCRATCH
+05A     @PRINTF_L32D_61FPFPF.@SCRATCH
+05B     atof.@SCRATCH
+05B     sqrt.@SCRATCH
+05B     @PRINTF_L32D_61FPFPF.@SCRATCH
+05C-05F @ADDFF.P1
+05C     @PRINTF_L32D_61FPFPF.@SCRATCH
+05D     @DIVFF.@SCRATCH
+05D     @FLT.@SCRATCH
+05D     @PRINTF_L32D_61FPFPF.@SCRATCH
+05E     @DIVFF.@SCRATCH
+05E     @FLT.@SCRATCH
+05E     @PRINTF_L32D_61FPFPF.@SCRATCH
+05F     lcd_putc.c
+05F-062 @DIV3232.P1
+05F-062 @MULFF.P2
+05F-062 @FTOSD.P3
+05F     @DIVFF.@SCRATCH
+060-063 @ADDFF.P1
+060     lcd_gotoxy.x
+060     @delay_ms1.P1
+060     @DIVFF.@SCRATCH
+061     lcd_gotoxy.y
+061     @DIVFF.@SCRATCH
+062     lcd_gotoxy.address
+062     @DIVFF.@SCRATCH
+063-066 @MULFF.P1
+063-066 @DIV3232.P2
+063     lcd_gotoxy.@SCRATCH
+063     @FTOSD.@SCRATCH
+064     lcd_send_byte.address
+064     @ADDFF.@SCRATCH
+065     lcd_send_byte.n
+065     @ADDFF.@SCRATCH
+066     lcd_send_byte.@SCRATCH
+066     @ADDFF.@SCRATCH
+067     lcd_send_nibble.nibble
+067     @MULFF.@SCRATCH
+067     @ADDFF.@SCRATCH
+067     @DIV3232.@SCRATCH
+068     @MULFF.@SCRATCH
+068     @ADDFF.@SCRATCH
+068     @DIV3232.@SCRATCH
+069     @MULFF.@SCRATCH
+069     @ADDFF.@SCRATCH
+069     @DIV3232.@SCRATCH
+06A     @MULFF.@SCRATCH
+06A     @ADDFF.@SCRATCH
+06A     @DIV3232.@SCRATCH
+06B     @MULFF.@SCRATCH
+06B     @ADDFF.@SCRATCH
+06B     @DIV3232.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+0017  @delay_ms1
+0004  LCD_INIT_STRING
+002B  lcd_send_nibble
+005B  lcd_send_byte
+0086  lcd_init
+00B5  lcd_gotoxy
+00CE  lcd_putc
+0622  atof
+010E  @MULFF
+03FA  @ITOF
+0417  @ADDFF
+0558  @DIVFF
+0776  @FLT
+08F8  sqrt
+0994  MAIN
+0767  reset_vector
+0800  calc_functions
+08EE  @goto11854
+074F  is_oper
+03E4  test_key
+089D  refresh_display_char
+000C  @const497
+02AE  refresh_display
+01EC  @FTOSD
+0183  @DIV3232
+01C5  @PRINTF_L32D_61FPFPF
+02BF  le_teclado
+0994  @cinit
+0136  StrtoulGO
+0136  StrtolGO
+
+Project Files:
+    calc.c
+    16F877A.h
+    lcd_4.c
+    ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stdlib.h
+    ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+    ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\string.h
+    ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\ctype.h
+    ..\..\..\..\..\..\..\..\..\..\Program Files\PICC\drivers\math.h
+
+Units:
+    C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      0
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.err
+    Ext Symbols: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.esym
+    INHX8:       C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.hex
+    Symbols:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.sym
+    List:        C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.lst
+    Debug/COFF:  C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.cof
+    Project:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\entregar\calc\calc.PJT
+    Call Tree:   calc.tre
+    Statistics:  calc.sta

@@ -1,0 +1,249 @@
+exercicio 1:
+Algoritmo exer_1
+Var
+    vetor[100] inteiro numero
+    inteiro i, ,j
+Inicio
+   j = 10;
+   Para i de 0 ate ate 99 faça
+        numero[i] = j;
+		j += 10
+   FimPara
+Fim
+//outra forma de resolver o exercicio 1:
+Var
+	vetor [100] inteiro n;
+	inteiro i;
+Inicio
+	Para i de 0 ate 99 faça
+		n[i] = (i+1)*100;
+	FimPara
+Fim
+
+
+
+exercicio 2:
+Algoritmo exer_2
+Var
+    vetor[500] inteiro numero
+    inteiro i, j
+Inicio
+    j = 0;  
+    Para i de 0 ate 459 faça
+       j += 2;         
+       numero[i] = j;
+  FimPara
+Fim
+
+
+
+
+exercicio 3:
+Algoritmo exer_3
+Var
+    vetor[100000] literal nome
+    vetor[100000] inteiro idade
+    inteiro i, n
+Inicio
+    Leia n;
+    Para i de 0 ate n-1 faça
+        Leia nome[i];
+        Leia idade[i];
+    FimPara
+Fim
+//outra forma de fazer o exercicio 03:
+Var
+	vetor [1000] literal nome;
+	vetor [1000] inteiro idade;
+	inteiro i;
+	caracter resp;
+Inicio
+	i = 0;
+	Repita
+		ler nome[i];
+		ler idade [i];
+		i += 1;
+		ler resp
+	Enquanto(resp = 'S')
+Fim
+
+
+
+
+exercicio 4:
+Algoritmo exer_4
+Var
+    vetor [100000] literal nome
+    inteiro i, n
+Inicio
+	Leia n    
+	Para i de 0 ate n-1 faça
+        Leia nome [i];
+    FimPara
+    Para i de 1 ate n-1 inc2 faça
+        Escreva nome [i];
+    FimPara
+Fim
+
+
+
+
+exercicio 5:
+Var
+    vetor [100000] literal nome
+    inteiro i, n
+Inicio
+    Leia n
+    Para i de 0 ate n-1 faça
+		leia nome[i];
+	FimPara
+	Para i de n-1 ate 0 faça
+		escreva nome[i];
+	FimPara
+Fim
+
+
+
+
+
+exercicio 6:
+Var
+	vetor [10000] Literal nome;
+	vetor [10000]inteiro idade
+	inteiro i, n, meio;
+	vetor [10000] real altura
+	vetor [10000] real peso;
+	vetor [10000] String sexo;
+Inicio
+	leia n;
+	Para i de 0 ate n-1 faça
+		leia nome[i];
+		leia idade[i];
+		leia altura [i];
+		leia peso [i];
+		leia sexo [i];
+	FimPara
+	meio = n/2;
+	escreva nome[meio];
+	escreva idade [meio];
+	escreva altura [meio];
+	escreva peso [meio];
+	escreva sexo [meio];
+Fim
+
+
+
+
+exercicio 7:
+Var
+	vetor [10000] literal nome;
+	inteiro i, n, j, m;
+Inicio
+	leia n;
+	Para i de 0 ate n-1 faça
+		leia nome[i];
+	FimPara
+	j = 0;
+	m = n-1;
+	Enquanto(m > j) Faça
+		escreva nome[j];
+		escreva nome[m];
+		j += 1;
+		m -= 1;
+	FimEnquanto
+	Se (m = j) então
+		escreva nome[j];
+	FimSe
+Fim
+
+
+
+
+
+exercicio 8:
+Var
+	vetor [10] real numero;
+	inteiro i;
+Inicio
+	Para i de 0 ate 9 faça
+		leia numero [i];
+	FimPara
+	Para i de 0 ate 9 faça
+		Se (numero [i] RESTO 2 = 0) então
+			escreva numero [i];
+		FimSe
+	FimPara
+Fim
+
+
+
+
+
+
+
+exercicio 9:
+Var
+	vetor [10000] literal nome;
+	vetor [10000] inteiro idade;
+	vetor [10000] inteiro nuDependentes;
+	inteiro i, n;
+Inicio
+	leia n;
+	Para i de 0 ate n faça
+		leia nome [i];
+		leia idade [i];
+		leia nuDependentes [i];
+	FimPara
+Fim
+
+
+
+
+
+
+exercicio 10:
+Var
+	vetor [10000] literal nome;
+	vetor [10000] real nota;
+	real somaNotas, mediaGeral;
+	inteiro i, n;
+Inicio
+	leia n;
+	somaNotas = 0.0;
+	Para i de 0 ate n-1 faça
+		leia nome[i];
+		leia nota[i];
+		somaNota += nota[i];
+	FimPara
+	mediaGeral = somaNota/n;
+	Para i de 0 ate n-1 faça
+		Se (nota[i] >= mediaGeral) então
+			escreva nome[i];
+			escreva nota[i];
+		FimSe
+	FimPara
+Fim
+
+
+
+
+
+
+exercicio 11:
+Var
+	vetor[12] real saldo;
+	inteiro i;
+	real somaSaldo, mediaAnual;
+Inicio
+	somaSaldo = 0.0;
+	Para i de 0 ate 11 faça
+		leia saldo [i];
+		somaSaldo += saldo[i];
+	FimPara
+	mediaAnual = somaSaldo/12;
+	Para i de o ate 11 faça
+		Se(saldo[i] >= mediaAnual) então
+			escreva saldo[i];
+		FimSe
+	FimPara
+Fim

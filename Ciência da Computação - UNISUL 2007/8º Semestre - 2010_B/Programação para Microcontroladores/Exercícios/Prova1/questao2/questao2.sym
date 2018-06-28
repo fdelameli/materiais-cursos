@@ -1,0 +1,166 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015     CCP_1_LOW
+015-016 CCP_1
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020-021 strtok.save
+022-025 _Randseed
+026-027 tempMin
+028-029 tempMax
+02A-02D temperaturaMin
+02E-031 temperaturaMax
+032     @TRIS_C
+033-036 MAIN.temp
+037-03A @FLT.P1
+037     leAd.canal
+037-038 atoi.s
+037     setCooler.valor
+037     setResistencia.valor
+037-038 @PRINTF_LU_9600_62_63.P1
+037-038 @ITOF.P2
+037     MAIN.@SCRATCH1
+038     @delay_ms1.P1
+038     MAIN.@SCRATCH2
+039-03A @DIV1616.P1
+039     @PRINTF_D_9600_62_63.P2
+039-03A @MUL1616.P3
+039     atoi.result
+039-03C @PRINTF_L32D_9600_62_63FPFPF.P1
+039     MAIN.@SCRATCH3
+039     @PRINTF_LU_9600_62_63.@SCRATCH1
+03A     atoi.sign
+03A     @PRINTF_D_9600_62_63.P1
+03A     @PRINTF_LU_9600_62_63.@SCRATCH2
+03B-03C @MUL1616.P1
+03B-03C @DIV1616.P2
+03B-03E @FLT.P3
+03B     atoi.base
+03B     @PRINTF_LU_9600_62_63.@SCRATCH3
+03B     @PRINTF_D_9600_62_63.@SCRATCH1
+03C     atoi.index
+03C     @PRINTF_LU_9600_62_63.@SCRATCH4
+03C     @PRINTF_D_9600_62_63.@SCRATCH2
+03D     atoi.c
+03D     @PRINTF_L32D_9600_62_63FPFPF.P1
+03D     @MUL1616.@SCRATCH1
+03D     @DIV1616.@SCRATCH1
+03D     @PRINTF_LU_9600_62_63.@SCRATCH5
+03D     @PRINTF_D_9600_62_63.@SCRATCH3
+03E     @MUL88.P1
+03E     atoi.@SCRATCH1
+03E     @PRINTF_LU_9600_62_63.@SCRATCH6
+03E     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH1
+03E     @PRINTF_D_9600_62_63.@SCRATCH4
+03F     @DIV88.P1
+03F     @MUL88.P2
+03F     atoi.@SCRATCH2
+03F     @PRINTF_LU_9600_62_63.@SCRATCH7
+03F     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH2
+03F     @FLT.@SCRATCH1
+040     @DIV88.P1
+040     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH3
+040     @FLT.@SCRATCH2
+041     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH4
+041     @DIV88.@SCRATCH1
+042     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH5
+043     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH6
+044     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH7
+045     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH8
+046-049 @DIV3232.P1
+046-049 @FTOSD.P2
+046-049 @MULFF.P3
+04A-04D @DIV3232.P1
+04A-04D @MULFF.P2
+04A     @FTOSD.@SCRATCH1
+04E     @MULFF.@SCRATCH1
+04E     @DIV3232.@SCRATCH1
+04F     @MULFF.@SCRATCH2
+04F     @DIV3232.@SCRATCH2
+050     @MULFF.@SCRATCH3
+050     @DIV3232.@SCRATCH3
+051     @MULFF.@SCRATCH4
+051     @DIV3232.@SCRATCH4
+052     @MULFF.@SCRATCH5
+052     @DIV3232.@SCRATCH5
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+02E9  @delay_ms1
+01CE  @MUL88
+0327  @MUL1616
+03D6  @MULFF
+0363  @ITOF
+0160  atoi
+033C  @DIV1616
+05F0  MAIN
+0004  @const351
+0027  @const352
+004A  @const353
+0078  @const354
+0290  @PRINTF_LU_9600_62_63
+00B0  @const358
+045C  @FTOSD
+0380  @DIV3232
+03C2  @PRINTF_L32D_9600_62_63FPFPF
+0522  @DIV88
+0537  @PRINTF_D_9600_62_63
+05A0  @FLT
+00F9  @const376
+012F  @const377
+025E  leTempMinima
+0278  leTempMaxima
+030F  leAd
+02FE  setResistencia
+05DF  setCooler
+05F0  @cinit
+0136  StrtoulGO
+0136  StrtolGO
+
+
+User Memory space: 
+
+Project Directory:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Prova1\questao2\
+
+Project Files:
+    questao2.c
+    16F877A.h
+    ..\..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\stdlib.h
+    ..\..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\stddef.h
+    ..\..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\string.h
+    ..\..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\ctype.h
+
+Units:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Prova1\questao2\questao2.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      questao2.err
+    Ext Symbols: questao2.esym
+    INHX8:       questao2.hex
+    Symbols:     questao2.sym
+    List:        questao2.lst
+    Debug/COFF:  questao2.cof
+    Project:     questao2.PJT
+    Call Tree:   questao2.tre
+    Statistics:  questao2.sta

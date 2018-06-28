@@ -1,0 +1,133 @@
+CCS PCM C Compiler, Version 4.038, 33467               28-abr-10 08:26
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista1\exercicio13.lst
+
+               ROM used: 77 words (1%)
+                         Largest free fragment is 2048
+               RAM used: 8 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    0 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+.................... #include <16f877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect 
+.................... #use delay(clock=4Mhz) 
+....................  
+.................... void main() { 
+0004:  CLRF   04
+0005:  BCF    03.7
+0006:  MOVLW  1F
+0007:  ANDWF  03,F
+0008:  BSF    03.5
+0009:  BSF    1F.0
+000A:  BSF    1F.1
+000B:  BSF    1F.2
+000C:  BCF    1F.3
+000D:  MOVLW  07
+000E:  MOVWF  1C
+....................  
+....................    int count = 0; 
+*
+0012:  CLRF   21
+....................  
+....................    while(true){ 
+....................     
+....................       if(input(pin_a1)) { 
+0013:  BSF    03.5
+0014:  BSF    05.1
+0015:  BCF    03.5
+0016:  BTFSS  05.1
+0017:  GOTO   020
+....................          count = 0;// zera a contagem caso for pressionado o botão reset 
+0018:  CLRF   21
+....................          output_c(count); 
+*
+000F:  MOVLW  FF
+0010:  BCF    03.5
+0011:  MOVWF  20
+*
+0019:  MOVLW  00
+001A:  MOVWF  20
+001B:  BSF    03.5
+001C:  CLRF   07
+001D:  BCF    03.5
+001E:  MOVF   21,W
+001F:  MOVWF  07
+....................       } 
+....................        
+....................       if(input(pin_a3)) { 
+0020:  BSF    03.5
+0021:  BSF    05.3
+0022:  BCF    03.5
+0023:  BTFSS  05.3
+0024:  GOTO   032
+....................          count = input_b(); // pega a o valor que está na porta b 
+0025:  MOVLW  FF
+0026:  BSF    03.5
+0027:  MOVWF  06
+0028:  BCF    03.5
+0029:  MOVF   06,W
+002A:  MOVWF  21
+....................          output_c(count); 
+002B:  MOVLW  00
+002C:  MOVWF  20
+002D:  BSF    03.5
+002E:  CLRF   07
+002F:  BCF    03.5
+0030:  MOVF   21,W
+0031:  MOVWF  07
+....................       } 
+....................     
+....................       if(input(pin_a0)){ 
+0032:  BSF    03.5
+0033:  BSF    05.0
+0034:  BCF    03.5
+0035:  BTFSS  05.0
+0036:  GOTO   04B
+....................           
+....................          if(input(pin_a2)) { // se a chave estiver ligada... 
+0037:  BSF    03.5
+0038:  BSF    05.2
+0039:  BCF    03.5
+003A:  BTFSS  05.2
+003B:  GOTO   03E
+....................             count++;         // a contagem é crescente. 
+003C:  INCF   21,F
+....................          } else {            // senão... 
+003D:  GOTO   03F
+....................             count--;         // a contagem é decrescente... 
+003E:  DECF   21,F
+....................          } 
+....................           
+....................          output_c(count); 
+003F:  MOVLW  00
+0040:  MOVWF  20
+0041:  BSF    03.5
+0042:  CLRF   07
+0043:  BCF    03.5
+0044:  MOVF   21,W
+0045:  MOVWF  07
+....................           
+....................          while(input(pin_a0)); // trava o programa para não contar automáticamente. 
+0046:  BSF    03.5
+0047:  BSF    05.0
+0048:  BCF    03.5
+0049:  BTFSC  05.0
+004A:  GOTO   046
+....................           
+....................       }    
+....................    } 
+004B:  GOTO   013
+.................... } 
+004C:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

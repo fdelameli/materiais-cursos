@@ -1,0 +1,8 @@
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 408 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 411 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 414 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 417 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 420 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 423 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 429 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Error[173]   D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM 541 : source file path exceeds 62 characters (D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM)

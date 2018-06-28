@@ -1,0 +1,21 @@
+ÀÄlab
+   ÀÄMAIN  0/68  Ram=3
+      ÃÄ??0??
+      ÃÄinit_ext_eeprom  0/13  Ram=0
+      ÃÄwrite_int16_ext_eeprom  0/121  Ram=9
+      ³  ÀÄwrite_ext_eeprom  (Inline)  Ram=4
+      ³     ÃÄext_eeprom_ready  0/59  Ram=1
+      ³     ³  ÀÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÃÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÃÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÀÄ@I2C_WRITE_1  0/74  Ram=1
+      ÃÄread_int16_ext_eeprom  0/248  Ram=9
+      ³  ÀÄread_ext_eeprom  (Inline)  Ram=4
+      ³     ÃÄext_eeprom_ready  0/59  Ram=1
+      ³     ³  ÀÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÃÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÃÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÃÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÀÄ@I2C_READ_1  (Inline)  Ram=3
+      ÃÄ@const109  0/15  Ram=0
+      ÀÄ@PRINTF_LU_9600_62_63  0/91  Ram=9

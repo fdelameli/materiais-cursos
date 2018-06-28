@@ -1,0 +1,56 @@
+Algoritmo fatorial
+Var
+	inteiro numero
+Inicio
+	leia numero
+	escreva calculaFatorial(numero)
+Fim
+
+funcao calculaFatorial(inteiro numero): inteiro
+Var
+	inteiro total
+Inicio
+	total = 1
+	Para i de numero ate 1 dec 1 faça
+		total = total*i
+	FimPara
+	calculaFatorial = total
+Fim
+
+**************************************************************************************************************************************************
+(Algoritmo sem estrutura de repetição)
+
+algoritmo fatorial
+Var
+	int numero, fat
+Inicio
+	leia numero
+	escreva calculaFatorial(numero, fat)
+Fim
+
+funcao fatorial(inteiro numero, inteiro fat): inteiro
+Inicio
+	Se(numero>0) entao
+		fat = numero*fatorial(numero-1)
+	Fim
+	fatorial = fat
+Fim
+
+***************************************************************************************************************************************************
+(calcular potenciação de 2 elevado a n)
+Algoritmo Potencia
+Var
+	inteiro n, resp
+Inicio
+	leia n
+	resp = 1
+	escreva calculaPotencia(n)
+Fim
+
+
+função calculaPotencia(inteiro n): inteiro
+Inicio
+	Se(n>0) entao
+		resp = 2*calculaPotencia(n-1)
+	FimSe
+Fim

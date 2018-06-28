@@ -1,0 +1,11 @@
+Program teste2;
+  Var x,y,z :integer;
+Begin
+  Readln(x,y); 
+  Z:= 0;
+  If x>y then 
+    z:= x+y*2
+  Else 
+    z:= x-y;
+Writeln(z);
+End.

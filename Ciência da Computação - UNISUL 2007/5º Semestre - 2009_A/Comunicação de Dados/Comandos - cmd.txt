@@ -1,0 +1,32 @@
+Comandos Rede:
+
+* Configurações IP
+
+ipconfig /all	-> Microsoft
+ifconfig	-> Linux
+
+
+* Caminho percorrido pelo pacote
+
+tracert		-> Microsoft
+traceroute	-> Linux
+
+
+* Teste conectividade
+
+ping
+
+
+* Exibe o endereço MAC ADDRESS
+
+ARP -A
+
+
+* Exibe informações do DNS
+
+NSLOOKUP
+
+
+* Exibe informações do tráfego na rede
+
+NETSTAT -?

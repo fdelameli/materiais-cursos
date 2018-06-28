@@ -1,0 +1,38 @@
+
+#define  RS			  PIN_E2		// Pino de seleção de modo do display
+#define  EN			  PIN_E1// Pino de habilitação do display
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                  Rotina de Envio de Comando para o LCD              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+void Lcd_Inst(char dado)
+{
+	disable_interrupts(GLOBAL);		// Desliga as interrupções
+	output_low(RS);					// Põe pino de RS em baixo, modo comando
+	output_d(dado);					// Põe o dado no portd
+	delay_cycles(2);				// Aguarda 2 us, acomodação
+	output_high(EN);				// Gera pulso de clock
+	delay_cycles(2);
+	output_low(EN);
+	delay_ms(1);					// Aguarda 1ms
+	enable_interrupts(GLOBAL);		// Liga as interrupções
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                  Rotina de Envio de Dados para o LCD                *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+void Lcd_Dado(char dado)
+{
+	disable_interrupts(GLOBAL);		// Desliga as interrupções
+	output_high(RS);				// Seta o pino RS, modo dado
+	output_d(dado);					// Põe o dado no portd
+	delay_cycles(2);				// Aguarda 2us, acomodação
+	output_high(EN);				// Gera pulso de clock
+	delay_cycles(2);
+	output_low(EN);
+	delay_ms(1);					// Aguarda 1ms
+	enable_interrupts(GLOBAL);		// Liga as interrupções
+}

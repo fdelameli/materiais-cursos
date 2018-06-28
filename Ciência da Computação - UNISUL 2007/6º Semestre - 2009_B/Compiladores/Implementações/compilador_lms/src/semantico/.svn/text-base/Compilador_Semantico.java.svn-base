@@ -1,0 +1,962 @@
+package semantico;
+
+import javax.swing.JOptionPane;
+
+import semantico.view.Instrucoes_Maquina;
+import br.unisul.model.Pilha;
+import br.unisul.model.TabelaSimbolos;
+
+/**
+ * Analisador Semantico para a linguagem LMS.  
+ * 
+ * @author Almir Hoepers
+ * @author Guilherme Azevedo
+ * @author Thiago Ghisi
+ */
+public class Compilador_Semantico {
+	
+	private TabelaSimbolos TS;
+	private Pilha ifs;
+	private Pilha whiles;
+	private Pilha repeats;
+	private Pilha procedures;
+	private Pilha parametros;
+	private Pilha cases;
+	private Pilha fors;
+	private int nv; //numero de variaveis num bloco
+	private int np;
+	private int deslocamento; //deslocamento em relação a base
+	private AreaInstrucoes AI;
+	private AreaLiterais AL;
+	private Hipotetica maquinaHipotetica;
+	private String penultimo;
+	private String antepenultimo;
+	private String nomeIdentificador="";
+	private String tipo_identificador="";
+	private boolean temParametro;
+	private int acaoAcumulada=3;
+	private int nivelAtual=0;
+	private int for_end_nome=0;
+	private int end_ident = 0;
+	private String nome_atribuicao_esquerda = "";
+	private String nomeProcedimento="";
+	private int npe=0;
+	private String contexto="";
+	private Instrucoes_Maquina instrucoes;	
+	private String erro;
+	private String nomePro="";
+	
+	
+	/**
+	 * Construtor sem parâmetros
+	 */
+	public Compilador_Semantico(){
+		maquinaHipotetica = new Hipotetica();
+		AI = new AreaInstrucoes();//inicializa LC
+		AL = new AreaLiterais(); // inicializa LIT
+		
+		instrucoes = new Instrucoes_Maquina();
+	}
+		
+	/**
+	 * Retorna penultimo
+	 * @return penultimo
+	 */
+	public String getPenultimo() {
+		return penultimo;
+	}
+	
+	/**
+	 * Seta Penultimo
+	 * @param penultimo
+	 */
+	public void setPenultimo(String penultimo) {
+		this.penultimo = penultimo;
+	}
+
+	/**
+	 * Seta Antepenultimo
+	 * @param antepenultimo
+	 */
+	public void setAntePenultimo(String antepenultimo) {
+		this.antepenultimo = antepenultimo;
+	}
+	
+	/**
+	 * Retorna Antepenultimo
+	 * @return antepenultimo
+	 */
+	public String getAntePenultimo() {
+		return antepenultimo;
+	}
+
+	
+	/**
+	 * Método que realiza as ações semânticas
+	 * @param acao
+	 */
+	@SuppressWarnings("static-access")
+	public void acaoSemantica(int acao){
+		
+		System.out.println("Ação: "+acao);
+		switch (acao){
+		//Reconhecendo o nome do programa.
+		case 100:{
+			ifs = new Pilha();	
+			whiles = new Pilha();
+			repeats = new Pilha();
+			procedures = new Pilha();
+			parametros = new Pilha();
+			cases = new Pilha();
+			fors = new Pilha();
+			TS = new TabelaSimbolos();
+			maquinaHipotetica.InicializaAI(AI);//inicializa area de instruções da maquina hipotética
+			maquinaHipotetica.InicializaAL(AL);//área de literais da máquina hipotética
+			TS = new TabelaSimbolos();//variaveis inicializadas na tabeladesimbolos
+			nv = 0;
+			deslocamento = 3;	
+			break;
+		}
+		
+		//Final do programa
+		case 101:{
+			instrucoes.insereInstrucao(26, 0, 0);			
+			maquinaHipotetica.IncluirAI(AI, 26, 0, 0);//gera instrução PARA
+			for(int i = 0;i < TS.getTabela().length; i++){ //verifica a utilização de rótulos através da tabela de simbolos
+				if (TS.getTabela()[i][0]!=null){
+					if(TS.getTabela()[i][1].equals("rótulo")){
+
+						if (!TS.getTabela()[i][4].equals("")){
+							erro = "ERRO SEMÂNTICO: AINDA EXISTE RÓTULOS DECLARADOS";
+							JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+						}
+						break;
+					}
+				}
+			}
+						
+			break;
+		}
+		
+		//Após declaração de variável
+		case 102:{
+			instrucoes.insereInstrucao(24, 0, acaoAcumulada);
+			maquinaHipotetica.IncluirAI(AI, 24, 0, acaoAcumulada);//gera instrução AMEM
+			acaoAcumulada=3;
+			break;
+		}
+		
+		//após LABEL em declaração de rótulo
+		case 103:{
+			tipo_identificador = "rótulo";
+			break;
+		}
+		
+		//Encontrado o nome de rótulo, de variável, ou de parâmetro de procedure em declaração
+		case 104:{
+			
+			acaoAcumulada++;
+			if (tipo_identificador.equals("rótulo")){
+				if (TS.busca(penultimo)!= -1){
+					int nivel  = Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][2]);
+					if(nivel == nivelAtual){
+						System.out.println("ERRO SEMÂNTICO: RÓTULO JÁ DECLARADO NO MESMO NIVEL");
+					}
+					else{
+						TS.insercao(penultimo, "rótulo", nivelAtual+"", "0", "");
+					}
+				}else{
+					TS.insercao(penultimo, "rótulo", nivelAtual+"", "0", "");
+				}
+			}
+
+			if (tipo_identificador.equals("variável")){
+				if (TS.busca(penultimo)==-1){
+						TS.insercao(penultimo, "variável", nivelAtual+"", deslocamento+"", "");
+						deslocamento++;
+						nv = nv + 1;
+				}else{
+					erro = "ERRO SEMÂNTICO: VARIAVEL JÁ DECLARADA";
+					JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			
+			if (tipo_identificador.equals("parâmetro")){
+				if (TS.busca(penultimo)!=-1){
+					int nivel  = Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][2]);
+					if(nivel == nivelAtual){
+						erro = "ERRO SEMÂNTICO: PARAMETRO JÁ DECLARADO NO MESMO NIVEL";
+						JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+					}else{
+						TS.insercao(penultimo, "parâmetro", nivelAtual+"", "", "");
+						parametros.insereElemento(TS.busca(penultimo));
+						np = np + 1;
+					}	
+				}else{
+					TS.insercao(penultimo, "parâmetro", nivelAtual+"", "", "");
+					parametros.insereElemento(TS.busca(penultimo));
+					np = np + 1;
+				}
+			}
+			break;
+		}
+		
+		//Reconhecido nome de constante em declaração
+		case 105:{
+			if(TS.busca(penultimo) != -1){
+				erro = ("ERRO SEMÂNTICO: CONSTANTE JÁ DECLARADA");
+				JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+			} else {
+				TS.insercao(penultimo, "constante", nivelAtual+"", "0", "0");
+				end_ident = TS.busca(penultimo);
+			}
+			break;
+		}
+		
+		//Reconhecido valor de contante em declaração
+		case 106:{
+			String[][] tabelaSimbolo = TS.getTabela();
+			tabelaSimbolo[end_ident][3] = penultimo;
+			TS.setTabela(tabelaSimbolo);
+			break;
+		}
+		
+		//Antes de lista de identificadores em declaração de variáveis
+		case 107:{
+			tipo_identificador="variável";//seta tipo_identificador = variável
+			nv =0; //zera contador de variaveis
+			break;
+		}
+		
+		//após nome de procedure em declaração
+		case 108:{
+			deslocamento=3;
+			nomePro = penultimo;
+			TS.insercao(penultimo, "procedure", nivelAtual+"", (AI.LC+1)+"", "0");//verificar se não precisa colocar diferença de nivel
+			setTemParametro(false);
+			parametros.insereElemento(TS.busca(penultimo));
+			nivelAtual=nivelAtual+1;//aumenta nivel -verificar ?
+			np=0;
+			break;
+		}
+		
+		//Após declaração de procedure
+		case 109:{
+			if (np > 0){
+				String[][] tabelaSimbolo = TS.getTabela();
+				tabelaSimbolo[TS.busca(nomePro)][4]=np+"";//atualiza numero de parâmetros na TS para a procedure em questão GeralB = np
+				for(int i = 0; i < np; i++){
+					tabelaSimbolo[parametros.veTopo()][3] = (-(np-i))+"";
+					
+					parametros.tiraElemento();
+				}
+				TS.setTabela(tabelaSimbolo);
+				
+			}
+			
+			instrucoes.insereInstrucao(19, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 19, 0, 0);//gera instrução DSVS
+			procedures.insereElemento(AI.LC-1); // Adiciona endereço na pilha de procedure
+			
+			parametros.insereElemento(np);//adiciona numero de parâmetros
+			break;
+		}
+		
+		//Fim de procedure
+		case 110:{
+			
+			parametros.tiraElemento(); //retira numero de parametros
+			
+			instrucoes.insereInstrucao(1, 0, np+1);
+			maquinaHipotetica.IncluirAI(AI, 1, 0, np+1); // Gera instrução RETU
+			
+			for(int i = 0;i < TS.getTabela().length; i++){ //verifica a utilização de rótulos através da tabela de simbolos
+				if (TS.getTabela()[i][0]!=null){
+					if(TS.getTabela()[i][1].equals("rótulo")){
+
+						if (!TS.getTabela()[i][4].equals("")){
+							erro = "ERRO SEMÂNTICO: AINDA EXISTE RÓTULOS DECLARADOS";
+							JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+						}
+						break;
+					}
+				}
+			}
+			
+			instrucoes.alteraInstrucao(procedures.veTopo(), 0, AI.LC+1);
+			maquinaHipotetica.AlterarAI(AI, procedures.veTopo(), 0, AI.LC); // Resolve desvio DSVS da ação 109
+			procedures.tiraElemento(); // tira da pilha de controle de procedure o endereço da instrução de desvio
+			
+			//System.out.println(TS.toString());
+			TS.delecao(); // delete nomes do escopo do nivel na TS
+			//System.out.println(TS.toString());
+			
+			nivelAtual = nivelAtual -1; // decrementa nivel
+			
+			break;
+		}
+		
+		//Antes de parâmetros formais de procedures
+		case 111:{
+			tipo_identificador="parâmetro";
+			setTemParametro(true);
+			break;
+		}
+		
+		//Identificador de instrução rotulada ou comando de atribuição
+		case 112:{
+			nomeIdentificador = penultimo;
+			break;
+		}
+		
+		//Instrução rotulada
+		case 113:{
+			if ((TS.busca(nomeIdentificador)!=-1)){
+				if (TS.getTabela()[TS.busca(nomeIdentificador)][1].equals("rótulo")){
+					if(!TS.getTabela()[TS.busca(nomeIdentificador)][2].equals(nivelAtual+"")){
+						erro =("ERRO SEMÂNTICO: RÓTULO NÃO ESTÁ NO ESCOPO");
+					}else {
+						String[][] tabelaSimbolo = TS.getTabela();
+						
+						tabelaSimbolo[TS.busca(nomeIdentificador)][3]=AI.LC+"";
+						
+						if (!(tabelaSimbolo[TS.busca(nomeIdentificador)][4].equals(""))){
+							//percorre lista de referencias futuras
+							String lista = tabelaSimbolo[TS.busca(nomeIdentificador)][4]; 
+							int qtd=0;//o ultimo não possui espaço em branco por isso o 1
+							
+							//quantidade de indices na lista
+							for (int i=0; i<lista.length(); i++){
+								if (lista.charAt(i)==' '){
+									qtd++;
+								}
+							}
+							
+							int endereco=0;
+							
+							lista = tiraProximo(lista);
+							
+							for(int i=0; i<qtd; i++){
+								
+								
+								endereco = Integer.parseInt(pegaProximo(lista));
+								lista = tiraProximo(lista);
+								
+								instrucoes.alteraInstrucao(endereco, 0, AI.LC+1);//verificar
+								maquinaHipotetica.AlterarAI(AI, endereco, 0, AI.LC);
+								
+							}
+							
+							
+							
+						}
+						
+						tabelaSimbolo[TS.busca(nomeIdentificador)][4]="";
+						
+						TS.setTabela(tabelaSimbolo);					
+						
+					}
+				}else{
+					erro =("ERRO SEMÂNTICO: RÓTULO NÃO ESTÁ DECLARADO");
+				}
+			}else{
+				erro =("ERRO SEMÂNTICO: RÓTULO NÃO ESTÁ DECLARADO");
+			}
+			
+			break;
+		}
+		
+		//Atribuição para esquerda
+		case 114:{
+			if ((TS.busca(nomeIdentificador)!=-1)){
+				if(!(TS.getTabela()[TS.busca(nomeIdentificador)][1].equals("variável"))){
+					erro = "ERRO SEMÂNTICO: ATRIBUIÇÃO DA PARTE ESQUERDA INVÁLIDA";
+					JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+				} else {
+					nome_atribuicao_esquerda = nomeIdentificador;
+				}
+			} else {
+				erro = "ERRO SEMÂNTICO: IDENTIFICADOR NÃO ENCONTRADO NA TABELA DE SÍMBOLOS";
+				JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+			}
+			
+			
+			break;
+		}
+		
+		//Após expressão em atribuição
+		case 115:{
+			if(nome_atribuicao_esquerda == null || nome_atribuicao_esquerda.equals("")){
+				JOptionPane.showMessageDialog(null, "ERRO CRITICO!", "Erro durante a execução",	JOptionPane.ERROR_MESSAGE);
+			}
+			int d_nivel = nivelAtual - Integer.parseInt(TS.getTabela()[TS.busca(nome_atribuicao_esquerda)][2]); // calculo Diferenca de Nivel
+			instrucoes.insereInstrucao(4, d_nivel, Integer.parseInt(TS.getTabela()[TS.busca(nome_atribuicao_esquerda)][3]));
+			maquinaHipotetica.IncluirAI(AI, 4, d_nivel, Integer.parseInt(TS.getTabela()[TS.busca(nome_atribuicao_esquerda)][3]));//gera instrução ARMZ
+			break;
+		}
+		
+		//chamada de procedure
+		case 116:{
+						
+			if(TS.busca(penultimo)!=-1){
+				if (TS.getTabela()[TS.busca(penultimo)][1].equals("procedure")){
+					nomeProcedimento=penultimo;
+				}
+			}else{
+				System.out.println("ERRO SEMÂNTICO: PROCEDURE NÃO DECLARADA");
+			}
+			break;
+		}
+		
+		//Após comando call
+		case 117:{
+						
+			if (Integer.parseInt(TS.getTabela()[TS.busca(nomeProcedimento)][4]) != np){
+				erro =("ERRO SEMÂNTICO: NUMERO DE PARAMETROS DA PROCEDURE "+nomeProcedimento+" NÃO CONFEREM COM OS NUMEROS PARAMETROS PASSADOS");
+			}else{
+				instrucoes.insereInstrucao(25, 0, Integer.parseInt(TS.getTabela()[TS.busca(nomeProcedimento)][3])+1);
+				maquinaHipotetica.IncluirAI(AI, 25, 0, Integer.parseInt(TS.getTabela()[TS.busca(nomeProcedimento)][3]));//gera instrução CALL		
+			}
+			break;
+		}
+		
+		//Após expressão, em comando call
+		case 118:{
+			npe++;
+			break;
+		}
+		
+		//Comando GOTO
+		case 119:{
+			
+
+			if (TS.busca(penultimo)!=-1 && TS.getTabela()[TS.busca(penultimo)][1].equals("rótulo")){
+				
+				if (!TS.getTabela()[TS.busca(penultimo)][2].equals(nivelAtual+"")){
+					erro = "ERRO SEMÂNTICO: O RÓTULO NÃO ESTA DECLARADO NO ESCOPO DO NIVEL";
+					JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+				}else{
+					int op2 = Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][3]);
+					if (op2 != 0){
+						instrucoes.insereInstrucao(19, 0, 0);
+						maquinaHipotetica.IncluirAI(AI, 19, 0, op2);//gera instrução DSVS
+					}else{
+						instrucoes.insereInstrucao(19, 0, 0);
+						maquinaHipotetica.IncluirAI(AI, 19, 0, 0);//gera instrução DSVS
+						
+						//guarda endereço na lista de referencias futuras
+						String[][] tabelaSimbolo = TS.getTabela();
+						int ind = TS.busca(penultimo);
+						
+						tabelaSimbolo[ind][4]=tabelaSimbolo[ind][4]+" "+(AI.LC-1);
+						
+						TS.setTabela(tabelaSimbolo);						
+					}
+					
+				}
+				
+			}else{
+				erro = "ERRO SEMÂNTICO: IDENTIFICADOR NÃO ESTÁ DECLARADO";
+				JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+			}
+			
+			break;
+		}
+		
+		//Após expressão num comando IF
+		case 120:{
+			instrucoes.insereInstrucao(20, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 20, 0, 0);//gera instrução DSVF
+			ifs.insereElemento(AI.LC-1);//armazena na pilha do if
+			break;
+		}
+		
+		//Após instrução IF
+		case 121:{
+			instrucoes.alteraInstrucao(ifs.veTopo(), 0, AI.LC+1);
+			maquinaHipotetica.AlterarAI(AI, ifs.veTopo(), 0, AI.LC);
+			ifs.tiraElemento();
+			break;
+		}
+		
+		//Após domínio do THEN, antes do ELSE
+		case 122:{
+			instrucoes.alteraInstrucao(ifs.veTopo(), 0, AI.LC+2);
+			maquinaHipotetica.AlterarAI(AI, ifs.veTopo(), 0, AI.LC+1);
+			ifs.tiraElemento();
+			instrucoes.insereInstrucao(19, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 19, 0, 0);
+			ifs.insereElemento(AI.LC-1);
+			break;
+		}
+		
+		//Comando WHILE antes da expressão
+		case 123:{
+			whiles.insereElemento(AI.LC);
+			break;
+		}
+		
+		//Comando WHILE depois da expressção
+		case 124:{
+			instrucoes.insereInstrucao(20, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 20, 0, 0);
+			whiles.insereElemento(AI.LC-1);
+			break;
+		}
+		
+		//Após comando WHILE
+		case 125:{
+			instrucoes.alteraInstrucao(whiles.veTopo(), 0, AI.LC+2);
+			maquinaHipotetica.AlterarAI(AI, whiles.veTopo(), 0, AI.LC+1);
+			whiles.tiraElemento();
+			instrucoes.insereInstrucao(19, 0, whiles.veTopo());
+			maquinaHipotetica.IncluirAI(AI, 19, 0, whiles.veTopo());
+			whiles.tiraElemento();
+			break;
+		}
+		
+		//Comando REPEAT - Inicio
+		case 126:{
+			repeats.insereElemento(AI.LC);
+			break;
+		}
+		
+		//Comando REPEAT - Fim
+		case 127:{
+			instrucoes.insereInstrucao(20, 0, repeats.veTopo()+1);
+			maquinaHipotetica.IncluirAI(AI, 20, 0, repeats.veTopo());
+			repeats.tiraElemento();
+			break;
+		}
+		
+		//Comando READLN - Inicio
+		case 128:{
+			contexto="readln";
+			break;
+		}
+		
+		//Identificador de variável
+		case 129:{
+			if (TS.busca(penultimo)==-1){
+
+				erro = "ERRO SEMÂNTICO: IDENTIFICADOR NÃO ESTÁ DECLARADO";
+				JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+				
+			}else{
+
+				int d_nivel = nivelAtual -  Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][2]); // calculo Diferenca de Nivel
+
+				if (contexto.equals("readln")){
+						if (TS.getTabela()[TS.busca(penultimo)][1].equals("variável")){
+						    instrucoes.insereInstrucao(21, 0, 0);
+							maquinaHipotetica.IncluirAI(AI, 21, 0, 0);
+							instrucoes.insereInstrucao(4, d_nivel, Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][3]));
+							maquinaHipotetica.IncluirAI(AI, 4, d_nivel, Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][3]));
+						}else{
+							//System.out.println("ERRO SEMÂNTICO: IDENTIFICADOR NÃO É VARIÁVEL");
+							erro = "ERRO SEMÂNTICO: IDENTIFICADOR NÃO É VARIÁVEL";
+							JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+						}
+				}
+
+				if (contexto.equals("expressão")){
+					
+					if (TS.busca(penultimo)==-1){
+						//System.out.println("ERRO SEMÂNTICO: IDENTIFICADOR NÃO ESTÁ DECLARADO");
+						erro = "ERRO SEMÂNTICO: IDENTIFICADOR NÃO ESTÁ DECLARADO";
+						JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+					}else{
+						if(TS.getTabela()[TS.busca(penultimo)][1].equals("procedure") || TS.getTabela()[TS.busca(penultimo)][1].equals("rótulo")){
+							//System.out.println("ERRO SEMÂNTICO: IDENTIFICADOR NÃO É UMA CONSTANTE");
+							erro = "ERRO SEMÂNTICO: IDENTIFICADOR NÃO É UMA CONSTANTE";
+							JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+						}else{
+							if (TS.getTabela()[TS.busca(penultimo)][1].equals("constante")){
+								instrucoes.insereInstrucao(3, 0, Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][3]));
+								maquinaHipotetica.IncluirAI(AI, 3, 0, Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][3]));
+							}else{
+								instrucoes.insereInstrucao(2, d_nivel, Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][3]));
+								maquinaHipotetica.IncluirAI(AI, 2, d_nivel, Integer.parseInt(TS.getTabela()[TS.busca(penultimo)][3]));						
+							}
+						}
+					}
+				}
+			}
+	
+			break;
+		}
+		
+		//WRITELN - Após literal na instrução WRITELN
+		case 130:{
+			maquinaHipotetica.IncluirAL(AL, penultimo);
+			instrucoes.insereInstrucao(23, 0, AL.LIT-1);
+			maquinaHipotetica.IncluirAI(AI, 23, 0, AL.LIT-1);
+			break;
+		}
+		
+		//WRITELN após expressão
+		case 131:{
+			instrucoes.insereInstrucao(22, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 22, 0, 0);//gera instrução IMPR
+			break;
+		}
+		
+		//Após palavra reservada CASE
+		case 132:{
+			//cases.insereElemento(AI.LC);//verificar??????
+			break;
+		}
+		
+		//Após comando CASE
+		case 133:{
+			instrucoes.alteraInstrucao(cases.veTopo(), 0, AI.LC+1);
+			maquinaHipotetica.AlterarAI(AI,cases.veTopo(), 0, AI.LC);//completa instruções de desvio DSVS
+			cases.tiraElemento();
+			
+			instrucoes.insereInstrucao(24, 0, -1);
+			maquinaHipotetica.IncluirAI(AI, 24, 0, -1);//gera instrução AMEM -1
+			
+			break;
+		}
+		
+		//Ramo do CASE após inteiro, ultimo da lista
+		case 134:{
+			instrucoes.insereInstrucao(28, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 28, 0, 0);//gera instrução copia
+			
+			int ant = Integer.parseInt(antepenultimo);		
+			instrucoes.insereInstrucao(3, 0, ant);
+			maquinaHipotetica.IncluirAI(AI, 3, 0, ant);//gera instrução CRCT
+			
+			instrucoes.insereInstrucao(15, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 15, 0, 0);//gera instrução CMIG
+			
+			if (!cases.estaVazia()){
+				instrucoes.alteraInstrucao(cases.veTopo(), 0, AI.LC+2);
+				maquinaHipotetica.AlterarAI(AI, cases.veTopo(), 0, AI.LC+1);//resolve instruções do tipo DSVT
+				cases.tiraElemento();
+			}
+			
+			
+			instrucoes.insereInstrucao(20, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 20, 0, 0);//gera instrução DSVF com parametros desconhecidos
+			cases.insereElemento(AI.LC-1);
+
+			
+			
+			break;
+		}
+		
+		//Após comando em CASE
+		case 135:{
+			instrucoes.alteraInstrucao(cases.veTopo(), 0, AI.LC+2);
+			maquinaHipotetica.AlterarAI(AI, cases.veTopo(), 0, AI.LC+1);//resolve ultima instrução de desvio do tipo DSVF
+			cases.tiraElemento();
+			
+			instrucoes.insereInstrucao(19, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 19, 0, 0); //gera instrução DSVS
+			cases.insereElemento(AI.LC-1);//salva endereço na pilha do case para posterior marcação		
+			break;
+		}
+		
+		//Ramo do CASE. após inteiro
+		case 136:{
+			
+			if (cases.estaCheia()){
+				instrucoes.alteraInstrucao(cases.veTopo(), 0, AI.LC+2);
+				maquinaHipotetica.AlterarAI(AI, cases.veTopo(), 0, AI.LC+1);//resolve instruções do tipo DSVT
+				cases.tiraElemento();
+			}
+			
+			instrucoes.insereInstrucao(28, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 28, 0, 0);//gera instrução COPIA
+			
+			int ant = Integer.parseInt(antepenultimo);
+			instrucoes.insereInstrucao(3, 0, ant);
+			maquinaHipotetica.IncluirAI(AI, 3, 0, ant);//gera instrução CRCT
+			
+			instrucoes.insereInstrucao(15, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 15, 0, 0);//gera instrução CMIG
+			
+			instrucoes.insereInstrucao(29, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 29, 0, 0);//gera instrução DSVT
+			
+			cases.insereElemento(AI.LC-1); //salva endereço na pilha do case para posterior marcação
+			break;
+		}
+		
+		//Após variável controle comando FOR
+		case 137:{
+			if (TS.busca(penultimo)!=-1 && TS.getTabela()[TS.busca(penultimo)][1].equals("variável") ){
+				for_end_nome=TS.busca(penultimo);			
+			}else{
+				//System.out.println("ERRO SEMÂNTICO: VARIAVEL NÃO DECLARADA OU NÃO PERTENCE A CATEGORIA VARIAVEL");
+				erro = "ERRO SEMÂNTICO: VARIAVEL NÃO DECLARADA OU NÃO PERTENCE A CATEGORIA VARIAVEL";
+				JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO",  JOptionPane.ERROR_MESSAGE);
+			}
+			break;
+		}
+		
+		//Após expressão valor inicial
+		case 138:{
+			int op1 = nivelAtual-(Integer.parseInt(TS.getTabela()[for_end_nome][2]));
+			int op2 = Integer.parseInt(TS.getTabela()[for_end_nome][3]);
+			instrucoes.insereInstrucao(4, op1, op2);
+			maquinaHipotetica.IncluirAI(AI, 4, op1, op2);//gera instrução ARMZ
+			break;
+		}
+		
+		//Após expressão - Valor final
+		case 139:{
+			fors.insereElemento(AI.LC);//armazena pilha de controle o endereço da instrução dsvs
+			
+			instrucoes.insereInstrucao(28, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 28, 0, 0);//gera instrução COPIA
+			
+			int op1 = nivelAtual-(Integer.parseInt(TS.getTabela()[for_end_nome][2]));
+			int op2 = Integer.parseInt(TS.getTabela()[for_end_nome][3]);			
+			instrucoes.insereInstrucao(2, op1, op2);
+			maquinaHipotetica.IncluirAI(AI, 2, op1, op2);//gera instrução CRVL - atributos salvos em #137
+			
+			instrucoes.insereInstrucao(18, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 18, 0, 0);//gera instrução CMAI
+		
+			fors.insereElemento(AI.LC);
+			instrucoes.insereInstrucao(20, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 20, 0, 0);//gera instrução DSVF com parametros desconhecidos
+			break;
+		}
+		
+		//Após comando em FOR
+		case 140:{
+			
+			int op1 = nivelAtual-(Integer.parseInt(TS.getTabela()[for_end_nome][2]));
+			int op2 = Integer.parseInt(TS.getTabela()[for_end_nome][3]);
+				
+			instrucoes.insereInstrucao(2, op1, op2);
+			maquinaHipotetica.IncluirAI(AI, 2, op1, op2);//gera instrução CRVL
+
+			
+			instrucoes.insereInstrucao(3, 0, 1);
+			maquinaHipotetica.IncluirAI(AI, 3, 0, 1);//gera instrução CRCT
+			
+			instrucoes.insereInstrucao(5, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 5, 0, 0);//gera instrução SOMA
+			
+			instrucoes.insereInstrucao(4, op1, op2);
+			maquinaHipotetica.IncluirAI(AI, 4, op1, op2);//gera instrução ARMZ
+			
+			instrucoes.alteraInstrucao(fors.veTopo(), 0, AI.LC+1);
+			maquinaHipotetica.AlterarAI(AI, fors.veTopo(), 0, AI.LC+1);//completa instrução dsvf
+			fors.tiraElemento();
+			
+			instrucoes.insereInstrucao(19, 0, fors.veTopo()+1);
+			maquinaHipotetica.IncluirAI(AI, 19, 0, fors.veTopo());//gera instrução DSVS
+			
+			instrucoes.insereInstrucao(24, 0, -1);
+			maquinaHipotetica.IncluirAI(AI, 24, 0, -1);//gera instrução AMEM -1
+			
+			break;
+		}
+		
+		//Compara Igual
+		case 141:{
+			maquinaHipotetica.IncluirAI(AI, 15, 0, 0);//gera instrução CMIG
+			break;
+		}
+		
+		//Compara Menor
+		case 142:{
+			instrucoes.insereInstrucao(13, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 13, 0, 0);//gera instrução CMME
+			break;
+		}
+		
+		//Compara Maior
+		case 143:{
+			instrucoes.insereInstrucao(14, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 14, 0, 0);//gera instrução CMMA
+			break;
+		}
+		
+		//Compara Maior Igual
+		case 144:{
+			instrucoes.insereInstrucao(18, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 18, 0, 0);//gera instrução CMAI
+			break;
+		}
+		
+		//Compara Menor Igual
+		case 145:{
+			instrucoes.insereInstrucao(17, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 17, 0, 0);//gera instrução CMEI
+			break;
+		}
+		
+		//Compara Diferente
+		case 146:{
+			instrucoes.insereInstrucao(16, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 16, 0, 0);//gera instrução CMDF
+			break;
+		}
+		
+		//Inverte Sinal
+		case 147:{
+			instrucoes.insereInstrucao(9, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 9, 0, 0);//gera instrução INVR
+			break;
+		}
+		
+		//Operação de Soma com elementos do topo e sub-topo
+		case 148:{
+			instrucoes.insereInstrucao(5, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 5, 0, 0);//gera instrução SOMA
+			break;
+		}
+		
+		//Operação de Subtração
+		case 149:{
+			instrucoes.insereInstrucao(6, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 6, 0, 0);//gera instrução SUBT
+			break;
+		}
+		
+		//Operação OR
+		case 150:{
+			instrucoes.insereInstrucao(12, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 12, 0, 0);//gera instrução DISJ
+			break;
+		}
+		
+		//Operação de Multiplicação
+		case 151:{
+			instrucoes.insereInstrucao(7, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 7, 0, 0);//gera instrução MULT
+			break;
+		}
+		
+		//Operação de Divisão
+		case 152:{
+			instrucoes.insereInstrucao(8, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 8, 0, 0);//gera instrução DIVI
+			break;
+		}
+		
+		//Operação AND
+		case 153:{
+			instrucoes.insereInstrucao(11, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 11, 0, 0);//gera instrução CONJ
+			break;
+		}
+		
+		//Carrega Constante na pilha
+		case 154:{
+			int pen = Integer.parseInt(penultimo);
+			instrucoes.insereInstrucao(3, 0, pen);
+			maquinaHipotetica.IncluirAI(AI, 3, 0, pen);//gera instrução CRCT
+			break;
+		}
+		
+		//Operação de Negação
+		case 155:{
+			instrucoes.insereInstrucao(10, 0, 0);
+			maquinaHipotetica.IncluirAI(AI, 10, 0, 0);//gera instrução NEGA
+			break;
+		}
+		
+		//Expressão - Variável
+		case 156:{
+			contexto="expressão";
+			break;
+			
+		}default:{
+			System.out.println("Erro com a ação : "+acao);
+		}
+		
+		
+		
+		}
+
+		
+	}
+	
+	/**
+	 * Método que passa a Área de Instruções e de Literais para a máquina interpretar
+	 * @return msg de erro
+	 */
+	@SuppressWarnings("static-access")
+	public String interpreta(){
+		
+		mostraInstrucoes();
+		maquinaHipotetica.Interpreta(AI, AL);
+		
+		if (erro!=null){
+			JOptionPane.showMessageDialog(null, erro, "ERRO SEMÂNTICO FINAL", JOptionPane.ERROR_MESSAGE);
+			return erro;
+		}else{
+			JOptionPane.showMessageDialog(null, "Execução realizada com Sucesso!", "EXECUÇÃO", JOptionPane.INFORMATION_MESSAGE);
+			return "nada";
+		}
+		
+	}
+	
+	/**
+	 * Método responsável por exibir as instruções geradas
+	 */
+	public void mostraInstrucoes(){
+		
+		instrucoes.setVisible(true);
+		
+	}
+	
+	/**
+	 * Método criado para pegar o primeiro elemento de uma lista de referencias futuras
+	 * @param a
+	 * @return pegaProximo
+	 */
+	public String pegaProximo(String a){
+		
+		String aux="";
+		
+		for (int i=0; i<a.length(); i++){
+			if (a.charAt(i)!=' '){
+				aux=aux+a.charAt(i);
+			}else{
+				break;
+			}
+		}
+		
+		
+		return aux;
+	}
+	
+	/**
+	 * Método criado para retirar o primeiro elemento de uma lista de referencias futuras
+	 * @param a
+	 * @return aux
+	 */
+	public String tiraProximo(String a){
+		
+		String aux="";
+		
+		for (int i=0; i<a.length(); i++){
+			if (a.charAt(i)==' '){
+				for(int j=i+1; j<a.length(); j++){
+					aux=aux+a.charAt(j);
+				}			
+				break;
+			}
+		}
+		
+		return aux;
+	}
+
+	public void setTemParametro(boolean temParametro) {
+		this.temParametro = temParametro;
+	}
+
+	public boolean isTemParametro() {
+		return temParametro;
+	}
+
+}

@@ -1,0 +1,14 @@
+Program teste6;
+Var  x,y:integer;
+Procedure p1(b:integer);
+Var   a:integer;
+begin
+  a:=2; (*ponto A*)
+  x:=b+a;
+end; (* fim da proc. P1*)
+(* programa principal*)
+begin
+  readln(y);
+  call p1(y+1);
+  writeln(x,y);
+end.

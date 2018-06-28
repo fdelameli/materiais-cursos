@@ -1,0 +1,55 @@
+
+ROM used: 342 (4%)
+          342 (4%) including unused fragments
+
+          1 Average locations per line
+          4 Average locations per statement
+
+RAM used: 24 (7%) at main() level
+          33 (9%) worst case
+
+Stack used: 4 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   46    18  24  exercicio2.c
+  313     0   0  16F877A.h
+  107    58  76  Lcd_4.c
+----- -----
+  466    76 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     21   6   1             @delay_ms1
+0      8   2   0   446  4.5  @const57
+0     42  12   1   352  2.8  lcd_send_nibble
+0     40  12   3   259  3.8  lcd_send_byte
+0     47  14   2   380  4.7  lcd_init
+0     25   7   4   246  6.0  lcd_gotoxy
+0     64  19   1   531  5.2  lcd_putc
+0     75  22  18   497  4.8  MAIN
+0     10   3   0    59  1.6  @const84
+0      6   2   0             @const85
+
+Program metrics:
+    Functions               8
+    Statements              76
+    Comments                92
+    Volume (V)              4261
+    Difficilty (D)          33.0
+    Effort to implement (E) 140642
+    Time to implement (T)   2 hours, 10 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   17
+    Maintainability (MI)    59
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF   338  1706  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+
+
+

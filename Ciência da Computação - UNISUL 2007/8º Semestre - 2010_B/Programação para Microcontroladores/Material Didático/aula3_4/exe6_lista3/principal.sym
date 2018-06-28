@@ -1,0 +1,85 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020-021 strtok.save
+022-028 senhaLida
+029     @TRIS_C
+02A     MAIN.c
+02B-031 MAIN.senha
+032-033 strcmp.s1
+032-033 gravaSenha.str
+032     MAIN.@SCRATCH1
+033     @delay_ms1.P1
+034-035 strcmp.s2
+034     gravaSenha.i
+035     leSenha.c
+035     gravaSenha.@SCRATCH1
+036     leSenha.i
+036     strcmp.@SCRATCH1
+036     gravaSenha.@SCRATCH2
+037     leSenha.@SCRATCH1
+038     leSenha.@SCRATCH2
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+015A  @delay_ms1
+0114  strcmp
+016F  MAIN
+0004  @const164
+0019  @const165
+002B  @const166
+003E  @const168
+008C  gravaSenha
+0053  @const170
+006A  leSenha
+016F  @cinit
+
+
+User Memory space: 
+
+Project Directory:
+    C:\Documents and Settings\lab.academico\Desktop\aula\exe6_lista3\
+
+Project Files:
+    principal.c
+    16f877a.h
+    string.h
+    stddef.h
+    ctype.h
+
+Units:
+    C:\Documents and Settings\lab.academico\Desktop\aula\exe6_lista3\principal.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      principal.err
+    Ext Symbols: principal.esym
+    INHX8:       principal.hex
+    Symbols:     principal.sym
+    List:        principal.lst
+    Debug/COFF:  principal.cof
+    Project:     principal.PJT
+    Call Tree:   principal.tre
+    Statistics:  principal.sta

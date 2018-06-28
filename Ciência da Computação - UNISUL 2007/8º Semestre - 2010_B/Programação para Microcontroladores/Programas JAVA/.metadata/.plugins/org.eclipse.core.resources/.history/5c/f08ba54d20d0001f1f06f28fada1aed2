@@ -1,0 +1,10 @@
+package com.br.olaria.view.constants;
+
+
+/**
+ * Classe que define constantes importantes para a execução da interface grafica da aplicação.
+ * @author Fabio Dela Bruna.
+ */
+public class Constants {
+
+}

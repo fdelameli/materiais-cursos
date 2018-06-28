@@ -1,0 +1,15 @@
+ÀÄPIC C Compiler PCWHD_4
+   ÀÄmain  0/77  Ram=1
+      ÃÄ??0??
+      ÃÄcausa  0/84  Ram=1
+      ³  ÃÄ@const64  0/18  Ram=0
+      ³  ÃÄ@const65  0/24  Ram=0
+      ³  ÃÄ@const66  0/28  Ram=0
+      ³  ÀÄ@const67  0/21  Ram=0
+      ÃÄ@const63  0/15  Ram=0
+      ÃÄcausa  0/84  Ram=1
+      ³  ÃÄ@const64  0/18  Ram=0
+      ³  ÃÄ@const65  0/24  Ram=0
+      ³  ÃÄ@const66  0/28  Ram=0
+      ³  ÀÄ@const67  0/21  Ram=0
+      ÀÄ@delay_ms1  0/23  Ram=1

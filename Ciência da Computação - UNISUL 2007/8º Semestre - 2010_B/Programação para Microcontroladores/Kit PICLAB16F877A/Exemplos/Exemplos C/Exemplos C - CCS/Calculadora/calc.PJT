@@ -1,0 +1,42 @@
+[PROJECT]
+Target=calc.HEX
+Development_Mode=2
+Processor=0x877A
+ToolSuite=CCS
+
+[Directories]
+Include=
+Library=
+LinkerScript=
+
+[Target Data]
+FileList=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Calculadora\calc.c
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+
+[calc.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+
+[mru-list]
+1=D:\Cerne\TREINA~1\Curso\PIC\C\MÓDULO~1\CALCUL~1\calc.c
+
+[Windows]
+0=0000 D:\Cerne\TREINA~1\Curso\PIC\C\MÓDULO~1\CALCUL~1\calc.c 0 0 796 451 3 0
+
+[Opened Files]
+1=D:\Microcontroladores\PIC\Kit PICLAB16F877A\Exemplos\Exemplos C\Exemplos C - CCS\Calculadora\calc.c
+2=
+3=D:\Cerne\Treinamento\Curso\PIC\C\Módulo C\Botão e Led\bot_led.c
+4=D:\Cerne\Treinamento\Curso\PIC\C\Módulo B\Botão e Led\bot_led.c
+5=
+[Units]
+Count=1
+1=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Calculadora\calc.c (main)
+Link=0

@@ -1,0 +1,5 @@
+what,kind,bundleId,bundleVersion,description,time
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1286535353468
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1286535355408
+closed,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1286535356008
+stopped,bundle,org.eclipse.jst.ws.axis.creation.ui,1.0.406.v200903031852,"org.eclipse.jst.ws.axis.creation.ui",1286535358516

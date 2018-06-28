@@ -1,0 +1,213 @@
+CCS PCM C Compiler, Version 4.038, 33467               18-nov-10 09:23
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Teste_Interrupções\teste1.lst
+
+               ROM used: 146 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 14 (4%) at main() level
+                         16 (4%) worst case
+               Stack:    2 worst case (0 in main + 2 for interrupts)
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   075
+0003:  NOP
+0004:  MOVWF  7F
+0005:  SWAPF  03,W
+0006:  CLRF   03
+0007:  MOVWF  21
+0008:  MOVF   0A,W
+0009:  MOVWF  20
+000A:  CLRF   0A
+000B:  MOVF   04,W
+000C:  MOVWF  22
+000D:  MOVF   77,W
+000E:  MOVWF  23
+000F:  MOVF   78,W
+0010:  MOVWF  24
+0011:  MOVF   79,W
+0012:  MOVWF  25
+0013:  MOVF   7A,W
+0014:  MOVWF  26
+0015:  MOVF   7B,W
+0016:  MOVWF  27
+0017:  BCF    03.7
+0018:  BCF    03.5
+0019:  BTFSS  0B.4
+001A:  GOTO   01D
+001B:  BTFSC  0B.1
+001C:  GOTO   036
+001D:  MOVLW  8C
+001E:  MOVWF  04
+001F:  BTFSS  00.5
+0020:  GOTO   023
+0021:  BTFSC  0C.5
+0022:  GOTO   039
+0023:  MOVF   22,W
+0024:  MOVWF  04
+0025:  MOVF   23,W
+0026:  MOVWF  77
+0027:  MOVF   24,W
+0028:  MOVWF  78
+0029:  MOVF   25,W
+002A:  MOVWF  79
+002B:  MOVF   26,W
+002C:  MOVWF  7A
+002D:  MOVF   27,W
+002E:  MOVWF  7B
+002F:  MOVF   20,W
+0030:  MOVWF  0A
+0031:  SWAPF  21,W
+0032:  MOVWF  03
+0033:  SWAPF  7F,F
+0034:  SWAPF  7F,W
+0035:  RETFIE
+0036:  BCF    0A.3
+0037:  BCF    0A.4
+0038:  GOTO   05B
+0039:  BCF    0A.3
+003A:  BCF    0A.4
+003B:  GOTO   03C
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4MHz) 
+*
+0046:  MOVLW  29
+0047:  MOVWF  04
+0048:  BCF    03.7
+0049:  MOVF   00,W
+004A:  BTFSC  03.2
+004B:  GOTO   05A
+004C:  MOVLW  01
+004D:  MOVWF  78
+004E:  CLRF   77
+004F:  DECFSZ 77,F
+0050:  GOTO   04F
+0051:  DECFSZ 78,F
+0052:  GOTO   04E
+0053:  MOVLW  4A
+0054:  MOVWF  77
+0055:  DECFSZ 77,F
+0056:  GOTO   055
+0057:  GOTO   058
+0058:  DECFSZ 00,F
+0059:  GOTO   04C
+005A:  RETLW  00
+.................... #use rs232(baud=9600,xmit=pin_c6,rcv=pin_c7) 
+....................  
+.................... // define a prioridade das interrupções 
+.................... #priority int_ext, int_rda 
+....................  
+.................... // colocando esta diretiva, o compilador entende que toda  
+.................... // interrupção gerada ao receber dados do canal serial vai  
+.................... // ser tratada pelo bloco de código abaixo. 
+.................... #int_rda  
+.................... void serial() { 
+....................    putc(getc()); 
+*
+003C:  BTFSS  0C.5
+003D:  GOTO   03C
+003E:  MOVF   1A,W
+003F:  BTFSS  0C.4
+0040:  GOTO   03F
+0041:  MOVWF  19
+.................... } 
+....................  
+.................... // ocorre quando o pino B0 detectar um sinal alto - rampa de subida 
+0042:  BCF    0C.5
+0043:  BCF    0A.3
+0044:  BCF    0A.4
+0045:  GOTO   023
+.................... #int_ext 
+.................... void externa() { 
+....................    output_high(pin_b1); 
+*
+005B:  BSF    03.5
+005C:  BCF    06.1
+005D:  BCF    03.5
+005E:  BSF    06.1
+....................    delay_ms(500); 
+005F:  MOVLW  02
+0060:  MOVWF  28
+0061:  MOVLW  FA
+0062:  MOVWF  29
+0063:  CALL   046
+0064:  DECFSZ 28,F
+0065:  GOTO   061
+....................    output_low(pin_b1); 
+0066:  BSF    03.5
+0067:  BCF    06.1
+0068:  BCF    03.5
+0069:  BCF    06.1
+....................    delay_ms(500); 
+006A:  MOVLW  02
+006B:  MOVWF  28
+006C:  MOVLW  FA
+006D:  MOVWF  29
+006E:  CALL   046
+006F:  DECFSZ 28,F
+0070:  GOTO   06C
+.................... } 
+....................  
+....................  
+0071:  BCF    0B.1
+0072:  BCF    0A.3
+0073:  BCF    0A.4
+0074:  GOTO   023
+.................... void main() { 
+0075:  CLRF   04
+0076:  BCF    03.7
+0077:  MOVLW  1F
+0078:  ANDWF  03,F
+0079:  MOVLW  19
+007A:  BSF    03.5
+007B:  MOVWF  19
+007C:  MOVLW  A6
+007D:  MOVWF  18
+007E:  MOVLW  90
+007F:  BCF    03.5
+0080:  MOVWF  18
+0081:  BSF    03.5
+0082:  BSF    1F.0
+0083:  BSF    1F.1
+0084:  BSF    1F.2
+0085:  BCF    1F.3
+0086:  MOVLW  07
+0087:  MOVWF  1C
+....................  
+....................    // habilitação recepção de dados  no canal serial 
+....................    enable_interrupts(int_rda); 
+0088:  BSF    0C.5
+....................     
+....................    // habilitação de interrupções externas 
+....................    enable_interrupts(int_ext); 
+0089:  BCF    03.5
+008A:  BSF    0B.4
+....................     
+....................    // define se a interrução vai ser na rampa de subida ou descida 
+....................    // o padrão é L_TO_H (LOW TO HIGH - rampa de subida) 
+....................    ext_int_edge( H_TO_L ); 
+008B:  BSF    03.5
+008C:  BCF    01.6
+....................     
+....................    // habilitação da chave geral das interrupções 
+....................    enable_interrupts(global); 
+008D:  MOVLW  C0
+008E:  BCF    03.5
+008F:  IORWF  0B,F
+....................     
+....................    while(true) { 
+....................  
+....................    } 
+0090:  GOTO   090
+....................  
+.................... } 
+0091:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

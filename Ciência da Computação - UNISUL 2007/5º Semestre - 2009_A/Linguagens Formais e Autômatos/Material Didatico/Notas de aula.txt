@@ -1,0 +1,83 @@
+Expressões Regulares:
+|
+-> representam linguagens regulares.
+
+Autômatos são reconhecedores de liguagens regulares.
+
+
+
+
+==> V = { a, b }
+
+a) Sentenças que começam e terminam com "a".
+
+	a a
+Ex.:	a b a
+	a b b a
+	a b a b a b a b a
+
+a(a|b)*a   -> * significa 0,n (0 ou mais combinações).
+
+
+GRAMATICA REGULAR:
+
+
+S -> a
+S -> aBa
+B -> aB|cB|bB|cadeiaVazia
+
+ou
+
+S -> aB     S -> a
+
+B -> aB
+B -> bB
+B -> cB
+B -> a
+
+
+
+
+
+
+
+
+
+
+
+==> V = { a, b }
+|
+-> a) Todas as sentenças sobre V?
+
+	(a|b)*
+
+|
+-> b) Todas as sentenças que possuan "aa" como sub palavra.
+
+	(a|b)* aa (a|b)*
+
+|
+-> c) Cadeia com um único "a" ou com um único "b" seguido de um único "c".
+
+	a|bc
+
+
+
+
+Propriedades das expressões regulares:
+
+a+b = b+a (+ é comutativo)
+
+a+(b+c) = (a+b)+c (+ é associativo)
+
+a(b+c) = ab+ac (a concatenação é distributiva sobre +)
+
+(a+b)c = ac+bc (                  ||                 )
+
+(ab)c = a(bc) (concatenação é associativa)
+
+a+ = aa*
+
+
+
+AUTÔMATOS (reconhecedor)

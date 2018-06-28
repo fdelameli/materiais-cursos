@@ -1,0 +1,17 @@
+ÀÄPIC C Compiler PCWHD_4
+   ÀÄMAIN  0/73  Ram=5
+      ÃÄ??0??
+      ÃÄinit_ext_eeprom  0/13  Ram=0
+      ÃÄwrite_float_ext_eeprom  0/178  Ram=11
+      ³  ÀÄwrite_ext_eeprom  (Inline)  Ram=4
+      ³     ÃÄext_eeprom_ready  (Inline)  Ram=1
+      ³     ³  ÀÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÃÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÃÄ@I2C_WRITE_1  0/74  Ram=1
+      ³     ÀÄ@I2C_WRITE_1  0/74  Ram=1
+      ÃÄ@const109  0/17  Ram=0
+      ÀÄ@PRINTF_L32D_9600_62_63FPFPF  0/352  Ram=13
+         ÃÄ@MULFF  (Inline)  Ram=13
+         ÃÄ@FTOSD  (Inline)  Ram=5
+         ÃÄ@DIV3232  0/66  Ram=13
+         ÀÄ@DIV3232  0/66  Ram=13

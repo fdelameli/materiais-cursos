@@ -1,0 +1,54 @@
+
+program MemI2C;       //Definição do programa
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                 Rotina de Leitura no Barramento I2C         *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+function Le_I2C(endereco:byte): byte;
+var aux:byte;
+begin
+  i2c_start;           				//Condição de início
+	i2c_wr(%10100000);		  		//Envia um byte de escrita
+	i2c_wr(endereco);				    //Envia endereço
+	I2C_Repeated_Start;					//Nova condição de início
+	i2c_wr(%10100001);				  //Envia o byte de controle de leitura
+	aux:=i2c_rd(0);         		//lê o dado armazenado na E²PROM e envia nack
+	i2c_stop;	                  //Condição de parada
+  result:=aux;                //retorna o dado lido
+end;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                 Rotina de Escrita no Barramento I2C         *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+procedure Escrever_I2C(endereco,dado:byte);
+begin
+	i2c_start;			        //Condição de início
+	i2c_wr(%10100000); 	  	//Envia o byte de e escrita
+	i2c_wr(endereco);		   	//Envia endereço
+	i2c_wr(dado);	          //Escreve dado na E²PROM
+	i2c_stop;			       		// Condição de parada
+	delay_ms(5);				    // espera a gravação estar completa
+end;
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Início do programa                    *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Nessa parte ficará o loop principal do sistema}
+
+begin
+
+   I2C_init(100000);             //inicializa o módulo para funcionar a 100kHz em modo master
+   usart_init(9600);             //inicializa a usart em 9600 bps
+   
+   Escrever_I2C(0,'A');          //Escreve na posição 0 o caracter 'A'
+   usart_write(Le_I2C(0));      //Envia via serial o dado lido da posição 0 de memória I2C
+   
+
+
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                       Fim do programa                       *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+    end.

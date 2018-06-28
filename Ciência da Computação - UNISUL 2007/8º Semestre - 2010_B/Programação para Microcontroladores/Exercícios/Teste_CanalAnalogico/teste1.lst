@@ -1,0 +1,220 @@
+CCS PCM C Compiler, Version 4.093, 5065               19-Aðu-10 09:24
+
+               Filename: C:\Documents and Settings\lab.academico\Desktop\PIC\Exercícios\Teste_CanalAnalogico\teste1.lst
+
+               ROM used: 286 words (3%)
+                         Largest free fragment is 2048
+               RAM used: 9 (2%) at main() level
+                         17 (5%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0AD
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... //#device adc=8 // define qual a resolução (configura as portas adc com 8 bits) 
+.................... #device adc=10 // define qual a resolução (configura as portas adc com 10 bits) 
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4Mhz) 
+0096:  MOVLW  22
+0097:  MOVWF  04
+0098:  BCF    03.7
+0099:  MOVF   00,W
+009A:  BTFSC  03.2
+009B:  GOTO   0AA
+009C:  MOVLW  01
+009D:  MOVWF  78
+009E:  CLRF   77
+009F:  DECFSZ 77,F
+00A0:  GOTO   09F
+00A1:  DECFSZ 78,F
+00A2:  GOTO   09E
+00A3:  MOVLW  4A
+00A4:  MOVWF  77
+00A5:  DECFSZ 77,F
+00A6:  GOTO   0A5
+00A7:  GOTO   0A8
+00A8:  DECFSZ 00,F
+00A9:  GOTO   09C
+00AA:  BCF    0A.3
+00AB:  BCF    0A.4
+00AC:  GOTO   116 (RETURN)
+.................... #use rs232(baud=9600, xmit=pin_c6, rcv=pin_c7) 
+....................  
+.................... int16 leAd(int canal); 
+....................  
+....................  
+.................... void main() { 
+00AD:  CLRF   04
+00AE:  BCF    03.7
+00AF:  MOVLW  1F
+00B0:  ANDWF  03,F
+00B1:  MOVLW  19
+00B2:  BSF    03.5
+00B3:  MOVWF  19
+00B4:  MOVLW  A6
+00B5:  MOVWF  18
+00B6:  MOVLW  90
+00B7:  BCF    03.5
+00B8:  MOVWF  18
+00B9:  BSF    03.5
+00BA:  BSF    1F.0
+00BB:  BSF    1F.1
+00BC:  BSF    1F.2
+00BD:  BCF    1F.3
+00BE:  MOVLW  07
+00BF:  MOVWF  1C
+....................  
+....................    // define qual porta analogica será usada 
+....................    //setup_adc_ports(RA0_ANALOG); 
+....................    setup_adc_ports(AN0_AN1_AN3);  
+00C0:  BCF    1F.0
+00C1:  BCF    1F.1
+00C2:  BSF    1F.2
+00C3:  BCF    1F.3
+....................    // informa qual o pulso de clock será usado (nesse caso, do cristal) 
+....................    setup_adc(ADC_CLOCK_INTERNAL); 
+00C4:  BCF    1F.6
+00C5:  BCF    03.5
+00C6:  BSF    1F.6
+00C7:  BSF    1F.7
+00C8:  BSF    03.5
+00C9:  BSF    1F.7
+00CA:  BCF    03.5
+00CB:  BSF    1F.0
+....................  
+....................    while(true) { 
+....................       printf("AD0: %lu\r\n", leAd(0)); 
+00CC:  CLRF   21
+00CD:  CALL   022
+00CE:  MOVF   79,W
+00CF:  MOVWF  22
+00D0:  MOVF   78,W
+00D1:  MOVWF  21
+00D2:  CLRF   23
+00D3:  MOVF   23,W
+00D4:  CALL   004
+00D5:  INCF   23,F
+00D6:  MOVWF  77
+00D7:  MOVF   77,W
+00D8:  BTFSS  0C.4
+00D9:  GOTO   0D8
+00DA:  MOVWF  19
+00DB:  MOVLW  05
+00DC:  SUBWF  23,W
+00DD:  BTFSS  03.2
+00DE:  GOTO   0D3
+00DF:  MOVLW  10
+00E0:  MOVWF  04
+00E1:  MOVF   22,W
+00E2:  MOVWF  24
+00E3:  MOVF   21,W
+00E4:  MOVWF  23
+00E5:  CALL   03D
+00E6:  MOVLW  0D
+00E7:  BTFSS  0C.4
+00E8:  GOTO   0E7
+00E9:  MOVWF  19
+00EA:  MOVLW  0A
+00EB:  BTFSS  0C.4
+00EC:  GOTO   0EB
+00ED:  MOVWF  19
+....................       printf("AD1: %lu\r\n", leAd(1)); 
+00EE:  MOVLW  01
+00EF:  MOVWF  21
+00F0:  CALL   022
+00F1:  MOVF   79,W
+00F2:  MOVWF  22
+00F3:  MOVF   78,W
+00F4:  MOVWF  21
+00F5:  CLRF   23
+00F6:  MOVF   23,W
+00F7:  CALL   013
+00F8:  INCF   23,F
+00F9:  MOVWF  77
+00FA:  MOVF   77,W
+00FB:  BTFSS  0C.4
+00FC:  GOTO   0FB
+00FD:  MOVWF  19
+00FE:  MOVLW  05
+00FF:  SUBWF  23,W
+0100:  BTFSS  03.2
+0101:  GOTO   0F6
+0102:  MOVLW  10
+0103:  MOVWF  04
+0104:  MOVF   22,W
+0105:  MOVWF  24
+0106:  MOVF   21,W
+0107:  MOVWF  23
+0108:  CALL   03D
+0109:  MOVLW  0D
+010A:  BTFSS  0C.4
+010B:  GOTO   10A
+010C:  MOVWF  19
+010D:  MOVLW  0A
+010E:  BTFSS  0C.4
+010F:  GOTO   10E
+0110:  MOVWF  19
+....................       delay_ms(1000); 
+0111:  MOVLW  04
+0112:  MOVWF  21
+0113:  MOVLW  FA
+0114:  MOVWF  22
+0115:  GOTO   096
+0116:  DECFSZ 21,F
+0117:  GOTO   113
+....................       printf("%c", 0x0c); 
+0118:  MOVLW  0C
+0119:  BTFSS  0C.4
+011A:  GOTO   119
+011B:  MOVWF  19
+....................    } 
+011C:  GOTO   0CC
+....................  
+.................... } 
+....................  
+.................... int16 leAd(int canal) { 
+....................    set_adc_channel(canal); 
+*
+0022:  RLF    21,W
+0023:  MOVWF  77
+0024:  RLF    77,F
+0025:  RLF    77,F
+0026:  MOVLW  F8
+0027:  ANDWF  77,F
+0028:  MOVF   1F,W
+0029:  ANDLW  C7
+002A:  IORWF  77,W
+002B:  MOVWF  1F
+*
+011D:  SLEEP
+....................    delay_us(15); 
+*
+002C:  MOVLW  04
+002D:  MOVWF  77
+002E:  DECFSZ 77,F
+002F:  GOTO   02E
+0030:  GOTO   031
+....................    return read_adc(); 
+0031:  BSF    1F.2
+0032:  BTFSC  1F.2
+0033:  GOTO   032
+0034:  MOVF   1E,W
+0035:  MOVWF  7A
+0036:  BSF    03.5
+0037:  MOVF   1E,W
+0038:  MOVWF  78
+0039:  MOVF   7A,W
+003A:  MOVWF  79
+.................... } 
+003B:  BCF    03.5
+003C:  RETLW  00
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

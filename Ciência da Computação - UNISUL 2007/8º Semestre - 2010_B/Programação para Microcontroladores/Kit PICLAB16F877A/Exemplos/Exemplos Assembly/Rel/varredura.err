@@ -1,0 +1,7 @@
+Message[305] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM 212 : Using default destination of 1 (file).
+Message[305] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM 217 : Using default destination of 1 (file).
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM 322 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM 325 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM 328 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM 331 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Error[173]   D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM 383 : source file path exceeds 62 characters (D:\CURSO\PIC\ASSEMBLY\MÛDULO B\EXEMPLOS\RELÛGIO DIGITAL\VARREDURA.ASM)

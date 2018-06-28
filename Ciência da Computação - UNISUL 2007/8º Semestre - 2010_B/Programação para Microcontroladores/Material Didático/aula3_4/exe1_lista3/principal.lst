@@ -1,0 +1,332 @@
+CCS PCM C Compiler, Version 4.093, 5065               09-Eyl-10 08:46
+
+               Filename: C:\Documents and Settings\lab.academico\Desktop\aula\exe\principal.lst
+
+               ROM used: 479 words (6%)
+                         Largest free fragment is 2048
+               RAM used: 9 (2%) at main() level
+                         13 (4%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  01
+0001:  MOVWF  0A
+0002:  GOTO   102
+0003:  NOP
+.................... #include <16f877a.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #device adc=8 
+.................... #fuses XT,PROTECT,BROWNOUT 
+.................... #use delay(clock=4Mhz) 
+00ED:  MOVLW  24
+00EE:  MOVWF  04
+00EF:  BCF    03.7
+00F0:  MOVF   00,W
+00F1:  BTFSC  03.2
+00F2:  GOTO   101
+00F3:  MOVLW  01
+00F4:  MOVWF  78
+00F5:  CLRF   77
+00F6:  DECFSZ 77,F
+00F7:  GOTO   0F6
+00F8:  DECFSZ 78,F
+00F9:  GOTO   0F5
+00FA:  MOVLW  4A
+00FB:  MOVWF  77
+00FC:  DECFSZ 77,F
+00FD:  GOTO   0FC
+00FE:  GOTO   0FF
+00FF:  DECFSZ 00,F
+0100:  GOTO   0F3
+0101:  RETLW  00
+.................... #use rs232(baud=9600,xmit=pin_c6,rcv=pin_c7) 
+....................  
+.................... int leAd(int canal); 
+....................  
+.................... void main(){ 
+0102:  CLRF   04
+0103:  BCF    03.7
+0104:  MOVLW  1F
+0105:  ANDWF  03,F
+0106:  MOVLW  19
+0107:  BSF    03.5
+0108:  MOVWF  19
+0109:  MOVLW  A6
+010A:  MOVWF  18
+010B:  MOVLW  90
+010C:  BCF    03.5
+010D:  MOVWF  18
+010E:  BSF    03.5
+010F:  BSF    1F.0
+0110:  BSF    1F.1
+0111:  BSF    1F.2
+0112:  BCF    1F.3
+0113:  MOVLW  07
+0114:  MOVWF  1C
+....................     int trimpot_1,trimpot_2; 
+....................     trimpot_1=trimpot_2=0; 
+0115:  BCF    03.5
+0116:  CLRF   22
+0117:  MOVF   22,W
+0118:  MOVWF  21
+....................     setup_adc_ports(RA0_RA1_RA3_ANALOG); 
+0119:  BSF    03.5
+011A:  BCF    1F.0
+011B:  BCF    1F.1
+011C:  BSF    1F.2
+011D:  BCF    1F.3
+....................     setup_adc(ADC_CLOCK_INTERNAL); 
+011E:  BCF    1F.6
+011F:  BCF    03.5
+0120:  BSF    1F.6
+0121:  BSF    1F.7
+0122:  BSF    03.5
+0123:  BCF    1F.7
+0124:  BCF    03.5
+0125:  BSF    1F.0
+....................     printf("Iniciado\r\n"); 
+0126:  CLRF   23
+0127:  MOVF   23,W
+0128:  CALL   004
+0129:  INCF   23,F
+012A:  MOVWF  77
+012B:  MOVF   77,W
+012C:  BTFSS  0C.4
+012D:  GOTO   12C
+012E:  MOVWF  19
+012F:  MOVLW  0A
+0130:  SUBWF  23,W
+0131:  BTFSS  03.2
+0132:  GOTO   127
+....................     while(true){ 
+....................       trimpot_1=leAd(0); 
+0133:  CLRF   23
+0134:  CALL   08B
+0135:  MOVF   78,W
+0136:  MOVWF  21
+....................       printf("Canal 0: %u\r\n",trimpot_1); 
+0137:  CLRF   23
+0138:  MOVF   23,W
+0139:  CALL   013
+013A:  INCF   23,F
+013B:  MOVWF  77
+013C:  MOVF   77,W
+013D:  BTFSS  0C.4
+013E:  GOTO   13D
+013F:  MOVWF  19
+0140:  MOVLW  09
+0141:  SUBWF  23,W
+0142:  BTFSS  03.2
+0143:  GOTO   138
+0144:  MOVF   21,W
+0145:  MOVWF  23
+0146:  MOVLW  1B
+0147:  MOVWF  24
+0148:  CALL   0B5
+0149:  MOVLW  0D
+014A:  BTFSS  0C.4
+014B:  GOTO   14A
+014C:  MOVWF  19
+014D:  MOVLW  0A
+014E:  BTFSS  0C.4
+014F:  GOTO   14E
+0150:  MOVWF  19
+....................       delay_ms(500); 
+0151:  MOVLW  02
+0152:  MOVWF  23
+0153:  MOVLW  FA
+0154:  MOVWF  24
+0155:  CALL   0ED
+0156:  DECFSZ 23,F
+0157:  GOTO   153
+....................       if((trimpot_1>=200) && (trimpot_1<=210)){ 
+0158:  MOVF   21,W
+0159:  SUBLW  C7
+015A:  BTFSC  03.0
+015B:  GOTO   1B5
+015C:  MOVF   21,W
+015D:  SUBLW  D2
+015E:  BTFSS  03.0
+015F:  GOTO   1B5
+....................          printf("Sinal alto no canal 0\r\n"); 
+0160:  CLRF   23
+0161:  MOVF   23,W
+0162:  CALL   025
+0163:  INCF   23,F
+0164:  MOVWF  77
+0165:  MOVF   77,W
+0166:  BTFSS  0C.4
+0167:  GOTO   166
+0168:  MOVWF  19
+0169:  MOVLW  17
+016A:  SUBWF  23,W
+016B:  BTFSS  03.2
+016C:  GOTO   161
+....................          printf("While canal 0\r\n"); 
+016D:  CLRF   23
+016E:  MOVF   23,W
+016F:  CALL   041
+0170:  INCF   23,F
+0171:  MOVWF  77
+0172:  MOVF   77,W
+0173:  BTFSS  0C.4
+0174:  GOTO   173
+0175:  MOVWF  19
+0176:  MOVLW  0F
+0177:  SUBWF  23,W
+0178:  BTFSS  03.2
+0179:  GOTO   16E
+....................          while((trimpot_1>=200) && (trimpot_1<=210)){ 
+017A:  MOVF   21,W
+017B:  SUBLW  C7
+017C:  BTFSC  03.0
+017D:  GOTO   1A8
+017E:  MOVF   21,W
+017F:  SUBLW  D2
+0180:  BTFSS  03.0
+0181:  GOTO   1A8
+....................             trimpot_1=leAd(0); 
+0182:  CLRF   23
+0183:  CALL   08B
+0184:  MOVF   78,W
+0185:  MOVWF  21
+....................             printf("Canal 0: %u\r\n",trimpot_1); 
+0186:  CLRF   23
+0187:  MOVF   23,W
+0188:  CALL   013
+0189:  INCF   23,F
+018A:  MOVWF  77
+018B:  MOVF   77,W
+018C:  BTFSS  0C.4
+018D:  GOTO   18C
+018E:  MOVWF  19
+018F:  MOVLW  09
+0190:  SUBWF  23,W
+0191:  BTFSS  03.2
+0192:  GOTO   187
+0193:  MOVF   21,W
+0194:  MOVWF  23
+0195:  MOVLW  1B
+0196:  MOVWF  24
+0197:  CALL   0B5
+0198:  MOVLW  0D
+0199:  BTFSS  0C.4
+019A:  GOTO   199
+019B:  MOVWF  19
+019C:  MOVLW  0A
+019D:  BTFSS  0C.4
+019E:  GOTO   19D
+019F:  MOVWF  19
+....................             delay_ms(500); 
+01A0:  MOVLW  02
+01A1:  MOVWF  23
+01A2:  MOVLW  FA
+01A3:  MOVWF  24
+01A4:  CALL   0ED
+01A5:  DECFSZ 23,F
+01A6:  GOTO   1A2
+....................          } 
+01A7:  GOTO   17A
+....................          printf("Saiu while canal 0\r\n"); 
+01A8:  CLRF   23
+01A9:  MOVF   23,W
+01AA:  CALL   055
+01AB:  INCF   23,F
+01AC:  MOVWF  77
+01AD:  MOVF   77,W
+01AE:  BTFSS  0C.4
+01AF:  GOTO   1AE
+01B0:  MOVWF  19
+01B1:  MOVLW  14
+01B2:  SUBWF  23,W
+01B3:  BTFSS  03.2
+01B4:  GOTO   1A9
+....................       } 
+....................       trimpot_2=leAd(1); 
+01B5:  MOVLW  01
+01B6:  MOVWF  23
+01B7:  CALL   08B
+01B8:  MOVF   78,W
+01B9:  MOVWF  22
+....................       if((trimpot_2>=20) && (trimpot_2<=100)){ 
+01BA:  MOVF   22,W
+01BB:  SUBLW  13
+01BC:  BTFSC  03.0
+01BD:  GOTO   1DD
+01BE:  MOVF   22,W
+01BF:  SUBLW  64
+01C0:  BTFSS  03.0
+01C1:  GOTO   1DD
+....................          printf("Sinal baixo no canal 1\r\n"); 
+01C2:  CLRF   23
+01C3:  MOVF   23,W
+01C4:  CALL   06E
+01C5:  INCF   23,F
+01C6:  MOVWF  77
+01C7:  MOVF   77,W
+01C8:  BTFSS  0C.4
+01C9:  GOTO   1C8
+01CA:  MOVWF  19
+01CB:  MOVLW  18
+01CC:  SUBWF  23,W
+01CD:  BTFSS  03.2
+01CE:  GOTO   1C3
+....................          while((trimpot_2>=20) && (trimpot_2<=100)){ 
+01CF:  MOVF   22,W
+01D0:  SUBLW  13
+01D1:  BTFSC  03.0
+01D2:  GOTO   1DD
+01D3:  MOVF   22,W
+01D4:  SUBLW  64
+01D5:  BTFSS  03.0
+01D6:  GOTO   1DD
+....................             trimpot_2=leAd(1); 
+01D7:  MOVLW  01
+01D8:  MOVWF  23
+01D9:  CALL   08B
+01DA:  MOVF   78,W
+01DB:  MOVWF  22
+....................          } 
+01DC:  GOTO   1CF
+....................       } 
+....................     } 
+01DD:  GOTO   133
+....................     
+.................... } 
+.................... int leAd(int canal){ 
+....................    set_adc_channel(canal); 
+*
+008B:  RLF    23,W
+008C:  MOVWF  77
+008D:  RLF    77,F
+008E:  RLF    77,F
+008F:  MOVLW  F8
+0090:  ANDWF  77,F
+0091:  MOVF   1F,W
+0092:  ANDLW  C7
+0093:  IORWF  77,W
+0094:  MOVWF  1F
+*
+01DE:  SLEEP
+....................    delay_us(15); 
+*
+0095:  MOVLW  04
+0096:  MOVWF  77
+0097:  DECFSZ 77,F
+0098:  GOTO   097
+0099:  GOTO   09A
+....................    return read_adc(); 
+009A:  BSF    1F.2
+009B:  BTFSC  1F.2
+009C:  GOTO   09B
+009D:  MOVF   1E,W
+009E:  MOVWF  78
+....................     
+.................... } 
+009F:  RETLW  00
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

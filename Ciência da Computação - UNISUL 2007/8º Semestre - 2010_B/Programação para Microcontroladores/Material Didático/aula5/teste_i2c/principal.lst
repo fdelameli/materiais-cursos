@@ -1,0 +1,903 @@
+CCS PCM C Compiler, Version 4.093, 5065               02-Eyl-10 09:26
+
+               Filename: C:\Documents and Settings\lab.academico\Desktop\teste_i2c\principal.lst
+
+               ROM used: 693 words (8%)
+                         Largest free fragment is 2048
+               RAM used: 10 (3%) at main() level
+                         24 (7%) worst case
+               Stack:    3 locations
+
+*
+0000:  MOVLW  02
+0001:  MOVWF  0A
+0002:  GOTO   271
+0003:  NOP
+.................... #include <16f877a.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT,PROTECT,BROWNOUT 
+.................... #use delay(clock=4Mhz) 
+.................... #use rs232(baud=9600,xmit=pin_c6,rcv=pin_c7) 
+.................... #include <2404.c> 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////   Library for a MicroChip 24LC04B                                 //// 
+.................... ////                                                                   //// 
+.................... ////   init_ext_eeprom();    Call before the other functions are used  //// 
+.................... ////                                                                   //// 
+.................... ////   write_ext_eeprom(a, d);  Write the byte d to the address a      //// 
+.................... ////                                                                   //// 
+.................... ////   d = read_ext_eeprom(a);  Read the byte d from the address a     //// 
+.................... ////                                                                   //// 
+.................... ////   b = ext_eeprom_ready();  Returns TRUE if the eeprom is ready    //// 
+.................... ////                            to receive opcodes                     //// 
+.................... ////                                                                   //// 
+.................... ////   The main program may define EEPROM_SDA                          //// 
+.................... ////   and EEPROM_SCL to override the defaults below.                  //// 
+.................... ////                                                                   //// 
+.................... ////                            Pin Layout                             //// 
+.................... ////   -----------------------------------------------------------     //// 
+.................... ////   |                                                         |     //// 
+.................... ////   | 1: NC   Not Connected | 8: VCC   +5V                    |     //// 
+.................... ////   |                       |                                 |     //// 
+.................... ////   | 2: NC   Not Connected | 7: WP    GND                    |     //// 
+.................... ////   |                       |                                 |     //// 
+.................... ////   | 3: NC   Not Connected | 6: SCL   EEPROM_SCL and Pull-Up |     //// 
+.................... ////   |                       |                                 |     //// 
+.................... ////   | 4: VSS  GND           | 5: SDA   EEPROM_SDA and Pull-Up |     //// 
+.................... ////   -----------------------------------------------------------     //// 
+.................... ////                                                                   //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2003 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+....................  
+....................  
+.................... #ifndef EEPROM_SDA 
+....................  
+.................... #define EEPROM_SDA  PIN_C4 
+.................... #define EEPROM_SCL  PIN_C3 
+....................  
+.................... #endif 
+....................  
+....................  
+.................... #use i2c(master, sda=EEPROM_SDA, scl=EEPROM_SCL) 
+*
+0020:  MOVLW  08
+0021:  MOVWF  78
+0022:  NOP
+0023:  BCF    07.3
+0024:  BCF    20.3
+0025:  MOVF   20,W
+0026:  BSF    03.5
+0027:  MOVWF  07
+0028:  NOP
+0029:  BCF    03.5
+002A:  RLF    30,F
+002B:  BCF    07.4
+002C:  BTFSS  03.0
+002D:  GOTO   034
+002E:  BSF    20.4
+002F:  MOVF   20,W
+0030:  BSF    03.5
+0031:  MOVWF  07
+0032:  GOTO   038
+0033:  BCF    03.5
+0034:  BCF    20.4
+0035:  MOVF   20,W
+0036:  BSF    03.5
+0037:  MOVWF  07
+0038:  NOP
+0039:  BCF    03.5
+003A:  BSF    20.3
+003B:  MOVF   20,W
+003C:  BSF    03.5
+003D:  MOVWF  07
+003E:  BCF    03.5
+003F:  BTFSS  07.3
+0040:  GOTO   03F
+0041:  DECFSZ 78,F
+0042:  GOTO   022
+0043:  NOP
+0044:  BCF    07.3
+0045:  BCF    20.3
+0046:  MOVF   20,W
+0047:  BSF    03.5
+0048:  MOVWF  07
+0049:  NOP
+004A:  BCF    03.5
+004B:  BSF    20.4
+004C:  MOVF   20,W
+004D:  BSF    03.5
+004E:  MOVWF  07
+004F:  NOP
+0050:  NOP
+0051:  BCF    03.5
+0052:  BSF    20.3
+0053:  MOVF   20,W
+0054:  BSF    03.5
+0055:  MOVWF  07
+0056:  BCF    03.5
+0057:  BTFSS  07.3
+0058:  GOTO   057
+0059:  CLRF   78
+005A:  NOP
+005B:  BTFSC  07.4
+005C:  BSF    78.0
+005D:  BCF    07.3
+005E:  BCF    20.3
+005F:  MOVF   20,W
+0060:  BSF    03.5
+0061:  MOVWF  07
+0062:  BCF    03.5
+0063:  BCF    07.4
+0064:  BCF    20.4
+0065:  MOVF   20,W
+0066:  BSF    03.5
+0067:  MOVWF  07
+0068:  BCF    03.5
+0069:  RETLW  00
+*
+01A8:  MOVLW  08
+01A9:  MOVWF  30
+01AA:  MOVF   77,W
+01AB:  MOVWF  31
+01AC:  BSF    20.4
+01AD:  MOVF   20,W
+01AE:  BSF    03.5
+01AF:  MOVWF  07
+01B0:  NOP
+01B1:  BCF    03.5
+01B2:  BSF    20.3
+01B3:  MOVF   20,W
+01B4:  BSF    03.5
+01B5:  MOVWF  07
+01B6:  BCF    03.5
+01B7:  BTFSS  07.3
+01B8:  GOTO   1B7
+01B9:  BTFSC  07.4
+01BA:  BSF    03.0
+01BB:  BTFSS  07.4
+01BC:  BCF    03.0
+01BD:  RLF    78,F
+01BE:  NOP
+01BF:  BCF    20.3
+01C0:  MOVF   20,W
+01C1:  BSF    03.5
+01C2:  MOVWF  07
+01C3:  BCF    03.5
+01C4:  BCF    07.3
+01C5:  DECFSZ 30,F
+01C6:  GOTO   1AC
+01C7:  BSF    20.4
+01C8:  MOVF   20,W
+01C9:  BSF    03.5
+01CA:  MOVWF  07
+01CB:  NOP
+01CC:  BCF    03.5
+01CD:  BCF    07.4
+01CE:  MOVF   31,W
+01CF:  BTFSC  03.2
+01D0:  GOTO   1D6
+01D1:  BCF    20.4
+01D2:  MOVF   20,W
+01D3:  BSF    03.5
+01D4:  MOVWF  07
+01D5:  BCF    03.5
+01D6:  NOP
+01D7:  BSF    20.3
+01D8:  MOVF   20,W
+01D9:  BSF    03.5
+01DA:  MOVWF  07
+01DB:  BCF    03.5
+01DC:  BTFSS  07.3
+01DD:  GOTO   1DC
+01DE:  NOP
+01DF:  BCF    07.3
+01E0:  BCF    20.3
+01E1:  MOVF   20,W
+01E2:  BSF    03.5
+01E3:  MOVWF  07
+01E4:  NOP
+01E5:  BCF    03.5
+01E6:  BCF    07.4
+01E7:  BCF    20.4
+01E8:  MOVF   20,W
+01E9:  BSF    03.5
+01EA:  MOVWF  07
+....................  
+.................... #define EEPROM_ADDRESS long int 
+.................... #define EEPROM_SIZE    512 
+....................  
+.................... void init_ext_eeprom() { 
+....................    output_float(EEPROM_SCL); 
+*
+0013:  BSF    20.3
+0014:  MOVF   20,W
+0015:  BSF    03.5
+0016:  MOVWF  07
+....................    output_float(EEPROM_SDA); 
+0017:  BCF    03.5
+0018:  BSF    20.4
+0019:  MOVF   20,W
+001A:  BSF    03.5
+001B:  MOVWF  07
+.................... } 
+001C:  BCF    03.5
+001D:  BCF    0A.3
+001E:  BCF    0A.4
+001F:  GOTO   28A (RETURN)
+....................  
+.................... BOOLEAN ext_eeprom_ready() { 
+....................    int1 ack; 
+....................    i2c_start();            // If the write command is acknowledged, 
+*
+006A:  BSF    20.4
+006B:  MOVF   20,W
+006C:  BSF    03.5
+006D:  MOVWF  07
+006E:  NOP
+006F:  BCF    03.5
+0070:  BSF    20.3
+0071:  MOVF   20,W
+0072:  BSF    03.5
+0073:  MOVWF  07
+0074:  NOP
+0075:  BCF    03.5
+0076:  BCF    07.4
+0077:  BCF    20.4
+0078:  MOVF   20,W
+0079:  BSF    03.5
+007A:  MOVWF  07
+007B:  NOP
+007C:  BCF    03.5
+007D:  BCF    07.3
+007E:  BCF    20.3
+007F:  MOVF   20,W
+0080:  BSF    03.5
+0081:  MOVWF  07
+....................    ack = i2c_write(0xa0);  // then the device is ready. 
+0082:  MOVLW  A0
+0083:  BCF    03.5
+0084:  MOVWF  30
+0085:  CALL   020
+0086:  MOVF   78,W
+0087:  BCF    2F.0
+0088:  BTFSC  78.0
+0089:  BSF    2F.0
+....................    i2c_stop(); 
+008A:  BCF    20.4
+008B:  MOVF   20,W
+008C:  BSF    03.5
+008D:  MOVWF  07
+008E:  NOP
+008F:  BCF    03.5
+0090:  BSF    20.3
+0091:  MOVF   20,W
+0092:  BSF    03.5
+0093:  MOVWF  07
+0094:  BCF    03.5
+0095:  BTFSS  07.3
+0096:  GOTO   095
+0097:  NOP
+0098:  GOTO   099
+0099:  NOP
+009A:  BSF    20.4
+009B:  MOVF   20,W
+009C:  BSF    03.5
+009D:  MOVWF  07
+009E:  NOP
+....................    return !ack; 
+009F:  MOVLW  00
+00A0:  BCF    03.5
+00A1:  BTFSS  2F.0
+00A2:  MOVLW  01
+00A3:  MOVWF  78
+.................... } 
+00A4:  RETLW  00
+....................  
+.................... void write_ext_eeprom(long int address, BYTE data) { 
+....................    while(!ext_eeprom_ready()); 
+*
+00C8:  CALL   06A
+00C9:  MOVF   78,F
+00CA:  BTFSC  03.2
+00CB:  GOTO   0C8
+....................    i2c_start(); 
+00CC:  BSF    20.4
+00CD:  MOVF   20,W
+00CE:  BSF    03.5
+00CF:  MOVWF  07
+00D0:  NOP
+00D1:  BCF    03.5
+00D2:  BSF    20.3
+00D3:  MOVF   20,W
+00D4:  BSF    03.5
+00D5:  MOVWF  07
+00D6:  NOP
+00D7:  BCF    03.5
+00D8:  BCF    07.4
+00D9:  BCF    20.4
+00DA:  MOVF   20,W
+00DB:  BSF    03.5
+00DC:  MOVWF  07
+00DD:  NOP
+00DE:  BCF    03.5
+00DF:  BCF    07.3
+00E0:  BCF    20.3
+00E1:  MOVF   20,W
+00E2:  BSF    03.5
+00E3:  MOVWF  07
+....................    i2c_write((0xa0|(BYTE)(address>>7))&0xfe); 
+00E4:  BCF    03.5
+00E5:  RRF    2C,W
+00E6:  MOVWF  7A
+00E7:  RRF    2B,W
+00E8:  MOVWF  79
+00E9:  RRF    7A,F
+00EA:  RRF    79,F
+00EB:  RRF    7A,F
+00EC:  RRF    79,F
+00ED:  RRF    7A,F
+00EE:  RRF    79,F
+00EF:  RRF    7A,F
+00F0:  RRF    79,F
+00F1:  RRF    7A,F
+00F2:  RRF    79,F
+00F3:  RRF    7A,F
+00F4:  RRF    79,F
+00F5:  MOVLW  01
+00F6:  ANDWF  7A,F
+00F7:  MOVF   79,W
+00F8:  IORLW  A0
+00F9:  ANDLW  FE
+00FA:  MOVWF  2E
+00FB:  MOVWF  30
+00FC:  CALL   020
+....................    i2c_write(address); 
+00FD:  MOVF   2B,W
+00FE:  MOVWF  30
+00FF:  CALL   020
+....................    i2c_write(data); 
+0100:  MOVF   2D,W
+0101:  MOVWF  30
+0102:  CALL   020
+....................    i2c_stop(); 
+0103:  BCF    20.4
+0104:  MOVF   20,W
+0105:  BSF    03.5
+0106:  MOVWF  07
+0107:  NOP
+0108:  BCF    03.5
+0109:  BSF    20.3
+010A:  MOVF   20,W
+010B:  BSF    03.5
+010C:  MOVWF  07
+010D:  BCF    03.5
+010E:  BTFSS  07.3
+010F:  GOTO   10E
+0110:  NOP
+0111:  GOTO   112
+0112:  NOP
+0113:  BSF    20.4
+0114:  MOVF   20,W
+0115:  BSF    03.5
+0116:  MOVWF  07
+0117:  NOP
+.................... } 
+....................  
+....................  
+.................... BYTE read_ext_eeprom(long int address) { 
+....................    BYTE data; 
+....................  
+....................    while(!ext_eeprom_ready()); 
+*
+013C:  CALL   06A
+013D:  MOVF   78,F
+013E:  BTFSC  03.2
+013F:  GOTO   13C
+....................    i2c_start(); 
+0140:  BSF    20.4
+0141:  MOVF   20,W
+0142:  BSF    03.5
+0143:  MOVWF  07
+0144:  NOP
+0145:  BCF    03.5
+0146:  BSF    20.3
+0147:  MOVF   20,W
+0148:  BSF    03.5
+0149:  MOVWF  07
+014A:  NOP
+014B:  BCF    03.5
+014C:  BCF    07.4
+014D:  BCF    20.4
+014E:  MOVF   20,W
+014F:  BSF    03.5
+0150:  MOVWF  07
+0151:  NOP
+0152:  BCF    03.5
+0153:  BCF    07.3
+0154:  BCF    20.3
+0155:  MOVF   20,W
+0156:  BSF    03.5
+0157:  MOVWF  07
+....................    i2c_write((0xa0|(BYTE)(address>>7))&0xfe); 
+0158:  BCF    03.5
+0159:  RRF    2D,W
+015A:  MOVWF  7A
+015B:  RRF    2C,W
+015C:  MOVWF  79
+015D:  RRF    7A,F
+015E:  RRF    79,F
+015F:  RRF    7A,F
+0160:  RRF    79,F
+0161:  RRF    7A,F
+0162:  RRF    79,F
+0163:  RRF    7A,F
+0164:  RRF    79,F
+0165:  RRF    7A,F
+0166:  RRF    79,F
+0167:  RRF    7A,F
+0168:  RRF    79,F
+0169:  MOVLW  01
+016A:  ANDWF  7A,F
+016B:  MOVF   79,W
+016C:  IORLW  A0
+016D:  ANDLW  FE
+016E:  MOVWF  2F
+016F:  MOVWF  30
+0170:  CALL   020
+....................    i2c_write(address); 
+0171:  MOVF   2C,W
+0172:  MOVWF  30
+0173:  CALL   020
+....................    i2c_start(); 
+0174:  BSF    20.4
+0175:  MOVF   20,W
+0176:  BSF    03.5
+0177:  MOVWF  07
+0178:  NOP
+0179:  BCF    03.5
+017A:  BSF    20.3
+017B:  MOVF   20,W
+017C:  BSF    03.5
+017D:  MOVWF  07
+017E:  NOP
+017F:  BCF    03.5
+0180:  BTFSS  07.3
+0181:  GOTO   180
+0182:  BCF    07.4
+0183:  BCF    20.4
+0184:  MOVF   20,W
+0185:  BSF    03.5
+0186:  MOVWF  07
+0187:  NOP
+0188:  BCF    03.5
+0189:  BCF    07.3
+018A:  BCF    20.3
+018B:  MOVF   20,W
+018C:  BSF    03.5
+018D:  MOVWF  07
+....................    i2c_write((0xa0|(BYTE)(address>>7))|1); 
+018E:  BCF    03.5
+018F:  RRF    2D,W
+0190:  MOVWF  7A
+0191:  RRF    2C,W
+0192:  MOVWF  79
+0193:  RRF    7A,F
+0194:  RRF    79,F
+0195:  RRF    7A,F
+0196:  RRF    79,F
+0197:  RRF    7A,F
+0198:  RRF    79,F
+0199:  RRF    7A,F
+019A:  RRF    79,F
+019B:  RRF    7A,F
+019C:  RRF    79,F
+019D:  RRF    7A,F
+019E:  RRF    79,F
+019F:  MOVLW  01
+01A0:  ANDWF  7A,F
+01A1:  MOVF   79,W
+01A2:  IORLW  A0
+01A3:  IORLW  01
+01A4:  MOVWF  2F
+01A5:  MOVWF  30
+01A6:  CALL   020
+....................    data=i2c_read(0); 
+01A7:  CLRF   77
+*
+01EB:  MOVF   78,W
+01EC:  BCF    03.5
+01ED:  MOVWF  2E
+....................    i2c_stop(); 
+01EE:  BCF    20.4
+01EF:  MOVF   20,W
+01F0:  BSF    03.5
+01F1:  MOVWF  07
+01F2:  NOP
+01F3:  BCF    03.5
+01F4:  BSF    20.3
+01F5:  MOVF   20,W
+01F6:  BSF    03.5
+01F7:  MOVWF  07
+01F8:  BCF    03.5
+01F9:  BTFSS  07.3
+01FA:  GOTO   1F9
+01FB:  NOP
+01FC:  GOTO   1FD
+01FD:  NOP
+01FE:  BSF    20.4
+01FF:  MOVF   20,W
+0200:  BSF    03.5
+0201:  MOVWF  07
+0202:  NOP
+....................    return(data); 
+0203:  BCF    03.5
+0204:  MOVF   2E,W
+0205:  MOVWF  78
+.................... } 
+....................  
+.................... #include <external_eeprom.c> 
+.................... //////////////////////////////////////////////////////////////////////////////// 
+.................... ////                          external_eeprom.c                             //// 
+.................... ////                                                                        //// 
+.................... ////       Utilities to write various data types to external eeprom         //// 
+.................... //////////////////////////////////////////////////////////////////////////////// 
+.................... ////                                                                        //// 
+.................... ////   void write_int1_ext_eeprom(address, int8 bitPosition, int1 data)     //// 
+.................... ////     Call to write one bit of data                                      //// 
+.................... ////                                                                        //// 
+.................... ////   int1 read_int1_ext_eeprom(address, int8 bitPosition)                 //// 
+.................... ////     Call to read one bit of data                                       //// 
+.................... ////                                                                        //// 
+.................... ////                                                                        //// 
+.................... ////   void write_int16_ext_eeprom(address, int16 data)                     //// 
+.................... ////     Call to write a 16 bit integer                                     //// 
+.................... ////                                                                        //// 
+.................... ////   void write_int16_ext_eeprom(address, int16 data)                     //// 
+.................... ////     Call to read a 16 bit integer                                      //// 
+.................... ////                                                                        //// 
+.................... ////                                                                        //// 
+.................... ////   void write_int32_ext_eeprom(address, int32 data)                     //// 
+.................... ////     Call to write a 32 bit integer                                     //// 
+.................... ////                                                                        //// 
+.................... ////   int16 read_int32_ext_eeprom(address)                                 //// 
+.................... ////     Call to read a 32 bit integer                                      //// 
+.................... ////                                                                        //// 
+.................... ////                                                                        //// 
+.................... ////   void write_float_ext_eeprom(address, float data)                     //// 
+.................... ////     Call to write a floating point number                              //// 
+.................... ////                                                                        //// 
+.................... ////   float read_float_ext_eeprom(address)                                 //// 
+.................... ////     Call to read a floating point number                               //// 
+.................... ////                                                                        //// 
+.................... //////////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2004 Custom Computer Services               //// 
+.................... //// This source code may only be used by licensed users of the CCS C       //// 
+.................... //// compiler.  This source code may only be distributed to other licensed  //// 
+.................... //// users of the CCS C compiler.  No other use, reproduction or            //// 
+.................... //// distribution is permitted without written permission. Derivative       //// 
+.................... //// programs created using this software in object code form are not       //// 
+.................... //// restricted in any way.                                                 //// 
+.................... //////////////////////////////////////////////////////////////////////////////// 
+....................  
+....................  
+.................... #ifndef EXTERNAL_EEPROM_UTILITIES 
+.................... #define EXTERNAL_EEPROM_UTILITIES 
+....................  
+.................... // Used to adjust the address range 
+.................... #ifndef EEPROM_ADDRESS 
+.................... #define EEPROM_ADDRESS  int8 
+.................... #endif 
+....................  
+.................... // Purpose:    Write one bit to external eeprom 
+.................... // Inputs:     1) An eeprom address 
+.................... //             2) The bit position (LSB == 0) 
+.................... //             3) The bit to write 
+.................... // Outputs:    None 
+.................... void write_int1_ext_eeprom(EEPROM_ADDRESS address, int8 bitPosition, int1 data) 
+.................... { 
+....................    int8 stored_data; 
+....................  
+....................    stored_data = read_ext_eeprom(address); 
+....................  
+....................    if(data) 
+....................    { 
+....................       bit_set(stored_data, bitPosition); 
+....................    } 
+....................    else 
+....................    { 
+....................       bit_clear(stored_data, bitPosition); 
+....................    } 
+....................  
+....................    write_ext_eeprom(address, stored_data); 
+.................... } 
+....................  
+....................  
+.................... // Purpose:    Read one bit from external eeprom 
+.................... // Inputs:     1) An eeprom address 
+.................... //             2) The bit position (LSB == 0) 
+.................... // Outputs:    The bit read from external eeprom 
+.................... int1 read_int1_ext_eeprom(EEPROM_ADDRESS address, int8 bitPosition) 
+.................... { 
+....................    return bit_test(read_ext_eeprom(address), bitPosition); 
+.................... } 
+....................  
+....................  
+.................... // Purpose:    Write a 16 bit number to external eeprom 
+.................... // Inputs:     1) An eeprom address 
+.................... //             2) The 16 bit number to write to external eeprom 
+.................... // Outputs:    None 
+.................... void write_int16_ext_eeprom(EEPROM_ADDRESS address, int16 data) 
+.................... { 
+....................    int8 i; 
+....................    for(i = 0; i < 2; ++i) 
+*
+00A5:  CLRF   27
+00A6:  MOVF   27,W
+00A7:  SUBLW  01
+00A8:  BTFSS  03.0
+00A9:  GOTO   11B
+....................    { 
+....................      write_ext_eeprom(address + i, *((int8 *)(&data) + i)); 
+00AA:  MOVF   27,W
+00AB:  ADDWF  23,W
+00AC:  MOVWF  28
+00AD:  MOVF   24,W
+00AE:  MOVWF  29
+00AF:  BTFSC  03.0
+00B0:  INCF   29,F
+00B1:  CLRF   2B
+00B2:  MOVLW  25
+00B3:  MOVWF  2A
+00B4:  MOVF   27,W
+00B5:  ADDWF  2A,W
+00B6:  MOVWF  78
+00B7:  MOVF   2B,W
+00B8:  MOVWF  7A
+00B9:  BTFSC  03.0
+00BA:  INCF   7A,F
+00BB:  MOVF   78,W
+00BC:  MOVWF  04
+00BD:  BCF    03.7
+00BE:  BTFSC  7A.0
+00BF:  BSF    03.7
+00C0:  MOVF   00,W
+00C1:  MOVWF  2A
+00C2:  MOVF   29,W
+00C3:  MOVWF  2C
+00C4:  MOVF   28,W
+00C5:  MOVWF  2B
+00C6:  MOVF   2A,W
+00C7:  MOVWF  2D
+....................       
+....................    } 
+*
+0118:  BCF    03.5
+0119:  INCF   27,F
+011A:  GOTO   0A6
+.................... } 
+011B:  BCF    0A.3
+011C:  BCF    0A.4
+011D:  GOTO   291 (RETURN)
+....................  
+....................  
+.................... // Purpose:    Read a 16 bit number from external eeprom 
+.................... // Inputs:     An eeprom address 
+.................... // Outputs:    The 16 bit number read from external eeprom 
+.................... int16 read_int16_ext_eeprom(EEPROM_ADDRESS address) 
+.................... { 
+....................    int8  i; 
+....................    int16 data; 
+....................  
+....................    for(i = 0; i < 2; ++i) 
+011E:  CLRF   25
+011F:  MOVF   25,W
+0120:  SUBLW  01
+0121:  BTFSS  03.0
+0122:  GOTO   20F
+....................    { 
+....................       *((int8 *)(&data) + i) = read_ext_eeprom(address + i); 
+0123:  CLRF   29
+0124:  MOVLW  26
+0125:  MOVWF  28
+0126:  MOVF   25,W
+0127:  ADDWF  28,W
+0128:  MOVWF  78
+0129:  MOVF   29,W
+012A:  MOVWF  7A
+012B:  BTFSC  03.0
+012C:  INCF   7A,F
+012D:  MOVF   78,W
+012E:  MOVWF  28
+012F:  MOVF   7A,W
+0130:  MOVWF  29
+0131:  MOVF   25,W
+0132:  ADDWF  23,W
+0133:  MOVWF  2A
+0134:  MOVF   24,W
+0135:  MOVWF  2B
+0136:  BTFSC  03.0
+0137:  INCF   2B,F
+0138:  MOVF   2B,W
+0139:  MOVWF  2D
+013A:  MOVF   2A,W
+013B:  MOVWF  2C
+*
+0206:  MOVF   28,W
+0207:  MOVWF  04
+0208:  BCF    03.7
+0209:  BTFSC  29.0
+020A:  BSF    03.7
+020B:  MOVF   78,W
+020C:  MOVWF  00
+....................    } 
+020D:  INCF   25,F
+020E:  GOTO   11F
+....................  
+....................    return(data); 
+020F:  MOVF   26,W
+0210:  MOVWF  78
+0211:  MOVF   27,W
+0212:  MOVWF  79
+.................... } 
+0213:  BCF    0A.3
+0214:  BCF    0A.4
+0215:  GOTO   294 (RETURN)
+....................  
+....................  
+.................... // Purpose:    Write a 32 bit integer to external eeprom 
+.................... // Inputs:     1) An eeprom address 
+.................... //             2) The 32 bit number to write to external eeprom 
+.................... // Outputs:    None 
+.................... void write_int32_ext_eeprom(EEPROM_ADDRESS address, int32 data) 
+.................... { 
+....................    int8 i; 
+....................  
+....................    for(i = 0; i < 4; ++i) 
+....................    { 
+....................      write_ext_eeprom(address + i, *((int8 *)(&data) + i)); 
+....................    } 
+.................... } 
+....................  
+....................  
+.................... // Purpose:    Read a 32 bit integer from external eeprom 
+.................... // Inputs:     An eeprom address 
+.................... // Outputs:    The 32 bit integer read from external eeprom 
+.................... int32 read_int32_ext_eeprom(EEPROM_ADDRESS address) 
+.................... { 
+....................    int8  i; 
+....................    int32 data; 
+....................  
+....................    for(i = 0; i < 4; ++i) 
+....................    { 
+....................       *((int8 *)(&data) + i) = read_ext_eeprom(address + i); 
+....................    } 
+....................  
+....................    return data; 
+.................... } 
+....................  
+....................  
+.................... // Purpose:    Write a floating point number to external eeprom 
+.................... // Inputs:     1) An eeprom address. Four eeprom locations will be used. 
+.................... //             2) The floating point number to write to external eeprom 
+.................... // Outputs:    None 
+.................... void write_float_ext_eeprom(EEPROM_ADDRESS address, float data) 
+.................... { 
+....................    int8 i; 
+....................  
+....................    for(i = 0; i < 4; ++i) 
+....................    { 
+....................      write_ext_eeprom(address + i, *((int8 *)(&data) + i)); 
+....................    } 
+.................... } 
+....................  
+....................  
+.................... // Purpose:    Read a floating point number from external eeprom 
+.................... // Inputs:     An eeprom address 
+.................... // Outputs:    The floating point number read from the external eeprom 
+.................... float read_float_ext_eeprom(EEPROM_ADDRESS address) 
+.................... { 
+....................    int8 i; 
+....................    float data; 
+....................  
+....................    for(i = 0; i < 4; ++i) 
+....................    { 
+....................      *((int8 *)(&data) + i) = read_ext_eeprom(address + i); 
+....................    } 
+....................  
+....................    return data; 
+.................... } 
+....................  
+.................... #endif 
+....................  
+....................  
+....................  
+.................... void main(){ 
+*
+0271:  CLRF   04
+0272:  BCF    03.7
+0273:  MOVLW  1F
+0274:  ANDWF  03,F
+0275:  MOVLW  19
+0276:  BSF    03.5
+0277:  MOVWF  19
+0278:  MOVLW  A6
+0279:  MOVWF  18
+027A:  MOVLW  90
+027B:  BCF    03.5
+027C:  MOVWF  18
+027D:  BSF    03.5
+027E:  BSF    1F.0
+027F:  BSF    1F.1
+0280:  BSF    1F.2
+0281:  BCF    1F.3
+0282:  MOVLW  07
+0283:  MOVWF  1C
+....................    int16 dado=0; 
+*
+0287:  CLRF   21
+0288:  CLRF   22
+....................    init_ext_eeprom(); 
+0289:  GOTO   013
+....................    //escreve no indice 0 (zero) o valor 1030 
+....................    write_int16_ext_eeprom(0,1030); 
+028A:  CLRF   24
+028B:  CLRF   23
+028C:  MOVLW  04
+028D:  MOVWF  26
+028E:  MOVLW  06
+028F:  MOVWF  25
+0290:  GOTO   0A5
+....................    // lê endereço 0 (zero) 
+....................    dado=read_int16_ext_eeprom(0); 
+0291:  CLRF   24
+0292:  CLRF   23
+0293:  GOTO   11E
+0294:  MOVF   79,W
+0295:  MOVWF  22
+0296:  MOVF   78,W
+0297:  MOVWF  21
+....................    printf("Dado:%lu\r\n",dado);    
+0298:  CLRF   23
+0299:  MOVF   23,W
+029A:  CALL   004
+029B:  INCF   23,F
+029C:  MOVWF  77
+029D:  MOVF   77,W
+029E:  BTFSS  0C.4
+029F:  GOTO   29E
+02A0:  MOVWF  19
+02A1:  MOVLW  05
+02A2:  SUBWF  23,W
+02A3:  BTFSS  03.2
+02A4:  GOTO   299
+02A5:  MOVLW  10
+02A6:  MOVWF  04
+02A7:  MOVF   22,W
+02A8:  MOVWF  24
+02A9:  MOVF   21,W
+02AA:  MOVWF  23
+02AB:  GOTO   216
+02AC:  MOVLW  0D
+02AD:  BTFSS  0C.4
+02AE:  GOTO   2AD
+02AF:  MOVWF  19
+02B0:  MOVLW  0A
+02B1:  BTFSS  0C.4
+02B2:  GOTO   2B1
+02B3:  MOVWF  19
+....................     
+.................... } 
+02B4:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

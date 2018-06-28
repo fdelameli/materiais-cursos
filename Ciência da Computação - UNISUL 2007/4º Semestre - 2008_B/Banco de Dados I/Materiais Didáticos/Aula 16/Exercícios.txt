@@ -1,0 +1,18 @@
+-- Exercicio 1 --
+
+SELECT * FROM CLIENTE;
+
+
+-- Exercício 2 --
+
+SELECT * FROM VENDA;
+
+
+-- Exercício 3 --
+
+SELECT CD_LOJ "Cod. Loja", CD_VEN "Cod. Venda", DT_VEN "Data Venda" FROM VENDA;
+
+
+-- Exercício 4 --
+
+SELECT NM_CLI "Nome" FROM CLIENTE WHERE (CD_CLI < 3);

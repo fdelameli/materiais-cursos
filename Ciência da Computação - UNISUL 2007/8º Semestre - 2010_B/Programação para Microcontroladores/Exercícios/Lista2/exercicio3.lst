@@ -1,0 +1,115 @@
+CCS PCM C Compiler, Version 4.038, 33467               21-set-10 17:06
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Lista2\exercicio3.lst
+
+               ROM used: 204 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 8 (2%) at main() level
+                         16 (4%) worst case
+               Stack:    2 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   09B
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses XT, PROTECT 
+.................... #use delay(clock=4Mhz) 
+0084:  MOVLW  23
+0085:  MOVWF  04
+0086:  BCF    03.7
+0087:  MOVF   00,W
+0088:  BTFSC  03.2
+0089:  GOTO   098
+008A:  MOVLW  01
+008B:  MOVWF  78
+008C:  CLRF   77
+008D:  DECFSZ 77,F
+008E:  GOTO   08D
+008F:  DECFSZ 78,F
+0090:  GOTO   08C
+0091:  MOVLW  4A
+0092:  MOVWF  77
+0093:  DECFSZ 77,F
+0094:  GOTO   093
+0095:  GOTO   096
+0096:  DECFSZ 00,F
+0097:  GOTO   08A
+0098:  BCF    0A.3
+0099:  BCF    0A.4
+009A:  GOTO   0C8 (RETURN)
+.................... #use rs232(baud=9600, xmit=pin_c6, rcv=pin_c7) 
+....................  
+....................  
+.................... #define DELAY 5000 
+....................  
+.................... void main() { 
+009B:  CLRF   04
+009C:  BCF    03.7
+009D:  MOVLW  1F
+009E:  ANDWF  03,F
+009F:  MOVLW  19
+00A0:  BSF    03.5
+00A1:  MOVWF  19
+00A2:  MOVLW  A6
+00A3:  MOVWF  18
+00A4:  MOVLW  90
+00A5:  BCF    03.5
+00A6:  MOVWF  18
+00A7:  BSF    03.5
+00A8:  BSF    1F.0
+00A9:  BSF    1F.1
+00AA:  BSF    1F.2
+00AB:  BCF    1F.3
+00AC:  MOVLW  07
+00AD:  MOVWF  1C
+....................  
+....................    int VL_PORTB = 0; 
+00AE:  BCF    03.5
+00AF:  CLRF   21
+....................  
+....................    while(true) { 
+....................    
+....................       VL_PORTB = input_b(); 
+00B0:  MOVLW  FF
+00B1:  BSF    03.5
+00B2:  MOVWF  06
+00B3:  BCF    03.5
+00B4:  MOVF   06,W
+00B5:  MOVWF  21
+....................       printf("%d\r\n", VL_PORTB); 
+00B6:  MOVF   21,W
+00B7:  MOVWF  22
+00B8:  MOVLW  1F
+00B9:  MOVWF  23
+00BA:  GOTO   019
+00BB:  MOVLW  0D
+00BC:  BTFSS  0C.4
+00BD:  GOTO   0BC
+00BE:  MOVWF  19
+00BF:  MOVLW  0A
+00C0:  BTFSS  0C.4
+00C1:  GOTO   0C0
+00C2:  MOVWF  19
+....................       delay_ms(DELAY); 
+00C3:  MOVLW  14
+00C4:  MOVWF  22
+00C5:  MOVLW  FA
+00C6:  MOVWF  23
+00C7:  GOTO   084
+00C8:  DECFSZ 22,F
+00C9:  GOTO   0C5
+....................     
+....................    } 
+00CA:  GOTO   0B0
+....................  
+.................... } 
+00CB:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

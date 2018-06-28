@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="ChooseWorkspaceDialogSettings">
+		<item value="1127" key="DIALOG_WIDTH"/>
+		<item value="197" key="DIALOG_Y_ORIGIN"/>
+		<item value="281" key="DIALOG_HEIGHT"/>
+		<item value="-51" key="DIALOG_X_ORIGIN"/>
+		<item value="1|Segoe UI|9|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="ResourceNavigator">
+		<item value="" key="ResourceWorkingSetFilter.STORE_WORKING_SET"/>
+		<item value="1" key="ResourceViewer.STORE_SORT_TYPE"/>
+	</section>
+	<section name="org.eclipse.ui.views.task">
+	</section>
+</section>

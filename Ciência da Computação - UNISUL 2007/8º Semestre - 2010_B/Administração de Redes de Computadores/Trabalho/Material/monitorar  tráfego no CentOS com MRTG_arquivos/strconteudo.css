@@ -1,0 +1,134 @@
+.strConteudo abbr { font-style:italic; }
+
+/* Formatação de código */
+/* ========================================================================== */
+
+.strConteudo .codigo {
+	background: #eeeeec;
+	padding: 10px;
+	-moz-box-shadow: inset 0 1px 5px #ccc;
+	-webkit-box-shadow: inset 0 1px 5px #ccc;
+	box-shadow: inset 0 1px 5px #ccc;
+	margin: 1em 0;
+}
+.strConteudo .codigo pre {
+	background: #fff;
+	overflow: auto;
+	margin: 0;
+	padding: 10px;
+	line-height: normal;
+	font-size: 12px;
+	font-family: Consolas, "Lucida Console", Monaco, monospace;
+}
+
+/* Bloco de citação */
+/* ========================================================================== */
+
+.strConteudo blockquote {
+    font-family: Georgia, serif;
+    background: url(../img/artigo/fundoCitacao.png) no-repeat;
+    padding: 0 0 0 50px;
+    margin: 30px;
+    font-style: italic;
+}
+
+.strConteudo blockquote cite { display:block; text-align:right; font-size:10px; font-style:italic;}
+
+.strConteudo code span.coment { color:#06C; }
+.strConteudo span.c1 { color:#C30; }
+.strConteudo span.c2 { color:#069; }
+.strConteudo span.c3 { color:#F0F; }
+.strConteudo span.c4 { color:#777; }
+.strConteudo span.imgdesc { font-size:10px; display:block; color:#009933;}
+
+
+.strConteudo kbd { color:#06c; }
+.strConteudo ol, .strConteudo ul { padding:0px;  margin:10px 0px 10px 0px; }
+.strConteudo ol, .strConteudo ol li { list-style:decimal-leading-zero !important; list-style-position:inside; }
+.strConteudo ol li { margin-left:30px;}
+.strConteudo dl { margin:5px 0px 5px 0px; font-size:12px; }
+.strConteudo dt { background-color:#fafafa; height:18px;  border:1px solid #999; border-bottom-width:0px; margin-left:10px; padding:5px 5px 0px 10px; font-style: italic; }
+.strConteudo dd { background-color:#fafafa; margin-bottom:5px;  border:1px solid #999; border-top-width:0px;   margin-left:10px; padding:5px 5px 5px 20px; }
+
+.strConteudo p img {
+	-moz-box-shadow: 0 3px 10px #999;
+	-webkit-box-shadow: 0 3px 10px #999;
+	box-shadow: 0 3px 10px #999;
+	text-align: center;
+	display: block;
+	margin: 2em auto;
+}
+
+/* Novo strConteudo */
+/* ================================== */
+
+
+.strConteudo {
+	font-size:11pt;
+	padding-bottom:20px;
+	line-height:140%;
+	color: #384042;
+}
+
+.strConteudo a {
+    text-decoration:underline;
+    color: #3465a4;
+}
+.strConteudo a:hover {
+    color: #0569eb;
+}
+.strConteudo a:visited {
+    color: #729fcf;
+}
+.strConteudo a.int {
+    background: url(http://static.imasters.com.br/img/geral/link_int.gif) no-repeat;
+    padding-left: 15px;
+}
+.strConteudo a.ext {
+    background:url(http://static.imasters.com.br/img/geral/link_ext.gif) no-repeat right;
+    padding-right: 12px;
+}
+
+.strConteudo p, .strConteudo ul, .strConteudo ol, .strConteudo dl {
+	margin: 0 0 1.3em 0;
+}
+
+.strConteudo h2, .strConteudo h3, .strConteudo h4 {
+	margin: 0 0 0.3em 0;
+}
+
+/* Tabelas */
+
+.strConteudo table {
+    margin-bottom: 1em;
+}
+.strConteudo table, .strConteudo td, .strConteudo th, .strConteudo tr {
+	border-collapse: collapse;
+	border: 0;
+}
+.strConteudo th {
+	padding: 4px;
+	border-bottom: 2px solid #ccc;
+	text-align: left;
+	vertical-align: bottom;
+	color: #084188;
+}
+.strConteudo td {
+	padding: 4px;
+	border-bottom: 1px solid #ececec;
+    vertical-align: top;
+}
+
+/* Listas */
+
+.strConteudo ul {
+	list-style:none;
+}
+.strConteudo li {
+	padding:0px;
+	margin: 0 0 1em 0;
+}
+.strConteudo ul li {
+	padding-left:15px;
+	background:url(http://static.imasters.com.br/img/conteudo/ico_i_v.gif) 0 3px no-repeat;
+}

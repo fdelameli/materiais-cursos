@@ -1,0 +1,210 @@
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*           Programação Em Basic - Módulo B PIC16F877A        *
+'*                             Exemplo 1                       *
+'*                                                             *
+'*             CENTRO DE TREINAMENTO - Cerne Tecnologia        *
+'*                                                             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*   VERSÃO : 1.0
+'*   DATA : 22/07/2005
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                         Descrição geral                     *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+' Implementar um relógio digital sem ajuste via teclado
+' O horário será apresentado no display de 7 segmentos
+}
+program Relogio;    //Definição do programa
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*             Definição e inicialização das variáveis         *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as variáveis globais do sistema
+}
+
+var indice,pisca,vezes_tmr1:byte;
+    hora_msb,hora_lsb,minuto_msb,minuto_lsb:byte;
+    vetor_display:array[4] of byte;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                Declaração de labels de software             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir os labels utilizados no sistema}
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                      Constantes internas                    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as constantes utilizadas pelo sistema
+}
+const
+     CHR_0	= %00111111;		// RETORNA CARACTERE 0
+     CHR_1	=	%00000110;		// RETORNA CARACTERE 1
+     CHR_2	=	%01011011;	  // RETORNA CARACTERE 2
+     CHR_3	=	%01001111;		// RETORNA CARACTERE 3
+     CHR_4	=	%01100110;		// RETORNA CARACTERE 4
+     CHR_5	=	%01101101;		// RETORNA CARACTERE 5
+     CHR_6	=	%01111101;		// RETORNA CARACTERE 6
+     CHR_7	=	%00000111;		// RETORNA CARACTERE 7
+     CHR_8	=	%01111111;		// RETORNA CARACTERE 8
+     CHR_9	=	%01101111;	  // RETORNA CARACTERE 9
+     CHR_A	=	%01110111;		// RETORNA CARACTERE A
+     CHR_B	=	%01111100;		// RETORNA CARACTERE B
+     CHR_C	=	%00111001;		// RETORNA CARACTERE C
+     CHR_D	=	%01011110;		// RETORNA CARACTERE D
+     CHR_E	=	%01111001;		// RETORNA CARACTERE E
+     CHR_F	= %01110001;		// RETORNA CARACTERE F
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração de Rotinas e Interrupções          *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*             Rotina de conversão BCD para 7 segmentos         *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+function Converte_to_7seg(dado:byte):byte;
+begin
+ case dado of          //tabela de conversão para display de 7 segmentos
+    0 : result:=CHR_0;
+    1 : result:=CHR_1;
+    2 : result:=CHR_2;
+    3 : result:=CHR_3;
+    4 : result:=CHR_4;
+    5 : result:=CHR_5;
+    6 : result:=CHR_6;
+    7 : result:=CHR_7;
+    8 : result:=CHR_8;
+    9 : result:=CHR_9;
+    10: result:=CHR_A;
+    11: result:=CHR_B;
+    12: result:=CHR_C;
+    13: result:=CHR_D;
+    14: result:=CHR_E;
+    15: result:=CHR_F;
+ end;
+end;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*    Rotinas de Tratamento de Timer0 e Timer1 Interrupções    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+procedure interrupt;
+begin
+
+   if  intcon.t0if = 1 then //Tratamento da interrupção
+     begin
+       clearbit(intcon,t0if);         //de timer 0
+       inc(indice);
+
+       if indice=1 then
+        begin
+               clearbit(portb,4);
+               portd:=vetor_display[indice-1];
+               setbit(portb,1);
+        end;
+
+        if indice=2 then
+         begin
+               clearbit(portb,1);
+               portd:=vetor_display[indice-1];
+               if pisca=255 then portd:=portd or %10000000; //acende o ponto
+               setbit(portb,2);
+         end;
+         
+         if indice=3 then
+          begin
+                clearbit(portb,2);
+                portd:=vetor_display[indice-1];
+                setbit(portb,3);
+          end;
+
+         if indice=4 then
+          begin
+                clearbit(portb,3);
+                portd:=vetor_display[indice-1];
+                setbit(portb,4);
+                indice:=0;       //reinicia o indice
+          end;
+    end
+   else
+    begin
+          tmr1h:=$0B;
+          tmr1l:=$DC;
+          clearbit(pir1,tmr1if);   //limpa flag de interrupção
+          pisca:=not pisca;        //inverte o estado do pisca
+          dec(vezes_tmr1);         //decrementa variável para dar 1 segundo
+          if vezes_tmr1=0 then
+          begin
+           vezes_tmr1:=120;
+           inc(minuto_lsb);
+           if minuto_lsb=10 then
+            begin
+             minuto_lsb:=0;
+             inc(minuto_msb);
+             if minuto_msb=6 then
+              begin
+                minuto_msb:=0;
+                inc(hora_lsb);
+                if hora_msb=2 then
+                 begin
+                 if hora_lsb=4 then
+                  begin
+                    hora_msb:=0;
+                    hora_lsb:=0;
+                  end;
+                 end
+                else
+                 begin
+                 if hora_lsb=10 then hora_lsb:=0;
+                 inc(hora_msb);
+                 end;
+             end;
+           end;
+         end;
+      end;
+end;
+
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Início do Programa                     *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Nessa parte ficará a inicialização do sistema}
+
+begin
+
+   trisa:=%00000000;
+   trisb:=%00000000;
+   trisd:=%00000000;            //configura i/os
+   option_reg:=%10000000;       //configura prescaler do timer 0
+   indice:=0;                   //inicializa a variável de índice
+   hora_msb:=0;
+   hora_lsb:=0;
+   minuto_msb:=0;
+   minuto_lsb:=0;               //inicializa as variáveis de tempo
+   pie1:=%00000001;             //habilita interrupção de timer 1
+   t1con:=%00110001;             //configura timer 1 para prescaler de 1:8
+   tmr1h:=$0B;
+   tmr1l:=$DC;
+   vezes_tmr1:=120;             //inicializa variável de contagem
+   pisca:=0;                    //inicializa variável de piscagem
+   intcon:=%11100000;           //configura interrupção de timer0
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Rotina Principal                      *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Nessa parte ficará o loop principal do sistema}
+
+     while true do
+      begin
+       vetor_display[0]:=Converte_to_7seg(hora_msb);
+       vetor_display[1]:=Converte_to_7seg(hora_lsb);
+       vetor_display[2]:=Converte_to_7seg(minuto_msb);
+       vetor_display[3]:=Converte_to_7seg(minuto_lsb);
+       end;
+
+{'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Fim do programa                       *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}
+    end.

@@ -1,0 +1,1412 @@
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;*      *       *       *       *       *       *       *       *       *
+                      00002 ;*                                                                      *
+                      00003 ;*                         EXEMPLO6: PWM FINAL                          *
+                      00004 ;*                   APOSTILA MÓDULO B  -  PIC16F877A                   *
+                      00005 ;*                    ÁPICE TECNOLOGIA E TREINAMENTO                    *
+                      00006 ;*          VERSÃO 1.0                          DATA:14/05/2005         *
+                      00007 ;*                                                                      *
+                      00008 ;*      *       *       *       *       *       *       *       *       *
+                      00009 
+                      00010 ;*      *       *       *       *       *       *       *       *       *
+                      00011 ;*                       OBJETIVO DO ARQUIVO FONTE                      *
+                      00012 ;*                                                                      *
+                      00013 ;*  CONTROLAR A ROTAÇÃO DO VENTILADOR EXTERNO E DO RESITOR DE POTÊNCIA  *
+                      00014 ;*  A PARTIR DO CONTROLE QUE SERÁ FEITO NO TECLADO MATRICIAL. O VALOR   *
+                      00015 ;*    AJUSTADO SERÁ APRESENTADO NO DISPLAY E AJUSTADO NO MÓDULO CCP     *
+                      00016 ;*                                                                      *
+                      00017 ;*      *       *       *       *       *       *       *       *       *
+                      00018 
+                      00019  #INCLUDE <P16F877.INC>         ;ARQUIVO PADRÃO PARA PIC16F877A
+                      00001         LIST
+                      00002 ; P16F877.INC  Standard Header File, Version 1.00    Microchip Technology, Inc.
+                      00373         LIST
+2007   3F35           00020  __CONFIG _CP_OFF & _XT_OSC & _PWRTE_ON & _LVP_OFF & _WDT_ON & _BODEN_OFF & _CPD_OFF & _DEBUG_OFF
+                      00021         
+                      00022         ;NESTE PONTO É INFORMADO A CONFIGURAÇÃO DA MÁQUINA, OU SEJA, SE TERÁ
+                      00023         ;CÓDIGO DE PROTEÇÃO OU O TIPO DE CRISTAL QUE SERÁ UTILIZADO     
+                      00024 
+                      00025         ;CONFIGURAÇÃO DA MÁQUINA
+                      00026         ; CODE PROTECT                  -> DESLIGADO
+                      00027         ; OSCILADOR                     -> CRISTAL OU RESSONADOR
+                      00028         ; POWER-UP                      -> LIGADO
+                      00029         ; DEBUF                         -> DESLIGADO            
+                      00030         ; PROGRAMAÇÃO EM BAIXA VOLTAGEM -> DESLIGADO
+                      00031         ; WATCH DOG                     -> LIGADO
+                      00032         ; BROWN-OUT RESET               -> DESLIGADO
+                      00033         ; PROTEÇÃO DE EEPROM            -> DESLIGADO
+                      00034                 
+                      00035 ;*      *       *       *       *       *       *       *       *       *
+                      00036 ;*                         PAGINAÇÃO DE MEMÓRIA                         *
+                      00037 ;*      *       *       *       *       *       *       *       *       *
+                      00038 
+                      00039 ; AQUI CRIAREMOS UM PSEUDÔNIMO PARA UM COMANDO. POR EXEMPLO, O COMANDO
+                      00040 ; "BCF STATUS,RP0" PODE SER SUBSTITUÍDO SEM PROBLEMAS POR "BANK0". O 
+                      00041 ; COMPILADOR IRÁ SUBSTITUIR INTERNAMENTE "BANK0" POR "BCF STATUS,RP0".
+                      00042 ; ESTA APLICAÇÃO É VÁLIDA PARA OUTROS TIPOS DE COMANDOS
+                      00043 
+                      00044 #DEFINE BANK0   BCF     STATUS,RP0      ; ESCOLHE BANCO DE MEMÓRIA 0
+                      00045 #DEFINE BANK1   BSF     STATUS,RP0      ; ESCOLHE BANCO DE MEMÓRIA 1
+                      00046 
+                      00047 ;*      *       *       *       *       *       *       *       *       *
+                      00048 ;*                           DEFINICAO DE RAM                           *
+                      00049 ;*      *       *       *       *       *       *       *       *       *
+                      00050 
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00051 ; AQUI IREMOS CRIAR AS VARIÁVEIS DO NOSSO SISTEMA
+                      00052 
+                      00053         CBLOCK 0x20      ; INÍCIO DO BLOCO DE RAM(GPR)
+  00000020            00054                 TEMPO1   ; VARIÁVEL DA ROTINA DE TEMPO          
+  00000021            00055                 TEMPO2   ; VARIÁVEL DA ROTINA DE TEMPO                          
+  00000022            00056                 TECLADO1 ; VARIÁVEL PARA MARCAR AS TECLAS  
+  00000023            00057                 TECLADO2 ; VARIÁVEL PARA MARCAR AS TECLAS
+  00000024            00058                 INDICE   ; VARIÁVEL DE ÍNDICE
+  00000025            00059                 TEMP     ; VARIÁVEL TEMPORÁRIA          
+  00000026            00060                 ARG0
+  00000027            00061                 ARG1
+  00000028            00062                 ARG2
+  00000029            00063                 MUL1
+  0000002A            00064                 MUL0
+  0000002B            00065                 VEZES_TIMER2
+  0000002C            00066                 FLAGS
+  0000002D            00067                 CONTADOR_LSB
+  0000002E            00068                 CONTADOR_MSB
+                      00069         ENDC             ; FIM DO BLOCO DE RAM(GPR)
+                      00070         
+                      00071         CBLOCK 0x70
+  00000070            00072                 W_TEMP   ; VARIÁVEIS TEMPORÁRIAS
+  00000071            00073                 STATUS_TEMP     
+  00000072            00074                 FSR_TEMP
+  00000073            00075                 PCLATH_TEMP
+                      00076         ENDC
+                      00077                 
+                      00078 ;*      *       *       *       *       *       *       *       *       *
+                      00079 ;*                        DEFINICAO DE FLAGS                            *
+                      00080 ;*      *       *       *       *       *       *       *       *       *
+                      00081 
+                      00082 ; AQUI SÃO DEFINIDOS OS FLAGS QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00083 
+                      00084 #DEFINE  TECLA_0        TECLADO1,0  ; TECLA 0 DO TECLADO MATRICIAL
+                      00085 #DEFINE  TECLA_1        TECLADO1,1  ; TECLA 1 DO TECLADO MATRICIAL      
+                      00086 #DEFINE  TECLA_2        TECLADO1,2  ; TECLA 2 DO TECLADO MATRICIAL      
+                      00087 #DEFINE  TECLA_3        TECLADO1,3  ; TECLA 3 DO TECLADO MATRICIAL
+                      00088 #DEFINE  TECLA_4        TECLADO1,4  ; TECLA 4 DO TECLADO MATRICIAL
+                      00089 #DEFINE  TECLA_5        TECLADO1,5  ; TECLA 5 DO TECLADO MATRICIAL
+                      00090 #DEFINE  TECLA_6        TECLADO1,6  ; TECLA 6 DO TECLADO MATRICIAL
+                      00091 #DEFINE  TECLA_7        TECLADO1,7  ; TECLA 7 DO TECLADO MATRICIAL
+                      00092 #DEFINE  TECLA_8        TECLADO2,0  ; TECLA 8 DO TECLADO MATRICIAL
+                      00093 #DEFINE  TECLA_9        TECLADO2,1  ; TECLA 9 DO TECLADO MATRICIAL
+                      00094 #DEFINE  TECLA_C        TECLADO2,2  ; TECLA CORRIGE DO TECLADO MATRICIAL
+                      00095 #DEFINE  TECLA_E        TECLADO2,3  ; TECLA ENTER DO TECLADO MATRICIAL
+                      00096 
+                      00097 #DEFINE MOSTRA_RPS_RPM  FLAGS,0     ; 1-> ATUALIZA O DISPLAY                    
+                      00098         
+                      00099 ;*      *       *       *       *       *       *       *       *       *
+                      00100 ;*                      DEFINICAO DE CONSTANTES                         *
+                      00101 ;*      *       *       *       *       *       *       *       *       *
+                      00102 
+                      00103 ; AQUI SÃO DEFINIDOS AS CONSTANTES QUE SERÃO UTILIZADOS PELO SISTEMA
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00104 
+                      00105 #DEFINE LINHA_SUP       0x80    ; CONSTANTE PARA LINHA SUPERIOR
+                      00106 #DEFINE LINHA_INF       0xC0    ; CONSTANTE PARA LINHA INFERIOR
+                      00107 
+                      00108 #DEFINE SEL_LINHA1      B'00001110'  ; SELECIONA LINHA 1        
+                      00109 #DEFINE SEL_LINHA2      B'00001101'  ; SELECIONA LINHA 2                
+                      00110 #DEFINE SEL_LINHA3      B'00001011'  ; SELECIONA LINHA 3                
+                      00111 #DEFINE SEL_LINHA4      B'00000111'  ; SELECIONA LINHA 4        
+                      00112 
+                      00113 ;*      *       *       *       *       *       *       *       *       *
+                      00114 ;*                        ENTRADAS DO SISTEMA                           *
+                      00115 ;*      *       *       *       *       *       *       *       *       *
+                      00116 
+                      00117 #DEFINE COL1            PORTA,4      ; PINO DE ENTRADA DA COLUNA1       
+                      00118 #DEFINE COL2            PORTA,5      ; PINO DE ENTRADA DA COLUNA2               
+                      00119 #DEFINE COL3            PORTE,0      ; PINO DE ENTRADA DA COLUNA3               
+                      00120 
+                      00121 ;*      *       *       *       *       *       *       *       *       *
+                      00122 ;*                        SAÍDAS DO SISTEMA                             *
+                      00123 ;*      *       *       *       *       *       *       *       *       *
+                      00124 
+                      00125 ; AQUI SÃO DEFINIDAS AS SAÍDAS QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00126 
+                      00127 #DEFINE BUS             PORTD   ; DEFINE O BARRAMENTO COMO O PORTD 
+                      00128 #DEFINE RS              PORTE,1 ; RS DO DISPLAY
+                      00129 #DEFINE EN              PORTE,2 ; EN DO DISPLAY
+                      00130 
+                      00131 ;*      *       *       *       *       *       *       *       *       *
+                      00132 ;*                          VETOR DE RESET                              *
+                      00133 ;*      *       *       *       *       *       *       *       *       *
+                      00134 
+0000                  00135         ORG     0x0000          ; ENDEREÇO INICIAL DA MÁQUINA
+0000   294D           00136         GOTO    CONFIG_         ; SALTA PARA CONFIGURAR A MÁQUINA
+                      00137 
+                      00138 ;*      *       *       *       *       *       *       *       *       *
+                      00139 ;*                       VETOR DE INTERRUPÇÃO                           *
+                      00140 ;*      *       *       *       *       *       *       *       *       *
+                      00141 
+0004                  00142         ORG     0x0004          ; ENDEREÇO INICIAL DO VETOR DE INTERRUPÇÃO
+0004                  00143 SALVA_CONTEXTO
+0004   00F0           00144         MOVWF   W_TEMP          ; SALVA W
+0005   0E03           00145         SWAPF   STATUS,W        
+0006   00F1           00146         MOVWF   STATUS_TEMP     ; SALVA STATUS
+0007   0804           00147         MOVF    FSR,W
+0008   00F2           00148         MOVWF   FSR_TEMP        ; SALVA FSR     
+Message[305]: Using default destination of 1 (file).
+0009   088A           00149         MOVF    PCLATH  
+000A   00F3           00150         MOVWF   PCLATH_TEMP     ; SALVA PCLATH
+                      00151         
+000B   0183           00152         CLRF    STATUS          ; GARANTE BANCO 0
+000C   018A           00153         CLRF    PCLATH          ; GARANTE PÁGINA 0
+                      00154         
+000D   190B           00155         BTFSC   INTCON,T0IF     ; INTERRUPÇÃO DE TIMER0?
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000E   281A           00156         GOTO    TRATA_TIMER0    ; SIM, ENTÃO TRATA
+                      00157         
+000F   188C           00158         BTFSC   PIR1,TMR2IF     ; INTERRUPÇÃO DE TIMER2?
+0010   2853           00159         GOTO    TRATA_TIMER2    ; SIM, ENTÃO TRATA
+                      00160                 
+0011                  00161 SAI_INTERRUPCAO 
+0011   0872           00162         MOVF    FSR_TEMP,W
+0012   0084           00163         MOVWF   FSR             ; RECUPERA FSR
+0013   0873           00164         MOVF    PCLATH_TEMP,W   
+0014   008A           00165         MOVWF   PCLATH          ; RECUPERA PCLATH
+0015   0E71           00166         SWAPF   STATUS_TEMP,W
+0016   0083           00167         MOVWF   STATUS          ; RECUPERA STATUS
+0017   0EF0           00168         SWAPF   W_TEMP,F
+0018   0E70           00169         SWAPF   W_TEMP,W        ; RECUPERA W
+0019   0009           00170         RETFIE                  ; RETORNA DA INTERRUPÇÃO
+                      00171 
+                      00172 ;*      *       *       *       *       *       *       *       *       *
+                      00173 ;*                  TRATATAMENTO DE INTERRUPÇÃO DE TIMER0               *
+                      00174 ;*      *       *       *       *       *       *       *       *       *
+                      00175 
+001A                  00176 TRATA_TIMER0
+                      00177         
+001A   110B           00178         BCF     INTCON,T0IF      ; LIMPA FLAG DE INTERRUPÇÃO
+Message[305]: Using default destination of 1 (file).
+001B   0AA4           00179         INCF    INDICE           ; INCREMENTA INDICE 
+001C   3003           00180         MOVLW   B'00000011'      
+001D   0524           00181         ANDWF   INDICE,W         ; MASCARA OS BITS SUPERIORES   
+001E   0782           00182         ADDWF   PCL,F            ; SOMA CONTEÚDO COM PCL        
+001F   2823           00183         GOTO    VERIFICA_LINHA1  ; SALTA PARA TRATAR A LINHA 1
+0020   282F           00184         GOTO    VERIFICA_LINHA2  ; SALTA PARA TRATAR A LINHA 2
+0021   283B           00185         GOTO    VERIFICA_LINHA3  ; SALTA PARA TRATAR A LINHA 3
+0022   2847           00186         GOTO    VERIFICA_LINHA4  ; SALTA PARA TRATAR A LINHA 4
+                      00187         
+                      00188 
+0023                  00189 VERIFICA_LINHA1
+                      00190         
+0023   300E           00191         MOVLW   SEL_LINHA1      
+0024   0088           00192         MOVWF   BUS             ; SELECIONA A LINHA 1   
+                      00193         
+0025   10A2           00194         BCF     TECLA_1         ; LIMPA FLAG DA TECLA 1 PRESSIONADA
+0026   1122           00195         BCF     TECLA_2         ; LIMPA FLAG DA TECLA 2 PRESSIONADA
+0027   11A2           00196         BCF     TECLA_3         ; LIMPA FLAG DA TECLA 3 PRESSIONADA
+                      00197                 
+0028   1E05           00198         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+0029   14A2           00199         BSF     TECLA_1         ; SIM, ENTÃO SETA TECLA_1
+                      00200         
+002A   1E85           00201         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+002B   1522           00202         BSF     TECLA_2         ; SIM, ENTÃO SETA TECLA_2
+                      00203         
+002C   1C09           00204         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+002D   15A2           00205         BSF     TECLA_3         ; SIM, ENTÃO SETA TECLA_3
+                      00206         
+002E   2811           00207         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00208         
+002F                  00209 VERIFICA_LINHA2
+                      00210         
+002F   300D           00211         MOVLW   SEL_LINHA2
+0030   0088           00212         MOVWF   BUS             ; SELECIONA A LINHA 2   
+                      00213         
+0031   1222           00214         BCF     TECLA_4         ; LIMPA FLAG DA TECLA 4 PRESSIONADA
+0032   12A2           00215         BCF     TECLA_5         ; LIMPA FLAG DA TECLA 5 PRESSIONADA
+0033   1322           00216         BCF     TECLA_6         ; LIMPA FLAG DA TECLA 6 PRESSIONADA
+                      00217                 
+0034   1E05           00218         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+0035   1622           00219         BSF     TECLA_4         ; SIM, ENTÃO SETA TECLA_4
+                      00220         
+0036   1E85           00221         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+0037   16A2           00222         BSF     TECLA_5         ; SIM, ENTÃO SETA TECLA_5
+                      00223         
+0038   1C09           00224         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+0039   1722           00225         BSF     TECLA_6         ; SIM, ENTÃO SETA TECLA_6
+                      00226         
+003A   2811           00227         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00228 
+003B                  00229 VERIFICA_LINHA3
+                      00230         
+003B   300B           00231         MOVLW   SEL_LINHA3
+003C   0088           00232         MOVWF   BUS             ; SELECIONA A LINHA 3   
+                      00233         
+003D   13A2           00234         BCF     TECLA_7         ; LIMPA FLAG DA TECLA 7 PRESSIONADA
+003E   1023           00235         BCF     TECLA_8         ; LIMPA FLAG DA TECLA 8 PRESSIONADA
+003F   10A3           00236         BCF     TECLA_9         ; LIMPA FLAG DA TECLA 9 PRESSIONADA
+                      00237                 
+0040   1E05           00238         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+0041   17A2           00239         BSF     TECLA_7         ; SIM, ENTÃO SETA TECLA_7
+                      00240         
+0042   1E85           00241         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+0043   1423           00242         BSF     TECLA_8         ; SIM, ENTÃO SETA TECLA_8
+                      00243         
+0044   1C09           00244         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+0045   14A3           00245         BSF     TECLA_9         ; SIM, ENTÃO SETA TECLA_9
+                      00246         
+0046   2811           00247         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00248 
+0047                  00249 VERIFICA_LINHA4
+                      00250         
+0047   3007           00251         MOVLW   SEL_LINHA4      
+0048   0088           00252         MOVWF   BUS             ; SELECIONA A LINHA 4   
+                      00253         
+0049   11A3           00254         BCF     TECLA_E         ; LIMPA FLAG DA TECLA ENTER PRESSIONADA
+004A   1123           00255         BCF     TECLA_C         ; LIMPA FLAG DA TECLA CORRIGE PRESSIONADA
+004B   1022           00256         BCF     TECLA_0         ; LIMPA FLAG DA TECLA 0 PRESSIONADA
+                      00257                 
+004C   1E05           00258         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+004D   1523           00259         BSF     TECLA_C         ; SIM, ENTÃO SETA TECLA_C
+                      00260         
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+004E   1E85           00261         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+004F   1422           00262         BSF     TECLA_0         ; SIM, ENTÃO SETA TECLA_0
+                      00263         
+0050   1C09           00264         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+0051   15A3           00265         BSF     TECLA_E         ; SIM, ENTÃO SETA TECLA_E
+                      00266         
+0052   2811           00267         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00268 
+                      00269 ;*      *       *       *       *       *       *       *       *       *
+                      00270 ;*                  TRATATAMENTO DA INTERRUPÇÃO DE TIMER2               *
+                      00271 ;*      *       *       *       *       *       *       *       *       *
+                      00272 
+0053                  00273 TRATA_TIMER2
+                      00274 
+0053   108C           00275         BCF     PIR1,TMR2IF
+                      00276         
+0054   0BAB           00277         DECFSZ  VEZES_TIMER2,F  ; DECREMENTA VEZES_TIMER2, ACABOU?
+0055   2811           00278         GOTO    SAI_INTERRUPCAO ; NÃO, ENTÃO SAI DA INTERRUPÇÃO
+                      00279         
+0056   3064           00280         MOVLW   .100
+0057   00AB           00281         MOVWF   VEZES_TIMER2    ; RECARREGA VEZES_TIMER2
+                      00282         
+0058   1010           00283         BCF     T1CON,TMR1ON    ; DESLIGA TIMER1
+                      00284         
+0059   080E           00285         MOVF    TMR1L,W
+005A   00AD           00286         MOVWF   CONTADOR_LSB
+005B   080F           00287         MOVF    TMR1H,W
+005C   00AE           00288         MOVWF   CONTADOR_MSB    ; SALVA VALOR DA CONTAGEM
+                      00289         
+005D   018E           00290         CLRF    TMR1L           ; LIMPA VARIÁVEIS DE CONTAGEM
+005E   018F           00291         CLRF    TMR1H
+                      00292         
+005F   142C           00293         BSF     MOSTRA_RPS_RPM  ; SETA FLAG PARA MOSTRAR RPS E RPM
+                      00294         
+0060   1410           00295         BSF     T1CON,TMR1ON    ; LIGA O TIMER 1
+                      00296         
+0061   2811           00297         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00298 
+                      00299 ;*      *       *       *       *       *       *       *       *       *
+                      00300 ;*                    ROTINA DE MULTIPLICAÇÃO 8x8                       *
+                      00301 ;*                        ENTRADAS: ARG1:ARG0                           *       
+                      00302 ;*                         SAÍDA: ARG1:ARG0                             *
+                      00303 ;*                  VARIÁVEIS AUXILIARES: MUL1:MUL0                     *
+                      00304 ;*      *       *       *       *       *       *       *       *       *
+                      00305 
+0062                  00306 MULTIPLICACAO
+                      00307 
+0062   08A6           00308         MOVF    ARG0,F          ; VERIFICA SE ALGUMA DAS VARIÁVEIS
+0063   1903           00309         BTFSC   STATUS,Z        ; É NULA        
+0064   2875           00310         GOTO    SAI_EM_0
+                      00311         
+0065   08A7           00312         MOVF    ARG1,F
+0066   1903           00313         BTFSC   STATUS,Z
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0067   2875           00314         GOTO    SAI_EM_0
+                      00315         
+0068   01A9           00316         CLRF    MUL1
+0069   01AA           00317         CLRF    MUL0
+                      00318         
+006A                  00319 MULT
+006A   0826           00320         MOVF    ARG0,W          ; FAZ A SOMA SUCESSIVA, OU SEJA
+006B   07AA           00321         ADDWF   MUL0,F          ; A MULTIPLICAÇÃO
+006C   1803           00322         BTFSC   STATUS,C
+006D   0AA9           00323         INCF    MUL1,F
+                      00324         
+006E   0BA7           00325         DECFSZ  ARG1,F
+006F   286A           00326         GOTO    MULT
+                      00327 
+0070                  00328 SAI_COM_DADO
+                      00329         
+0070   0829           00330         MOVF    MUL1,W          ; RETORNA O VALOR DA MULTIPLICAÇÃO
+0071   00A7           00331         MOVWF   ARG1
+0072   082A           00332         MOVF    MUL0,W
+0073   00A6           00333         MOVWF   ARG0
+0074   0008           00334         RETURN
+                      00335                 
+0075                  00336 SAI_EM_0
+                      00337         
+0075   01A6           00338         CLRF    ARG0
+0076   01A7           00339         CLRF    ARG1
+0077   0008           00340         RETURN  
+                      00341 
+                      00342 ;*      *       *       *       *       *       *       *       *       *
+                      00343 ;*                      ROTINA DE DIVISÃO DE 16 BITS                    *
+                      00344 ;*              ENTRADAS: DIVIDENDO(ARG1:ARG0) DIVISOR(ARG2)            *
+                      00345 ;*                          SAÍDA: ARG1:ARG0                            *
+                      00346 ;*                   VARIÁVEIS AUXILIARES: MUL1:MUL0                    *
+                      00347 ;*      *       *       *       *       *       *       *       *       *
+                      00348 
+0078                  00349 DIVIDE
+0078   01A9           00350         CLRF    MUL1
+0079   01AA           00351         CLRF    MUL0
+                      00352         
+007A   08A8           00353         MOVF    ARG2,F
+007B   1903           00354         BTFSC   STATUS,Z
+007C   2875           00355         GOTO    SAI_EM_0
+                      00356         
+007D   08A6           00357         MOVF    ARG0,F
+007E   1D03           00358         BTFSS   STATUS,Z
+007F   2883           00359         GOTO    DIVIDE_A
+                      00360         
+0080   08A7           00361         MOVF    ARG1,F
+0081   1903           00362         BTFSC   STATUS,Z
+0082   2875           00363         GOTO    SAI_EM_0
+                      00364         
+0083                  00365 DIVIDE_A
+                      00366 
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0083   0828           00367         MOVF    ARG2,W
+0084   02A6           00368         SUBWF   ARG0,F
+0085   1C03           00369         BTFSS   STATUS,C
+0086   288B           00370         GOTO    DIVIDE_B
+                      00371 
+0087                  00372 DIVIDE_C
+                      00373 
+0087   0AAA           00374         INCF    MUL0,F
+0088   1903           00375         BTFSC   STATUS,Z
+0089   0AA9           00376         INCF    MUL1,F
+008A   2883           00377         GOTO    DIVIDE_A
+                      00378 
+008B                  00379 DIVIDE_B
+                      00380 
+008B   08A7           00381         MOVF    ARG1,F
+008C   1903           00382         BTFSC   STATUS,Z
+008D   2870           00383         GOTO    SAI_COM_DADO
+008E   03A7           00384         DECF    ARG1,F
+008F   2887           00385         GOTO    DIVIDE_C
+                      00386         
+                      00387 ;*      *       *       *       *       *       *       *       *       *
+                      00388 ;*                    ROTINA DE DELAY DE 1ms A 256ms                    *
+                      00389 ;*      *       *       *       *       *       *       *       *       *
+                      00390 
+0090                  00391 DELAY_MS
+                      00392         
+0090   0064           00393         CLRWDT
+                      00394         
+0091   00A1           00395         MOVWF   TEMPO2          ; SALVA O VALOR MULTIPLICADOR
+0092   01A0           00396         CLRF    TEMPO1          ; LIMPA REGISTRADOR
+                      00397 
+0093                  00398 DELAY_A
+                      00399         
+0093   0000           00400         NOP                     ; PERDE 1 CICLO DE MÁQUINA
+0094   0BA0           00401         DECFSZ  TEMPO1,F        ; DECREMENTA REGISTRADOR, ACABOU?
+0095   2893           00402         GOTO    $-2             ; NÃO, ENTÃO RETORNA DUAS POSIÇÕES 
+0096   0BA1           00403         DECFSZ  TEMPO2,F
+0097   2893           00404         GOTO    DELAY_A
+                      00405         
+0098   0008           00406         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00407 
+                      00408 ;*      *       *       *       *       *       *       *       *       *
+                      00409 ;*                ROTINA PARA ESCREVER DADOS NO DISPLAY                 *
+                      00410 ;*      *       *       *       *       *       *       *       *       *
+                      00411 
+0099                  00412 ENVIA_COMANDO
+                      00413         
+0099   1089           00414         BCF     RS              ; PÕE EM MODO DE COMANDO
+                      00415         
+009A                  00416 ENVIA_DADO
+                      00417         
+009A   138B           00418         BCF     INTCON,GIE      ; DESLIGA A INTERRUPÇÃO
+                      00419         
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+009B   0088           00420         MOVWF   BUS             ; MOVE DADO PARA O PORTD
+                      00421                 
+009C   289D           00422         GOTO    $+1             ; DEÇAY PARA ACOMODAÇÃO
+009D   289E           00423         GOTO    $+1             
+                      00424         
+009E   1509           00425         BSF     EN              ; GERA PULSO DE CLOCK
+009F   28A0           00426         GOTO    $+1
+00A0   1109           00427         BCF     EN
+                      00428         
+00A1   1489           00429         BSF     RS              ; VOLTA PARA O MODO DADOS
+00A2   3001           00430         MOVLW   .1
+00A3   2090           00431         CALL    DELAY_MS
+00A4   178B           00432         BSF     INTCON,GIE      ; LIGA A INTERRUPÇÃO
+00A5   0008           00433         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00434 
+                      00435 ;*      *       *       *       *       *       *       *       *       *
+                      00436 ;*                   ROTINA DE ATUALIZAÇÃO DA TELA DO LCD               *
+                      00437 ;*      *       *       *       *       *       *       *       *       *
+                      00438 
+00A6                  00439 ATUALIZA_TELA
+                      00440         
+                      00441         
+00A6   3080           00442         MOVLW   0x80
+00A7   2099           00443         CALL    ENVIA_COMANDO   ; COMANDO PARA POSICIONAR O DISPLAY
+                      00444         
+00A8   3043           00445         MOVLW   'C'
+00A9   209A           00446         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00447         
+00AA   3043           00448         MOVLW   'C'
+00AB   209A           00449         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00450         
+00AC   3050           00451         MOVLW   'P'
+00AD   209A           00452         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00453         
+00AE   3031           00454         MOVLW   '1'
+00AF   209A           00455         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00456         
+00B0   3028           00457         MOVLW   '('
+00B1   209A           00458         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00459         
+00B2   3056           00460         MOVLW   'V'
+00B3   209A           00461         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00462         
+00B4   3065           00463         MOVLW   'e'
+00B5   209A           00464         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00465         
+00B6   306E           00466         MOVLW   'n'
+00B7   209A           00467         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00468         
+00B8   3074           00469         MOVLW   't'
+00B9   209A           00470         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00471         
+00BA   307D           00472         MOVLW   '}'
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00BB   209A           00473         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00474         
+00BC   303A           00475         MOVLW   ':'
+00BD   209A           00476         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00477         
+00BE   3020           00478         MOVLW   ' '
+00BF   209A           00479         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00480         
+00C0   3030           00481         MOVLW   '0'
+00C1   209A           00482         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00483         
+00C2   3020           00484         MOVLW   ' '
+00C3   209A           00485         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00486         
+00C4   3020           00487         MOVLW   ' '
+00C5   209A           00488         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00489         
+00C6   3025           00490         MOVLW   '%'
+00C7   209A           00491         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00492         
+00C8   30C0           00493         MOVLW   0xC0
+00C9   2099           00494         CALL    ENVIA_COMANDO   ; COMANDO PARA POSICIONAR O DISPLAY
+                      00495         
+00CA   3043           00496         MOVLW   'C'
+00CB   209A           00497         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00498         
+00CC   3043           00499         MOVLW   'C'
+00CD   209A           00500         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00501         
+00CE   3050           00502         MOVLW   'P'
+00CF   209A           00503         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00504         
+00D0   3032           00505         MOVLW   '2'
+00D1   209A           00506         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00507         
+00D2   3028           00508         MOVLW   '('
+00D3   209A           00509         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00510         
+00D4   3052           00511         MOVLW   'R'
+00D5   209A           00512         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00513         
+00D6   3065           00514         MOVLW   'e'
+00D7   209A           00515         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00516         
+00D8   3073           00517         MOVLW   's'
+00D9   209A           00518         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00519         
+00DA   3069           00520         MOVLW   'i'
+00DB   209A           00521         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00522         
+00DC   307D           00523         MOVLW   '}'
+00DD   209A           00524         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00525         
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00DE   303A           00526         MOVLW   ':'
+00DF   209A           00527         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00528         
+                      00529         
+00E0   3020           00530         MOVLW   ' '
+00E1   209A           00531         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00532                 
+00E2   3030           00533         MOVLW   '0'
+00E3   209A           00534         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00535         
+00E4   3020           00536         MOVLW   ' '
+00E5   209A           00537         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00538         
+00E6   3020           00539         MOVLW   ' '
+00E7   209A           00540         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00541         
+00E8   3025           00542         MOVLW   '%'
+00E9   209A           00543         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00544         
+00EA   0008           00545         RETURN                  ; RETORNA DA ROTINA     
+                      00546 
+00EB                  00547 ATUALIZA_0
+                      00548         
+00EB   00A5           00549         MOVWF   TEMP
+                      00550         
+00EC   3A8B           00551         XORLW   0x8B            ; VERIFICA SE É PARA ATUALIZAR
+00ED   3000           00552         MOVLW   .0              ; O CCP1 OU O CCP2
+00EE   1D03           00553         BTFSS   STATUS,Z
+00EF   009B           00554         MOVWF   CCPR2L
+00F0   1903           00555         BTFSC   STATUS,Z
+00F1   0095           00556         MOVWF   CCPR1L
+                      00557         
+00F2   0825           00558         MOVF    TEMP,W          ; POSICIONA LINHA DO DISPLAY
+00F3   2099           00559         CALL    ENVIA_COMANDO   ; CHAMA ROTINA PARA ENVIAR COMANDO
+                      00560         
+00F4   3020           00561         MOVLW   ' '
+00F5   209A           00562         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00563         
+00F6   3030           00564         MOVLW   '0'
+00F7   209A           00565         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00566         
+00F8   3020           00567         MOVLW   ' '
+00F9   209A           00568         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00569         
+00FA   0008           00570         RETURN                  ; RETORNA DA ROTINA     
+                      00571 
+                      00572 
+00FB                  00573 ATUALIZA_20
+                      00574         
+00FB   00A5           00575         MOVWF   TEMP
+                      00576         
+00FC   3A8B           00577         XORLW   0x8B            ; VERIFICA SE É PARA ATUALIZAR
+00FD   3032           00578         MOVLW   .50             ; O CCP1 OU O CCP2
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00FE   1D03           00579         BTFSS   STATUS,Z
+00FF   009B           00580         MOVWF   CCPR2L
+0100   1903           00581         BTFSC   STATUS,Z
+0101   0095           00582         MOVWF   CCPR1L
+                      00583 
+0102   0825           00584         MOVF    TEMP,W
+0103   2099           00585         CALL    ENVIA_COMANDO   ; CHAMA ROTINA PARA ENVIAR COMANDO
+                      00586         
+0104   3020           00587         MOVLW   ' '
+0105   209A           00588         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00589         
+0106   3032           00590         MOVLW   '2'
+0107   209A           00591         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00592         
+0108   3030           00593         MOVLW   '0'
+0109   209A           00594         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00595         
+010A   0008           00596         RETURN                  ; RETORNA DA ROTINA     
+                      00597 
+010B                  00598 ATUALIZA_40
+                      00599         
+010B   00A5           00600         MOVWF   TEMP
+                      00601         
+010C   3A8B           00602         XORLW   0x8B            ; VERIFICA SE É PARA ATUALIZAR
+010D   3065           00603         MOVLW   .101            ; O CCP1 OU O CCP2
+010E   1D03           00604         BTFSS   STATUS,Z
+010F   009B           00605         MOVWF   CCPR2L
+0110   1903           00606         BTFSC   STATUS,Z
+0111   0095           00607         MOVWF   CCPR1L
+                      00608 
+0112   0825           00609         MOVF    TEMP,W
+0113   2099           00610         CALL    ENVIA_COMANDO   ; CHAMA ROTINA PARA ENVIAR COMANDO
+                      00611         
+0114   3020           00612         MOVLW   ' '
+0115   209A           00613         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00614         
+0116   3034           00615         MOVLW   '4'
+0117   209A           00616         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00617         
+0118   3030           00618         MOVLW   '0'
+0119   209A           00619         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00620         
+011A   0008           00621         RETURN                  ; RETORNA DA ROTINA     
+                      00622 
+011B                  00623 ATUALIZA_60
+                      00624         
+011B   00A5           00625         MOVWF   TEMP
+                      00626         
+011C   3A8B           00627         XORLW   0x8B            ; VERIFICA SE É PARA ATUALIZAR
+011D   3098           00628         MOVLW   .152            ; O CCP1 OU O CCP2
+011E   1D03           00629         BTFSS   STATUS,Z
+011F   009B           00630         MOVWF   CCPR2L
+0120   1903           00631         BTFSC   STATUS,Z
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0121   0095           00632         MOVWF   CCPR1L
+                      00633 
+0122   0825           00634         MOVF    TEMP,W
+0123   2099           00635         CALL    ENVIA_COMANDO   ; CHAMA ROTINA PARA ENVIAR COMANDO
+                      00636         
+0124   3020           00637         MOVLW   ' '
+0125   209A           00638         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00639         
+0126   3036           00640         MOVLW   '6'
+0127   209A           00641         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00642         
+0128   3030           00643         MOVLW   '0'
+0129   209A           00644         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00645         
+012A   0008           00646         RETURN                  ; RETORNA DA ROTINA     
+                      00647 
+012B                  00648 ATUALIZA_80
+                      00649         
+012B   00A5           00650         MOVWF   TEMP
+                      00651         
+012C   3A8B           00652         XORLW   0x8B            ; VERIFICA SE É PARA ATUALIZAR
+012D   30CB           00653         MOVLW   .203            ; O CCP1 OU O CCP2
+012E   1D03           00654         BTFSS   STATUS,Z
+012F   009B           00655         MOVWF   CCPR2L
+0130   1903           00656         BTFSC   STATUS,Z
+0131   0095           00657         MOVWF   CCPR1L
+                      00658 
+0132   0825           00659         MOVF    TEMP,W
+0133   2099           00660         CALL    ENVIA_COMANDO   ; CHAMA ROTINA PARA ENVIAR COMANDO
+                      00661         
+0134   3020           00662         MOVLW   ' '
+0135   209A           00663         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00664         
+0136   3038           00665         MOVLW   '8'
+0137   209A           00666         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00667         
+0138   3030           00668         MOVLW   '0'
+0139   209A           00669         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00670         
+013A   0008           00671         RETURN                  ; RETORNA DA ROTINA     
+                      00672 
+013B                  00673 ATUALIZA_100
+                      00674         
+013B   00A5           00675         MOVWF   TEMP
+                      00676         
+013C   3A8B           00677         XORLW   0x8B            ; VERIFICA SE É PARA ATUALIZAR
+013D   30FF           00678         MOVLW   .255            ; O CCP1 OU O CCP2
+013E   1D03           00679         BTFSS   STATUS,Z
+013F   009B           00680         MOVWF   CCPR2L
+0140   1903           00681         BTFSC   STATUS,Z
+0141   0095           00682         MOVWF   CCPR1L
+                      00683 
+0142   0825           00684         MOVF    TEMP,W
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0143   2099           00685         CALL    ENVIA_COMANDO   ; CHAMA ROTINA PARA ENVIAR COMANDO
+                      00686         
+0144   3031           00687         MOVLW   '1'
+0145   209A           00688         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00689         
+0146   3030           00690         MOVLW   '0'
+0147   209A           00691         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00692         
+0148   3030           00693         MOVLW   '0'
+0149   209A           00694         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00695         
+014A   0008           00696         RETURN                  ; RETORNA DA ROTINA     
+                      00697 
+                      00698 ;*      *       *       *       *       *       *       *       *       *
+                      00699 ;*                  ROTINA PARA ATUALIZAR O RPS E O RPM                 *
+                      00700 ;*      *       *       *       *       *       *       *       *       *
+                      00701 
+014B                  00702 ATUALIZA_RPS_RPM
+                      00703         
+014B   102C           00704         BCF     MOSTRA_RPS_RPM  ; LIMPA FLAG
+                      00705         
+                      00706         
+                      00707         
+014C   0008           00708         RETURN
+                      00709                         
+                      00710 ;*      *       *       *       *       *       *       *       *       *
+                      00711 ;*                        CONFIGURACOES INICIAIS                        *
+                      00712 ;*      *       *       *       *       *       *       *       *       *
+                      00713 
+014D                  00714 CONFIG_
+                      00715 
+014D   0185           00716         CLRF    PORTA           ; LIMPA O PORTA
+014E   0186           00717         CLRF    PORTB           ; LIMPA O PORTB
+014F   0187           00718         CLRF    PORTC           ; LIMPA O PORTC
+0150   0188           00719         CLRF    PORTD           ; LIMPA O PORTD
+0151   0189           00720         CLRF    PORTE           ; LIMPA O PORTE
+                      00721         
+0152   1683           00722         BANK1                   ; SELECIONA BANCO1 DE MEMÓRIA
+                      00723         
+0153   30FF           00724         MOVLW   B'11111111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0154   0085           00725         MOVWF   TRISA
+                      00726         
+0155   30C0           00727         MOVLW   B'11000000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0156   0086           00728         MOVWF   TRISB           ; CONFIGURA I/O DO PORTB
+                      00729         
+0157   30D9           00730         MOVLW   B'11011001'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0158   0087           00731         MOVWF   TRISC           ; CONFIGURA I/O DO PORTB
+                      00732         
+0159   3000           00733         MOVLW   B'00000000'     ; CONFIGURA TODOS OS PINOS DESTE
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+015A   0088           00734         MOVWF   TRISD           ; PORTB COMO SAÍDA
+                      00735         
+015B   3001           00736         MOVLW   B'00000001'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+015C   0089           00737         MOVWF   TRISE           ; CONFIGURA I/O DO PORTE
+                      00738         
+015D   308F           00739         MOVLW   B'10001111'     ; DESLIGA PULL-UPS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+015E   0081           00740         MOVWF   OPTION_REG      ; WDT 1:128
+                      00741         
+015F   3002           00742         MOVLW   B'00000010'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0160   008C           00743         MOVWF   PIE1            ; HABILITA INTERRUPÇÃO DE TIMER2
+                      00744         
+0161   3040           00745         MOVLW   B'01000000'     
+0162   008B           00746         MOVWF   INTCON          ; HABILITA A INTERRUPÇÃO DOS PERIFÉRICOS
+                      00747                                 ; LIGA A CHAVE GERAL DE INTERRUPÇÃO
+                      00748         
+0163   3007           00749         MOVLW   B'00000111'     ; DESLIGA OS A/D´S
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0164   009F           00750         MOVWF   ADCON1
+                      00751         
+0165   30F9           00752         MOVLW   .249
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0166   0092           00753         MOVWF   PR2             ; CONFIGURA BASE DE TEMPO PARA 4kHz
+                      00754         
+0167   1283           00755         BANK0
+                      00756         
+0168   018E           00757         CLRF    TMR1L
+0169   018F           00758         CLRF    TMR1H
+016A   3007           00759         MOVLW   B'00000111'
+016B   0090           00760         MOVWF   T1CON           ; PRESCALE 1:1
+                      00761                                 ; TIMER 1 COMO CONTADOR EXTERNO
+                      00762         
+016C   304D           00763         MOVLW   B'01001101'
+016D   0092           00764         MOVWF   T2CON           ; TIMER 2 ON
+                      00765                                 ; PRESCALER 1:4
+                      00766                                 ; POSTSCALE 1:10
+                      00767         
+016E   300F           00768         MOVLW   B'00001111'
+016F   0097           00769         MOVWF   CCP1CON
+0170   009D           00770         MOVWF   CCP2CON         ; CONFIGURA CCP PARA MODO PWM
+                      00771         
+0171   0195           00772         CLRF    CCPR1L
+0172   019B           00773         CLRF    CCPR2L          ; INICIALIZA OS MÓDULOS 
+                      00774         
+0173   1A03           00775         BTFSC   STATUS,NOT_TO   ; ESTOURO POR WDT?
+0174   2974           00776         GOTO    $               ; NÃO, ENTÃO AGUARDA
+                      00777                 
+0175                  00778 LIMPEZA_DA_RAM
+                      00779                                 ; ROTINA DE LIMPEZA DA RAM
+                      00780                                 
+0175   3020           00781         MOVLW   0x20
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0176   0084           00782         MOVWF   FSR
+0177   0180           00783         CLRF    INDF
+0178   0A84           00784         INCF    FSR,F
+0179   3080           00785         MOVLW   0x80
+017A   0604           00786         XORWF   FSR,W
+017B   1D03           00787         BTFSS   STATUS,Z
+017C   2977           00788         GOTO    $-5
+                      00789 
+017D   3064           00790         MOVLW   .100
+017E   00AB           00791         MOVWF   VEZES_TIMER2    ; CARREGA VEZES_TIMER2
+                      00792         
+017F   178B           00793         BSF     INTCON,GIE      ; LIGA AS INTERRUPÇÕES
+                      00794         
+                      00795 ;*      *       *       *       *       *       *       *       *       *
+                      00796 ;*                       INICIALIZAÇÃO DO DISPLAY                       *
+                      00797 ;*      *       *       *       *       *       *       *       *       *
+                      00798         
+                      00799 
+                      00800 
+0180   3030           00801         MOVLW   0x30                    
+0181   2099           00802         CALL    ENVIA_COMANDO           ; COMANDO DE INICIALIZAÇÃO
+                      00803         
+0182   3003           00804         MOVLW   .3                      
+0183   2090           00805         CALL    DELAY_MS                ; DELAY DE 3ms
+                      00806         
+0184   3030           00807         MOVLW   0x30                    
+0185   2099           00808         CALL    ENVIA_COMANDO           ; COMANDO DE INICIALIZAÇÃO      
+                      00809         
+0186   3030           00810         MOVLW   0x30                    
+0187   2099           00811         CALL    ENVIA_COMANDO           ; COMANDO DE INICIALIZAÇÃO
+                      00812         
+0188   3038           00813         MOVLW   0x38                    
+0189   2099           00814         CALL    ENVIA_COMANDO           ; INTERFACE DE 8 VIAS
+                      00815         
+018A   3001           00816         MOVLW   0x01                    
+018B   2099           00817         CALL    ENVIA_COMANDO           ; LIMPA O DISPLAY
+                      00818         
+018C   3001           00819         MOVLW   .1
+018D   2090           00820         CALL    DELAY_MS                ; CHAMA DELAY DE 3ms
+                      00821         
+018E   300C           00822         MOVLW   0x0C                    
+018F   2099           00823         CALL    ENVIA_COMANDO           ; LIGAR O DISPLAY SEM CURSOR
+                      00824         
+0190   3006           00825         MOVLW   0x06                    
+0191   2099           00826         CALL    ENVIA_COMANDO           ; LIGAR O DISPLAY SEM CURSOR
+                      00827         
+                      00828                                                                 
+                      00829 ;*      *       *       *       *       *       *       *       *       *
+                      00830 ;*                       INICIALIZAÇÃO DAS VARIÁVEIS                    *
+                      00831 ;*      *       *       *       *       *       *       *       *       *
+                      00832         
+0192   20A6           00833         CALL    ATUALIZA_TELA           ; CHAMA ROTINA PARA ATUALIZAR
+                      00834                                         ; A TELA DA PLACA
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00835                 
+                      00836 ;*      *       *       *       *       *       *       *       *       *
+                      00837 ;*                          ROTINA PRINCIPAL                            *
+                      00838 ;*      *       *       *       *       *       *       *       *       *
+                      00839 
+0193                  00840 LOOP
+0193   0064           00841         CLRWDT                  ; LIMPA O WATCHDOG
+                      00842         
+0194   182C           00843         BTFSC   MOSTRA_RPS_RPM  ; DEVE ATUALIZAR O DISPLAY?
+0195   214B           00844         CALL    ATUALIZA_RPS_RPM ; SIM, ENTÃO CHAMA A ROTINA
+                      00845         
+0196                  00846 AJUSTA_CCP1
+                      00847         
+0196   308B           00848         MOVLW   0x8B            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+0197   18A2           00849         BTFSC   TECLA_1         ; A TECLA ESTÁ PRESSIONADA?
+0198   20EB           00850         CALL    ATUALIZA_0      ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00851         
+0199   308B           00852         MOVLW   0x8B            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+019A   1922           00853         BTFSC   TECLA_2         ; A TECLA ESTÁ PRESSIONADA?
+019B   20FB           00854         CALL    ATUALIZA_20     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00855         
+019C   308B           00856         MOVLW   0x8B            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+019D   19A2           00857         BTFSC   TECLA_3         ; A TECLA ESTÁ PRESSIONADA?
+019E   210B           00858         CALL    ATUALIZA_40     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00859         
+019F   308B           00860         MOVLW   0x8B            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01A0   1A22           00861         BTFSC   TECLA_4         ; A TECLA ESTÁ PRESSIONADA?
+01A1   211B           00862         CALL    ATUALIZA_60     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00863         
+01A2   308B           00864         MOVLW   0x8B            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01A3   1AA2           00865         BTFSC   TECLA_5         ; A TECLA ESTÁ PRESSIONADA?
+01A4   212B           00866         CALL    ATUALIZA_80     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00867         
+01A5   308B           00868         MOVLW   0x8B            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01A6   1B22           00869         BTFSC   TECLA_6         ; A TECLA ESTÁ PRESSIONADA?
+01A7   213B           00870         CALL    ATUALIZA_100    ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00871 
+01A8                  00872 AJUSTA_CCP2
+                      00873         
+01A8   30CB           00874         MOVLW   0xCB            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01A9   1BA2           00875         BTFSC   TECLA_7         ; A TECLA ESTÁ PRESSIONADA?
+01AA   20EB           00876         CALL    ATUALIZA_0      ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00877         
+01AB   30CB           00878         MOVLW   0xCB            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01AC   1823           00879         BTFSC   TECLA_8         ; A TECLA ESTÁ PRESSIONADA?
+01AD   20FB           00880         CALL    ATUALIZA_20     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00881         
+01AE   30CB           00882         MOVLW   0xCB            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01AF   18A3           00883         BTFSC   TECLA_9         ; A TECLA ESTÁ PRESSIONADA?
+01B0   210B           00884         CALL    ATUALIZA_40     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00885         
+01B1   30CB           00886         MOVLW   0xCB            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01B2   1923           00887         BTFSC   TECLA_C         ; A TECLA ESTÁ PRESSIONADA?
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+01B3   211B           00888         CALL    ATUALIZA_60     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00889         
+01B4   30CB           00890         MOVLW   0xCB            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01B5   1822           00891         BTFSC   TECLA_0         ; A TECLA ESTÁ PRESSIONADA?
+01B6   212B           00892         CALL    ATUALIZA_80     ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00893         
+01B7   30CB           00894         MOVLW   0xCB            ; MOVE POSIÇÃO INICIAL DA MENSAGEM
+01B8   19A3           00895         BTFSC   TECLA_E         ; A TECLA ESTÁ PRESSIONADA?
+01B9   213B           00896         CALL    ATUALIZA_100    ; SIM, ENTÃO CHAMA A ROTINA DE ATUALIZAÇÃO
+                      00897         
+01BA   2993           00898         GOTO    LOOP            ; SALTA PARA O LOOP PRINCIPAL
+                      00899                 
+                      00900 ;*      *       *       *       *       *       *       *       *       *
+                      00901 ;*                           FIM DO PROGRAMA                            *
+                      00902 ;*      *       *       *       *       *       *       *       *       *
+                      00903 
+                      00904 
+                      00905         END                     ; FIM DO PROGRAMA
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+AJUSTA_CCP1                       00000196
+AJUSTA_CCP2                       000001A8
+ARG0                              00000026
+ARG1                              00000027
+ARG2                              00000028
+ATUALIZA_0                        000000EB
+ATUALIZA_100                      0000013B
+ATUALIZA_20                       000000FB
+ATUALIZA_40                       0000010B
+ATUALIZA_60                       0000011B
+ATUALIZA_80                       0000012B
+ATUALIZA_RPS_RPM                  0000014B
+ATUALIZA_TELA                     000000A6
+BANK0                             BCF     STATUS,RP0
+BANK1                             BSF     STATUS,RP0
+BCLIE                             00000003
+BCLIF                             00000003
+BF                                00000000
+BRGH                              00000002
+BUS                               PORTD
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CKE                               00000006
+CKP                               00000004
+COL1                              PORTA,4
+COL2                              PORTA,5
+COL3                              PORTE,0
+CONFIG_                           0000014D
+CONTADOR_LSB                      0000002D
+CONTADOR_MSB                      0000002E
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DELAY_A                           00000093
+DELAY_MS                          00000090
+DIVIDE                            00000078
+DIVIDE_A                          00000083
+DIVIDE_B                          0000008B
+DIVIDE_C                          00000087
+D_A                               00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+EN                                PORTE,2
+ENVIA_COMANDO                     00000099
+ENVIA_DADO                        0000009A
+F                                 00000001
+FERR                              00000002
+FLAGS                             0000002C
+FSR                               00000004
+FSR_TEMP                          00000072
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+IBOV                              00000005
+INDF                              00000000
+INDICE                            00000024
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LIMPEZA_DA_RAM                    00000175
+LINHA_INF                         0xC0
+LINHA_SUP                         0x80
+LOOP                              00000193
+MOSTRA_RPS_RPM                    FLAGS,0
+MUL0                              0000002A
+MUL1                              00000029
+MULT                              0000006A
+MULTIPLICACAO                     00000062
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_TEMP                       00000073
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RBIE                              00000003
+RBIF                              00000000
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RS                                PORTE,1
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_W                               00000002
+S                                 00000003
+SAI_COM_DADO                      00000070
+SAI_EM_0                          00000075
+SAI_INTERRUPCAO                   00000011
+SALVA_CONTEXTO                    00000004
+SEL_LINHA1                        B'00001110'
+SEL_LINHA2                        B'00001101'
+SEL_LINHA3                        B'00001011'
+SEL_LINHA4                        B'00000111'
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STATUS_TEMP                       00000071
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TECLADO1                          00000022
+TECLADO2                          00000023
+TECLA_0                           TECLADO1,0
+TECLA_1                           TECLADO1,1
+TECLA_2                           TECLADO1,2
+TECLA_3                           TECLADO1,3
+TECLA_4                           TECLADO1,4
+TECLA_5                           TECLADO1,5
+TECLA_6                           TECLADO1,6
+TECLA_7                           TECLADO1,7
+TECLA_8                           TECLADO2,0
+TECLA_9                           TECLADO2,1
+TECLA_C                           TECLADO2,2
+TECLA_E                           TECLADO2,3
+TEMP                              00000025
+TEMPO1                            00000020
+TEMPO2                            00000021
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRATA_TIMER0                      0000001A
+TRATA_TIMER2                      00000053
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISA                             00000085
+TRISB                             00000086
+TRISC                             00000087
+TRISD                             00000088
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+VERIFICA_LINHA1                   00000023
+VERIFICA_LINHA2                   0000002F
+VERIFICA_LINHA3                   0000003B
+VERIFICA_LINHA4                   00000047
+VEZES_TIMER2                      0000002B
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+W_TEMP                            00000070
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00000FCF
+_CP_HALF                          00001FDF
+_CP_OFF                           00003FFF
+_CP_UPPER_256                     00002FEF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_ENABLE_OFF                   00003DFF
+_WRT_ENABLE_ON                    00003FFF
+_XT_OSC                           00003FFD
+MPASM 03.80.04 Internal                         PWM FINAL.ASM   5-15-2005  0:35:51         PAGE 25
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__16F877                          00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0180 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXX-----
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   440
+Program Memory Words Free:  7752
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :    11 reported,     0 suppressed
+
+Error[173]  : source file path exceeds 62 characters (D:\CURSO\PIC\ASSEMBLY\MóDULO B\EXEMPLOS\PWM FINAL\PWM FINAL.ASM)

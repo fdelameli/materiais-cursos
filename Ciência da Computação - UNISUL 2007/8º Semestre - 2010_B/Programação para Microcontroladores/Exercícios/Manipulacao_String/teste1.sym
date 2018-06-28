@@ -1,0 +1,82 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+018     RCSTA
+01B     CCP_2_LOW
+01B-01C CCP_2
+01C     CCP_2_HIGH
+020-021 strtok.save
+022-02B MAIN.c
+02C-02D MAIN.ptr
+02E     @PRINTF_U_9600_62_63.P1
+02E-02F strlwr.s
+02E     MAIN.@SCRATCH1
+02F     @delay_ms1.P1
+02F     @PRINTF_U_9600_62_63.P2
+02F     MAIN.@SCRATCH2
+030-031 strlwr.p
+030     @DIV88.P1
+030     MAIN.@SCRATCH3
+031     @DIV88.P1
+031     MAIN.@SCRATCH4
+032     strlwr.@SCRATCH1
+032     MAIN.@SCRATCH5
+032     @DIV88.@SCRATCH1
+033     strlwr.@SCRATCH2
+034     strlwr.@SCRATCH3
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+0051  @delay_ms1
+0066  strlwr
+009D  MAIN
+0004  @DIV88
+0019  @PRINTF_U_9600_62_63
+009D  @cinit
+
+
+User Memory space: 
+
+Project Directory:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Manipulacao_String\
+
+Project Files:
+    teste1.c
+    16F877A.h
+    ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\string.h
+    ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\stddef.h
+    ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\ctype.h
+
+Units:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Manipulacao_String\teste1.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      teste1.err
+    Ext Symbols: teste1.esym
+    INHX8:       teste1.hex
+    Symbols:     teste1.sym
+    List:        teste1.lst
+    Debug/COFF:  teste1.cof
+    Project:     teste1.PJT
+    Call Tree:   teste1.tre
+    Statistics:  teste1.sta

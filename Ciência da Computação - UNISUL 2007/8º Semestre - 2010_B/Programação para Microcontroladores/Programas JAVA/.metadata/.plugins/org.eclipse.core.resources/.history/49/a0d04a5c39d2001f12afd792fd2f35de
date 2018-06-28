@@ -1,0 +1,20 @@
+package swing;
+
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+
+
+public class JProgressBarTest extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel jContentPane = null;
+	/**
+	 * This is the default constructor
+	 */
+	public JProgressBarTest() {
+		super();
+		initialize();
+	}
+
+}

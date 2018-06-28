@@ -1,0 +1,35 @@
+	// método para somar um polinômio passado como parâmetro
+	// ao polinômio em questão.
+	public Polinomio soma(Polinomio outro) {
+		Termo temp1 = outro.primeiro;
+		Termo temp2 = primeiro;
+
+		Polinomio soma = new Polinomio();
+
+		while (temp2 != null){
+			soma.insereTermo(temp2.getCoeficiente(), temp2.getExpoente());
+			temp2 = temp2.getProximo();
+		}
+		while (temp1 != null){
+			soma.insereTermo(temp1.getCoeficiente(), temp1.getExpoente());
+			temp1 = temp1.getProximo();
+		}
+		return soma;
+	}
+
+	// método para multiplicar um polinômio passado como parâmetro
+	// ao polinômio em questão.
+	public Polinomio multiplica(Polinomio outro) {
+		Termo temp = this.primeiro;
+		Polinomio multi = new Polinomio();
+		while (temp != null){
+			Termo temp2 = outro.primeiro;
+			while (temp2 != null){
+				Termo t = temp.efetuaMulti(temp2);
+				multi.insereTermo(t.getCoeficiente(), t.getExpoente());
+				temp2 = temp2.getProximo();
+			}
+			temp = temp.getProximo();
+		}
+		return multi;
+	}

@@ -1,0 +1,7 @@
+Program teste1;
+   Var a,b,c:integer;
+Begin
+   Readln(a,b); C:= 0;
+   C:= a+b;
+   writeln(c,a,b);
+End.

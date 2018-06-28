@@ -1,0 +1,89 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015     CCP_1_LOW
+015-016 CCP_1
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+021     MAIN.count2
+022     MAIN.count4
+023     MAIN.count10
+024     lcd_init.i
+024     incrementa.a
+025     incrementa.b
+025     lcd_init.@SCRATCH
+026     incrementa.c
+027     @PRINTF_D_61.P1
+027     incrementa.@SCRATCH
+028     @PRINTF_D_61.P1
+029     @PRINTF_D_61.@SCRATCH
+02A     @PRINTF_D_61.@SCRATCH
+02B     @PRINTF_D_61.@SCRATCH
+02C     @PRINTF_D_61.@SCRATCH
+02D     @DIV88.P1
+02D     lcd_putc.c
+02E     @delay_ms1.P1
+02E     lcd_gotoxy.x
+02E     @DIV88.P1
+02F     lcd_gotoxy.y
+02F     @DIV88.@SCRATCH
+030     lcd_gotoxy.address
+031     lcd_gotoxy.@SCRATCH
+032     lcd_send_byte.address
+033     lcd_send_byte.n
+034     lcd_send_byte.@SCRATCH
+035     lcd_send_nibble.nibble
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+0021  @delay_ms1
+0004  LCD_INIT_STRING
+0035  lcd_send_nibble
+0065  lcd_send_byte
+0090  lcd_init
+00BF  lcd_gotoxy
+00D8  lcd_putc
+01D5  MAIN
+0192  incrementa
+000C  @const76
+0118  @DIV88
+012D  @PRINTF_D_61
+0013  @const85
+001A  @const88
+01D5  @cinit
+
+Project Files:
+    exercicio4.c
+    16F877A.h
+    lcd_4.c
+
+Units:
+    C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      0
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.err
+    Ext Symbols: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.esym
+    INHX8:       C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.hex
+    Symbols:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.sym
+    List:        C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.lst
+    Debug/COFF:  C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.cof
+    Project:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista5\exercicio4.PJT
+    Call Tree:   exercicio4.tre
+    Statistics:  exercicio4.sta

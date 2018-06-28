@@ -1,0 +1,11 @@
+Program teste3;
+  Var x,y,z:integer;
+Begin
+  Readln(x,y); z:=0;
+While x>y do
+    Begin
+       z:= z+x*y;
+       Readln(x,y);
+    End;
+Writeln(z);
+End.

@@ -1,0 +1,18 @@
+#include <16F877A.h>
+#fuses XT, PROTECT
+#use delay(clock=4MHz)
+
+
+void main() {
+
+   byte var = 0b10100100;
+   
+   while (true) {
+   
+      rotate_left(&var,1);
+      delay_ms(1000);
+      output_b(var);
+      
+   }
+
+}

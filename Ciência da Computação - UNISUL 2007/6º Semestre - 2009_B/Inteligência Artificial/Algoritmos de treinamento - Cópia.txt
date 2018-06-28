@@ -1,0 +1,40 @@
+// Algorítmo de treinamento
+// Algorítmo de aprendizado
+
+			HEBB
+
+Passo 1 : Inicializar Pesos
+	Wi = 0 (i=1 até n)
+
+Passo 2 : Para cada vetor de treinamento faça
+	Passo 3 : Ajustar pesos
+		Wi(new) = Wi(old) + XiY 
+Fim Para-Faça	
+
+
+			PERCEPTRON
+
+Passo 1 : Inicializar pesos e taxa de aprendizado
+	Wi = 0 (i=1 até n)
+	¢ = 1
+
+Passo 2 : Para cada vetor de treinamento faça
+	Passo 3 : Calcular resposta da rede
+		y-in = SOMATORIO(XiWi) --> (X1*W1 + X2*W2)
+
+						1, se y-in > limiar
+		f(y-in) = 	0, se -limiar <= y-in <= limiar
+						-1, se y-in < -limiar
+
+
+	Passo 4 : Ajustar pesos
+		Se y <> T (alvo)
+			Wi(new) = Wi(old) + ¢TXi
+		Senão
+			Wi(new) = Wi(old)
+
+	Passo 5 : Condição de parada
+		Se nenhum peso foi alterado
+			PARA
+		Senão
+			CONTINUA

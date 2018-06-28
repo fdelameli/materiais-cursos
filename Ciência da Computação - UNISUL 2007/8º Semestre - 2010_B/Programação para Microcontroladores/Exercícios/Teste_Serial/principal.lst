@@ -1,0 +1,126 @@
+CCS PCM C Compiler, Version 4.038, 33467               30-set-10 09:48
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Teste_Serial\principal.lst
+
+               ROM used: 105 words (1%)
+                         Largest free fragment is 2048
+               RAM used: 8 (2%) at main() level
+                         8 (2%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   021
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses  HS,PROTECT,NOWDT 
+.................... #use delay(clock=8Mhz)//velocidade do cristal 
+.................... #use rs232(baud=9600,xmit=pin_c6,rcv=pin_c7) 
+....................  
+.................... void main(){ 
+0021:  CLRF   04
+0022:  BCF    03.7
+0023:  MOVLW  1F
+0024:  ANDWF  03,F
+0025:  MOVLW  0C
+0026:  BSF    03.5
+0027:  MOVWF  19
+0028:  MOVLW  A2
+0029:  MOVWF  18
+002A:  MOVLW  90
+002B:  BCF    03.5
+002C:  MOVWF  18
+002D:  BSF    03.5
+002E:  BSF    1F.0
+002F:  BSF    1F.1
+0030:  BSF    1F.2
+0031:  BCF    1F.3
+0032:  MOVLW  07
+0033:  MOVWF  1C
+....................     char c=' '; 
+0034:  MOVLW  20
+0035:  BCF    03.5
+0036:  MOVWF  21
+....................     while(true){ 
+....................       if(kbhit()){ 
+0037:  BTFSS  0C.5
+0038:  GOTO   067
+....................          c=getc(); 
+0039:  BTFSS  0C.5
+003A:  GOTO   039
+003B:  MOVF   1A,W
+003C:  MOVWF  21
+....................          if(c=='L'){ 
+003D:  MOVF   21,W
+003E:  SUBLW  4C
+003F:  BTFSS  03.2
+0040:  GOTO   052
+....................             output_high(pin_b0); 
+0041:  BSF    03.5
+0042:  BCF    06.0
+0043:  BCF    03.5
+0044:  BSF    06.0
+....................             printf("Ligado\r\n"); 
+0045:  CLRF   22
+0046:  MOVF   22,W
+0047:  CALL   004
+0048:  INCF   22,F
+0049:  MOVWF  77
+004A:  MOVF   77,W
+004B:  BTFSS  0C.4
+004C:  GOTO   04B
+004D:  MOVWF  19
+004E:  MOVLW  08
+004F:  SUBWF  22,W
+0050:  BTFSS  03.2
+0051:  GOTO   046
+....................          } 
+....................          if(c=='D'){ 
+0052:  MOVF   21,W
+0053:  SUBLW  44
+0054:  BTFSS  03.2
+0055:  GOTO   067
+....................             output_low(pin_b0); 
+0056:  BSF    03.5
+0057:  BCF    06.0
+0058:  BCF    03.5
+0059:  BCF    06.0
+....................             printf("Desligado\r\n"); 
+005A:  CLRF   22
+005B:  MOVF   22,W
+005C:  CALL   011
+005D:  INCF   22,F
+005E:  MOVWF  77
+005F:  MOVF   77,W
+0060:  BTFSS  0C.4
+0061:  GOTO   060
+0062:  MOVWF  19
+0063:  MOVLW  0B
+0064:  SUBWF  22,W
+0065:  BTFSS  03.2
+0066:  GOTO   05B
+....................          } 
+....................       } 
+....................     } 
+0067:  GOTO   037
+.................... } 
+....................  
+....................     
+....................  
+....................      
+....................  
+....................  
+....................  
+....................  
+....................      
+....................     
+....................  
+0068:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F72   HS NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

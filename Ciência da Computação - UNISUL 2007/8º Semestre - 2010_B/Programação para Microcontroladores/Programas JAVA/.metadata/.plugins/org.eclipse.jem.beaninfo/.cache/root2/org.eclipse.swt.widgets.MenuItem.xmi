@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<change:ChangeDescription xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:change="http://www.eclipse.org/emf/2003/Change" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.jem.internal.beaninfo.beaninfo="http:///org/eclipse/jem/internal/beaninfo/beaninfo.ecore" xmlns:org.eclipse.jem.java="java.xmi">
+  <objectChanges xsi:type="change:EObjectToChangesMapEntry" key="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.widgets#MenuItem">
+    <value xsi:type="change:FeatureChange" featureName="eAnnotations">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.0"/>
+    </value>
+    <value xsi:type="change:FeatureChange" featureName="eStructuralFeatures">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.2 #//@objectsToAttach.3 #//@objectsToAttach.4"/>
+    </value>
+    <value xsi:type="change:FeatureChange" featureName="events">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.5 #//@objectsToAttach.6 #//@objectsToAttach.7"/>
+    </value>
+  </objectChanges>
+  <objectChanges xsi:type="change:EObjectToChangesMapEntry" key="ecore:EReference java:/org.eclipse.swt.widgets#MenuItem/menu">
+    <value xsi:type="change:FeatureChange" featureName="eAnnotations">
+      <listChanges xsi:type="change:ListChange" referenceValues="#//@objectsToAttach.1"/>
+    </value>
+    <value xsi:type="change:FeatureChange" featureName="name" dataValue="menu"/>
+    <value xsi:type="change:FeatureChange" featureName="transient" dataValue="false"/>
+    <value xsi:type="change:FeatureChange" featureName="volatile" dataValue="false"/>
+    <value xsi:type="change:FeatureChange" featureName="changeable" dataValue="true"/>
+    <value xsi:type="change:FeatureChange" featureName="eType" referenceValue="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.widgets#Menu"/>
+    <value xsi:type="change:FeatureChange" featureName="lowerBound" dataValue="0"/>
+    <value xsi:type="change:FeatureChange" featureName="upperBound" dataValue="1"/>
+  </objectChanges>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanDecorator" implicitlySetBits="2161727821137838094" implicitDecoratorFlag="IMPLICIT_DECORATOR" mergeSuperMethods="false">
+    <attributes xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:FeatureAttributeMapEntry" key="org.eclipse.ve.sweet.stylebits" value="implicit,[1][]{[4]{&quot;style&quot;,&quot;style&quot;,false,[15]{&quot;PUSH&quot;,&quot;org.eclipse.swt.SWT.PUSH&quot;,8,&quot;CHECK&quot;,&quot;org.eclipse.swt.SWT.CHECK&quot;,32,&quot;RADIO&quot;,&quot;org.eclipse.swt.SWT.RADIO&quot;,16,&quot;SEPARATOR&quot;,&quot;org.eclipse.swt.SWT.SEPARATOR&quot;,2,&quot;CASCADE&quot;,&quot;org.eclipse.swt.SWT.CASCADE&quot;,64}}}"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" displayName="Menu" shortDescription="Sub Menu associated with this MenuItem" implicitlySetBits="-2594073385365405636" implicitDecoratorFlag="IMPLICIT_DECORATOR" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.getMenu(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.setMenu(org.eclipse.swt.widgets.Menu"/>
+  <objectsToAttach xsi:type="ecore:EReference" name="accelerator" eType="org.eclipse.jem.java:JavaDataType java:/#int" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="Return the widget accelerator." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.getAccelerator(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.setAccelerator(int"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="enabled" eType="org.eclipse.jem.java:JavaDataType java:/#boolean" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="True if the receiver is enabled, and false otherwise." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.isEnabled(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.setEnabled(boolean"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="selection" eType="org.eclipse.jem.java:JavaDataType java:/#boolean" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="True if the receiver is selected, and false otherwise." implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.getSelection(" writeMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.setSelection(boolean"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanEvent" name="help">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:EventSetDecorator" implicitlySetBits="2017612633061982333" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" inDefaultEventSet="true" addListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.addHelpListener(org.eclipse.swt.events.HelpListener" listenerType="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.events#HelpListener" removeListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.removeHelpListener(org.eclipse.swt.events.HelpListener">
+      <serListMthd xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodProxy" name="helpRequested" method="org.eclipse.jem.java:Method java:/org.eclipse.swt.events#HelpListener.helpRequested(org.eclipse.swt.events.HelpEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" implicitlySetBits="2017612633061982208"/>
+      </serListMthd>
+    </eAnnotations>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanEvent" name="arm">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:EventSetDecorator" implicitlySetBits="2017612633061982333" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" inDefaultEventSet="true" addListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.addArmListener(org.eclipse.swt.events.ArmListener" listenerType="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.events#ArmListener" removeListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.removeArmListener(org.eclipse.swt.events.ArmListener">
+      <serListMthd xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodProxy" name="widgetArmed" method="org.eclipse.jem.java:Method java:/org.eclipse.swt.events#ArmListener.widgetArmed(org.eclipse.swt.events.ArmEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" implicitlySetBits="2017612633061982208"/>
+      </serListMthd>
+    </eAnnotations>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanEvent" name="selection">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:EventSetDecorator" implicitlySetBits="2017612633061982333" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" inDefaultEventSet="true" addListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.addSelectionListener(org.eclipse.swt.events.SelectionListener" listenerType="org.eclipse.jem.java:JavaClass java:/org.eclipse.swt.events#SelectionListener" removeListenerMethod="org.eclipse.jem.java:Method java:/org.eclipse.swt.widgets#MenuItem.removeSelectionListener(org.eclipse.swt.events.SelectionListener">
+      <serListMthd xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodProxy" name="widgetDefaultSelected" method="org.eclipse.jem.java:Method java:/org.eclipse.swt.events#SelectionListener.widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" implicitlySetBits="2017612633061982208"/>
+      </serListMthd>
+      <serListMthd xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodProxy" name="widgetSelected" method="org.eclipse.jem.java:Method java:/org.eclipse.swt.events#SelectionListener.widgetSelected(org.eclipse.swt.events.SelectionEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" implicitlySetBits="2017612633061982208"/>
+      </serListMthd>
+    </eAnnotations>
+  </objectsToAttach>
+</change:ChangeDescription>

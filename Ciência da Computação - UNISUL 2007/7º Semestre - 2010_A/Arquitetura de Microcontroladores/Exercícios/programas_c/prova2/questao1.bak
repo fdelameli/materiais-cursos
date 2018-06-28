@@ -1,0 +1,52 @@
+#include "16F877A.h"
+#fuses hs, nolvp, protect
+#use delay(clock=20MHz)
+
+void main() {
+
+   int16 count = 0;
+   
+   while(true) {
+               
+      // controla display da esquerdo
+      output_b(count/100);
+      output_low(pin_c0);
+      delay_us(20);
+      output_high(pin_c0);
+   
+      // controla display central
+      if(count/10 < 10) {
+         output_b(count/10);
+      } else {
+         output_b((count%100)/10);
+      }
+      output_low(pin_c1);
+      delay_us(20);
+      output_high(pin_c1);
+         
+      // controla diplay direito
+      output_b(count%10);
+      output_low(pin_c2);
+      delay_us(20);
+      output_high(pin_c2);
+     
+      delay_ms(500);
+      
+      if(count==999){
+         count=0;
+      }
+
+      
+      if(input(pin_b3)){
+         output_high(pin_b0);
+         delay_ms(100);
+         output_low(pin_b0);
+         output_high(pin_b1);
+         delay_ms(100);
+         output_low(pin_b1);
+         count++;  
+      }
+   
+   }
+
+}

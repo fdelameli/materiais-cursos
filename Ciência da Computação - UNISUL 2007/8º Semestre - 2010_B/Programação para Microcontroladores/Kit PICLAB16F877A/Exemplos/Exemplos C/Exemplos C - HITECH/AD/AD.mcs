@@ -1,0 +1,33 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\ad.obj
+Folder=Intermediary
+[File001]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\ad.sdb
+Folder=Intermediary
+[File002]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\ad.rlf
+Folder=Intermediary
+[File003]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\ad.lst
+Folder=Intermediary
+[File004]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\startup.as
+Folder=Output
+[File005]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\AD.cof
+Folder=Output
+[File006]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\AD.hex
+Folder=Output
+[File007]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\AD.sym
+Folder=Output
+[File008]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\AD.map
+Folder=Output
+[File009]
+Location=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Exemplos C - HITECH\AD\AD.hxl
+Folder=Output

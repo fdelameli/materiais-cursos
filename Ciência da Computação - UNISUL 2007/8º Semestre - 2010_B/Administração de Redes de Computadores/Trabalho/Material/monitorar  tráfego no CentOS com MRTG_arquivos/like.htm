@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+    
+        <meta http-equiv="Content-Type" content="text/html; 
+charset=ISO-8859-1">
+        <title>Solicitação de Liberação</title>
+        <style>
+            * { margin:0; padding:0; font-family:"Trebuchet MS"; }
+            body { background:#FFF; margin:0 auto; }
+            #formulario { border:1px solid #ccc; background:#Fafafa; padding:10px; width:420px; -moz-border-radius:10px; float:right; }
+			#miolo { width:800px; margin:30px auto; display:table; }
+			.resolucao {}
+			form { text-align:left; }
+			.mensagem { padding:10px; margin:10px 0px; text-align:justify; }
+			h1 { text-align:center; }
+			.erro { background:#FFCCCC; border:1px solid red; }
+			.sucesso { background:#FFFFCC; border:1px solid #FFCC00; }
+			#topo { height:162px; background:url('topo-fundo.png') repeat-x; text-align:center; }
+			#rodape { height:72px; background:url('rodape-fundo.png') repeat-x; text-align:center; }
+			.campoTexto { width:410px; display:block; margin-bottom:10px; padding:4px; border:1px solid #ccc; }
+			.campoTexto:focus { background:#eee; }
+			label { display:block; }
+			.resolucao { font-size:11pt; -moz-border-radius:10px; width:320px; text-align:justify; margin-bottom:17px; margin-right:10px; float:left; border:1px solid #ccc; background:#Fafafa; padding:10px; }
+        </style>
+    </head><body>
+    	<div id="site">
+        	<div id="topo">
+            	<img src="like_data/topo-unisul.png" style="float: left; 
+margin-left: 10px;">
+            	<img src="like_data/topo-erro.png" style="margin-left: 
+-120px;">
+            </div>
+            <div id="miolo">
+            	<div id="formulario">        
+                                            <div class="mensagem erro">
+                           	Caso necessário preencha os campos abaixo 
+para solicitar liberação. O prazo para resposta será de até 48 horas.
+                        </div>
+                               
+                    <form action="envia.php" method="post">
+                        <label for="txtSite">Site solicitado - URL:</label>
+                        <input class="campoTexto" name="txtSite" 
+id="txtSite" type="text">
+                        <label for="txtJustificativa">Justificativa:</label>
+                        <textarea class="campoTexto" style="height: 
+100px;" name="txtJustificativa" id="txtJustificativa"></textarea>
+                        <label for="txtUsuario">Usuário (MinhaUNISUL):</label>
+                        <input class="campoTexto" style="width: 250px; 
+float: left;" name="txtUsuario" id="txtUsuario" type="text"> @unisul.br<br><br>
+                        <label for="pwdSenha">Senha:</label>
+                        <input class="campoTexto" style="width: 250px;" 
+name="pwdSenha" id="pwdSenha" type="password">
+                        <input name="botEnviar" id="botEnviar" 
+value="Enviar" type="submit">                
+                    </form>
+                </div>
+                <div class="resolucao">
+                	<a 
+href="https://aplicacoes.unisul.br/captiveportal/filtro/res_install_software.pdf">RESOLUÇÃO
+ Nº 61/A/2009</a> <br>
+                    <span>G.R., de 19 de março de 2009.</span>
+                    <br>
+					<br>
+                    <p>
+                    	Dispõe sobre a instalação e uso de software em 
+equipamentos de informática de propriedade da Unisul, e sobre as 
+competências da Assessoria de Tecnologia da Informação, dos setores de 
+Apoio à Informática dos Campi, do Comitê Estratégico de Tecnologia da 
+Informação e Comunicação e da Auditoria Interna. 
+                    </p>
+                </div>
+                <div class="resolucao">
+                	<a 
+href="https://aplicacoes.unisul.br/captiveportal/filtro/resolucao_internet.pdf">RESOLUÇÃO
+ Nº 66/2009</a> <br>
+                    <span>G.R., de 5 de junho de 2009.</span>
+					<br>
+					<br>
+                    <p>
+                    	Dispõe sobre o uso da rede de computadores e o 
+acesso à Internet no âmbito da Universidade do Sul de Santa Catarina, 
+adequando tal uso à legislação vigente no país, além de impor condições 
+de uso, privacidade e segurança interna, devendo ser respeitada por 
+alunos, professores e funcionários.
+                    </p>
+                </div>
+            </div>
+            <br>
+            <div id="rodape">
+            	<img src="like_data/rodape-unisul.png">
+            </div>        
+    </div></body></html>

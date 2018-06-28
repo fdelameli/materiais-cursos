@@ -1,0 +1,26 @@
+[DeviceName]
+Value=P16F877
+
+[DeviceClock]
+Value=4
+
+[MainUnit]
+Value=RelogioDigital.pbas
+
+[DeviceFlags]
+Count=3
+Value0=_LVP_OFF = $3F7F
+Value1=_WDT_OFF = $3FFB
+Value2=_XT_OSC = $3FFD
+
+[ProjectFiles]
+Count=0
+
+[SearchPath]
+Count=3
+Value0=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROBASIC\Defs\
+Value1=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROBASIC\Uses\p16\
+Value2=D:\Curso\PIC\Basic\Módulo B\Relógio\
+
+[EEPROMinfo]
+isused=0

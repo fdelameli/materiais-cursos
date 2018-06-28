@@ -1,0 +1,93 @@
+!SESSION 2008-11-11 08:36:42.796 -----------------------------------------------
+eclipse.buildId=M20070212-1330
+java.version=1.6.0_04
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=pt_BR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 4 4 2008-11-11 08:38:50.230
+!MESSAGE Invalid Menu Extension (Path is invalid): es.org.chemi.games.minesweeper2.action
+
+!ENTRY org.eclipse.ui 4 4 2008-11-11 08:38:50.233
+!MESSAGE Invalid Menu Extension (Path is invalid): es.org.chemi.games.sokoban.action
+
+!ENTRY org.eclipse.ui 4 4 2008-11-11 08:38:50.518
+!MESSAGE Invalid Menu Extension (Path is invalid): org.hibernate.eclipse.launch.LaunchMenuDelegateMenu
+
+!ENTRY org.eclipse.ui 4 4 2008-11-11 08:38:50.522
+!MESSAGE Invalid Menu Extension (Path is invalid): es.org.chemi.games.minesweeper.action
+
+!ENTRY org.eclipse.ui.intro 4 0 2008-11-11 08:38:51.175
+!MESSAGE Could not find folder to extract: intro/webresources/intro.xml
+
+!ENTRY org.eclipse.ui.intro 4 0 2008-11-11 08:38:51.178
+!MESSAGE C:\Program Files\eclipseStandard\intro\webresources\intro.xml (O sistema não pode encontrar o caminho especificado)
+!STACK 0
+java.io.FileNotFoundException: C:\Program Files\eclipseStandard\intro\webresources\intro.xml (O sistema não pode encontrar o caminho especificado)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at sun.net.www.protocol.file.FileURLConnection.connect(Unknown Source)
+	at sun.net.www.protocol.file.FileURLConnection.getInputStream(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityManager.setupCurrentEntity(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLVersionDetector.determineDocVersion(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(Unknown Source)
+	at javax.xml.parsers.DocumentBuilder.parse(Unknown Source)
+	at org.eclipse.ui.internal.intro.impl.model.loader.IntroContentParser.parse(IntroContentParser.java:145)
+	at org.eclipse.ui.internal.intro.impl.model.loader.IntroContentParser.<init>(IntroContentParser.java:89)
+	at org.eclipse.ui.internal.intro.impl.model.IntroModelRoot.loadDOM(IntroModelRoot.java:838)
+	at org.eclipse.ui.internal.intro.impl.model.IntroModelRoot.resolveConfigExtension(IntroModelRoot.java:366)
+	at org.eclipse.ui.internal.intro.impl.model.IntroModelRoot.resolveConfigExtensions(IntroModelRoot.java:341)
+	at org.eclipse.ui.internal.intro.impl.model.IntroModelRoot.resolveChildren(IntroModelRoot.java:222)
+	at org.eclipse.ui.internal.intro.impl.model.AbstractIntroContainer.getChildren(AbstractIntroContainer.java:84)
+	at org.eclipse.ui.internal.intro.impl.model.IntroModelRoot.loadModel(IntroModelRoot.java:145)
+	at org.eclipse.ui.internal.intro.impl.model.loader.BaseExtensionPointManager.loadModel(BaseExtensionPointManager.java:93)
+	at org.eclipse.ui.internal.intro.impl.model.loader.ExtensionPointManager.loadCurrentModel(ExtensionPointManager.java:60)
+	at org.eclipse.ui.internal.intro.impl.model.loader.ExtensionPointManager.getCurrentModel(ExtensionPointManager.java:72)
+	at org.eclipse.ui.intro.config.CustomizableIntroPart.init(CustomizableIntroPart.java:151)
+	at org.eclipse.ui.internal.ViewIntroAdapterPart.init(ViewIntroAdapterPart.java:156)
+	at org.eclipse.ui.internal.ViewReference.createPartHelper(ViewReference.java:305)
+	at org.eclipse.ui.internal.ViewReference.createPart(ViewReference.java:197)
+	at org.eclipse.ui.internal.WorkbenchPartReference.getPart(WorkbenchPartReference.java:566)
+	at org.eclipse.ui.internal.Perspective.showView(Perspective.java:1675)
+	at org.eclipse.ui.internal.WorkbenchPage.busyShowView(WorkbenchPage.java:987)
+	at org.eclipse.ui.internal.WorkbenchPage.access$13(WorkbenchPage.java:968)
+	at org.eclipse.ui.internal.WorkbenchPage$13.run(WorkbenchPage.java:3514)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)
+	at org.eclipse.ui.internal.WorkbenchPage.showView(WorkbenchPage.java:3511)
+	at org.eclipse.ui.internal.WorkbenchPage.showView(WorkbenchPage.java:3487)
+	at org.eclipse.ui.internal.WorkbenchIntroManager.createIntro(WorkbenchIntroManager.java:172)
+	at org.eclipse.ui.internal.WorkbenchIntroManager.showIntro(WorkbenchIntroManager.java:119)
+	at org.eclipse.ui.application.WorkbenchWindowAdvisor.openIntro(WorkbenchWindowAdvisor.java:172)
+	at org.eclipse.ui.internal.ide.IDEWorkbenchWindowAdvisor.openIntro(IDEWorkbenchWindowAdvisor.java:424)
+	at org.eclipse.ui.internal.WorkbenchWindow.open(WorkbenchWindow.java:676)
+	at org.eclipse.ui.internal.Workbench.busyOpenWorkbenchWindow(Workbench.java:819)
+	at org.eclipse.ui.internal.Workbench.doOpenFirstTimeWindow(Workbench.java:1453)
+	at org.eclipse.ui.internal.Workbench.access$10(Workbench.java:1451)
+	at org.eclipse.ui.internal.Workbench$17.run(Workbench.java:1415)
+	at org.eclipse.ui.internal.Workbench.runStartupWithProgress(Workbench.java:1437)
+	at org.eclipse.ui.internal.Workbench.openFirstTimeWindow(Workbench.java:1413)
+	at org.eclipse.ui.internal.WorkbenchConfigurer.openFirstTimeWindow(WorkbenchConfigurer.java:190)
+	at org.eclipse.ui.application.WorkbenchAdvisor.openWindows(WorkbenchAdvisor.java:708)
+	at org.eclipse.ui.internal.Workbench.init(Workbench.java:1101)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:1863)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:422)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.IDEApplication.run(IDEApplication.java:95)
+	at org.eclipse.core.internal.runtime.PlatformActivator$1.run(PlatformActivator.java:78)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:92)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:68)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:177)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.core.launcher.Main.invokeFramework(Main.java:336)
+	at org.eclipse.core.launcher.Main.basicRun(Main.java:280)
+	at org.eclipse.core.launcher.Main.run(Main.java:977)
+	at org.eclipse.core.launcher.Main.main(Main.java:952)

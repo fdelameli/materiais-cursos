@@ -1,0 +1,14 @@
+ÀÄlab
+   ÀÄMAIN  0/172  Ram=9
+      ÃÄ??0??
+      ÃÄ@const164  0/21  Ram=0
+      ÃÄgravaSenha  0/136  Ram=5
+      ³  ÃÄleSenha  0/34  Ram=4
+      ³  ÀÄ@const170  0/23  Ram=0
+      ÃÄ@const165  0/18  Ram=0
+      ÃÄleSenha  0/34  Ram=4
+      ÃÄstrcmp  0/70  Ram=5
+      ÃÄ@const166  0/19  Ram=0
+      ÃÄ@delay_ms1  0/21  Ram=1
+      ÃÄ@const168  0/21  Ram=0
+      ÀÄ@delay_ms1  0/21  Ram=1

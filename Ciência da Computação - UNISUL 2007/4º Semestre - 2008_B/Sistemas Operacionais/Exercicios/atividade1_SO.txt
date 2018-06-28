@@ -1,0 +1,61 @@
+
+
+
+1-O conceito de processo é a base para a implementação de um sistema multiprogramável. O processador é projetado apenas para executar instruções, não sendo capaz de distinguir qual programa se encontra em execução.
+
+2-Por que ele é a base para as implementações em um sistema operacional.
+
+3-Depende,Não deveria. O sistema operacional deve tratar os processos corretamente, de maneira que um processo
+não interfira no contexto de outro processo.
+
+
+4-Contexto de Software. contexto de hardware e Espaço de Endereçamento.
+
+5-O contexto de hardware armazena o conteúdo dos registradores gerais e do registrador de status. Com estas informações é possível que um processo tenha sua execução interrompida temporariamente, retornando posteriormente sem nenhum problema.
+
+Em uma troca de contexto, o estado do primeiro processo deve ser armazenado de alguma forma, para que quando o escalonador retorne sua execução, o estado seja antes restaurado. O estado de um processo inclui todos os registradores que o processo pode estar usando, especialmente o contador de programa, e qualquer outro dado específico do sistema operacional. A estrutura que armazena todas essas informações é chamada de bloco de controle de processo.
+
+6-Contexto de software especifica características do processo que vão influir na execução de um programa, como, por exemplo, o número máximo de arquivos abertos simultaneamente ou o tamanho do buffer para operações de E/S. Essas características são determinadas no momento da criação do processo, mas algumas podem ser alteradas durante sua existência. O contexto de software define basicamente três grupos de informações de um processo: sua identificação, suas quotas e seus privilégios.
+
+7-é a área de memória pertencente ao processo onde as instruções e os dados de um programa são armazenados para execução.
+
+
+8-O conceito de processo, além de estar assiciado a aplicações de usuários, podem também serem implementados 
+na própria arquitetura do sistema operacional. É usada a estrutura PCb que é uma lista encadeada.
+(PCB)
+
+9-Em execução, pronto, espera, criação e terminado.
+
+10- intenet explorer -> criam o processo abri ele fica em estado de espera, digita fica em estado de pronto, quando chega o momento executa, quando aperta no sair X termina o  processo.
+
+
+11-Processos independetes: é a maneira mais simples de implementar a concorrência em sistemas multi programáveis, neste caso, não existe vínculo no processo criado com o seu criador.
+
+Subprocessos: São processos criados dentro de uma estrutura hierárquica. O processo criador é denominado processo pai e o novo processo é chamado de subprocesso ou processo filho.
+
+Thread: Cada thread possui o seu próprio conceito de hardware, porém compratilha o mesmo contexto de software e o espaço de endereçamento com os demais threads de processo.
+
+
+12-Foreground : é aquele que permite comunicação direta do usuário com o processo durante o seu processamento. Neste caso, tanto o canal de entrada como o de saída estão associados ao terminal
+com o teclado, mouse e monitor, permitindo assim a integração com o usuário.
+*forground interage com o usuario
+
+Background: é aquele onde não existe a comunicação com o usuário durante o seu processamento. Neste caso,
+os canais de E/S não estão associados a nenhum dispositivo E/S interativo, mas em geral, a arquivos de E/S.
+*backgroud nao interage com usuario
+
+13-A arquitetura do microkernel implementa o uso intensivo de processos que disponibilizam serviços para processos das aplicações e do próprio sistema operacional.
+*Atravez de processos qeu cosenguimos implementar este tipo de processo.
+
+14-Processos definidos como CPU Bound: quando passa a maior parte do tempo em estado de execução, ou seja, 
+utilizando o processador. Este tipo de processo realiza poucas operações de leitura e gravação e é encontrado em aplicações científicas que efetuam muitos cáuculos.
+
+I/O Bound: quando passa a maior parte do tempo em estado de espera, pois realiza um elevado número de operações de E/S. Este tipo de processo é encontrado em aplicações comerciais, que se baseiam em leitura, processamento e grvação.
+
+
+15-"O sinal está para o processo, assim como as interrupções e exceções estão para o Sistema Operacional." 
+Exemplo: quando faz uma divisao por 0;
+
+16- 
+
+

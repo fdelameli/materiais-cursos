@@ -1,0 +1,100 @@
+008     PSP_DATA
+015     CCP_1_LOW
+015-016 CCP_1
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020.0   led1
+020     byte_leds
+020.1   led2
+020.2   led3
+020.3   led4
+020.4   led5
+020.5   led6
+020.6   led7
+020.7   led8
+021-024 main.tensao
+025-026 @ITOF.P1
+025     Lcd_Inst.dado
+025     main.@SCRATCH
+025     Inicializa.@SCRATCH
+026-029 @PRINTF_L32D_342FPFPF.P1
+026     main.@SCRATCH
+027     @PRINTF_U_342.P1
+028     @PRINTF_U_342.P1
+029     @DIV88.P1
+02A     @DIV88.P1
+02A     @PRINTF_L32D_342FPFPF.P2
+02B     @DIV88.@SCRATCH
+02B     @PRINTF_L32D_342FPFPF.@SCRATCH
+02C     @PRINTF_L32D_342FPFPF.@SCRATCH
+02D     @PRINTF_L32D_342FPFPF.@SCRATCH
+02E     @PRINTF_L32D_342FPFPF.@SCRATCH
+02F     @PRINTF_L32D_342FPFPF.@SCRATCH
+030     @PRINTF_L32D_342FPFPF.@SCRATCH
+031     Lcd_Dado.dado
+031-034 @MULFF.P1
+031-034 @FTOSD.P2
+031-034 @DIV3232.P3
+032     @delay_ms1.P1
+035-038 @MULFF.P1
+035-038 @DIV3232.P2
+035     @FTOSD.@SCRATCH
+039     @MULFF.@SCRATCH
+039     @DIV3232.@SCRATCH
+03A     @MULFF.@SCRATCH
+03A     @DIV3232.@SCRATCH
+03B     @MULFF.@SCRATCH
+03B     @DIV3232.@SCRATCH
+03C     @MULFF.@SCRATCH
+03C     @DIV3232.@SCRATCH
+03D     @MULFF.@SCRATCH
+03D     @DIV3232.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+
+0029  @delay_ms1
+02F2  main
+0004  @const10034
+00E1  @DIV88
+00F6  @PRINTF_U_342
+012D  @ITOF
+014D  @MULFF
+0016  @const10073
+01C3  @FTOSD
+01E4  @DIV3232
+0226  @PRINTF_L32D_342FPFPF
+006A  Inicializa
+003E  Lcd_Inst
+00B5  Lcd_Dado
+02F2  @cinit
+
+Project Files:
+    C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.c
+    C:\Arquivos de programas\PICC\devices\16F877A.h
+
+Units:
+    C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   8
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.err
+    INHX8:       C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.hex
+    Symbols:     C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.sym
+    List:        C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.lst
+    Debug/COFF:  C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.cof
+    Call Tree:   C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.tre
+    Statistics:  C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.sta

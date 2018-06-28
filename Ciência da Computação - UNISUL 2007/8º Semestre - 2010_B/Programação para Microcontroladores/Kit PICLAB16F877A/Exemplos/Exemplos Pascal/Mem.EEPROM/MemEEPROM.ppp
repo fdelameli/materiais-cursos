@@ -1,0 +1,31 @@
+[DeviceName]
+Value=P16F877
+
+[DeviceClock]
+Value=4
+
+[MainUnit]
+Value=MemEEPROM.ppas
+
+[DeviceFlags]
+Count=0
+
+[ProjectFiles]
+Count=0
+
+[SearchPath]
+Count=6
+Value0=C:\Arquivos de programas\Mikroelektronika\mikroPascal\Defs\
+Value1=C:\Arquivos de programas\Mikroelektronika\mikroPascal\Uses\p16\
+Value2=C:\Cerne\Treinamento\Curso\PIC\Pascal\Módulo B\Mem.EEPROM\
+Value3=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROPASCAL\Defs\
+Value4=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROPASCAL\Uses\p16\
+Value5=D:\Curso\PIC\Basic\Módulo B\Mem.EEPROM\
+
+[EEPROMinfo]
+isused=0
+[OtherFiles]
+Count=1
+Value0=C:\Cerne\Treinamento\Curso\PIC\Pascal\Módulo B\Mem.EEPROM\MemEEPROM.ppas
+[TabIndex]
+Value=0

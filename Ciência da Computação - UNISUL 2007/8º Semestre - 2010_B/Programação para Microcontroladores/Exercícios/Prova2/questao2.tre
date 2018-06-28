@@ -1,0 +1,36 @@
+ÀÄProgramação para Microcontroladores - Prof
+   ÀÄMAIN  0/173  Ram=3
+      ÃÄ??0??
+      ÃÄ@const337  0/35  Ram=0
+      ÃÄ@PRINTF_D_9600_62_63  0/107  Ram=6
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄsetarBits  0/390  Ram=4
+      ³  ÃÄ@const350  0/53  Ram=0
+      ³  ÃÄ@const351  0/32  Ram=0
+      ³  ÃÄ@const351  0/32  Ram=0
+      ³  ÃÄatol  (Inline)  Ram=11
+      ³  ³  ÀÄ@MUL1616  (Inline)  Ram=5
+      ³  ÃÄ@const352  0/31  Ram=0
+      ³  ÀÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³     ÃÄ@DIV88  0/21  Ram=3
+      ³     ÀÄ@DIV88  0/21  Ram=3
+      ÃÄsetarRolagem  0/49  Ram=1
+      ³  ÃÄ@const353  0/65  Ram=0
+      ³  ÃÄ@const354  0/40  Ram=0
+      ³  ÀÄ@const355  0/39  Ram=0
+      ÃÄsetarRolagem  0/49  Ram=1
+      ³  ÃÄ@const353  0/65  Ram=0
+      ³  ÃÄ@const354  0/40  Ram=0
+      ³  ÀÄ@const355  0/39  Ram=0
+      ÃÄ@const344  0/36  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@delay_ms1  0/21  Ram=1
+      ÃÄ@const348  0/35  Ram=0
+      ÃÄ@PRINTF_U_9600_62_63  0/56  Ram=2
+      ³  ÃÄ@DIV88  0/21  Ram=3
+      ³  ÀÄ@DIV88  0/21  Ram=3
+      ÃÄ@delay_ms1  0/21  Ram=1
+      ÀÄ@const349  0/60  Ram=0

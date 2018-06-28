@@ -1,0 +1,1638 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html class=" gecko ff3 win js" xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+	<title>Monitoramento de tráfego no CentOS com MRTG - Júlio Henrique 
+Conceição - Linux</title>
+	<meta name="resource-types" content="document">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta name="revisit-after" content="4">
+	<meta name="classification" content="Internet">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta name="Description" content="Tem como objetivo o monitoramento de 
+equipamentos de rede, ou seja, basicamente switches e roteadores, e 
+cobre a instalação e configuração do MRTG na distribuição CentOS. ">
+	<meta name="Keywords" content="monitoramento, instalação, rede, 
+configuração, centos, roteadores, switches, msrtg">
+	<meta name="robots" content="ALL">
+	<meta name="distribution" content="Global">
+	<meta name="rating" content="General">
+	<meta name="author" content="Júlio Henrique Conceição">
+	<meta name="language" content="pt-br">
+	<meta name="doc-class" content="Completed">
+	<meta name="doc-rights" content="Public">
+	<link rel="shortcut icon" href="http://imasters.com.br/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="iMasters" 
+href="http://imasters.com.br/feed/">
+	<link rel="search" type="application/opensearchdescription+xml" 
+href="http://imasters.com.br/opensearch/" title="Busca iMasters">
+	
+	<link rel="stylesheet" media="screen" type="text/css" 
+href="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/reset.css">
+	<link rel="stylesheet" media="screen" type="text/css" 
+href="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/topo.css">
+	<link rel="stylesheet" media="screen" type="text/css" 
+href="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/interna.css">
+	<link rel="stylesheet" media="screen" type="text/css" 
+href="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/artigo.css">
+	<link rel="stylesheet" media="screen" type="text/css" 
+href="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/strconteudo.css">
+	<link rel="stylesheet" media="screen" type="text/css" 
+href="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/conteudo_comentario.css">
+	<link rel="stylesheet" media="screen" type="text/css" 
+href="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/prettify.css">
+		
+		<!--[if lte IE 7]>
+	<link rel="stylesheet" media="screen" type="text/css" href="http://static.imasters.com.br/imasters/css/topo.ie.css" />
+			<![endif]-->
+	
+	<script type="text/javascript">
+		var im = {
+			dominio: 'http://imasters.com.br/',
+			meudominio: 'http://meu.imasters.com.br/',
+			staticdominio: 'http://static.imasters.com.br/',
+			conteudodominio: 'http://conteudo.imasters.com.br/'
+		}
+
+		var conf = {
+			domain: {
+				static: "http://static.imasters.com.br/",
+meu: "http://meu.imasters.com.br/",
+blog: "http://blog.imasters.com.br/",
+forum: "http://forum.imasters.com.br/",
+multimidia: "http://multimidia.imasters.com.br/",
+imasters: "http://imasters.com.br/",
+imasters_old: "http://imasters.com.br/",
+eventos: "http://eventos.imasters.com.br/",
+mercado: "http://mercado.imasters.com.br/",
+pro: "http://pro.imasters.com.br/",
+shop: "http://shop.imasters.com.br/",
+sispag: "http://sispag.imasters.com.br/",
+code: "http://code.imasters.com.br/",
+tv: "http://tv.imasters.com.br/",
+editor: "http://editor.imasters.com.br/",
+curso: "http://pro.imasters.com.br/online/"
+			}
+		}
+		</script>
+		<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/flash.js"></script>
+	    <script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/flash_002.js" type="text/javascript"></script>
+	<script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/fonte.js" type="text/javascript"></script>
+	<meta name="norton-safeweb-site-verification" 
+content="kaxswpzofdwb-c3hg370esc-30wkxu2w55szxsl48izluqd3ss8l938vwir0fsxte1mg6p4a47j-k5p-h5ov9jpgvw0eaacys40k9z6u1qv6htlxog2ax5e5pnhz1-co">
+</head><body>
+<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/publicidade.js"></script>
+		<div id="geral">
+		<div id="barra_uol">
+			<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/bpv1.js"></script><style>.buol {position:relative;font-size:10px;width:98.8em;}.buol.auto {width:auto;margin:0 auto;}.buol .buolbg {height:2.4em;overflow:hidden;}.buol .buolbg img{width:100%;height:15.9em;}.buol .ico {overflow:hidden;position:absolute;top:0;left:0.3em;z-index:2;width:2em}.buoli li a.ico, .buoli li a.ico:visited {margin:0;padding:0;position:absolute;}.buol .ico img{width:5.1em;height:15.9em;border:0;}.buoli {height:2.4em;width:98.8em;overflow:hidden;margin:0 auto;font:normal 1em arial,sans-serif;color:#fff;position:relative;position:absolute;top:0;left:0;z-index:1;}.buol.auto .buoli{left:50%;margin-left:-49.4em}.buoli form{display:inline}.buoli .busca form .it,.buoli .busca form .tb,.buoli .indice select {font:normal 1em arial,sans-serif}.buoli ul {margin:0;padding:0;list-style:none;width:98.8em;}.buoli ul li {margin:0;padding:0;float:left;padding:0;border-right:0.1em solid #02264b;border-left:0.1em solid #486d92;position:relative;height:2.4em;}.buoli .assine {padding:0 1.1em}.buoli a, .buoli a:visited{font-size:1em !important; color:#fff !important;text-decoration:none !important;display:block;padding:0.5em 0.4em 0.6em 0.4em;height:2.4em;float:left;}.buoli a:hover{text-decoration:underline !important;}.buoli .p {border-left:none;}.buoli .u {border-right :none;}.buoli .logo {position:relative;width:6.1em;}.buoli .logo a {padding:2.5em 0 0 0;width:6.1em;position:absolute;top:0;left:0;z-index:3;}.buol .buoli .logo .ico {width:5.5em}.buoli .logo .ico {left:0.4em;}.buoli .logo .ico img {margin-top:-2.4em;}.buoli .busca {padding:0.3em 0.5em 0.4em 0.5em;}.buol .buoli .busca .ico {left:16em;top:.4em;padding:0;width:1.6em;cursor:default;}.buoli .busca .ico img{margin-top:-14.4em}.buoli .busca form .it {border:0.1em solid #50728e;float:left;margin:0.1em 0.4em 0 0;_margin-right:0.1em;width:14.8em;*width:14.7em;overflow:hidden;padding:0;}.buoli .busca form .tb {color:#fff;height:1.7em;border-top:0.1em solid #b3cbe1;border-right:0.1em solid #000;border-bottom:0.1em solid #000;border-left:0.1em solid #b3cbe1;background-color:#50728e;margin:0;padding-left:1.5em;*padding-left:.8em;width:7.1em;*width:7.2em;}.buoli .messenger .t, .buoli .messenger .t:visited {padding-left:2.3em;position:relative;}.buoli .messenger .ico img{margin-top:-4.8em}.buoli .voip .t, .buoli .voip .t:visited {padding-left:2.2em;}.buoli .voip .ico img{margin-top:-7.2em}.buoli .email .t, .buoli .email .t:visited {padding-left:2.1em;}.buoli .email .ico img{margin-top:-9.6em}.buoli .shop .t, .buoli .shop .t:visited {padding-left:3.2em;}.buoli .shop .ico {width:2.7em;}.buoli .shop .ico img{margin-top:-12em}.buoli .indice {height:2.4em;}.buoli .indice select {background-color:#50728e;color:#fff;border:0.1em solid #7f9db9;margin:0.3em 0 0 0.5em;height:1.7em;width:13.8em;overflow:hidden;} #copyright { width:98.8em;color:black;text-align:center;margin:0.5em; }</style><div
+ id="barrauol" class="buol auto"><div class="buolbg"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/imgs1024v3.gif"
+ width="1" border="0" height="1">&gt;</div><div class="buoli"><ul><li 
+class="p logo"><div class="ico"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/imgs1024v3.gif"
+ width="1" border="0" height="1"></div><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=http://www.uol.com.br/"
+ target="_top" title="UOL">UOL</a></li><li class="assine"><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=http://clicklogger.rm.uol.com.br/?prd=1&amp;grp=src:10;creative:barrauol&amp;msr=Cliques%20de%20Origem:1&amp;oper=11&amp;redir=http://assine.uol.com.br/index.htm?eos=yes&amp;promo=117570810&amp;sg=300016192&amp;sa=UOL-barra-assine&amp;promochild=PROMOCOMBIAVSS"
+ class="t" target="_top">ASSINE 0800 703 3000</a></li><li><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=http://batepapo.uol.com.br/"
+ class="t" target="_top">BATE-PAPO</a></li><li><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=http://email.uol.com.br/"
+ class="t" target="_top">E-MAIL</a></li><li><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=https://sac.uol.com.br/"
+ class="t" target="_top">SAC</a></li><li class="busca"><a 
+href="javascript:document.formbbuol.submit();" class="ico"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/imgs1024v3.gif"
+ width="1" border="0" height="1"></a><form 
+action="http://busca.uol.com.br/www/index.html" method="get" 
+target="_blank" name="formbbuol" onsubmit="buscaClick()"><input 
+name="ad" value="on" type="hidden"><input name="ref" value="nomedosite" 
+type="hidden"><input value="barrauol" name="origem" type="hidden"><input
+ name="q" class="it" type="text"><input class="tb" value="BUSCAR" 
+type="submit"></form></li><li class="voip"><a 
+href="http://clicklogger.rm.uol.com.br/?prd=5&amp;grp=src:13;chn:103;creative:link_voip;pos:barra&amp;msr=Cliques%20de%20Origem:1&amp;oper=7&amp;redir=http://voip.uol.com.br/"
+ class="ico"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/imgs1024v3.gif"
+ width="1" border="0" height="1"></a><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=http://clicklogger.rm.uol.com.br/?prd=5&amp;grp=src:13;chn:103;creative:link_voip;pos:barra&amp;msr=Cliques%20de%20Origem:1&amp;oper=7&amp;redir=http://voip.uol.com.br/"
+ class="t" target="_top">VOIP</a></li><li class="email"><a 
+href="http://www.bol.uol.com.br/" class="ico"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/imgs1024v3.gif"
+ width="1" border="0" height="1"></a><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=http://www.bol.uol.com.br/"
+ class="t" target="_top">E-MAIL GRÁTIS</a></li><li class="shop"><a 
+href="http://shopping.uol.com.br/?&amp;rtrk=src:13;sze:18;chn:103;creative:link_fixo;thm:barra_navegacao"
+ class="ico"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/imgs1024v3.gif"
+ width="1" border="0" height="1"></a><a 
+href="http://click.uol.com.br/?rf=barrageral&amp;u=http://shopping.uol.com.br/?&amp;rtrk=src:13;sze:18;chn:103;creative:link_fixo;thm:barra_navegacao"
+ class="t" target="_top">SHOPPING</a></li><li class="u indice"><form 
+name="fm_uol" target="_top"><select onchange="barraUol.openEs(this)"><option
+ selected="selected" value="0">ÍNDICE PRINCIPAL</option><option 
+value="fotos.uol.com.br/">Álbum de Fotos</option><option 
+value="seguranca.uol.com.br/">Antivírus e Firewall</option><option 
+value="ferramentas.uol.com.br/">Aplicativos</option><option 
+value="assistenciatecnica.uol.com.br/">Assistência Técnica</option><option
+ value="diversao.uol.com.br/bandalarga/">Banda Larga</option><option 
+value="batepapo.uol.com.br/">Bate-papo UOL</option><option 
+value="estilo.uol.com.br/beleza/">Beleza</option><option 
+value="biblioteca.uol.com.br/">Biblioteca</option><option 
+value="bichos.uol.com.br/">Bichos</option><option 
+value="blog.uol.com.br/">Blogosfera</option><option 
+value="busca.uol.com.br/">Busca</option><option 
+value="carros.uol.com.br/">Carros</option><option 
+value="carros.uol.com.br/fipe/">&nbsp;&nbsp;- Tabela Fipe</option><option
+ value="compare.carros.uol.com.br/">&nbsp;&nbsp;- Comparar Carros</option><option
+ value="cartoes.uol.com.br/">Cartões</option><option 
+value="casaeimoveis.uol.com.br/">Casa e Imóveis</option><option 
+value="celebridades.uol.com.br/">Celebridades</option><option 
+value="celular.uol.com.br/">Celular</option><option 
+value="cienciaesaude.uol.com.br/">Ciência e Saúde</option><option 
+value="cinema.uol.com.br/">Cinema e Filmes</option><option 
+value="clube.uol.com.br/">Clube UOL</option><option 
+value="shopping.uol.com.br/?&amp;rtrk=src:13;size:18;chn:0;creative:link_fixo;thm:shopping_menu;">Comparar
+ Preços</option><option value="copadomundo.uol.com.br/">Copa do Mundo</option><option
+ value="criancas.uol.com.br/">Crianças</option><option 
+value="downloads.uol.com.br/">Downloads</option><option 
+value="economia.uol.com.br/">Economia</option><option 
+value="economia.uol.com.br/cotacoes/">&nbsp;&nbsp;- Cotações</option><option
+ value="uolinvest.economia.uol.com.br/">&nbsp;&nbsp;- UOL Invest</option><option
+ value="educacao.uol.com.br/">Educação</option><option 
+value="educacao.uol.com.br/dicionarios/">&nbsp;&nbsp;- Dicionários</option><option
+ value="vestibular.uol.com.br/">&nbsp;&nbsp;- Vestibular</option><option
+ value="eleicoes.uol.com.br/">Eleições 2010</option><option 
+value="email.uol.com.br/">E-Mail</option><option 
+value="noticias.uol.com.br/empregos/">Empregos</option><option 
+value="empregocerto.uol.com.br/">&nbsp;&nbsp;- Enviar currículo</option><option
+ value="entretenimento.uol.com.br/">Entretenimento</option><option 
+value="guia.uol.com.br/">&nbsp;&nbsp;- Guia Cultural SP</option><option 
+value="esporte.uol.com.br/">Esporte</option><option 
+value="bolao.esporte.uol.com.br/">&nbsp;&nbsp;- Bolão</option><option 
+value="esporte.uol.com.br/futebol/campeonatos/brasileiro/2010/serie-a/">&nbsp;&nbsp;-
+ Brasileirão</option><option value="esporte.uol.com.br/f1/">&nbsp;&nbsp;-
+ Fórmula 1</option><option value="esporte.uol.com.br/futebol/">&nbsp;&nbsp;-
+ Futebol</option><option 
+value="esporte.uol.com.br/futebol/campeonatos/libertadores/2010/">&nbsp;&nbsp;-
+ Libertadores</option><option value="estilo.uol.com.br/">Estilo</option><option
+ value="estilo.uol.com.br/moda/">&nbsp;&nbsp;- Moda</option><option 
+value="www.folha.uol.com.br/">Folha.com</option><option 
+value="fotoblog.uol.com.br/">Fotoblog</option><option 
+value="gay.uol.com.br/">Gay</option><option 
+value="clicklogger.rm.uol.com.br/?prd=29&amp;grp=src:28;chn:0;creative:menu-home-gay&amp;msr=Cliques%20de%20Origem:1&amp;oper=11&amp;redir=http://mig.uol.com.br/?skin=mig">&nbsp;&nbsp;-
+ Namoro gay</option><option value="horoscopo.uol.com.br/">Horóscopo</option><option
+ value="humor.uol.com.br/">Humor</option><option 
+value="indice.uol.com.br/">Índice</option><option 
+value="jogos.uol.com.br">Jogos</option><option 
+value="jogos.uol.com.br/jogosonline/">&nbsp;&nbsp;- Jogos Online</option><option
+ value="jogos.uol.com.br/loja/">&nbsp;&nbsp;- Loja de jogos</option><option
+ value="noticias.uol.com.br/jornais/">Jornais</option><option 
+value="noticias.uol.com.br/internacional/">&nbsp;&nbsp;- Internacionais</option><option
+ value="jovem.uol.com.br">Jovem</option><option 
+value="mapas.uol.com.br/">Mapas</option><option 
+value="musica.uol.com.br/">Música</option><option 
+value="musica.uol.com.br/artistas/">&nbsp;&nbsp;- Artistas</option><option
+ value="namoro.uol.com.br/">Namoro</option><option 
+value="noticias.uol.com.br/">Notícias</option><option 
+value="noticias.uol.com.br/cotidiano/">&nbsp;&nbsp;- Cotidiano</option><option
+ value="noticias.uol.com.br/internacional/">&nbsp;&nbsp;- Internacional</option><option
+ value="noticias.uol.com.br/jornais/">&nbsp;&nbsp;- Jornais</option><option
+ value="noticias.uol.com.br/politica/">&nbsp;&nbsp;- Política</option><option
+ value="noticias.uol.com.br/ultnot/noticias.jhtm">&nbsp;&nbsp;- Últimas 
+Notícias</option><option value="www.radio.uol.com.br/">Rádio UOL</option><option
+ value="receitas.uol.com.br/">Receitas</option><option 
+value="noticias.uol.com.br/revistas/">Revistas</option><option 
+value="sac.uol.com.br/">SAC</option><option value="servicos.uol.com.br/">Serviços</option><option
+ value="sexo.uol.com.br/">Sexo</option><option value="sites.uol.com.br/">Sites
+ Pessoais</option><option value="tecnologia.uol.com.br/">Tecnologia</option><option
+ value="televisao.uol.com.br/">Televisão</option><option 
+value="televisao.uol.com.br/novelas.jhtm">&nbsp;&nbsp;- Novelas</option><option
+ value="televisao.uol.com.br/programacao/">&nbsp;&nbsp;- Programação</option><option
+ value="www3.uol.com.br/tempo/">Tempo e Trânsito</option><option 
+value="tvuol.uol.com.br/">TV UOL</option><option 
+value="uolk.uol.com.br/">UOL K</option><option value="mais.uol.com.br/">UOL
+ Mais</option><option value="viagem.uol.com.br/">Viagem</option><option 
+value="tvuol.uol.com.br/">Vídeos</option><option 
+value="voip.uol.com.br/">Voip</option><option value="wifi.uol.com.br/">Wi-Fi</option></select></form></li></ul></div></div><div
+ style="clear: left;"></div>
+		</div>		<div id="publicidade">
+            <div class="maxWidth">
+                <div class="super"><script type="text/javascript">
+   var m3_u = (location.protocol=='https:'?'https://adserver.dialhost.com.br/www/delivery/ajs.php':'http://adserver.dialhost.com.br/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=15");
+   document.write ('&cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&exclude=" + document.MAX_used);
+   document.write (document.charset ? '&charset='+document.charset : (document.characterSet ? '&charset='+document.characterSet : ''));
+   document.write ("&loc=" + escape(window.location));
+   if (document.referrer) document.write ("&referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&mmm_fo=1");
+   document.write ("'></scr"+"ipt>");
+</script><script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/ajs.php"></script><div
+ id="ox_64b8d38cf57952df49c32b91e3eaa272" style="display: inline;"><embed
+ type="application/x-shockwave-flash" 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/2f1ae431b47f02f704fd6e827fb20781.swf"
+ style="" id="Planos DialHost" name="Planos DialHost" quality="high" 
+allowscriptaccess="always" 
+flashvars="clickTARGET=_blank&amp;clickTAG=http%3A%2F%2Fadserver.dialhost.com.br%2Fwww%2Fdelivery%2Fck.php%3Foaparams%3D2__bannerid%3D5__zoneid%3D15__cb%3D4cab491c52__oadest%3Dhttp%253A%252F%252Fwww.dialhost.com.br"
+ width="728" height="90"></div>
+<script type="text/javascript"><!--// <![CDATA[
+var ox_swf = new FlashObject('http://adserver.dialhost.com.br/www/images/2f1ae431b47f02f704fd6e827fb20781.swf', 'Planos DialHost', '728', '90', '8');
+ox_swf.addVariable('clickTARGET', '_blank');
+ox_swf.addVariable('clickTAG', 'http%3A%2F%2Fadserver.dialhost.com.br%2Fwww%2Fdelivery%2Fck.php%3Foaparams%3D2__bannerid%3D5__zoneid%3D15__cb%3D4cab491c52__oadest%3Dhttp%253A%252F%252Fwww.dialhost.com.br');
+ox_swf.addParam('allowScriptAccess','always');
+ox_swf.write('ox_64b8d38cf57952df49c32b91e3eaa272');
+if (ox_swf.installedVer.versionIsValid(ox_swf.getAttribute('version'))) { document.write("<div id='beacon_4cab491c52' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://adserver.dialhost.com.br/www/delivery/lg.php?bannerid=5&amp;campaignid=2&amp;zoneid=15&amp;loc=http%3A%2F%2Fimasters.com.br%2Fartigo%2F13115%2Flinux%2Fmonitoramento_de_trafego_no_centos_com_mrtg%2F&amp;referer=http%3A%2F%2Fwww.google.com.br%2Fsearch%3Fq%3DMRTG%26hl%3Dpt-BR%26client%3Dfirefox-a%26hs%3D2Nt%26rls%3Dorg.mozilla%3Apt-BR%3Aofficial%26prmd%3Di%26source%3Dlnt%26tbs%3Dlr%3Alang_1pt%26lr%3Dlang_pt%26sa%3DX%26ei%3DXSGvTKu-LIGB8gaEo5WjCQ%26ved%3D0CAoQpwU&amp;cb=4cab491c52' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>"); }
+// ]]> --></script><div id="beacon_4cab491c52" style="position: 
+absolute; left: 0px; top: 0px; visibility: hidden;"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/lg.gif"
+ alt="" style="width: 0px; height: 0px;" width="0" height="0"></div>
+<noscript><a href='http://adserver.dialhost.com.br/www/delivery/ck.php?n=a10b644c&cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://adserver.dialhost.com.br/www/delivery/avw.php?zoneid=15&n=a10b644c' border='0' alt='' /></a></noscript></div>
+                <div class="small"><script type="text/javascript">
+	var banner = new Flash("http://static.imasters.com.br/anuncio/tecla/70x90.swf", "player", "70", "90"); 
+	banner.write(); 
+</script><!--[if !IE]> <--> <object type="application/x-shockwave-flash"
+ 
+data="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/70x90.swf"
+ id="player" name="player" width="70" height="90"> <param 
+name="pluginurl" value="http://www.macromedia.com/go/getflashplayer"> <param
+ name="movie" 
+value="http://static.imasters.com.br/anuncio/tecla/70x90.swf"> <param 
+name="flashVars" value="">  </object> <!--> <![endif]--></div>
+            </div>
+        </div>
+
+        		<div id="navegacaoGlobal">
+            <ul class="maxWidth">
+                <li><a href="http://imasters.com.br/" class="ativo">Canais</a></li>
+                <li><a href="http://forum.imasters.com.br/">Fóruns</a></li>
+                <li><a href="http://multimidia.imasters.com.br/">Multimídia</a></li>
+                <li><a href="http://blog.imasters.com.br/">Blogs</a></li>
+                <li><a href="http://shop.imasters.com.br/">Shop</a></li>
+                <li><a href="http://imasters.com.br/agenda/">Agenda de 
+Eventos</a></li>
+                <li><a href="http://pro.imasters.com.br/">Pro</a></li>
+                <li><a href="http://mercado.imasters.com.br/">Banco de 
+Currículos</a></li>
+            </ul>
+        </div>        <div id="topo">
+            <div class="fundo">
+                <div class="maxWidth">
+                    <h1>
+                        <a href="http://imasters.com.br/">
+                        <div class="logo"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/logo.png"
+ alt="iMasters"></div>
+                        <span>Por uma internet mais criativa e dinâmica</span>
+                        </a>
+                    </h1>
+
+                    <div id="accountArea">
+                                                <a 
+href="http://meu.imasters.com.br/" id="doLogin" class="botao"><span 
+class="expansor">Faça Login</span></a>
+                        <span class="texto">ou</span>
+                        <a href="http://imasters.com.br/cadastro/" 
+class="botao">Cadastre-se</a>
+
+                        <div id="loginPopup">
+                            <form action="" method="post">
+                                <div>
+                                    <label for="strEmailLogin">E-mail:</label>
+                                    <input name="strEmail" 
+id="strEmailLogin" class="campo" type="text">
+
+                                    <label for="strSenhaLogin">Senha:</label>
+                                    <input name="strSenha" 
+id="strSenhaLogin" class="campo" type="password">
+
+                                    <input class="submit" value="Entrar"
+ type="submit">
+
+                                    <input name="indLogin" 
+id="indLoginMeu" value="meu" type="hidden">
+
+                                    <label class="manterConectado"><input
+ name="ckbxLembreme" type="checkbox">Manter conectado</label>
+                                </div>
+                            </form>
+                            <a href="#">Esqueci a senha</a>
+                        </div>
+                                            </div>
+
+                    <form id="formBusca" 
+action="http://imasters.com.br/busca/" method="get">
+                        <div>
+                            <input class="vazio" id="q" name="q" 
+value="Pesquisar" type="text">
+                                                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="navegacaoSecao">
+        <ul class="maxWidth">
+                                    <li><a 
+href="http://imasters.com.br/canal/criacao">Arquitetura e Design</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/3dsmax/">3ds max</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/acessibilidade/">Acessibilidade</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/ai/">Arquitetura da Informação</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/fireworks/">Fireworks</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/flash/">Flash</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/lightwave3d/">Lightwave 3D</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/photoshop/">Photoshop</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/suite_corel/">Suite Corel</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/teoria/">Teoria/Design</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/usabilidade/">Usabilidade</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/bancodedados">Banco de Dados</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/access/">Access</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/db2/">DB2</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/interbase/">Interbase</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/mysql/">MySQL</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/oracle/">Oracle</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/postgresql/">PostgreSQL</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/sql_server/">SQL Server</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/carreira">Carreira</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/certificacoes/">Certificações</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/mercado/">Mercado</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/tendencias/">Tendências</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/cms">CMS e Framework</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/cakephp/">CakePHP</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/django/">Django</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/drupal/">Drupal</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/joomla/">Joomla</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/ruby-rails/">Ruby on Rails</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/sistemasecommerce/">Sistemas de 
+E-commerce</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/wordpress/">Wordpress</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/zend/">Zend Framework</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/desenvolvimento">Desenvolvimento</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/agile/">Agile</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/ajax/">Ajax</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/aplicativosmoveis/">Aplicativos 
+móveis</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/dreamweaver/">Dreamweaver</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/flash/">Flash</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/flex/">Flex</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/gerenciadeprojetos/">Gerência de 
+Projetos</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/seo/">SEO</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/livre/">Software Livre</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/visual_foxpro/">Visual FoxPro</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/visual_studio/">Visual Studio</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/webstandards/">Web Standards</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/webservices/">WebServices</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/gerencia">Gerência de TI</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/bi/">B. Intelligence</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/forense/">Computação Forense</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/direito/">Direito e Web</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/egov/">E-Gov</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/governanca/">Governança de TI</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/mercado/">Mercado</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li class=""><a class="" 
+href="http://imasters.com.br/canal/programacao">Linguagens</a>
+                            <ul>
+                                                              <li 
+class="expandivel"><a href="http://imasters.com.br/canal/dotnet/">.NET</a>
+                       <ul>
+                                                        <li><a 
+href="http://imasters.com.br/secao/adonet/">ADO.NET</a></li>
+                                                        <li><a 
+href="http://imasters.com.br/secao/aspnet/">ASP.NET</a></li>
+                                                        <li><a 
+href="http://imasters.com.br/secao/csharp/">C#.NET</a></li>
+                                                        <li><a 
+href="http://imasters.com.br/secao/vbnet/">VB.NET</a></li>
+                                                    </ul>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/actionscript/">ActionScript</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/asp/">ASP</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/coldfusion/">ColdFusion</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/css/">CSS</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/delphi/">Delphi</a>
+                                            </li>
+                                                              <li 
+class="expandivel"><a href="http://imasters.com.br/secao/java/">Java</a>
+                       <ul>
+                                                        <li><a 
+href="http://imasters.com.br/secao/javamobile/">Java para Mobile</a></li>
+                                                        <li><a 
+href="http://imasters.com.br/secao/javaweb/">Java para web</a></li>
+                                                    </ul>
+                                            </li>
+                                                              <li 
+class="expandivel"><a href="http://imasters.com.br/secao/javascript/">Javascript</a>
+                       <ul>
+                                                        <li><a 
+href="http://imasters.com.br/secao/ajax/">Ajax</a></li>
+                                                        <li><a 
+href="http://imasters.com.br/secao/jquery/">JQuery</a></li>
+                                                        <li><a 
+href="http://imasters.com.br/secao/prototype/">Prototype</a></li>
+                                                    </ul>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/perl/">Perl</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/php/">PHP</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/ruby/">Ruby</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/uml/">UML</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/visual_basic/">Visual Basic</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/xhtml/">XHTML</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/xml/">XML</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/midia">Mídia e Marketing Digital</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/ecommerce/">E-commerce</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/elearning/">E-Learning</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/email_marketing/">E-mail Marketing</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/midiasocial/">Mídia Social</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/mobile/">Mobile Marketing</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/publicidade/">Publicidade Online</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/seo/">SEO</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/webanalytics/">Web Analytics</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/webmarketing/">Web Marketing</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/webwriting/">Web Writing</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/redes" class="ativo">Redes e 
+Servidores</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/apache/">Apache</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/cisco/">Cisco</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/linux/">Linux</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/seguranca/">Segurança</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/servidores_windows/">Windows Server</a>
+                                            </li>
+                                </ul>
+            </li>
+                                    <li><a 
+href="http://imasters.com.br/canal/tecnologia">Tecnologia</a>
+                            <ul>
+                                                               <li><a 
+href="http://imasters.com.br/secao/gadgets/">Gadgets</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/tvdigital/">TV Digital</a>
+                                            </li>
+                                                               <li><a 
+href="http://imasters.com.br/secao/voip/">VoIP</a>
+                                            </li>
+                                </ul>
+            </li>
+                    </ul>
+        </div>
+    <div id="tituloSecao">
+        <div class="maxWidth variasSecoes">
+            <h2><strong><a href="http://imasters.com.br/secao/linux/">Linux</a></strong>
+                                        </h2>
+
+            <div class="listaDeIcones">
+                <a href="http://imasters.com.br/feed/secao/linux">
+                    <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/iconeFeeds.png"
+ alt=" ">
+                    Feeds
+                </a>
+
+                <a href="http://meu.imasters.com.br/newsletter/">
+                    <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/iconeNewsletter.png"
+ alt=" ">
+                    Newsletter
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="conteudo">
+	
+		<div id="tituloDestaque">
+            <div class="data">Terça-feira, 09 de junho de 2009 às 10h00</div>
+			<h1>Monitoramento de tráfego no CentOS com MRTG</h1>
+		</div>
+		
+		<div id="artigo">
+			<div id="strConteudo" class="strConteudo">
+                
+		<div style="border: 1px solid rgb(204, 204, 204); padding: 4px; 
+-moz-border-radius: 4px 4px 4px 4px; width: 80%; height: 30px; margin: 
+0pt auto 20px; background: 
+url(&quot;http://static.imasters.com.br/pro/img/bg_fundo_banner.png&quot;)
+ repeat-x scroll center bottom transparent;">
+			<a href="http://www.hp.com/latam/br/enterprise/HP_Descubra_BR/" 
+style="display: block; text-decoration: none; overflow: hidden;">
+			<center><span style="display: block; color: rgb(246, 98, 21); 
+font-weight: bold; font-size: 16px; text-decoration: none ! important; 
+margin: 5px auto 0pt;">Descubra as possibilidades de Virtualização com 
+Storage HP</span></center>
+			</a>
+		</div>
+
+                                
+				<p>
+O MRTG é um pacote escrito em Perl que faz a coleta de dados via SNMP.
+Por isso, o equipamento a ser monitorado precisará oferecer suporte a
+este protocolo. Apesar de ser possível utilizar o MRTG para
+monitoramento de qualquer equipamento que suporte o protocolo SNMP,
+este artigo visa o monitoramento de equipamentos de rede, ou seja,
+basicamente switches e roteadores, e cobre a instalação e configuração
+do MRTG na distribuição CentOS.
+</p>
+
+
+<h4>Instalação</h4>
+
+
+<p>Para instalar e utilizar o MRTG no CentOS, você precisa de uma
+versão do Perl instalada no equipamento. Na maioria das instalações
+padrão, o Perl já se encontra disponível. Caso não esteja, o utilitário
+de obtenção de pacotes da distribuição CentOS, o yum, se encarregará de 
+instalá-lo, uma vez que este analisa as dependências do pacote do MRTG.
+</p>
+
+
+<p>
+É interessante lembrar que, diferente das distribuições Debian e 
+derivadas, nas quais é necessário executar o comando apt-get update para
+ atualização da lista de pacotes instaláveis, o comando yum pode ser 
+executado diretamente, sem a necessidade de executar yum update. Somente
+ para informação, o comando yum update irá atualizar todos os pacotes 
+instalados na máquina.
+</p>
+
+
+<p>
+Da mesma maneira, são necessárias algumas bibliotecas para que o MRTG 
+possa gerar gráficos de estatísticas de tráfego: gd, libpng e zlib, que o
+ yum também se encarrega de instalar, caso não estejam instaladas.
+</p>
+
+
+<p>
+Uma vez instalado o sistema operacional (CentOS), obtém-se acesso de 
+root à máquina, logando-se como tal, ou com o comando su.
+</p>
+
+
+<p>
+Como utilizaremos os gráficos em HTML gerados pelo MRTG, vamos também
+fazer a instalação de um webserver nesta máquina. Por ser o mais
+utilizado, vamos cobrir o <a href="http://httpd.apache.org/" class="ext">Apache</a>
+ neste artigo. Caso ele não esteja instalado, basta usar o comando:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="com"># yum install httpd</span></code></pre></div>
+
+
+<p>
+Isso instalará o Servidor Web Apache. Em seguida, podemos realizar a
+atualização do pacote do MRTG (e, conseqüentemente, de suas
+dependências):
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="com"># yum install mrtg</span></code></pre></div>
+
+
+<p>
+O yum irá instalar o pacote, criar o diretório /etc/mrtg e o arquivo 
+/etc/mrtg/mrtg.conf,
+no qual devem ser armazenadas as configurações dos hosts a serem
+monitorados. Particularmente, eu prefiro criar um arquivo de
+configuração do MRTG para cada host. Veremos agora como criar os
+arquivos de configuração.
+</p>
+
+
+<h4>Configuração</h4>
+
+
+<p>
+Após a instalação dos pacotes, é hora de partir para a criação dos 
+arquivos de configuração dos hosts que o MRTG irá monitorar.
+</p>
+
+
+<p>
+O MRTG possui um utilitário que auxilia na criação dos arquivos de 
+configuração. Trata-se do cfgmaker, que possui a seguinte sintaxe:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; cfgmaker </span><span class="pun">--</span><span class="pln">output </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">mrtg</span><span class="pun">/</span><span class="pln">router_abc_xyz</span><span class="pun">.</span><span class="pln">cfg community@router</span><span class="pun">.</span><span class="pln">abc</span><span class="pun">.</span><span class="pln">xyz</span></code></pre></div>
+
+
+<p>
+Onde:
+</p>
+
+
+<ul><li>o parâmetro --output define o arquivo de configuração que será 
+gerado pelo cfgmaker;
+</li>
+
+<li>community é a comunidade SNMP do host, que é  router.abc.xyz.
+</li>
+
+</ul>
+
+<p>Atenção: para que o nome do host seja resolvido, o equipamento com o
+MRTG deve estar corretamente configurado com o(s) nome(s) do(s)
+servidor(es) DNS (arquivo /etc/resolv.conf); além disso, é necessário
+registro no servidor DNS para o host, associando-o com o respectivo
+endereço IP. Também pode ser utilizada uma entrada para o mesmo no
+arquivo /etc/hosts ou, ainda, o endereço IP no lugar do nome.
+</p>
+
+
+<p>
+Exemplo: vamos supor que tenhamos um roteador Cisco 2500 com endereço IP
+ 192.168.1.10 e comunidade SNMP public. O comando cfgmaker ficaria:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; cfgmaker </span><span class="pun">--</span><span class="pln">output </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">mrtg</span><span class="pun">/</span><span class="lit">192.168.1.10</span><span class="pun">.</span><span class="pln">cfg public@192</span><span class="lit">.168.1.10</span></code></pre></div>
+
+
+<p>
+Será gerado o arquivo 192.168.1.10.cfg como saída (em /etc/mrtg/).
+Este arquivo contém as informações necessárias para que sejam gerados
+os gráficos. Porém, existem alguns parâmetros que podem ser
+configurados no arquivo para melhor visualização. Estes parâmetros são
+definidos nas seções Global Config Options e Global Defaults, conforme 
+abaixo:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="typ">WorkDir</span><span class="pun">:</span><span class="pln"> </span><span class="str">/var/</span><span class="pln">www</span><span class="pun">/</span><span class="pln">mrtg</span></code></pre></div>
+
+
+<p>
+Define qual será a pasta de trabalho do MRTG; ou seja, a pasta onde
+serão salvos os arquivos gerados pelo MRTG (logs, arquivos HTML e PNG
+etc.). É recomendável criar uma subpasta para cada máquina.
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="typ">Options</span><span class="pun">[</span><span class="pln">_</span><span class="pun">]:</span><span class="pln"> growright</span><span class="pun">,</span><span class="pln"> bits</span></code></pre></div>
+
+
+<p>
+São duas opções em uma (mas podem ser configuradas separadamente): 
+growright
+faz com que o gráfico "caminhe" da direita para a esquerda, fazendo com
+que o horário atual fique à direita no gráfico; já o parâmetro bits
+define que o gráfico trará as informações em bits (por padrão, as
+informações são expressas em bytes).
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="typ">Refresh</span><span class="pun">:</span><span class="pln"> </span><span class="lit">600</span></code></pre></div>
+
+
+<p>
+É o intervalo, em segundos, para o navegador atualizar a página. Por 
+padrão, 300 segundos (5 minutos).
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="typ">Interval</span><span class="pun">:</span><span class="pln"> </span><span class="lit">10</span></code></pre></div>
+
+
+<p>
+É o intervalo, em minutos, para o MRTG buscar novas informações 
+estatísticas junto ao host. Por padrão, 5 minutos.
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="typ">Language</span><span class="pun">:</span><span class="pln"> brazilian</span></code></pre></div>
+
+
+<p>
+Idioma que será utilizado nos arquivos HTML gerados pelo MRTG.
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="typ">RunAsDaemon</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Yes</span></code></pre></div>
+
+
+<p>
+Para rodar o MRTG como daemon. Ou seja, o MRTG ficará carregado, e vai 
+buscar os dados do host conforme o parâmetro Interval (ou nos 5 minutos 
+padrão).
+</p>
+
+
+<h4>Ajustes</h4>
+
+
+<p>
+Iremos criar um usuário para executar o MRTG:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; useradd </span><span class="pun">-</span><span class="pln">d </span><span class="pun">/</span><span class="pln">var</span><span class="pun">/</span><span class="pln">www</span><span class="pun">/</span><span class="pln">mrtg </span><span class="pun">-</span><span class="pln">s </span><span class="pun">/</span><span class="pln">bin</span><span class="pun">/</span><span class="kwd">false</span><span class="pln"> mrtg</span></code></pre></div>
+
+
+<p>
+Através dos parâmetros -d e -s definimos, respectivamente, o diretório 
+home e o Shell padrão do usuário mrtg.
+</p>
+
+
+<p>
+Além disso, é necessário atribuir a propriedade dos diretórios 
+/var/www/mrtg e /etc/mrtg para o recém-criado usuário mrtg.
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; chown mrtg </span><span class="pun">/</span><span class="pln">var</span><span class="pun">/</span><span class="pln">www</span><span class="pun">/</span><span class="pln">mrtg </span><span class="pun">-</span><span class="pln">Rv</span></code></pre></div>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; chown mrtg </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">mrtg </span><span class="pun">-</span><span class="pln">Rv</span></code></pre></div>
+
+
+<p>Desta forma, este usuário terá permissão para criar os gráficos que
+serão visualizados via browser, e demais arquivos de controle.
+</p>
+
+
+<p>
+Além disso, também é recomendável mover para outro lugar os arquivos 
+/etc/mrtg/mrtg.cfg e /etc/cron.d/mrtg;
+o primeiro, para que o script que irá inicializar o MRTG (que veremos
+mais adiante) não tente utilizar este arquivo de configuração (que
+estará vazio), e o segundo para que o cron não tente iniciar o MRTG com
+este mesmo arquivo de configuração a cada cinco minutos.
+</p>
+
+
+<h4>Colocando para funcionar</h4>
+
+
+<p>Com o arquivo (ou arquivos) de configuração pronto(s), é hora de
+colocar o MRTG para monitorar os seus hosts. Isso é relativamente
+fácil. O MRTG espera que a variável LANG esteja definida como C; caso o 
+sistema tenha a variável configurada de forma diferente, LANG=C deve ser
+ informado antes da execução do MRTG, conforme abaixo:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; env LANG</span><span class="pun">=</span><span class="pln">C mrtg </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">mrtg</span><span class="pun">/</span><span class="lit">192.168.1.10</span><span class="pun">.</span><span class="pln">cfg</span></code></pre></div>
+
+
+<p>
+Essa linha de comando iniciará o MRTG como root. Se você configurou a 
+opção RunAsDaemon, não será necessário fazer mais nada.
+</p>
+
+
+<p>
+Porém, será necessário digitar esta linha de comando sempre que a
+máquina for reiniciada. Além disso, será necessário digitar uma linha
+de comando para cada arquivo de configuração (caso você tenha optado
+por criar um arquivo por host). Para automatizar a tarefa, pode-se
+criar um script de inicialização, adicioná-lo ao diretório /etc/init.d/ e
+ criar os links simbólicos para os runlevels que serão utilizados.</p>
+
+
+<p>
+O script abaixo irá inicializar todos os arquivos com extensão ,.cfg 
+localizados em /etc/mrtg:
+</p>
+
+
+<div class="codigo"><pre><code><span class="com">#!/bin/bash</span><span class="pln"><br></span><span class="com">#</span><span class="pln"><br></span><span class="com"># mrtgd &nbsp; &nbsp; &nbsp; Script para iniciar e parar monitoração via MRTG</span><span class="pln"><br><br></span><span class="com"># Variáveis</span><span class="pln"><br></span><span class="kwd">export</span><span class="pln"> MRTG</span><span class="pun">=</span><span class="str">/usr/</span><span class="pln">bin</span><span class="pun">/</span><span class="pln">mrtg </span><span class="com"># Caminho do executável do MRTG</span><span class="pln"><br></span><span class="kwd">export</span><span class="pln"> CFG</span><span class="pun">=</span><span class="str">/etc/</span><span class="pln">mrtg </span><span class="com"># Caminho dos arquivos de configuração do MRTG</span><span class="pln"><br></span><span class="kwd">export</span><span class="pln"> MRTGUSER</span><span class="pun">=</span><span class="pln">mrtg </span><span class="com"># Usuário do MRTG</span><span class="pln"><br></span><span class="kwd">export</span><span class="pln"> LANG</span><span class="pun">=</span><span class="pln">C<br><br></span><span class="com">#################################</span><span class="pln"><br></span><span class="com"># Declaração das Funções #</span><span class="pln"><br></span><span class="com">#################################</span><span class="pln"><br><br></span><span class="com"># Mostra a sintaxe do comando</span><span class="pln"><br></span><span class="typ">Uso</span><span class="pun">(){</span><span class="pln"><br>&nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nUtilize $0 {start|stop|restart|status}\n"</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">return</span><span class="pln"> </span><span class="lit">0</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br><br></span><span class="com"># Inicia o MRTG</span><span class="pln"><br></span><span class="typ">Iniciar</span><span class="pun">(){</span><span class="pln"><br>&nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nIniciando MRTG..."</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">for</span><span class="pln"> cfg </span><span class="kwd">in</span><span class="pln"> </span><span class="str">`ls $CFG/*.cfg`</span><span class="pun">;</span><span class="pln"> </span><span class="kwd">do</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; $MRTG </span><span class="pun">--</span><span class="pln">user</span><span class="pun">=</span><span class="pln">$MRTGUSER $cfg </span><span class="pun">&amp;&gt;</span><span class="pln"> </span><span class="str">/dev/</span><span class="kwd">null</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">done</span><span class="pln"><br>&nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nMRTG iniciado!"</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">return</span><span class="pln"> </span><span class="lit">0</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br><br></span><span class="com"># Encerra o MRTG</span><span class="pln"><br></span><span class="typ">Parar</span><span class="pun">(){</span><span class="pln"><br>&nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nParando MRTG..."</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">for</span><span class="pln"> dotpid </span><span class="kwd">in</span><span class="pln"> </span><span class="str">`ls $CFG/*.pid 2&gt; /dev/null`</span><span class="pun">;</span><span class="pln"> </span><span class="kwd">do</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; kill </span><span class="pun">-</span><span class="lit">9</span><span class="pln"> </span><span class="str">`cat $dotpid`</span><span class="pln"> </span><span class="pun">&amp;&gt;</span><span class="pln"> </span><span class="str">/dev/</span><span class="kwd">null</span><span class="pln"> &nbsp; &nbsp;</span><span class="com"># -9 para que o MRTG não exiba mensagem de erro</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; echo </span><span class="str">"Finalizado processo `cat $dotpid`"</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; rm </span><span class="pun">-</span><span class="pln">f $dotpid<br>&nbsp; &nbsp; </span><span class="kwd">done</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">[</span><span class="pln"> </span><span class="str">"$dotpid"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">""</span><span class="pln"> </span><span class="pun">];</span><span class="pln"> </span><span class="kwd">then</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nErro! MRTG não está em execução\n"</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">else</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nMRTG Finalizado!\n"</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">fi</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">return</span><span class="pln"> </span><span class="lit">0</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br></span><span class="com"># Verifica se o MRTG está rodando e devolve o PID</span><span class="pln"><br></span><span class="typ">Status</span><span class="pun">(){</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">for</span><span class="pln"> cfg </span><span class="kwd">in</span><span class="pln"> </span><span class="str">`ls $CFG/*.cfg`</span><span class="pun">;</span><span class="pln"> </span><span class="kwd">do</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; mrtgpid</span><span class="pun">=</span><span class="pln">$</span><span class="pun">(</span><span class="pln">ps ax </span><span class="pun">|</span><span class="pln"> grep </span><span class="pun">-</span><span class="pln">v </span><span class="str">"grep"</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> grep </span><span class="str">"$cfg"</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> tr </span><span class="pun">-</span><span class="pln">s </span><span class="str">" "</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> cut </span><span class="pun">-</span><span class="pln">f2 </span><span class="pun">-</span><span class="pln">d</span><span class="str">" "</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">[</span><span class="pln"> </span><span class="str">"$mrtgpid"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">""</span><span class="pln"> </span><span class="pun">];</span><span class="pln"> </span><span class="kwd">then</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nO MRTG não está em execução no momento."</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">return</span><span class="pln"> </span><span class="lit">0</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">fi</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; echo </span><span class="pun">-</span><span class="pln">e </span><span class="str">"\nMRTG em execução\tCFG: $cfg\tProcesso: $mrtgpid"</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">done</span><span class="pln"><br>&nbsp; &nbsp; echo </span><span class="str">""</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">return</span><span class="pln"> </span><span class="lit">0</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br><br></span><span class="com">####################################</span><span class="pln"><br></span><span class="com"># Término da declaração de Funções #</span><span class="pln"><br></span><span class="com">####################################</span><span class="pln"><br><br></span><span class="com"># Verifica se recebeu argumento na linha de comando</span><span class="pln"><br></span><span class="kwd">if</span><span class="pln"> </span><span class="pun">[</span><span class="pln"> </span><span class="str">"$#"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">"0"</span><span class="pln"> </span><span class="pun">];</span><span class="pln"> </span><span class="kwd">then</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="typ">Uso</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">exit</span><span class="pln"><br></span><span class="kwd">fi</span><span class="pln"><br><br><br></span><span class="com"># Teste das opções recebidas via linha de comando</span><span class="pln"><br></span><span class="kwd">while</span><span class="pln"> </span><span class="pun">[</span><span class="pln"> </span><span class="str">"$1"</span><span class="pln"> </span><span class="pun">];</span><span class="pln"> </span><span class="kwd">do</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">case</span><span class="pln"> $1 </span><span class="kwd">in</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; status</span><span class="pun">)</span><span class="pln"> </span><span class="typ">Status</span><span class="pun">;;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; start</span><span class="pun">)</span><span class="pln"> </span><span class="typ">Iniciar</span><span class="pun">;;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; stop</span><span class="pun">)</span><span class="pln"> </span><span class="typ">Parar</span><span class="pun">;;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; restart</span><span class="pun">)</span><span class="pln"> </span><span class="typ">Parar</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> </span><span class="typ">Iniciar</span><span class="pun">;;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">*)</span><span class="pln"> echo </span><span class="str">""</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo </span><span class="str">"ERRO! Opção inválida: $1"</span><span class="pun">;</span><span class="pln"> </span><span class="typ">Uso</span><span class="pun">;;</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">esac</span><span class="pln"><br>&nbsp; &nbsp; shift<br>done</span></code></pre></div>
+
+
+<p>
+Uma vez criado o script em /etc/init.d/ (que eu chamei de mrtgd), também
+ será necessário criar os links para os runlevels apropriados (no 
+exemplo abaixo, o 3):
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; ln </span><span class="pun">-</span><span class="pln">s </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">init</span><span class="pun">.</span><span class="pln">d</span><span class="pun">/</span><span class="pln">mrtgd </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">rc</span><span class="pun">.</span><span class="pln">d</span><span class="pun">/</span><span class="pln">rc3</span><span class="pun">.</span><span class="pln">d</span><span class="pun">/</span><span class="pln">S99mrtgd</span></code></pre></div>
+
+
+<p>
+Se forem exibidas mensagens de erro na criação de alguns arquivos, 
+verifique as permissões nos diretórios /etc/mrtg/ e /var/www/mrtg/.
+</p>
+
+
+<h4>Testando</h4>
+
+
+<p>
+Para verificar os gráficos gerados pelo MRTG, basta acessar o endereço
+do servidor web, através do browser. Supondo que este seja
+192.168.1.100, basta apontar o browser para:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; http</span><span class="pun">:</span><span class="com">//192.168.1.100/mrtg</span></code></pre></div>
+
+
+<p>É muito provável que você receba um erro 403 no browser. Se o Apache
+estiver com as configurações padrão, o acesso é liberado somente ao
+localhost (127.0.0.1); além disso, o Apache não permitirá que você
+visualize a lista de pastas e arquivos em /mrtg.
+</p>
+
+
+<p>
+Neste caso, você deve alterar o arquivo de configuração do Apache para o
+ MRTG, em /etc/httpd/conf.d/mrtg.conf, adicionando as opções 
+assinaladas:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; </span><span class="com">#</span><span class="pln"><br>&nbsp; </span><span class="com"># This configuration file maps the mrtg output (generated daily)</span><span class="pln"><br>&nbsp; </span><span class="com"># into the URL space. &nbsp;By default these results are only accessible</span><span class="pln"><br>&nbsp; </span><span class="com"># from the local host.</span><span class="pln"><br>&nbsp; </span><span class="com">#</span><span class="pln"><br>&nbsp; </span><span class="typ">Alias</span><span class="pln"> </span><span class="pun">/</span><span class="pln">mrtg </span><span class="pun">/</span><span class="pln">var</span><span class="pun">/</span><span class="pln">www</span><span class="pun">/</span><span class="pln">mrtg<br><br>&nbsp; </span><span class="pun">&lt;</span><span class="pln"> </span><span class="typ">Location</span><span class="pln"> </span><span class="pun">/</span><span class="pln">mrtg </span><span class="pun">&gt;</span><span class="pln"><br></span><span class="typ">Options</span><span class="pln"> </span><span class="typ">Indexes</span><span class="pln"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="pun">&lt;---</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; </span><span class="typ">Order</span><span class="pln"> deny</span><span class="pun">,</span><span class="pln">allow<br>&nbsp; &nbsp; &nbsp; </span><span class="typ">Deny</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> all<br>&nbsp; &nbsp; &nbsp; </span><span class="typ">Allow</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="lit">127.0.0.1</span><span class="pln"><br></span><span class="typ">Allow</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="lit">192.168.1</span><span class="pun">.</span><span class="pln"> &nbsp; &nbsp;</span><span class="pun">&lt;---</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; </span><span class="typ">Allow</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">::</span><span class="lit">1</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; </span><span class="com"># Allow from .example.com</span><span class="pln"><br>&nbsp; </span><span class="pun">&lt;</span><span class="pln"> </span><span class="str">/Location &gt;</span></code></pre></div>
+
+
+<p>Quando tentar abrir novamente o endereço do servidor web, irá
+receber uma lista de arquivos HTML e figuras. Para visualizar o gráfico
+referente a um host específico, deve-se procurar o respectivo arquivo
+HTML.
+</p>
+
+
+<p>
+Para facilitar a visualização, pode-se criar um arquivo de índice para 
+os gráficos, através do utilitário indexmaker:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; indexmaker </span><span class="pun">--</span><span class="pln">output</span><span class="pun">=</span><span class="str">/var/</span><span class="pln">www</span><span class="pun">/</span><span class="pln">mrtg</span><span class="pun">/</span><span class="lit">192.168.1.10</span><span class="pun">/</span><span class="pln">index</span><span class="pun">.</span><span class="pln">html </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">mrtg</span><span class="pun">/</span><span class="lit">192.168.1.10</span><span class="pun">.</span><span class="pln">cfg </span></code></pre></div>
+
+
+<p>
+Onde:
+</p>
+
+
+<ul><li>o parâmetro --output define o arquivo de índice que será gerado 
+pelo indexmaker;
+</li>
+
+</ul>
+
+<p>
+Após gerar o arquivo de índice, basta acessar o endereço no browser:
+</p>
+
+
+<div class="codigo"><pre><code><span class="pln">&nbsp; http</span><span class="pun">:</span><span class="com">//192.168.1.100/mrtg/192.168.1.10</span></code></pre></div>
+
+
+<p>
+E visualizar os gráficos.
+</p>
+
+
+<h4>Conclusão e referências</h4>
+
+
+<p>
+Com o MRTG é possível realizar o monitoramento de qualquer equipamento 
+que ofereça suporte ao protocolo SNMP.
+</p>
+
+
+<p>
+A documentação do MRTG está no <a href="http://www.mrtg.org/" 
+class="ext">site oficial</a>.
+</p>
+
+
+			</div>
+				
+			<div id="painelInteracao">
+				<h2 class="tituloInformacao">Interação</h2>
+				<ul>
+                    <li>
+                        <div>
+                           <iframe title="Twitter For Websites: Tweet 
+Button" style="width: 110px; height: 20px;" 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/tweet_button.htm"
+ allowtransparency="true" tabindex="0" class="twitter-share-button 
+twitter-count-horizontal" frameborder="0" scrolling="no"></iframe>
+                        </div>
+                    </li>
+                    <li>
+                        <iframe 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/like.htm"
+ style="border: medium none; overflow: hidden; width: 110px; height: 
+21px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
+                    </li>
+                    <li style="float: right;"><a 
+href="http://imasters.com.br/artigo/13115/linux/monitoramento_de_trafego_no_centos_com_mrtg/imprimir/"
+ class="link">Imprimir</a></li>
+                    <li style="float: right;"><a 
+href="http://imasters.com.br/faleconosco/redacao" class="link">Relatar 
+Link Quebrado </a></li>
+				</ul>
+			</div>
+			
+			<div class="banner">
+                <script type="text/javascript"><!--
+google_ad_client = "pub-5061030065646759";
+/* 468x60, criado 10/09/09 */
+google_ad_slot = "2265721737";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/show_ads.js">
+</script><script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/expansion_embed.js"></script><script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins
+ style="display: inline-table; border: medium none; height: 60px; 
+margin: 0pt; padding: 0pt; position: relative; visibility: visible; 
+width: 468px;"><ins id="google_ads_frame1_anchor" style="display: block;
+ border: medium none; height: 60px; margin: 0pt; padding: 0pt; position:
+ relative; visibility: visible; width: 468px;"><iframe 
+allowtransparency="true" hspace="0" id="google_ads_frame1" 
+marginheight="0" marginwidth="0" name="google_ads_frame" 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/ads.htm"
+ style="left: 0pt; position: absolute; top: 0pt;" vspace="0" width="468"
+ frameborder="0" height="60" scrolling="no"></iframe></ins></ins>       
+     </div>
+			
+			<div id="comentarios">
+    <h2 class="tituloInformacao" id="comments">
+            Nenhum comentário até agora
+    </h2>
+<div id="listaDeComentarios">
+    </div>
+
+<div id="blocoComentario">
+    <div class="formComentario">
+            <form id="formComentario" 
+action="http://imasters.com.br/artigo/13115/linux/monitoramento_de_trafego_no_centos_com_mrtg/"
+ method="post">
+            <div class="titulo">
+                <a href="#" class="cancelarResposta" title="Cancelar 
+resposta">Cancelar resposta</a>
+                <h3>Qual a sua opinião?</h3>
+                                    <p class="avisoLogin">Se você já 
+possui conta iMasters, o login será feito abaixo.</p>
+
+                    <div class="login">
+                        <div>
+                            <label for="strNomeComentario">Nome:</label>
+                            <input name="strNomeComentario" 
+autocomplete="off" type="text">
+                        </div>
+                       <div>
+                            <label for="strEnderecoComentario">E-mail:</label>
+                            <input name="strEnderecoComentario" 
+autocomplete="off" type="text">
+                        </div>
+                        <div class="campoStrSenha" style="display: 
+none;">
+                            <label for="strSenhaComentario">Senha:</label>
+                            <input name="strSenhaComentario" 
+autocomplete="off" type="password">
+                        </div>
+
+                        <div class="status"></div>
+
+                    </div>
+                            </div>
+            <div class="campos">
+          
+                <label for="comentario" class="oculto">Comentário:</label>
+                <textarea name="comentario" class="strComentario vazio">Mensagem</textarea>
+
+                <input name="codConteudo" value="13115" type="hidden">
+                <input name="indStatusLogin" value="0" type="hidden">
+                <input name="indStatusEnvio" value="0" type="hidden">
+                <input name="codComentarioAnterior" value="" 
+type="hidden">
+
+                				Atenção: comentários considerados spams e/ou 
+ofensivos serão moderados.
+                <button type="submit" class="submit">Enviar comentário</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>		</div>
+		
+		<div id="colunaLateral">
+
+            <div class="patrocinio">
+                  <span>Patrocínio:</span>
+	<a href="http://www.tecla.com.br/" style="display: inline-block; 
+margin: -5px 0pt 10px 10px;">
+	<img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/tecla.gif"
+ alt="" border="0"></a>
+	
+            </div>
+
+			<div class="bloco">
+				<div class="titulo"><strong>Sobre o Autor</strong></div>
+				<div id="sobreOAutor">
+					<img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/2185.jpg"
+ alt="">
+					<div>
+						<b>Júlio Henrique Conceição</b> é Administrador de Redes e 
+Segurança pela Magna Sistemas Consultoria S/A. Possui as certificações 
+MCSE, MCT, CCNA e CompTIA Linux+. Trabalha principalmente com 
+gerenciamento e segurança de redes.
+					</div>
+                    <div class="email">
+                        <a 
+href="mailto:%6a%75%6c%69%6f.%68%65%6e%72%69%71%75%65@%67%6d%61%69%6c.%63%6f%6d">julio.henrique@gmail.com</a>
+                    </div>
+                    				</div>
+                                
+			    
+				<div id="outrosArtigos">
+					<strong>Outros artigos do mesmo autor:</strong>
+					<ul>
+											<li><a 
+href="http://imasters.com.br/artigo/13899/redes/analisando_o_three-way_handshake/"
+ title="Analisando o Three-Way Handshake">Analisando o Three-Way 
+Handshake</a></li>
+											<li><a 
+href="http://imasters.com.br/artigo/13547/redes/como_a_analise_de_trafego_salvou_meu_emprego_parte_02/"
+ title="Como a análise de tráfego salvou meu emprego - Parte 02">Como a 
+análise de tráfego salvou meu emprego...</a></li>
+											<li><a 
+href="http://imasters.com.br/artigo/13354/redes/como_a_analise_de_trafego_salvou_meu_emprego_parte_01/"
+ title="Como a análise de tráfego salvou meu emprego - Parte 01">Como a 
+análise de tráfego salvou meu emprego...</a></li>
+											<li><a 
+href="http://imasters.com.br/artigo/13293/linux/derrubando_conexoes_estabelecidas/"
+ title="Derrubando conexões estabelecidas">Derrubando conexões 
+estabelecidas</a></li>
+										</ul>
+                    				</div>
+	     		 
+		</div>
+			<div class="bloco">
+                <div class="titulo"><a href="#" 
+onclick="$(this).parent().next().slideToggle('fast'); return false;"><strong>Indique
+ para um amigo</strong></a></div>
+                <div class="conteudo" style="display: none;" 
+id="blocoIndique">
+                    					<div id="indique">
+						<form 
+action="/artigo/13115/linux/monitoramento_de_trafego_no_centos_com_mrtg/"
+ method="post" id="formIndique">
+							<div>
+                                <input name="url" id="url" 
+value="http://imasters.com.br/artigo/13115/linux/monitoramento_de_trafego_no_centos_com_mrtg/"
+ type="hidden">
+                                <div class="campo">
+                                    <label for="nomeDe">Seu nome:</label>
+                                    <input name="nomeDe" id="nomeDe" 
+type="text">
+                                </div>
+                                <div class="divisao">
+                                    <strong>Informações do Destinatário:</strong>
+                                </div>
+                                <div class="campo">
+                                    <label for="nomePara">Nome:</label>
+                                    <input name="nomePara" id="nomePara"
+ type="text">
+                                </div>
+                                <div class="campo">
+                                    <label for="enderecoPara">E-mail:</label>
+                                    <input name="enderecoPara" 
+id="enderecoPara" type="text">
+                                </div>
+                                                                <div 
+class="campo">
+                                    <label for="textoPara">Mensagem:</label>
+                                    <textarea name="textoPara" 
+id="textoPara"></textarea>
+                                </div>
+                                <div class="submit">
+                                    <button type="submit" 
+id="btnIndique">Indicar</button>
+                                </div>
+							</div>
+						</form>
+					</div>                </div>
+			</div>
+
+            <div id="arroba">
+                <script language="JavaScript" type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/01">
+</script><script language="javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9.js"></script><script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/load.js"></script><span
+ style="z-index: 1151; position: absolute; vertical-align: top; 
+border-left: 0pt solid black;" 
+id="arm_positioningNode_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"><span
+ style="position: absolute; z-index: 1151; overflow: hidden; visibility:
+ hidden; top: 0px; left: 0px; height: 250px; width: 300px;" 
+id="OuterOrange2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"><object
+ type="application/x-shockwave-flash" 
+data="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/Mccann_VisualStudio_Arroba300x250_MTK_main.swf"
+ 
+id="orange2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"
+ 
+name="orange2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"
+ style="position: absolute; visibility: visible; z-index: 1152; top: 
+0px; left: -200px; height: 250px; width: 500px;"> <param name="movie" 
+value="HTTP://rmd.atdmt.com/tl/NMMBLUMBMDEV/Microsoft_Arroba_Abril10/Mccann_VisualStudio_Arroba300x250_MTK_main.swf?spd=50&amp;destdom=imasters.com.br&amp;ds_path=ec.atdmt.com/ds/NMMBLUMBMDEV&amp;xsu=&amp;su=undefinedNMMBLUMBMDEV/&amp;atlasm1=HTTP://rmd.atdmt.com/tl/NMMBLUMBMDEV/Microsoft_Arroba_Abril10/Mccann_VisualStudio_Arroba300x250_MTK_movie.swf&amp;atlasm2=HTTP://ec.atdmt.com/ds/NMMBLUMBMDEV/Microsoft_Arroba_Abril10/SilentHills.xml&amp;AtlasCTR=http://clk.atdmt.com/go/246733006/direct;vt.1;ai.157845645;ct.1&amp;MovieIndex=0"><param
+ name="quality" value="high"> <param name="bgcolor" value="#FFFFFF"> <param
+ name="wmode" value="transparent"> <param name="allowFullScreen" 
+value="true"><param name="AllowScriptAccess" value="always"><param 
+name="MENU" value="false"></object></span></span><a 
+href='javascript:ARMRedirLib.reportA4EBannerActivity("","orange_alternate_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742_rep",%20"http://clk.atdmt.com/go/246733006/direct;vt.1;ai.157845645;ct.1",%201286547211371)'><img
+ alt="" 
+onclick='ARMRedirLib.reportA4EBannerActivity("","orange_alternate_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742_rep",
+ "http://clk.atdmt.com/go/246733006/direct;vt.1;ai.157845645;ct.1", 
+1286547211371)' 
+usemap="#AtlasAltMap_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"
+ style="visibility: hidden;" 
+name="orange_alternate_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"
+ 
+id="orange_alternate_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"
+ 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/Mccann_VisualStudio_Arroba300x250_MTK.jpg"
+ border="0"></a><map 
+name="AtlasAltMap_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742"><area
+ 
+href='javascript:ARMRedirLib.reportA4EBannerActivity("","orange_alternate_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742_rep",%20"http://clk.atdmt.com/go/246733006/direct;vt.1;ai.157845645;ct.1",%201286547211371)'
+ shape="default"></map><script id="arm_toplayer_2c8612603bb247be838f4cde0594f329821b575f9d1c4baf8c5b42c716ec9742" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/TopLayer.js"></script>
+<noscript><a href="http://clk.atdmt.com/MBL/go/246733006/direct/01/" target="_blank"><img border="0" src="http://view.atdmt.com/MBL/view/246733006/direct/01/" /></a></noscript>
+            </div>
+
+            
+            			<script type="text/javascript">
+
+function recordOutboundLink(link, category) {
+  try {
+    var pageTracker=_gat._getTracker("UA-339422-2");
+    pageTracker._trackEvent(category, link.href);
+    setTimeout('document.location = "' + link.href + '"', 100)
+  }catch(err){}
+}
+
+</script>
+
+<div style="margin-bottom: 20px;">
+	<a href="http://www.ibm.com/developerworks/downloads/ws/wmq/" 
+onclick="recordOutboundLink(link, 'Outbound Links'); return false;"><img
+ 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/botoes_download_003.jpg"
+ alt=" ">
+</a>
+</div>
+			
+			<!-- begin ad tag-->
+			<script language="JavaScript" type="text/javascript">
+			//<![CDATA[
+			ord=Math.random()*10000000000000000;
+			document.write('<script language="JavaScript" src="http://ad.br.doubleclick.net/adj/imasters/;intelig=imasterarroba;sz=300x250;ord=' + ord + '?" type="text/javascript"><\/script>');
+			//]]>
+			</script><script language="JavaScript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/a.js" type="text/javascript"></script>
+ 
+              
+          
+                <script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/plcr_38143978_1282855743540.js" language="JavaScript"></script><script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/inpageGlobalTemplate_v2_56_07.js" language="JavaScript"></script><div
+ id="DIV_186624_1_1286547214618" 
+onmouseover="dartCreativeDisplayManagers['GlobalTemplate_12828557431591286547214617'].onMouseOver('186624_1_1286547214618');"
+ 
+onmouseout="dartCreativeDisplayManagers['GlobalTemplate_12828557431591286547214617'].onMouseOut('186624_1_1286547214618');"
+ style="position: static; visibility: visible; z-index: 999;"><embed 
+alt="" id="FLASH_186624_1_1286547214618" 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/PID_1388795_intelig_corporativo_arroba_300x250_CS3__.swf"
+ quality="high" bgcolor="#" wmode="Opaque" 
+name="FLASH_186624_1_1286547214618" swliveconnect="TRUE" 
+flashvars="src=2015700&amp;rv=1&amp;rid=38143978&amp;click=http%3A//ad.br.doubleclick.net/click%253Bh%253Dv8/3a2d/3/0/%252a/o%253B228275262%253B0-0%253B1%253B14491899%253B4307-300/250%253B38126221/38143978/1%253B%253B%257Esscs%253D%253f&amp;clickN=&amp;rid=38143978&amp;assets=&amp;vcData=&amp;exitEvents=name%253Aclick%252Curl%253Ahttp%25253A//www.intelig.com.br/site/%25253Fp%25253D541%252Ctarget%253A_blank&amp;googleDiscoveryUrl=http%3A//pagead2.googlesyndication.com/pagead/ads%3Fclient%3Ddclk-3pas-query%26output%3Dxml%26geo%3Dtrue&amp;adSiteUrl=http%3A//imasters.com.br/artigo/13115/linux/monitoramento_de_trafego_no_centos_com_mrtg/&amp;isGCNAd=false&amp;varName=186624_1_1286547214618&amp;td=imasters.com.br&amp;assetType=Inpage&amp;br=ff&amp;os=win&amp;isFlashFullScreenEnabled=false"
+ type="application/x-shockwave-flash" allowscriptaccess="always" 
+width="300" height="250"></div>
+                <noscript>
+                    <A TARGET="_blank" HREF="http://ad.br.doubleclick.net/activity;src%3D2015700%3Bmet%3D1%3Bv%3D1%3Bpid%3D14491899%3Baid%3D228275262%3Bko%3D1%3Bcid%3D38126221%3Brid%3D38143978%3Brv%3D1%3Bcs%3Db%3Beid1%3D382777%3Becn1%3D1%3Betm1%3D0%3B_dc_redir%3Durl%3fhttp://ad.br.doubleclick.net/click%3Bh%3Dv8/3a2d/3/0/%2a/o%3B228275262%3B0-0%3B1%3B14491899%3B4307-300/250%3B38126221/38143978/1%3B%3B%7Esscs%3D%3fhttp://www.intelig.com.br/site/?p=541">
+                    <IMG SRC="http://s0.2mdn.net/2015700/PID_1388795_intelig_corporativo_arroba_300x250_60k_f06.gif" width="300" height="250" BORDER="0" alt="">
+                    </A>
+                    <IMG SRC="http://ad.br.doubleclick.net/activity;src=2015700;met=1;v=1;pid=14491899;aid=228275262;ko=1;cid=38126221;rid=38143978;rv=1;&timestamp=3261523;eid1=9;ecn1=1;etm1=0;" width="0px" height="0px" style="visibility:hidden" BORDER="0"/>
+                    <IMG SRC="" width="0px" height="0px" style="visibility:hidden" BORDER="0"/>
+                    <IMG SRC="" width="0px" height="0px" style="visibility:hidden" BORDER="0"/>
+                </noscript>
+                <noscript><a href="http://ad.br.doubleclick.net/jump/imasters/;intelig=imasterarroba;sz=300x250;ord=123456789?" target="_blank"><img src="http://ad.br.doubleclick.net/ad/imaster/;intelig=imasterarroba;sz=300x250;ord=123456789?" width="300" height="250" border="0" alt="" /></a></noscript>
+			<!-- End ad tag -->
+			<br>
+			<br>
+            <div class="bloco">
+    <div class="titulo"><a href="http://www.baixatudo.com.br/"><img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/baixatudo_002.png"
+ alt="Baixatudo"></a></div>
+    <div class="listaItens conteudo">
+                <div class="item">
+            <a 
+href="http://www.baixatudo.com.br/microsoft-visual-studio-lightswitch?utm_source=imasters&amp;utm_medium=referral&amp;utm_content=microsoft-visual-studio-lightswitch&amp;utm_campaign=box">
+                <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/microsoft-visual-studio-lightswitch.jpg"
+ alt=" ">                <strong>Microsoft Visual Studio LightSwitch</strong><br>
+                <span>Desenvolva suas aplicações de uma maneira muito 
+mais ágil e simples.</span>
+            </a>
+        </div>
+                <div class="item">
+            <a 
+href="http://www.baixatudo.com.br/rowfeeder?utm_source=imasters&amp;utm_medium=referral&amp;utm_content=rowfeeder&amp;utm_campaign=box">
+                <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/rowfeeder.jpg"
+ alt=" ">                <strong>RowFeeder</strong><br>
+                <span>Monitore e analise diversas palavras-chaves no 
+Twitter e Facebook.</span>
+            </a>
+        </div>
+                <div class="item">
+            <a 
+href="http://www.baixatudo.com.br/microsoft-office-2010?utm_source=imasters&amp;utm_medium=referral&amp;utm_content=microsoft-office-2010&amp;utm_campaign=box">
+                <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/microsoft-office-2010.jpg"
+ alt=" ">                <strong>Office 2010</strong><br>
+                <span>Versão de avaliação do pacote de escritório da 
+Microsoft.</span>
+            </a>
+        </div>
+                <div class="item">
+            <a 
+href="http://www.baixatudo.com.br/virtualbox?utm_source=imasters&amp;utm_medium=referral&amp;utm_content=virtualbox&amp;utm_campaign=box">
+                <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/virtualbox.jpg"
+ alt=" ">                <strong>VirtualBox</strong><br>
+                <span>Emule um sistema operacioanl dentro de outro.</span>
+            </a>
+        </div>
+                <div class="item">
+            <a 
+href="http://www.baixatudo.com.br/google-app-inventor?utm_source=imasters&amp;utm_medium=referral&amp;utm_content=google-app-inventor&amp;utm_campaign=box">
+                <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/google-app-inventor.jpg"
+ alt=" ">                <strong>Google App Inventor</strong><br>
+                <span>Programa de criação de aplicativos para Android 
+aberto para todos.</span>
+            </a>
+        </div>
+            </div>
+</div>
+
+            
+            <div style="margin: 20px 0pt 0pt; overflow: hidden;">
+                <iframe 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/01.htm"
+ marginheight="0" marginwidth="0" topmargin="0" leftmargin="0" 
+allowtransparency="true" width="300" frameborder="0" height="200" 
+scrolling="no">
+&lt;script language="JavaScript" type="text/javascript"&gt;
+document.write('&lt;a 
+href="http://clk.atdmt.com/MBL/go/246989765/direct/01/" 
+target="_blank"&gt;&lt;img 
+src="http://view.atdmt.com/MBL/view/246989765/direct/01/"/&gt;&lt;/a&gt;');
+&lt;/script&gt;&lt;noscript&gt;&lt;a
+ href="http://clk.atdmt.com/MBL/go/246989765/direct/01/" 
+target="_blank"&gt;&lt;img border="0" 
+src="http://view.atdmt.com/MBL/view/246989765/direct/01/" 
+/&gt;&lt;/a&gt;&lt;/noscript&gt;</iframe>
+            </div>
+			
+		</div>
+	</div>
+    <div class="maxWidth">
+    <div class="parceirosList">
+    <h2>Parceiros</h2>
+
+    <div class="item">
+        <a href="http://www.dialhost.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/dialhost.gif"
+ alt="Dialhost">
+        </a>
+    </div>
+
+    <div class="item">
+        <a href="http://www.comunidadeweb.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/comunidade-web.gif"
+ alt="Comunidade Web">
+        </a>
+    </div>
+
+    <div class="item">
+        <a href="http://www.tecla.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/tecla.png"
+ alt="Tecla Internet">
+        </a>
+    </div>
+
+    <div class="item">
+        <a 
+href="http://clicklogger.rm.uol.com.br/?prd=32&amp;grp=src:34;creative:pagseguro_rodape_paginas_imasters;cpg:link_fixo_paginas_imasters&amp;msr=Cliques%20de%20Origem:1&amp;oper=11&amp;redir=https://pagseguro.uol.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/pagseguro.png"
+ alt="PagSeguro">
+        </a>
+    </div>
+
+    <div class="item">
+        <a href="http://www.oligador.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/oligador.gif"
+ alt="O Ligador">
+        </a>
+    </div>
+
+    <div class="item">
+        <a href="http://www.hostmidia.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/hostmidia.gif"
+ alt="Hospedagem">
+        </a>
+    </div>
+
+    <div class="item">
+        <a href="http://www.impacta.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/impacta.png"
+ alt="Impacta Tecnologia">
+        </a>
+    </div>
+    
+    <div class="item">
+        <a href="http://www.redehost.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/redehost.png"
+ alt="RedeHost">
+        </a>
+    </div>
+    
+    <div class="item">
+        <a href="http://www.ibm.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/ibm.gif"
+ alt="IBM">
+        </a>
+    </div>
+    
+    <div class="item">
+        <a href="http://www.ibm.com/developerworks/br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/developerworks.png"
+ alt="IBM DeveloperWorks">
+        </a>
+    </div>
+    
+       <div class="item">
+        <a href="http://www.videolog.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/videolog.gif"
+ alt="Videolog">
+        </a>
+    </div>
+    
+       <div class="item">
+        <a 
+href="http://clicklogger.rm.uol.com.br/?prd=34&amp;grp=src:34;creative:cobredireto_rodape_paginas_imasters;cpg:link_fixo_paginas_imasters&amp;msr=Cliques%20de%20Origem:1&amp;oper=11&amp;redir=http://www.cobredireto.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/cobredireto.gif"
+ alt="CobreDireto">
+        </a>
+    </div>
+    
+    <div class="item">
+        <a href="http://developer.buscape.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/buscape.gif"
+ alt="Buscapé Developer">
+        </a>
+    </div>
+
+      <div class="item">
+        <a href="http://www.baixatudo.com.br/">
+            <img 
+src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/baixatudo.png"
+ alt="Baixa Tudo">
+        </a>
+    </div>  
+</div>    </div>
+			<div id="rodape">
+            <div class="maxWidth">
+                <ul class="extras">
+                    <li class="first"><h2><a 
+href="http://imasters.com.br/"><span>iMasters</span></a></h2></li>
+                    <li><a href="http://imasters.com.br/sobre/">Sobre o 
+iMasters</a></li>
+                    <li><a 
+href="http://imasters.com.br/politicadeprivacidade/">Política de 
+privacidade</a></li>
+                    <li><a href="http://imasters.com.br/anuncie/">Anuncie</a></li>
+                    <li><a href="http://imasters.com.br/feeds/">Feeds 
+iMasters</a></li>
+                    <li><a href="http://forum.imasters.com.br/">Fóruns 
+iMasters</a></li>
+                    <li><a href="http://imasters.com.br/faleconosco/">Fale
+ conosco</a></li>
+                </ul>
+                <p>2001 - iMasters FFPA Informática Ltda - Todos os 
+direitos reservados.</p>
+            </div>
+		</div>
+	<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/jquery.js"></script>
+	<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/topo.js"></script>
+	<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/artigo.js"></script>
+	<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/conteudo_comentario.js"></script>
+	<script type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/prettify.js"></script>
+			<script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write("\<script src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'>\<\/script>" );
+		</script><script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/ga.js" type="text/javascript"></script>
+
+		<script type="text/javascript">
+			var pageTracker = _gat._getTracker("UA-339422-2");
+			pageTracker._initData();
+			pageTracker._setDomainName(".imasters.uol.com.br");
+			pageTracker._trackPageview();
+		</script>
+		
+				<script language="JavaScript" type="text/javascript" src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/imasters.js"></script>
+		<script language="JavaScript" type="text/javascript"><!--
+		uol_sc.channel="Tecnologia-parceiros-imasters";
+		/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+		var s_code=uol_sc.t();if(s_code)document.write(s_code)//--></script>
+		<!-- End SiteCatalyst code version: H.19.3. -->    <script src="monitorar%20%20tr%C3%A1fego%20no%20CentOS%20com%20MRTG_arquivos/widgets.js" type="text/javascript"></script>
+</div></body></html>

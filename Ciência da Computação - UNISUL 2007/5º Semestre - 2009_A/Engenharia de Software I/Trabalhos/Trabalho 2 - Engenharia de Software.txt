@@ -1,0 +1,10 @@
+1) Visão geral do sistema (Título + Descrição) --> (O que o sistema faz - nível macro)
+
+2) Análise de negócios (Práticas de negócio) --> Identificação dos principais processos (tarefas + atividades)
+
+	a) Análise de tarefa e atividades - Artefato: diagrama de atividades para tarefa (fluxograma / diagrama de antiguidades)
+
+	b) Análise de requisitos p/ sistema informatizado - requisitos funcionais (o que o usuário quer do sistema)
+								 e não funcionais (o que o sistema precisa para funcionar bem).
+
+		

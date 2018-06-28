@@ -1,0 +1,22 @@
+ÀÄPIC C Compiler PCWHD_4
+   ÀÄMAIN  0/148  Ram=9
+      ÃÄ??0??
+      ÃÄ@const168  0/21  Ram=0
+      ÃÄgrava_senha  0/124  Ram=5
+      ³  ÃÄle_senha  0/34  Ram=4
+      ³  ÀÄ@const178  0/24  Ram=0
+      ÃÄ@const168  0/21  Ram=0
+      ÃÄle_senha  0/34  Ram=4
+      ÃÄstrcmp  0/70  Ram=5
+      ÃÄ@const170  0/21  Ram=0
+      ÃÄliga_cooler  0/54  Ram=3
+      ³  ÃÄ@const173  0/21  Ram=0
+      ³  ÃÄ@delay_ms1  0/21  Ram=1
+      ³  ÃÄ@delay_ms1  0/21  Ram=1
+      ³  ÀÄ@const174  0/24  Ram=0
+      ÃÄ@const171  0/23  Ram=0
+      ÀÄliga_rele  0/50  Ram=3
+         ÃÄ@const175  0/20  Ram=0
+         ÃÄ@delay_ms1  0/21  Ram=1
+         ÃÄ@delay_ms1  0/21  Ram=1
+         ÀÄ@const176  0/23  Ram=0

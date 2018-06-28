@@ -1,0 +1,1283 @@
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;*      *       *       *       *       *       *       *       *       *
+                      00002 ;*                                                                      *
+                      00003 ;*                           EXEMPLO3: USART1                           *
+                      00004 ;*                   APOSTILA MÓDULO B  -  PIC16F877A                   *
+                      00005 ;*                    ÁPICE TECNOLOGIA E TREINAMENTO                    *
+                      00006 ;*          VERSÃO 1.0                          DATA:03/05/2005         *
+                      00007 ;*                                                                      *
+                      00008 ;*      *       *       *       *       *       *       *       *       *
+                      00009 
+                      00010 ;*      *       *       *       *       *       *       *       *       *
+                      00011 ;*                       OBJETIVO DO ARQUIVO FONTE                      *
+                      00012 ;*                                                                      *
+                      00013 ;*    NESTE PROJETO, IREMOS RECEBER 2 BYTES DA PORTA SERIAL E IREMOS    *
+                      00014 ;* APLICAR AS 4 OPERAÇÕES ARITMÉTICAS BÁSICAS E RETORNAREMOS O RESULTADO*
+                      00015 ;*       PARA O PC ASSIM COMO IREMOS MOSTRAR O MESMO NO DISPLAY.        *
+                      00016 ;*                                                                      *
+                      00017 ;*      *       *       *       *       *       *       *       *       *
+                      00018 
+                      00019  #INCLUDE <P16F877.INC>         ;ARQUIVO PADRÃO PARA PIC16F877A
+                      00001         LIST
+                      00002 ; P16F877.INC  Standard Header File, Version 1.00    Microchip Technology, Inc.
+                      00373         LIST
+2007   3F35           00020  __CONFIG _CP_OFF & _XT_OSC & _PWRTE_ON & _LVP_OFF & _WDT_ON & _BODEN_OFF & _CPD_OFF & _DEBUG_OFF
+                      00021         
+                      00022         ;NESTE PONTO É INFORMADO A CONFIGURAÇÃO DA MÁQUINA, OU SEJA, SE TERÁ
+                      00023         ;CÓDIGO DE PROTEÇÃO OU O TIPO DE CRISTAL QUE SERÁ UTILIZADO     
+                      00024 
+                      00025         ;CONFIGURAÇÃO DA MÁQUINA
+                      00026         ; CODE PROTECT                  -> DESLIGADO
+                      00027         ; OSCILADOR                     -> CRISTAL OU RESSONADOR
+                      00028         ; POWER-UP                      -> LIGADO
+                      00029         ; DEBUF                         -> DESLIGADO            
+                      00030         ; PROGRAMAÇÃO EM BAIXA VOLTAGEM -> DESLIGADO
+                      00031         ; WATCH DOG                     -> LIGADO
+                      00032         ; BROWN-OUT RESET               -> DESLIGADO
+                      00033         ; PROTEÇÃO DE EEPROM            -> DESLIGADO
+                      00034                 
+                      00035 ;*      *       *       *       *       *       *       *       *       *
+                      00036 ;*                         PAGINAÇÃO DE MEMÓRIA                         *
+                      00037 ;*      *       *       *       *       *       *       *       *       *
+                      00038 
+                      00039 ; AQUI CRIAREMOS UM PSEUDÔNIMO PARA UM COMANDO. POR EXEMPLO, O COMANDO
+                      00040 ; "BCF STATUS,RP0" PODE SER SUBSTITUÍDO SEM PROBLEMAS POR "BANK0". O 
+                      00041 ; COMPILADOR IRÁ SUBSTITUIR INTERNAMENTE "BANK0" POR "BCF STATUS,RP0".
+                      00042 ; ESTA APLICAÇÃO É VÁLIDA PARA OUTROS TIPOS DE COMANDOS
+                      00043 
+                      00044 #DEFINE BANK0   BCF     STATUS,RP0      ; ESCOLHE BANCO DE MEMÓRIA 0
+                      00045 #DEFINE BANK1   BSF     STATUS,RP0      ; ESCOLHE BANCO DE MEMÓRIA 1
+                      00046 
+                      00047 ;*      *       *       *       *       *       *       *       *       *
+                      00048 ;*                           DEFINICAO DE RAM                           *
+                      00049 ;*      *       *       *       *       *       *       *       *       *
+                      00050 
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00051 ; AQUI IREMOS CRIAR AS VARIÁVEIS DO NOSSO SISTEMA
+                      00052 
+                      00053         CBLOCK 0x20      ; INÍCIO DO BLOCO DE RAM(GPR)
+  00000020            00054                 TEMPO1   ; VARIÁVEL DA ROTINA DE TEMPO          
+  00000021            00055                 TEMPO2   ; VARIÁVEL DA ROTINA DE TEMPO                          
+  00000022            00056                 TEMP     ; VARIÁVEL TEMPORÁRIA          
+  00000023            00057                 FLAGS    ; VARIÁVEL PARA DECLARAÇÃO DE FLAGS
+  00000024            00058                 ARG0     ; PARÂMETRO DE ENTRADA PARA ROTINA 
+  00000025            00059                 ARG1     ; DE MULTIPLICAÇÃO E DIVISÃO
+  00000026            00060                 ARG2     ;      
+  00000027            00061                 MUL1     ; VARIÁVEIS TEMPORÁRIAS PARA AS          
+  00000028            00062                 MUL0     ; ROTINAS DE MULTIPLICAÇÃO E DIVISÃO
+  00000029            00063                 PARAMETRO_1 ; PARÂMETROS ORIUNDOS DA SERIAL 1
+  0000002A            00064                 PARAMETRO_2 ; PARÂMETROS ORIUNDOS DA SERIAL 2
+  0000002B            00065                 CONVERSAO_4 ; RESULTADO DA CONVERSÃO BIN->DEC
+  0000002C            00066                 CONVERSAO_3 ; RESULTADO DA CONVERSÃO BIN->DEC
+  0000002D            00067                 CONVERSAO_2 ; RESULTADO DA CONVERSÃO BIN->DEC
+  0000002E            00068                 CONVERSAO_1 ; RESULTADO DA CONVERSÃO BIN->DEC
+  0000002F            00069                 CONVERSAO_0 ; RESULTADO DA CONVERSÃO BIN->DEC   
+  00000030            00070                 MSB         ; PARÂMETROS DE ENTRADA     
+  00000031            00071                 LSB         ; DA ROTINA DE CONVERSÃO BIN->DEC   
+                      00072         ENDC             ; FIM DO BLOCO DE RAM(GPR)
+                      00073         
+                      00074         CBLOCK 0x70
+  00000070            00075                 W_TEMP   ; VARIÁVEIS TEMPORÁRIAS
+  00000071            00076                 STATUS_TEMP     
+  00000072            00077                 FSR_TEMP
+  00000073            00078                 PCLATH_TEMP
+                      00079         ENDC
+                      00080                 
+                      00081 ;*      *       *       *       *       *       *       *       *       *
+                      00082 ;*                        DEFINICAO DE FLAGS                            *
+                      00083 ;*      *       *       *       *       *       *       *       *       *
+                      00084 
+                      00085 ; AQUI SÃO DEFINIDOS OS FLAGS QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00086 
+                      00087 #DEFINE PODE_CONVERTER  FLAGS,0         ; FLAG INDICADOR PARA INÍCIO    
+                      00088                                         ; DA APLICAÇÃO DAS OPERAÇÕES
+                      00089                                         
+                      00090 ;*      *       *       *       *       *       *       *       *       *
+                      00091 ;*                      DEFINICAO DE CONSTANTES                         *
+                      00092 ;*      *       *       *       *       *       *       *       *       *
+                      00093 
+                      00094 ; AQUI SÃO DEFINIDOS AS CONSTANTES QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00095 
+                      00096 #DEFINE LINHA_SUP       0x80    ; CONSTANTE PARA LINHA SUPERIOR
+                      00097 #DEFINE LINHA_INF       0xC0    ; CONSTANTE PARA LINHA INFERIOR
+                      00098 #DEFINE TEMPO_BEEP      .10     ; CONSTANTE PARA TOCAR BEEP(MULTIPLOS DE 1ms) 
+                      00099 
+                      00100 ;*      *       *       *       *       *       *       *       *       *
+                      00101 ;*                        ENTRADAS DO SISTEMA                           *
+                      00102 ;*      *       *       *       *       *       *       *       *       *
+                      00103 
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00104 #DEFINE COL1            PORTA,4      ; PINO DE ENTRADA DA COLUNA1       
+                      00105 #DEFINE COL2            PORTA,5      ; PINO DE ENTRADA DA COLUNA2               
+                      00106 #DEFINE COL3            PORTE,0      ; PINO DE ENTRADA DA COLUNA3               
+                      00107 
+                      00108 ;*      *       *       *       *       *       *       *       *       *
+                      00109 ;*                        SAÍDAS DO SISTEMA                             *
+                      00110 ;*      *       *       *       *       *       *       *       *       *
+                      00111 
+                      00112 ; AQUI SÃO DEFINIDAS AS SAÍDAS QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00113 
+                      00114 #DEFINE BUS             PORTD   ; DEFINE O BARRAMENTO COMO O PORTD 
+                      00115 #DEFINE RS              PORTE,1 ; RS DO DISPLAY
+                      00116 #DEFINE EN              PORTE,2 ; EN DO DISPLAY
+                      00117 #DEFINE BEEP            PORTC,5 ; SAÍDA PARA LIGAR O BEEP
+                      00118 
+                      00119 ;*      *       *       *       *       *       *       *       *       *
+                      00120 ;*                          VETOR DE RESET                              *
+                      00121 ;*      *       *       *       *       *       *       *       *       *
+                      00122 
+0000                  00123         ORG     0x0000          ; ENDEREÇO INICIAL DA MÁQUINA
+0000   2945           00124         GOTO    CONFIG_         ; SALTA PARA CONFIGURAR A MÁQUINA
+                      00125 
+                      00126 ;*      *       *       *       *       *       *       *       *       *
+                      00127 ;*                       VETOR DE INTERRUPÇÃO                           *
+                      00128 ;*      *       *       *       *       *       *       *       *       *
+                      00129 
+0004                  00130         ORG     0x0004          ; ENDEREÇO INICIAL DO VETOR DE INTERRUPÇÃO
+0004                  00131 SALVA_CONTEXTO
+0004   00F0           00132         MOVWF   W_TEMP          ; SALVA W
+0005   0E03           00133         SWAPF   STATUS,W        
+0006   00F1           00134         MOVWF   STATUS_TEMP     ; SALVA STATUS
+0007   0804           00135         MOVF    FSR,W
+0008   00F2           00136         MOVWF   FSR_TEMP        ; SALVA FSR     
+Message[305]: Using default destination of 1 (file).
+0009   088A           00137         MOVF    PCLATH  
+000A   00F3           00138         MOVWF   PCLATH_TEMP     ; SALVA PCLATH
+                      00139         
+000B   0183           00140         CLRF    STATUS          ; GARANTE BANCO 0
+000C   018A           00141         CLRF    PCLATH          ; GARANTE PÁGINA 0
+                      00142         
+000D   1A8C           00143         BTFSC   PIR1,RCIF       ; INTERRUPÇÃO SERIAL?
+000E   2818           00144         GOTO    TRATA_SERIAL    ; SIM, ENTÃO TRATA
+                      00145         
+000F                  00146 SAI_INTERRUPCAO 
+000F   0872           00147         MOVF    FSR_TEMP,W
+0010   0084           00148         MOVWF   FSR             ; RECUPERA FSR
+0011   0873           00149         MOVF    PCLATH_TEMP,W   
+0012   008A           00150         MOVWF   PCLATH          ; RECUPERA PCLATH
+0013   0E71           00151         SWAPF   STATUS_TEMP,W
+0014   0083           00152         MOVWF   STATUS          ; RECUPERA STATUS
+0015   0EF0           00153         SWAPF   W_TEMP,F
+0016   0E70           00154         SWAPF   W_TEMP,W        ; RECUPERA W
+0017   0009           00155         RETFIE                  ; RETORNA DA INTERRUPÇÃO
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00156 
+                      00157 ;*      *       *       *       *       *       *       *       *       *
+                      00158 ;*                  TRATATAMENTO DE INTERRUPÇÃO DE TIMER0               *
+                      00159 ;*      *       *       *       *       *       *       *       *       *
+                      00160 
+0018                  00161 TRATA_SERIAL
+                      00162         
+0018   081A           00163         MOVF    RCREG,W         ; CARREGA DADO RECEBIDO EM 
+0019   00A9           00164         MOVWF   PARAMETRO_1     ; PARAMETRO_1
+                      00165         
+001A   1E8C           00166         BTFSS   PIR1,RCIF       ; AGUARDA RECEBER O PRÓXIMO BYTE
+001B   281A           00167         GOTO    $-1
+                      00168         
+001C   081A           00169         MOVF    RCREG,W         ; CARREGA DADO RECEBIDO EM
+001D   00AA           00170         MOVWF   PARAMETRO_2     ; PARAMETRO_2
+                      00171         
+001E   1423           00172         BSF     PODE_CONVERTER  ; SETA FLAG PARA TRATAR OS DADOS RECEBIDOS
+                      00173         
+001F   280F           00174         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00175 
+                      00176 ;*      *       *       *       *       *       *       *       *       *
+                      00177 ;*                    ROTINA DE DELAY DE 1ms A 256ms                    *
+                      00178 ;*      *       *       *       *       *       *       *       *       *
+                      00179 
+                      00180         
+0020                  00181 DELAY_MS
+                      00182         
+0020   0064           00183         CLRWDT
+                      00184         
+0021   00A1           00185         MOVWF   TEMPO2          ; SALVA O VALOR MULTIPLICADOR
+0022   01A0           00186         CLRF    TEMPO1          ; LIMPA REGISTRADOR
+                      00187 
+0023                  00188 DELAY_A
+                      00189         
+0023   0000           00190         NOP                     ; PERDE 1 CICLO DE MÁQUINA
+0024   0BA0           00191         DECFSZ  TEMPO1,F        ; DECREMENTA REGISTRADOR, ACABOU?
+0025   2823           00192         GOTO    $-2             ; NÃO, ENTÃO RETORNA DUAS POSIÇÕES 
+0026   0BA1           00193         DECFSZ  TEMPO2,F
+0027   2823           00194         GOTO    DELAY_A
+                      00195         
+0028   0008           00196         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00197 
+                      00198 ;*      *       *       *       *       *       *       *       *       *
+                      00199 ;*                ROTINA PARA ESCREVER DADOS NO DISPLAY                 *
+                      00200 ;*      *       *       *       *       *       *       *       *       *
+                      00201 
+0029                  00202 ENVIA_COMANDO
+                      00203         
+0029   1089           00204         BCF     RS              ; PÕE EM MODO DE COMANDO
+                      00205         
+002A                  00206 ENVIA_DADO
+                      00207         
+002A   0088           00208         MOVWF   BUS             ; MOVE DADO PARA O PORTD
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00209                 
+002B   282C           00210         GOTO    $+1             ; DEÇAY PARA ACOMODAÇÃO
+002C   282D           00211         GOTO    $+1             
+                      00212         
+002D   1509           00213         BSF     EN              ; GERA PULSO DE CLOCK
+002E   282F           00214         GOTO    $+1
+002F   1109           00215         BCF     EN
+                      00216         
+0030   1489           00217         BSF     RS              ; VOLTA PARA O MODO DADOS
+0031   3001           00218         MOVLW   .1
+0032   2020           00219         CALL    DELAY_MS
+0033   0008           00220         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00221 
+                      00222 ;*      *       *       *       *       *       *       *       *       *
+                      00223 ;*                  ROTINA PARA ENVIAR 1 BYTE PELA SERIAL               *
+                      00224 ;*      *       *       *       *       *       *       *       *       *
+                      00225 
+0034                  00226 TRANSMITE
+                      00227         
+0034   0099           00228         MOVWF   TXREG           ; MOVE DADO A TRANSMITIR PARA TXREG
+0035   1683           00229         BANK1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0036   1C98           00230         BTFSS   TXSTA,TRMT      ; AGUARDA O FIM DA TRANSMISSÃO
+0037   2836           00231         GOTO    $-1
+0038   1283           00232         BANK0
+0039   0008           00233         RETURN                  ; RETORNA DA SUB-ROTINA
+                      00234 
+                      00235 ;*      *       *       *       *       *       *       *       *       *
+                      00236 ;*                ROTINA DE CONVERSÃO BINÁRIO PARA DECIMAL              *
+                      00237 ;*                           ENTRADAS: MSB:LSB                          *
+                      00238 ;*  SAÍDA: CONVERSAO_4:CONVERSAO_3:CONVERSAO_2:CONVERSAO_1:CONVERSAO_0  *
+                      00239 ;*      *       *       *       *       *       *       *       *       *
+                      00240 
+003A                  00241 BIN_TO_DEC
+                      00242         
+003A   01AF           00243         CLRF    CONVERSAO_0     ; INICIALIZA VARIÁVEIS DE CONVERSÃO
+003B   01AE           00244         CLRF    CONVERSAO_1
+003C   01AD           00245         CLRF    CONVERSAO_2
+003D   01AC           00246         CLRF    CONVERSAO_3
+003E   01AB           00247         CLRF    CONVERSAO_4
+                      00248                 
+003F   08B1           00249         MOVF    LSB,F           ; VERIFICA SE ALGUMA DAS VARIÁVEIS É NULA
+0040   1D03           00250         BTFSS   STATUS,Z
+0041   2848           00251         GOTO    INC_MSB
+                      00252         
+0042   08B0           00253         MOVF    MSB,F
+0043   1903           00254         BTFSC   STATUS,Z
+0044   0008           00255         RETURN
+                      00256         
+0045   08B1           00257         MOVF    LSB,F
+0046   1903           00258         BTFSC   STATUS,Z
+0047   2849           00259         GOTO    CONVERSAO_A
+                      00260         
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0048                  00261 INC_MSB 
+                      00262 
+0048   0AB0           00263         INCF    MSB,F
+                      00264                 
+0049                  00265 CONVERSAO_A
+                      00266 
+0049   0064           00267         CLRWDT  
+004A   0AAF           00268         INCF    CONVERSAO_0,F           ; FAZ A CONVERSÃO DO
+004B   300A           00269         MOVLW   .10                     ; RESULTADO PASSADO COMO ARGUMENTO
+004C   062F           00270         XORWF   CONVERSAO_0,W
+004D   1D03           00271         BTFSS   STATUS,Z
+004E   2863           00272         GOTO    CONVERSAO_B
+                      00273         
+004F   01AF           00274         CLRF    CONVERSAO_0
+0050   0AAE           00275         INCF    CONVERSAO_1,F
+0051   300A           00276         MOVLW   .10
+0052   062E           00277         XORWF   CONVERSAO_1,W
+0053   1D03           00278         BTFSS   STATUS,Z
+0054   2863           00279         GOTO    CONVERSAO_B
+                      00280         
+0055   01AE           00281         CLRF    CONVERSAO_1
+0056   0AAD           00282         INCF    CONVERSAO_2,F
+0057   300A           00283         MOVLW   .10
+0058   062D           00284         XORWF   CONVERSAO_2,W
+0059   1D03           00285         BTFSS   STATUS,Z
+005A   2863           00286         GOTO    CONVERSAO_B
+                      00287         
+005B   01AD           00288         CLRF    CONVERSAO_2
+005C   0AAC           00289         INCF    CONVERSAO_3,F
+005D   300A           00290         MOVLW   .10
+005E   062C           00291         XORWF   CONVERSAO_3,W
+005F   1D03           00292         BTFSS   STATUS,Z
+0060   2863           00293         GOTO    CONVERSAO_B
+                      00294         
+0061   01AC           00295         CLRF    CONVERSAO_3
+0062   0AAB           00296         INCF    CONVERSAO_4,F
+                      00297         
+0063                  00298 CONVERSAO_B     
+                      00299 
+0063   0BB1           00300         DECFSZ  LSB,F
+0064   2849           00301         GOTO    CONVERSAO_A
+                      00302         
+0065   0BB0           00303         DECFSZ  MSB,F
+0066   2849           00304         GOTO    CONVERSAO_A
+                      00305                 
+0067   0008           00306         RETURN  
+                      00307 
+                      00308 ;*      *       *       *       *       *       *       *       *       *
+                      00309 ;*                    ROTINA DE MULTIPLICACÃO 8x8                       *
+                      00310 ;*                        ENTRADAS: ARG1:ARG0                           *       
+                      00311 ;*                         SAÍDA: ARG1:ARG0                             *
+                      00312 ;*                  VARIÁVEIS AUXILIARES: MUL1:MUL0                     *
+                      00313 ;*      *       *       *       *       *       *       *       *       *
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00314 
+0068                  00315 MULTIPLICACAO
+                      00316 
+0068   08A4           00317         MOVF    ARG0,F          ; VERIFICA SE ALGUMA DAS VARIÁVEIS
+0069   1903           00318         BTFSC   STATUS,Z        ; É NULA        
+006A   287B           00319         GOTO    SAI_EM_0
+                      00320         
+006B   08A5           00321         MOVF    ARG1,F
+006C   1903           00322         BTFSC   STATUS,Z
+006D   287B           00323         GOTO    SAI_EM_0
+                      00324         
+006E   01A7           00325         CLRF    MUL1
+006F   01A8           00326         CLRF    MUL0
+                      00327         
+0070                  00328 MULT
+0070   0824           00329         MOVF    ARG0,W          ; FAZ A SOMA SUCESSIVA, OU SEJA
+0071   07A8           00330         ADDWF   MUL0,F          ; A MULTIPLICAÇÃO
+0072   1803           00331         BTFSC   STATUS,C
+0073   0AA7           00332         INCF    MUL1,F
+                      00333         
+0074   0BA5           00334         DECFSZ  ARG1,F
+0075   2870           00335         GOTO    MULT
+                      00336 
+0076                  00337 SAI_COM_DADO
+                      00338         
+0076   0827           00339         MOVF    MUL1,W          ; RETORNA O VALOR DA MULTIPLICAÇÃO
+0077   00A5           00340         MOVWF   ARG1
+0078   0828           00341         MOVF    MUL0,W
+0079   00A4           00342         MOVWF   ARG0
+007A   0008           00343         RETURN
+                      00344                 
+007B                  00345 SAI_EM_0
+                      00346         
+007B   01A4           00347         CLRF    ARG0
+007C   01A5           00348         CLRF    ARG1
+007D   0008           00349         RETURN  
+                      00350 
+                      00351 ;*      *       *       *       *       *       *       *       *       *
+                      00352 ;*                      ROTINA DE DIVISÃO DE 16 BITS                    *
+                      00353 ;*              ENTRADAS: DIVIDENDO(ARG1:ARG0) DIVISOR(ARG2)            *
+                      00354 ;*                          SAÍDA: ARG1:ARG0                            *
+                      00355 ;*                   VARIÁVEIS AUXILIARES: MUL1:MUL0                    *
+                      00356 ;*      *       *       *       *       *       *       *       *       *
+                      00357 
+007E                  00358 DIVIDE
+007E   01A7           00359         CLRF    MUL1            ; INICIALIZA REGISTRADORES AUXILIARES
+007F   01A8           00360         CLRF    MUL0
+                      00361         
+0080   08A6           00362         MOVF    ARG2,F          ; VERIFICA SE O DIVISOR É IGUAL A 0
+0081   1903           00363         BTFSC   STATUS,Z
+0082   287B           00364         GOTO    SAI_EM_0        ; CASO SEJA, RETORNA EM 0
+                      00365         
+0083   08A4           00366         MOVF    ARG0,F          ; VERIFICA SE O DIVIDENDO É ZERO
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0084   1D03           00367         BTFSS   STATUS,Z
+0085   2889           00368         GOTO    DIVIDE_A
+                      00369         
+0086   08A5           00370         MOVF    ARG1,F
+0087   1903           00371         BTFSC   STATUS,Z
+0088   287B           00372         GOTO    SAI_EM_0        ; CASO SEJA, RETORNA EM 0
+                      00373         
+0089                  00374 DIVIDE_A
+                      00375 
+0089   0826           00376         MOVF    ARG2,W          ; FAZ A SUBTRAÇÃO SUCESSIVA, OU SEJA, 
+008A   02A4           00377         SUBWF   ARG0,F          ; A DIVISÃO     
+008B   1C03           00378         BTFSS   STATUS,C
+008C   2891           00379         GOTO    DIVIDE_B
+                      00380 
+008D                  00381 DIVIDE_C
+                      00382 
+008D   0AA8           00383         INCF    MUL0,F
+008E   1903           00384         BTFSC   STATUS,Z
+008F   0AA7           00385         INCF    MUL1,F
+0090   2889           00386         GOTO    DIVIDE_A
+                      00387 
+0091                  00388 DIVIDE_B
+                      00389 
+0091   08A5           00390         MOVF    ARG1,F
+0092   1903           00391         BTFSC   STATUS,Z
+0093   2876           00392         GOTO    SAI_COM_DADO    ; RETORNA COMO O VALOR DA DIVISÃO
+0094   03A5           00393         DECF    ARG1,F
+0095   288D           00394         GOTO    DIVIDE_C
+                      00395         
+                      00396 ;*      *       *       *       *       *       *       *       *       *
+                      00397 ;*                   ROTINA PARA APRESENTAR A TELA INCIIAL              *
+                      00398 ;*      *       *       *       *       *       *       *       *       *
+                      00399 
+0096                  00400 TELA_INICIAL
+                      00401         
+0096   3080           00402         MOVLW   0x80
+0097   2029           00403         CALL    ENVIA_COMANDO   ; COMANDO PARA POSICIONAR O DISPLAY
+                      00404         
+0098   302B           00405         MOVLW   '+'
+0099   202A           00406         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00407         
+009A   303A           00408         MOVLW   ':'
+009B   202A           00409         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00410         
+009C   3030           00411         MOVLW   '0'
+009D   202A           00412         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00413                 
+009E   3030           00414         MOVLW   '0'
+009F   202A           00415         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00416         
+00A0   3030           00417         MOVLW   '0'
+00A1   202A           00418         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00419         
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00A2   3030           00420         MOVLW   '0'
+00A3   202A           00421         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00422         
+00A4   3020           00423         MOVLW   ' '
+00A5   202A           00424         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00425         
+00A6   3020           00426         MOVLW   ' '
+00A7   202A           00427         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00428         
+00A8   3020           00429         MOVLW   ' '
+00A9   202A           00430         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00431         
+00AA   302D           00432         MOVLW   '-'
+00AB   202A           00433         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00434         
+00AC   303A           00435         MOVLW   ':'
+00AD   202A           00436         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00437                 
+00AE   3030           00438         MOVLW   '0'
+00AF   202A           00439         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00440         
+00B0   3030           00441         MOVLW   '0'
+00B1   202A           00442         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00443          
+00B2   3030           00444         MOVLW   '0'
+00B3   202A           00445         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00446          
+00B4   3020           00447         MOVLW   ' '
+00B5   202A           00448         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00449         
+00B6   3020           00450         MOVLW   ' '
+00B7   202A           00451         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00452          
+00B8   30C0           00453         MOVLW   0xC0
+00B9   2029           00454         CALL    ENVIA_COMANDO   ; COMANDO PARA POSICIONAR O DISPLAY
+                      00455         
+00BA   302A           00456         MOVLW   '*'
+00BB   202A           00457         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00458         
+00BC   303A           00459         MOVLW   ':'
+00BD   202A           00460         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00461         
+00BE   3030           00462         MOVLW   '0'
+00BF   202A           00463         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00464                 
+00C0   3030           00465         MOVLW   '0'
+00C1   202A           00466         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00467         
+00C2   3030           00468         MOVLW   '0'
+00C3   202A           00469         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00470         
+00C4   3030           00471         MOVLW   '0'
+00C5   202A           00472         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00473         
+00C6   3030           00474         MOVLW   '0'
+00C7   202A           00475         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00476         
+00C8   3020           00477         MOVLW   ' '
+00C9   202A           00478         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00479         
+00CA   3020           00480         MOVLW   ' '
+00CB   202A           00481         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00482         
+00CC   302F           00483         MOVLW   '/'
+00CD   202A           00484         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00485         
+00CE   303A           00486         MOVLW   ':'
+00CF   202A           00487         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00488                 
+00D0   3030           00489         MOVLW   '0'
+00D1   202A           00490         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00491         
+00D2   3030           00492         MOVLW   '0'
+00D3   202A           00493         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00494          
+00D4   3030           00495         MOVLW   '0'
+00D5   202A           00496         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00497          
+00D6   3020           00498         MOVLW   ' '
+00D7   202A           00499         CALL    ENVIA_DADO      ; ENVIA CARACTER ASCII  
+                      00500         
+00D8   0008           00501         RETURN                  ; RETORNA DA ROTINA     
+                      00502 
+                      00503 ;*      *       *       *       *       *       *       *       *       *
+                      00504 ;*                              ROTINA DE SOMA                          *
+                      00505 ;*      *       *       *       *       *       *       *       *       *
+                      00506 
+00D9                  00507 SOM
+00D9   01B1           00508         CLRF    LSB             ; LIMPA LSB
+00DA   01B0           00509         CLRF    MSB             ; LIMPA MSB             
+                      00510         
+00DB   0829           00511         MOVF    PARAMETRO_1,W   ; FAZ A SOMA DOS PARÂMETROS
+00DC   00B1           00512         MOVWF   LSB
+00DD   082A           00513         MOVF    PARAMETRO_2,W
+00DE   07B1           00514         ADDWF   LSB,F
+00DF   1803           00515         BTFSC   STATUS,C
+Message[305]: Using default destination of 1 (file).
+00E0   0AB0           00516         INCF    MSB
+                      00517         
+00E1   203A           00518         CALL    BIN_TO_DEC
+                      00519         
+00E2   3082           00520         MOVLW   0x82
+00E3   2029           00521         CALL    ENVIA_COMANDO   ; POSICIONA LCD
+                      00522         
+00E4   082C           00523         MOVF    CONVERSAO_3,W   
+00E5   3E30           00524         ADDLW   0x30            
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00E6   2034           00525         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+00E7   202A           00526         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00527         
+00E8   082D           00528         MOVF    CONVERSAO_2,W   
+00E9   3E30           00529         ADDLW   0x30            
+00EA   2034           00530         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+00EB   202A           00531         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00532         
+00EC   082E           00533         MOVF    CONVERSAO_1,W   
+00ED   3E30           00534         ADDLW   0x30            
+00EE   2034           00535         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+00EF   202A           00536         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00537         
+00F0   082F           00538         MOVF    CONVERSAO_0,W   
+00F1   3E30           00539         ADDLW   0x30            
+00F2   2034           00540         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+00F3   202A           00541         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00542                 
+00F4   0008           00543         RETURN
+                      00544 
+                      00545 ;*      *       *       *       *       *       *       *       *       *
+                      00546 ;*                            ROTINA DE SUBTRAÇÃO                       *
+                      00547 ;*      *       *       *       *       *       *       *       *       *
+                      00548 
+00F5                  00549 SUB
+                      00550         
+00F5   01B0           00551         CLRF    MSB
+00F6   01B1           00552         CLRF    LSB
+                      00553         
+00F7   082A           00554         MOVF    PARAMETRO_2,W
+00F8   0229           00555         SUBWF   PARAMETRO_1,W
+00F9   1803           00556         BTFSC   STATUS,C
+00FA   00B1           00557         MOVWF   LSB
+                      00558         
+00FB   203A           00559         CALL    BIN_TO_DEC
+                      00560         
+00FC   308B           00561         MOVLW   0x8B
+00FD   2029           00562         CALL    ENVIA_COMANDO   ; POSICIONA LCD
+                      00563         
+00FE   082D           00564         MOVF    CONVERSAO_2,W   
+00FF   3E30           00565         ADDLW   0x30            
+0100   2034           00566         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+0101   202A           00567         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00568         
+0102   082E           00569         MOVF    CONVERSAO_1,W   
+0103   3E30           00570         ADDLW   0x30            
+0104   2034           00571         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+0105   202A           00572         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00573         
+0106   082F           00574         MOVF    CONVERSAO_0,W   
+0107   3E30           00575         ADDLW   0x30            
+0108   2034           00576         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+0109   202A           00577         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00578                 
+010A   0008           00579         RETURN
+                      00580 
+                      00581 ;*      *       *       *       *       *       *       *       *       *
+                      00582 ;*                           ROTINA DE MULTIPLICAÇÃO                    *
+                      00583 ;*      *       *       *       *       *       *       *       *       *
+                      00584 
+010B                  00585 MUL
+                      00586         
+010B   0829           00587         MOVF    PARAMETRO_1,W
+010C   00A4           00588         MOVWF   ARG0
+010D   082A           00589         MOVF    PARAMETRO_2,W
+010E   00A5           00590         MOVWF   ARG1
+                      00591         
+010F   2068           00592         CALL    MULTIPLICACAO
+                      00593         
+0110   0824           00594         MOVF    ARG0,W
+0111   00B1           00595         MOVWF   LSB
+0112   0825           00596         MOVF    ARG1,W
+0113   00B0           00597         MOVWF   MSB
+                      00598         
+0114   203A           00599         CALL    BIN_TO_DEC
+                      00600         
+0115   30C2           00601         MOVLW   0xC2
+0116   2029           00602         CALL    ENVIA_COMANDO   ; POSICIONA LCD
+                      00603         
+0117   082B           00604         MOVF    CONVERSAO_4,W   
+0118   3E30           00605         ADDLW   0x30            
+0119   2034           00606         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+011A   202A           00607         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00608         
+011B   082C           00609         MOVF    CONVERSAO_3,W   
+011C   3E30           00610         ADDLW   0x30            
+011D   2034           00611         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+011E   202A           00612         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00613         
+011F   082D           00614         MOVF    CONVERSAO_2,W   
+0120   3E30           00615         ADDLW   0x30            
+0121   2034           00616         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+0122   202A           00617         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00618         
+0123   082E           00619         MOVF    CONVERSAO_1,W   
+0124   3E30           00620         ADDLW   0x30            
+0125   2034           00621         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+0126   202A           00622         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00623         
+0127   082F           00624         MOVF    CONVERSAO_0,W   
+0128   3E30           00625         ADDLW   0x30            
+0129   2034           00626         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+012A   202A           00627         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00628                 
+012B   0008           00629         RETURN
+                      00630         
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00631 ;*      *       *       *       *       *       *       *       *       *
+                      00632 ;*                              ROTINA DE DIVISÃO                       *
+                      00633 ;*      *       *       *       *       *       *       *       *       *
+                      00634 
+012C                  00635 DIV
+                      00636         
+012C   0829           00637         MOVF    PARAMETRO_1,W
+012D   00A4           00638         MOVWF   ARG0
+012E   01A5           00639         CLRF    ARG1            
+012F   082A           00640         MOVF    PARAMETRO_2,W
+0130   00A6           00641         MOVWF   ARG2
+                      00642         
+0131   207E           00643         CALL    DIVIDE
+                      00644         
+0132   0824           00645         MOVF    ARG0,W
+0133   00B1           00646         MOVWF   LSB
+0134   01B0           00647         CLRF    MSB
+                      00648         
+0135   203A           00649         CALL    BIN_TO_DEC
+                      00650         
+0136   30CB           00651         MOVLW   0xCB
+0137   2029           00652         CALL    ENVIA_COMANDO   ; POSICIONA LCD
+                      00653         
+0138   082D           00654         MOVF    CONVERSAO_2,W   
+0139   3E30           00655         ADDLW   0x30            
+013A   2034           00656         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+013B   202A           00657         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00658         
+013C   082E           00659         MOVF    CONVERSAO_1,W   
+013D   3E30           00660         ADDLW   0x30            
+013E   2034           00661         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+013F   202A           00662         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00663         
+0140   082F           00664         MOVF    CONVERSAO_0,W   
+0141   3E30           00665         ADDLW   0x30            
+0142   2034           00666         CALL    TRANSMITE       ; CHAMA ROTINA PARA TRANSMITIR DADOS    
+0143   202A           00667         CALL    ENVIA_DADO      ; ENVIA CARACTER DA CONVERSÃO PARA LCD
+                      00668                 
+0144   0008           00669         RETURN
+                      00670         
+                      00671                 
+                      00672 ;*      *       *       *       *       *       *       *       *       *
+                      00673 ;*                        CONFIGURACOES INICIAIS                        *
+                      00674 ;*      *       *       *       *       *       *       *       *       *
+                      00675 
+0145                  00676 CONFIG_
+                      00677 
+0145   0185           00678         CLRF    PORTA           ; LIMPA O PORTA
+0146   0186           00679         CLRF    PORTB           ; LIMPA O PORTB
+0147   0187           00680         CLRF    PORTC           ; LIMPA O PORTC
+0148   0188           00681         CLRF    PORTD           ; LIMPA O PORTD
+0149   0189           00682         CLRF    PORTE           ; LIMPA O PORTE
+                      00683         
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+014A   1683           00684         BANK1                   ; SELECIONA BANCO1 DE MEMÓRIA
+                      00685         
+014B   30FF           00686         MOVLW   B'11111111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+014C   0085           00687         MOVWF   TRISA
+                      00688         
+014D   30C0           00689         MOVLW   B'11000000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+014E   0086           00690         MOVWF   TRISB           ; CONFIGURA I/O DO PORTB
+                      00691         
+014F   30DF           00692         MOVLW   B'11011111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0150   0087           00693         MOVWF   TRISC           ; CONFIGURA I/O DO PORTB
+                      00694         
+0151   3000           00695         MOVLW   B'00000000'     ; CONFIGURA TODOS OS PINOS DESTE
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0152   0088           00696         MOVWF   TRISD           ; PORTB COMO SAÍDA
+                      00697         
+0153   3001           00698         MOVLW   B'00000001'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0154   0089           00699         MOVWF   TRISE           ; CONFIGURA I/O DO PORTE
+                      00700         
+0155   308F           00701         MOVLW   B'10001111'     ; DESLIGA PULL-UPS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0156   0081           00702         MOVWF   OPTION_REG      ; WDT 1:128
+                      00703         
+0157   3020           00704         MOVLW   B'00100000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0158   008C           00705         MOVWF   PIE1            ; LIGA A INTERRUPÇÃO SERIAL
+                      00706         
+0159   3040           00707         MOVLW   B'01000000'     
+015A   008B           00708         MOVWF   INTCON          ; HABILITA A INTERRUPÇÃO DOS PERIFÉRICOS
+                      00709                                 ; LIGA A CHAVE GERAL DE INTERRUPÇÃO
+                      00710         
+015B   3007           00711         MOVLW   B'00000111'     ; DESLIGA OS A/D´S
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+015C   009F           00712         MOVWF   ADCON1
+                      00713         
+015D   3019           00714         MOVLW   .25
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+015E   0099           00715         MOVWF   SPBRG           ; PREPARA PARA FUNCIONAR A 9600bps
+                      00716         
+015F   3024           00717         MOVLW   B'00100100'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0160   0098           00718         MOVWF   TXSTA           ; CONFIGURA USART
+                      00719         
+0161   1283           00720         BANK0
+                      00721         
+0162   3090           00722         MOVLW   B'10010000'
+0163   0098           00723         MOVWF   RCSTA           ; CONFIGURA USART
+                      00724                 
+0164   1A03           00725         BTFSC   STATUS,NOT_TO   ; ESTOURO POR WDT?
+0165   2965           00726         GOTO    $               ; NÃO, ENTÃO AGUARDA
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00727                 
+0166                  00728 LIMPEZA_DA_RAM
+                      00729                                 ; ROTINA DE LIMPEZA DA RAM
+                      00730                                 
+0166   3020           00731         MOVLW   0x20
+0167   0084           00732         MOVWF   FSR
+0168   0180           00733         CLRF    INDF
+0169   0A84           00734         INCF    FSR,F
+016A   3080           00735         MOVLW   0x80
+016B   0604           00736         XORWF   FSR,W
+016C   1D03           00737         BTFSS   STATUS,Z
+016D   2968           00738         GOTO    $-5
+                      00739 
+016E   178B           00740         BSF     INTCON,GIE      ; LIGA AS INTERRUPÇÕES
+                      00741         
+                      00742 ;*      *       *       *       *       *       *       *       *       *
+                      00743 ;*                       INICIALIZAÇÃO DO DISPLAY                       *
+                      00744 ;*      *       *       *       *       *       *       *       *       *
+                      00745         
+                      00746 
+                      00747 
+016F   3030           00748         MOVLW   0x30                    
+0170   2029           00749         CALL    ENVIA_COMANDO           ; COMANDO DE INICIALIZAÇÃO
+                      00750         
+0171   3003           00751         MOVLW   .3                      
+0172   2020           00752         CALL    DELAY_MS                ; DELAY DE 3ms
+                      00753         
+0173   3030           00754         MOVLW   0x30                    
+0174   2029           00755         CALL    ENVIA_COMANDO           ; COMANDO DE INICIALIZAÇÃO      
+                      00756         
+0175   3030           00757         MOVLW   0x30                    
+0176   2029           00758         CALL    ENVIA_COMANDO           ; COMANDO DE INICIALIZAÇÃO
+                      00759         
+0177   3038           00760         MOVLW   0x38                    
+0178   2029           00761         CALL    ENVIA_COMANDO           ; INTERFACE DE 8 VIAS
+                      00762         
+0179   3001           00763         MOVLW   0x01                    
+017A   2029           00764         CALL    ENVIA_COMANDO           ; LIMPA O DISPLAY
+                      00765         
+017B   3001           00766         MOVLW   .1
+017C   2020           00767         CALL    DELAY_MS                ; CHAMA DELAY DE 3ms
+                      00768         
+017D   300C           00769         MOVLW   0x0C                    
+017E   2029           00770         CALL    ENVIA_COMANDO           ; LIGAR O DISPLAY SEM CURSOR
+                      00771         
+017F   3006           00772         MOVLW   0x06                    
+0180   2029           00773         CALL    ENVIA_COMANDO           ; LIGAR O DISPLAY SEM CURSOR
+                      00774         
+                      00775                                                                 
+                      00776 ;*      *       *       *       *       *       *       *       *       *
+                      00777 ;*                       INICIALIZAÇÃO DAS VARIÁVEIS                    *
+                      00778 ;*      *       *       *       *       *       *       *       *       *
+                      00779         
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0181   2096           00780         CALL    TELA_INICIAL
+                      00781         
+                      00782 ;*      *       *       *       *       *       *       *       *       *
+                      00783 ;*                          ROTINA PRINCIPAL                            *
+                      00784 ;*      *       *       *       *       *       *       *       *       *
+                      00785 
+0182                  00786 LOOP
+0182   0064           00787         CLRWDT                  ; LIMPA O WATCHDOG
+                      00788         
+0183   1C23           00789         BTFSS   PODE_CONVERTER  ; PODE APILCAR AS QUATRO OPERAÇÕES BÁSICAS?
+0184   2982           00790         GOTO    LOOP            ; NÃO, ENTÃO SALTA PARA O LOOP PRINCIPAL
+0185   20D9           00791         CALL    SOM             ; CHAMA ROTINA DE SOMA  
+0186   20F5           00792         CALL    SUB             ; CHAMA ROTINA DE SUBTRAÇÃO
+0187   210B           00793         CALL    MUL             ; CHAMA ROTINA DE MULTIPLICAÇÃO
+0188   212C           00794         CALL    DIV             ; CHAMA ROTINA DE DIVISÃO
+0189   1023           00795         BCF     PODE_CONVERTER  ; LIMPA O FLAG DE CONVERSÃO
+018A   2982           00796         GOTO    LOOP            ; SALTA PARA O LOOP PRINCIPAL
+                      00797                 
+                      00798 ;*      *       *       *       *       *       *       *       *       *
+                      00799 ;*                           FIM DO PROGRAMA                            *
+                      00800 ;*      *       *       *       *       *       *       *       *       *
+                      00801 
+                      00802         END                     ; FIM DO PROGRAMA
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ARG0                              00000024
+ARG1                              00000025
+ARG2                              00000026
+BANK0                             BCF     STATUS,RP0
+BANK1                             BSF     STATUS,RP0
+BCLIE                             00000003
+BCLIF                             00000003
+BEEP                              PORTC,5
+BF                                00000000
+BIN_TO_DEC                        0000003A
+BRGH                              00000002
+BUS                               PORTD
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CKE                               00000006
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CKP                               00000004
+COL1                              PORTA,4
+COL2                              PORTA,5
+COL3                              PORTE,0
+CONFIG_                           00000145
+CONVERSAO_0                       0000002F
+CONVERSAO_1                       0000002E
+CONVERSAO_2                       0000002D
+CONVERSAO_3                       0000002C
+CONVERSAO_4                       0000002B
+CONVERSAO_A                       00000049
+CONVERSAO_B                       00000063
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DELAY_A                           00000023
+DELAY_MS                          00000020
+DIV                               0000012C
+DIVIDE                            0000007E
+DIVIDE_A                          00000089
+DIVIDE_B                          00000091
+DIVIDE_C                          0000008D
+D_A                               00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+EN                                PORTE,2
+ENVIA_COMANDO                     00000029
+ENVIA_DADO                        0000002A
+F                                 00000001
+FERR                              00000002
+FLAGS                             00000023
+FSR                               00000004
+FSR_TEMP                          00000072
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INC_MSB                           00000048
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LIMPEZA_DA_RAM                    00000166
+LINHA_INF                         0xC0
+LINHA_SUP                         0x80
+LOOP                              00000182
+LSB                               00000031
+MSB                               00000030
+MUL                               0000010B
+MUL0                              00000028
+MUL1                              00000027
+MULT                              00000070
+MULTIPLICACAO                     00000068
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+PARAMETRO_1                       00000029
+PARAMETRO_2                       0000002A
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_TEMP                       00000073
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PODE_CONVERTER                    FLAGS,0
+PORTA                             00000005
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RBIE                              00000003
+RBIF                              00000000
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RS                                PORTE,1
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_W                               00000002
+S                                 00000003
+SAI_COM_DADO                      00000076
+SAI_EM_0                          0000007B
+SAI_INTERRUPCAO                   0000000F
+SALVA_CONTEXTO                    00000004
+SEN                               00000000
+SMP                               00000007
+SOM                               000000D9
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STATUS_TEMP                       00000071
+SUB                               000000F5
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TELA_INICIAL                      00000096
+TEMP                              00000022
+TEMPO1                            00000020
+TEMPO2                            00000021
+TEMPO_BEEP                        .10
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRANSMITE                         00000034
+TRATA_SERIAL                      00000018
+TRISA                             00000085
+TRISB                             00000086
+TRISC                             00000087
+TRISD                             00000088
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+W_TEMP                            00000070
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00000FCF
+_CP_HALF                          00001FDF
+_CP_OFF                           00003FFF
+_CP_UPPER_256                     00002FEF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_ENABLE_OFF                   00003DFF
+_WRT_ENABLE_ON                    00003FFF
+_XT_OSC                           00003FFD
+__16F877                          00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+MPASM 03.80.04 Internal                            USART1.ASM   5-15-2005  12:13:51         PAGE 23
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0180 : XXXXXXXXXXX----- ---------------- ---------------- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   392
+Program Memory Words Free:  7800
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :    13 reported,     0 suppressed
+
+

@@ -1,0 +1,736 @@
+
+CREATE TABLE CLIENTE
+(
+  CD_CLI  NUMBER(5)                             NOT NULL,
+  NM_CLI  VARCHAR2(30)                          NOT NULL,
+  NM_CID  VARCHAR2(40)                          NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE FAIXA_SALARIAL
+(
+  CD_FAIXA  NUMBER(5)                           NOT NULL,
+  VL_MIN    NUMBER(9,2)                         NOT NULL,
+  VL_MAX    NUMBER(9,2)                         NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE LOJA
+(
+  CD_LOJ  NUMBER(5)                             NOT NULL,
+  NM_LOJ  VARCHAR2(30)                          NOT NULL,
+  NM_CID  VARCHAR2(40)                          NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE PARCELAT
+(
+  CD_VEN   NUMBER(5)                            NOT NULL,
+  CD_PAR   NUMBER(5)                            NOT NULL,
+  VL_PAR   NUMBER(9,2),
+  DT_VCTO  DATE,
+  VL_PAGO  NUMBER(9,2)
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE PRODUTO
+(
+  CD_PRO     NUMBER(5)                          NOT NULL,
+  NM_PRO     VARCHAR2(30)                       NOT NULL,
+  NM_CLASSE  VARCHAR2(20)                       NOT NULL,
+  VL_PRO     NUMBER(9,2)                        NOT NULL,
+  QT_EST     NUMBER(9,2)                        NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE PRODUTOT
+(
+  CD_PRO  NUMBER(5)                             NOT NULL,
+  NM_PRO  VARCHAR2(30),
+  VL_PRO  NUMBER(9,2),
+  QT_EST  NUMBER(3)
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE TAB_CONTROLE
+(
+  DATA        DATE,
+  VL_COMPRAS  NUMBER(9,2)
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE TAB_VENDA
+(
+  NM_CLI  VARCHAR2(30),
+  VL_VEN  NUMBER(9,2),
+  DT_VEN  DATE
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE VENDAT
+(
+  CD_VEN  NUMBER(5)                             NOT NULL,
+  DT_VEN  DATE,
+  VL_VEN  NUMBER(9,2),
+  CD_PRO  NUMBER(5),
+  QT_VEN  NUMBER(3)
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE VENDEDOR
+(
+  CD_VDD         NUMBER(5)                      NOT NULL,
+  NM_VDD         VARCHAR2(30)                   NOT NULL,
+  VL_SAL         NUMBER(9,2)                    NOT NULL,
+  CD_SUPERVISOR  NUMBER(5)
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX CLI_PK ON CLIENTE
+(CD_CLI)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX LOJ_PK ON LOJA
+(CD_LOJ)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX PRO_PK ON PRODUTO
+(CD_PRO)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX VDD_PK ON VENDEDOR
+(CD_VDD)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX VDD_VDD_FK_I ON VENDEDOR
+(CD_SUPERVISOR)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE OR REPLACE TRIGGER TRG_CONTROLE1
+AFTER INSERT ON TAB_VENDA
+FOR EACH ROW
+DECLARE
+  WEXISTEDATA NUMBER(1);
+BEGIN
+  WEXISTEDATA := 0;
+  SELECT COUNT(DATA) INTO WEXISTEDATA
+  FROM TAB_CONTROLE
+  WHERE TRUNC(DATA) = TRUNC(:NEW.DT_VEN);
+  IF WEXISTEDATA = 0 THEN
+    INSERT INTO TAB_CONTROLE (DATA,VL_COMPRAS)
+		   VALUES (:NEW.DT_VEN,:NEW.VL_VEN);
+  ELSE
+	UPDATE TAB_CONTROLE
+	  SET VL_COMPRAS = VL_COMPRAS + :NEW.VL_VEN
+	WHERE TRUNC(DATA) = TRUNC(:NEW.DT_VEN);
+  END IF;
+END;
+/
+SHOW ERRORS;
+
+
+
+CREATE OR REPLACE TRIGGER TRG_CONTROLE2
+AFTER DELETE ON TAB_VENDA
+FOR EACH ROW
+DECLARE
+  WEXISTEDATA NUMBER(1);
+BEGIN
+  WEXISTEDATA := 0;
+  SELECT COUNT(DATA) INTO WEXISTEDATA
+  FROM TAB_CONTROLE
+  WHERE TRUNC(DATA) = TRUNC(:OLD.DT_VEN);
+  IF WEXISTEDATA <> 0 THEN
+	UPDATE TAB_CONTROLE
+	  SET VL_COMPRAS = VL_COMPRAS - :OLD.VL_VEN
+	WHERE TRUNC(DATA) = TRUNC(:OLD.DT_VEN);
+  END IF;
+	
+END;
+/
+SHOW ERRORS;
+
+
+
+CREATE TABLE VENDA
+(
+  CD_LOJ  NUMBER(5)                             NOT NULL,
+  CD_VEN  NUMBER(9)                             NOT NULL,
+  DT_VEN  DATE                                  NOT NULL,
+  CD_VDD  NUMBER(5)                             NOT NULL,
+  CD_CLI  NUMBER(5)                             NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE INDEX VEN_CLI_FK_I ON VENDA
+(CD_CLI)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX VEN_LOJ_FK_I ON VENDA
+(CD_LOJ)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX VEN_PK ON VENDA
+(CD_VEN, CD_LOJ)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX VEN_VDD_FK_I ON VENDA
+(CD_VDD)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE TABLE ITEM_VENDA
+(
+  CD_LOJ  NUMBER(5)                             NOT NULL,
+  CD_VEN  NUMBER(9)                             NOT NULL,
+  CD_PRO  NUMBER(5)                             NOT NULL,
+  QT_VEN  NUMBER(9,2)                           NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE TABLE PARCELA
+(
+  CD_LOJ    NUMBER(5)                           NOT NULL,
+  CD_VEN    NUMBER(9)                           NOT NULL,
+  CD_PAR    NUMBER(9)                           NOT NULL,
+  DT_VCTO   DATE                                NOT NULL,
+  VL_PAR    NUMBER(9,2)                         NOT NULL,
+  DT_PAGTO  DATE,
+  VL_PAGO   NUMBER(9,2)
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCACHE
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX ITV_PK ON ITEM_VENDA
+(CD_VEN, CD_LOJ, CD_PRO)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX ITV_PRO_FK_I ON ITEM_VENDA
+(CD_PRO)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX ITV_VEN_FK_I ON ITEM_VENDA
+(CD_VEN, CD_LOJ)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX PAR_PK ON PARCELA
+(CD_PAR, CD_VEN, CD_LOJ)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX PAR_VEN_FK_I ON PARCELA
+(CD_VEN, CD_LOJ)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       2147483645
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+ALTER TABLE CLIENTE ADD (
+  CONSTRAINT CLI_PK PRIMARY KEY (CD_CLI)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                PCTINCREASE      0
+               ));
+
+
+ALTER TABLE LOJA ADD (
+  CONSTRAINT LOJ_PK PRIMARY KEY (CD_LOJ)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                PCTINCREASE      0
+               ));
+
+
+ALTER TABLE PRODUTO ADD (
+  CONSTRAINT PRO_PK PRIMARY KEY (CD_PRO)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                PCTINCREASE      0
+               ));
+
+
+ALTER TABLE VENDEDOR ADD (
+  CONSTRAINT VDD_PK PRIMARY KEY (CD_VDD)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                PCTINCREASE      0
+               ));
+
+
+ALTER TABLE VENDA ADD (
+  CONSTRAINT VEN_PK PRIMARY KEY (CD_VEN, CD_LOJ)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                PCTINCREASE      0
+               ));
+
+
+ALTER TABLE ITEM_VENDA ADD (
+  CONSTRAINT ITV_PK PRIMARY KEY (CD_VEN, CD_LOJ, CD_PRO)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                PCTINCREASE      0
+               ));
+
+
+ALTER TABLE PARCELA ADD (
+  CONSTRAINT PAR_PK PRIMARY KEY (CD_PAR, CD_VEN, CD_LOJ)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                PCTINCREASE      0
+               ));
+
+
+ALTER TABLE VENDEDOR ADD (
+  CONSTRAINT SUP_VDD_FK FOREIGN KEY (CD_SUPERVISOR) 
+    REFERENCES VENDEDOR (CD_VDD));
+
+
+ALTER TABLE VENDA ADD (
+  CONSTRAINT FK_VENDA_LOJA FOREIGN KEY (CD_LOJ) 
+    REFERENCES LOJA (CD_LOJ));
+
+ALTER TABLE VENDA ADD (
+  CONSTRAINT VEN_CLI_FK FOREIGN KEY (CD_CLI) 
+    REFERENCES CLIENTE (CD_CLI));
+
+ALTER TABLE VENDA ADD (
+  CONSTRAINT VEN_VDD_FK FOREIGN KEY (CD_VDD) 
+    REFERENCES VENDEDOR (CD_VDD));
+
+
+ALTER TABLE ITEM_VENDA ADD (
+  CONSTRAINT ITV_PRO_FK FOREIGN KEY (CD_PRO) 
+    REFERENCES PRODUTO (CD_PRO));
+
+ALTER TABLE ITEM_VENDA ADD (
+  CONSTRAINT ITV_VEN_FK FOREIGN KEY (CD_VEN, CD_LOJ) 
+    REFERENCES VENDA (CD_VEN,CD_LOJ));
+
+
+ALTER TABLE PARCELA ADD (
+  CONSTRAINT PAR_VEN_FK FOREIGN KEY (CD_VEN, CD_LOJ) 
+    REFERENCES VENDA (CD_VEN,CD_LOJ));
+
+
+

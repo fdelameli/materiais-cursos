@@ -1,0 +1,78 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B-01C CCP_2
+01C     CCP_2_HIGH
+021     main.c
+022     main.temp
+023     leAd.canal
+023     @PRINTF_D_9600_62_63.P1
+023     main.@SCRATCH
+024     @PRINTF_D_9600_62_63.P1
+024     @delay_ms1.P2
+024     main.@SCRATCH
+025-026 @ITOF.P1
+025-028 @MULFF.P2
+025-028 @SFTOI.P3
+025     @PRINTF_D_9600_62_63.@SCRATCH
+026     @PRINTF_D_9600_62_63.@SCRATCH
+027     @PRINTF_D_9600_62_63.@SCRATCH
+028     @PRINTF_D_9600_62_63.@SCRATCH
+029-02C @MULFF.P1
+029     @DIV88.P2
+02A     @DIV88.P1
+02B     @DIV88.@SCRATCH
+02D     @MULFF.@SCRATCH
+02E     @MULFF.@SCRATCH
+02F     @MULFF.@SCRATCH
+030     @MULFF.@SCRATCH
+031     @MULFF.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+014E  @delay_ms1
+0165  main
+001F  @ITOF
+003C  @MULFF
+00B1  @SFTOI
+00D0  @DIV88
+00E5  @PRINTF_D_9600_62_63
+0004  leAd
+0165  @cinit
+
+Project Files:
+    trabalho1.c
+    ..\..\..\..\..\..\..\..\Program Files\PICC\devices\16F877A.h
+
+Units:
+    C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-1023
+    Opt Level:      0
+    Short,Int,Long: 1,8,16
+
+Output Files:
+    Errors:      C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.err
+    Ext Symbols: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.esym
+    INHX8:       C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.hex
+    Symbols:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.sym
+    List:        C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.lst
+    Debug/COFF:  C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.cof
+    Project:     C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\8º Semestre\Programação para Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\Trabalho 1\trabalho1.PJT
+    Call Tree:   trabalho1.tre
+    Statistics:  trabalho1.sta

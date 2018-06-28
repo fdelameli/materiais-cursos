@@ -1,0 +1,108 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B-01C CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020     @TRIS_C
+021-024 MAIN.dado
+025-026 write_float_ext_eeprom.address
+025-028 @PRINTF_L32D_9600_62_63FPFPF.P1
+025     MAIN.@SCRATCH1
+027-02A write_float_ext_eeprom.data
+029     @PRINTF_L32D_9600_62_63FPFPF.P1
+02A     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH1
+02B     write_float_ext_eeprom.i
+02B     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH2
+02C     write_float_ext_eeprom.@SCRATCH1
+02C     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH3
+02D     write_float_ext_eeprom.@SCRATCH2
+02D     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH4
+02E     write_float_ext_eeprom.@SCRATCH3
+02E     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH5
+02F-030 write_ext_eeprom.address
+02F     write_float_ext_eeprom.@SCRATCH4
+02F     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH6
+030     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH7
+031     write_ext_eeprom.data
+031     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH8
+032-035 @MULFF.P1
+032.0   ext_eeprom_ready.ack
+032-035 @FTOSD.P1
+032-035 @DIV3232.P2
+032     write_ext_eeprom.@SCRATCH1
+033     @I2C_WRITE_1.P1
+036-039 @MULFF.P1
+036-039 @DIV3232.P2
+036     @FTOSD.@SCRATCH1
+03A     @MULFF.@SCRATCH1
+03A     @DIV3232.@SCRATCH1
+03B     @MULFF.@SCRATCH2
+03B     @DIV3232.@SCRATCH2
+03C     @MULFF.@SCRATCH3
+03C     @DIV3232.@SCRATCH3
+03D     @MULFF.@SCRATCH4
+03D     @DIV3232.@SCRATCH4
+03E     @MULFF.@SCRATCH5
+03E     @DIV3232.@SCRATCH5
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+0022  @I2C_WRITE_1
+0015  init_ext_eeprom
+008F  ext_eeprom_ready
+008F  write_ext_eeprom
+006C  write_float_ext_eeprom
+02C0  MAIN
+0004  @const109
+0174  @MULFF
+01FA  @FTOSD
+011E  @DIV3232
+0160  @PRINTF_L32D_9600_62_63FPFPF
+02C0  @cinit
+
+
+User Memory space: 
+
+Project Directory:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Teste_I2C\
+
+Project Files:
+    teste1.c
+    16F877A.h
+    ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\2404.c
+    ..\..\..\PIC_C\PIC C Compiler CCS PCWHD 4.093 FULL Portable\Drivers\external_eeprom.c
+
+Units:
+    C:\PIC C Compiler PCWHD_4.093\PIC\Exercícios\Teste_I2C\teste1.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      teste1.err
+    Ext Symbols: teste1.esym
+    INHX8:       teste1.hex
+    Symbols:     teste1.sym
+    List:        teste1.lst
+    Debug/COFF:  teste1.cof
+    Project:     teste1.PJT
+    Call Tree:   teste1.tre
+    Statistics:  teste1.sta

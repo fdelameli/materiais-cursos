@@ -1,0 +1,38 @@
+[DeviceName]
+Value=P16F877
+
+[DeviceClock]
+Value=4
+
+[MainUnit]
+Value=TecladoMatricial.pbas
+
+[DeviceFlags]
+Count=3
+Value0=_LVP_OFF = $3F7F
+Value1=_WDT_OFF = $3FFB
+Value2=_XT_OSC = $3FFD
+
+[ProjectFiles]
+Count=0
+
+[SearchPath]
+Count=6
+Value0=C:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROBASIC\Defs\
+Value1=C:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROBASIC\Uses\p16\
+Value2=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Teclado Matricial\
+Value3=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROBASIC\Defs\
+Value4=D:\ARQUIVOS DE PROGRAMAS\MIKROELEKTRONIKA\MIKROBASIC\Uses\p16\
+Value5=D:\Curso\PIC\Basic\Módulo B\Teclado Matricial\
+
+[EEPROMinfo]
+isused=0
+
+[OtherFiles]
+Count=3
+Value0=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Teclado Matricial\TecladoMatricial.pbas
+Value1=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Relógio\RelogioDigital.pbas
+Value2=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo A\Botão e Led\Botao_e_led1.pbas
+
+[TabIndex]
+Value=0

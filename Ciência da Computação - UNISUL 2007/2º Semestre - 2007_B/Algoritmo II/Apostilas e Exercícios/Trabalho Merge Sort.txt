@@ -1,0 +1,71 @@
+Algoritmo BuscaOrdenação
+Var
+	vetor [8] inteiro x
+	vetor [8] inteiro xTemp
+	inteiro esq
+	inteiro dir
+	inteiro i
+	String lista
+Inicio
+	Para i de 0 ate 7 faça
+		leia x[i]
+	FimPara
+
+	lista = "Lista: "
+	esq <- 0
+	dir <- 7
+	mergeSort(x, xTemp, esq, dir)
+	
+	Para i de 0 ate 7 faça
+		lista = lista + x[i] + " - "
+	FimPara
+Fim
+
+
+
+
+Procedimento mergeSort(inteiro[]x, inteiro[]xTemp, inteiro esq, inteiro dir)
+Var
+	inteiro medio
+Inicio
+	Se(esq<dir) entao
+		medio <- (esq + dir)/2
+		mergeSort(x, xTemp, esq, medio)
+		mergeSort(x, xTemp, medio+1, dir)
+		ordenar(x, xTemp, esq, medio+1, dir)
+	FimSe
+Fim
+
+
+
+Procedimento ordenar(inteiro[]x, inteiro[] xAux, inteiro posEsq, inteiro posDir, inteiro posFin)
+Var
+	inteiro finIzq
+	inteiro posAux
+	inteiro numElementos
+	inteiro i
+Inicio
+	finIzq <- posDir - 1
+	posAux <- posEsq
+	numElementos <- posFin - posEsq+1
+	
+	Enquanto(posEsq <= finIzq .E. posDir <= posFin) faça
+		Se(x[posEsq] < x[posDir]) então
+			xAux[posAux <- posAux+1] <- x[posEsq <- posEsq+1]
+		Senão
+			xAux[posAux <- posAux+1] <- x[posDir <- posDir+1]
+		FimSe
+	FimEnquanto
+
+	Enquanto(posEsq <= posIzq) faça
+		xAux[posAux <- posAux+1] <- x[posEsq <- posEsq+1]
+	FimEnquanto
+	
+	Enquanto(posDir <= posFin) faça
+		xAux[posAux <- posAux+1] <- x[posDir <- posDir+1]
+	Fim Enquanto
+
+	Para i de 0 ate numElementos incrementa 1 .E. (posFin <- posFin-1) faça
+		x[posFind] = xAux[posFind]
+	FimPara
+Fim

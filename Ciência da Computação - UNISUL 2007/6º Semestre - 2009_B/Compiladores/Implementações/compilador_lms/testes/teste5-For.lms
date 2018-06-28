@@ -1,0 +1,10 @@
+Program teste5;
+  Var a,b:integer;
+Begin
+  a:=0;
+For b:= 10 to 20 do
+   Begin
+   a:= a+2*b; 
+   Writeln(a);
+   End;
+End.

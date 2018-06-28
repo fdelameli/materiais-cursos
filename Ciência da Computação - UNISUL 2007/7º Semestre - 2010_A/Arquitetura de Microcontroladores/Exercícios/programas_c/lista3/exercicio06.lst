@@ -1,0 +1,153 @@
+CCS PCM C Compiler, Version 4.038, 33467               30-abr-10 11:09
+
+               Filename: C:\Users\Fabio Dela Bruna\Documents\Curso de Ciência da Computação\7º Semestre\Arquitetura de Microcontroladores - Prof. Fernando Kestering Longo\Exercícios\programas_c\lista2\exercicio06.lst
+
+               ROM used: 103 words (1%)
+                         Largest free fragment is 2048
+               RAM used: 10 (3%) at main() level
+                         11 (3%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   01B
+0003:  NOP
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+.................... #list 
+....................  
+.................... #fuses xt, nolvp, protect 
+.................... #use delay(clock=4Mhz) 
+0004:  MOVLW  24
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   018
+000A:  MOVLW  01
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  4A
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  GOTO   016
+0016:  DECFSZ 00,F
+0017:  GOTO   00A
+0018:  BCF    0A.3
+0019:  BCF    0A.4
+001A:  GOTO   049 (RETURN)
+....................  
+.................... void main() { 
+001B:  CLRF   04
+001C:  BCF    03.7
+001D:  MOVLW  1F
+001E:  ANDWF  03,F
+001F:  BSF    03.5
+0020:  BSF    1F.0
+0021:  BSF    1F.1
+0022:  BSF    1F.2
+0023:  BCF    1F.3
+0024:  MOVLW  07
+0025:  MOVWF  1C
+....................  
+....................    int portb = 0, portc = 0; 
+*
+0029:  CLRF   21
+002A:  CLRF   22
+....................  
+....................    while(true) { 
+....................        
+....................       portb = input_b(); 
+002B:  MOVLW  FF
+002C:  BSF    03.5
+002D:  MOVWF  06
+002E:  BCF    03.5
+002F:  MOVF   06,W
+0030:  MOVWF  21
+....................       portc = input_c(); 
+*
+0026:  MOVLW  FF
+0027:  BCF    03.5
+0028:  MOVWF  20
+*
+0031:  MOVLW  FF
+0032:  MOVWF  20
+0033:  BSF    03.5
+0034:  MOVWF  07
+0035:  BCF    03.5
+0036:  MOVF   07,W
+0037:  MOVWF  22
+....................        
+....................       if(portb==231 && portc==146) { 
+0038:  MOVF   21,W
+0039:  SUBLW  E7
+003A:  BTFSS  03.2
+003B:  GOTO   04F
+003C:  MOVF   22,W
+003D:  SUBLW  92
+003E:  BTFSS  03.2
+003F:  GOTO   04F
+....................          output_high(pin_a0); 
+0040:  BSF    03.5
+0041:  BCF    05.0
+0042:  BCF    03.5
+0043:  BSF    05.0
+....................          delay_ms(2000); 
+0044:  MOVLW  08
+0045:  MOVWF  23
+0046:  MOVLW  FA
+0047:  MOVWF  24
+0048:  GOTO   004
+0049:  DECFSZ 23,F
+004A:  GOTO   046
+....................          output_low(pin_a0); 
+004B:  BSF    03.5
+004C:  BCF    05.0
+004D:  BCF    03.5
+004E:  BCF    05.0
+....................       } 
+....................        
+....................       while(portb==231 && portc==146) { 
+004F:  MOVF   21,W
+0050:  SUBLW  E7
+0051:  BTFSS  03.2
+0052:  GOTO   065
+0053:  MOVF   22,W
+0054:  SUBLW  92
+0055:  BTFSS  03.2
+0056:  GOTO   065
+....................          portb = input_b(); 
+0057:  MOVLW  FF
+0058:  BSF    03.5
+0059:  MOVWF  06
+005A:  BCF    03.5
+005B:  MOVF   06,W
+005C:  MOVWF  21
+....................          portc = input_c(); 
+005D:  MOVLW  FF
+005E:  MOVWF  20
+005F:  BSF    03.5
+0060:  MOVWF  07
+0061:  BCF    03.5
+0062:  MOVF   07,W
+0063:  MOVWF  22
+....................       } 
+0064:  GOTO   04F
+....................           
+....................    } 
+0065:  GOTO   02B
+....................  
+.................... } 
+....................  
+....................  
+0066:  SLEEP
+
+Configuration Fuses:
+   Word  1: 1F71   XT NOWDT PUT PROTECT NODEBUG BROWNOUT NOLVP NOCPD NOWRT

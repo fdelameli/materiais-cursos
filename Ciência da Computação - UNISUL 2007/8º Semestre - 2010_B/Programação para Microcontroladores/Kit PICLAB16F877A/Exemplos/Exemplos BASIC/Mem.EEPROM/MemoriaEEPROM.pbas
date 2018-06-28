@@ -1,0 +1,113 @@
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*           Programação Em Pascal - Módulo B PIC16F877A       *
+'*                             Exemplo 7                       *
+'*                                                             *
+'*             CENTRO DE TREINAMENTO - Cerne Tecnologia        *
+'*                                                             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*   VERSÃO : 1.0
+'*   DATA : 22/07/2005
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                         Descrição geral                     *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+' Este exemplo irá demonstrar a utilização da memória
+' EEPROM interna do PIC. Para isso, iremos implementar
+' um contador no barramento de leds e assim que o sistema
+' acordar, o mesmo lerá a memória e carregará o dado
+' novamente no barramento
+
+program MemoriaEEPROM                'Definição do programa
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Definição de entradas do sistema              *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as entradas do sistema
+
+symbol COL1 = PORTA.4
+symbol COL2 = PORTA.5
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Definição de saídas do sistema                *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as saídas do sistema
+
+symbol SEL_LEDS = PORTB.5
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*             Definição e inicialização das variáveis         *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as variáveis globais do sistema
+
+dim dado as byte
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
+'*                      Declaração de Labels                   *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir todos os labels utilizadas pelo sistema
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                      Constantes internas                    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir as constantes utilizadas pelo sistema
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                Declaração dos flags de software             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Aqui iremos definir os flags utilizados no sistema
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração das saídas do software             *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração das entradas do software           *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*               Declaração de Rotinas e Interrupções          *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Início do programa                    *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'Nessa parte ficará o loop principal do sistema
+
+   portb=0
+   trisb=%00000000            'inicializa o barramento
+   trisd=%00000000            'configura i/o do sistema
+   adcon1=7                   'desliga a/d
+   option_reg=%10000000       'configura prescaler do timer 0
+   dado=eeprom_read(0)        'lê a posição zero de memória e carrega no barramento
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Rotina Principal                      *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+     while 1 = 1
+       SEL_LEDS=1                 'liga a saída de leds
+       portd=dado                 'atualiza a saída de leds
+       delay_ms(500)              'aguarda 1000ms
+
+       SEL_LEDS=0                 'desliga saída de leds
+       portd=%11111110            'seleciona linha 1 do teclado matricial
+       delay_us(10)               'tempo de acomodação
+
+       if COL1=0 then             'se o botão estiver pressioando...
+           dado=dado+1            'incrementa o dado
+           eeprom_write(0,dado)   'atualiza a eeprom
+       end if
+
+       if COL2=0 then             'se o botão estiver pressioando...
+           dado=dado-1            'decrementa o dado
+           eeprom_write(0,dado)   'atualiza a eeprom
+       end if
+
+      wend
+
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+'*                       Fim do programa                       *
+'* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    end.

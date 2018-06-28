@@ -1,0 +1,233 @@
+
+
+
+/* Blocos Auxiliares */
+/* ========================================================================== */
+
+h2.tituloInformacao {
+	color: #babdb6;
+	font-size: 25px;
+	letter-spacing: -0.06em;
+	text-transform: lowercase;
+	display: block;
+}
+
+
+/* Artigo */
+/* ========================================================================== */
+
+
+#tituloDestaque {
+	margin: 20px 0;
+}
+
+#artigo {
+	/*background: yellow;*/
+	width: 610px;
+	float: left;
+}
+#artigo #painelInteracao {
+	border: 1px solid #d3d7cf;
+	border-left: 0;
+	border-right: 0;
+	padding: 7px 0;
+	overflow: hidden;
+    height: 34px;
+}
+#artigo #painelInteracao h2 {
+	float: left;
+	margin-right: 10px;
+}
+#artigo #painelInteracao li {
+    display: block;
+    float: left;
+    margin: 7px 10px;
+    height: 20px;
+}
+#artigo #painelInteracao a.link {
+	font-size: 12px;
+	color: #555753;
+	text-decoration: underline;
+    line-height: 20px;
+}
+#artigo #painelInteracao iframe.twitter-share-button {
+    width: 93px !important;
+}
+
+
+/* Banner inferior */
+/* ========================================================================== */
+
+#artigo .banner {
+    height: 60px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+
+/* Banner arroba */
+/* ========================================================================== */
+
+#arroba {
+    margin: 0 0 20px 0;
+    overflow: hidden;
+}
+
+
+/* Coluna Lateral */
+/* ========================================================================== */
+
+
+#colunaLateral #sobreOAutor {
+	padding: 12px;
+	background: #f6f6f5;
+	border-bottom: 1px solid #d3d7cf;
+	overflow: hidden;
+}
+#colunaLateral #sobreOAutor img {
+	background: red;
+	float: left;
+}
+#colunaLateral #sobreOAutor div {
+	margin-left: 50px;
+	color: #555753;
+}
+#colunaLateral #sobreOAutor div.email, #colunaLateral #sobreOAutor div.website {
+	background: url(../img/artigo/iconeEmail.png) 0 2px no-repeat;
+    padding-left: 16px;
+    margin-top: 6px;
+	color: #555753;
+}
+#colunaLateral #sobreOAutor div.website {
+    background: url(../img/artigo/iconeWebsite.png) 0 0 no-repeat;
+}
+#colunaLateral #sobreOAutor div.email a, #colunaLateral #sobreOAutor div.website a {
+    color: #555753;
+    text-decoration: none;
+}
+#colunaLateral #sobreOAutor div.email a:hover, #colunaLateral #sobreOAutor div.website a:hover {
+    text-decoration: underline;
+}
+#colunaLateral #outrosArtigos {
+	padding: 12px;
+}
+#colunaLateral #outrosArtigos ul.expandido {
+    overflow: auto;
+    max-height: 180px;
+    padding: 0 12px 12px;
+    margin: 0 -12px -12px -12px;
+}
+#colunaLateral #outrosArtigos li {
+	margin: 5px 0;
+}
+#colunaLateral #outrosArtigos a {
+    color: #555753;
+    text-decoration: none;
+}
+#colunaLateral #outrosArtigos a:hover {
+    text-decoration: underline;
+}
+#colunaLateral #outrosArtigos .verMais {
+    font-weight: bold;
+    padding-left: 13px;
+    display: block;
+    margin-top: 10px;
+    background: url(../img/artigo/setaInferior.png) 0 4px no-repeat;
+}
+
+#colunaLateral .publicidade {
+    margin: 10px 0;
+}
+
+
+/* Coluna Patroc�nio*/
+/* ========================================================================== */
+
+
+
+#colunaLateral .patrocinio {
+    vertical-align: middle;
+    clear: left;
+    margin-bottom: 10px;
+}
+#colunaLateral .patrocinio span {
+    margin: 4px 0;
+    display: block;
+    float: left;
+}
+
+
+/* iMasters PRO */
+/* ========================================================================== */
+
+
+#colunaLateral #imastersPro {
+    overflow: hidden;
+    margin-top: -12px;
+}
+#colunaLateral #imastersPro .curso {
+    margin-top: 12px;
+}
+#colunaLateral #imastersPro .curso a {
+    display: block;
+    clear: left;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+}
+#colunaLateral #imastersPro .curso a img {
+    width: 50px;
+    margin-right: 5px;
+    height: 50px;
+    float: left;
+}
+#colunaLateral #imastersPro .curso a strong {
+    display: block;
+    margin-top: 5px;
+    text-decoration: underline;
+}
+#colunaLateral #imastersPro .curso a span {
+    color: #3465a4;
+}
+
+
+/* Indique */
+/* ========================================================================== */
+
+
+#indique {
+}
+#indique .campo {
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+#indique label {
+    width: 60px;
+    padding-right: 10px;
+    float: left;
+    margin-top: 4px;
+    text-align: right;
+}
+#indique input, #indique textarea {
+    float: left;
+    width: 195px;
+    font: inherit;
+}
+#indique textarea {
+    width: 195px;
+}
+#indique input.captcha {
+    width: 80px;
+}
+#indique img.captcha {
+    vertical-align: middle;
+    margin-left: 10px;
+}
+#indique .divisao {
+    border-top: 1px solid #ccc;
+    margin: 12px -12px 0;
+    padding: 6px 12px 12px;
+}
+#indique .submit {
+    margin-left: 70px;
+}

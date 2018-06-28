@@ -1,0 +1,42 @@
+
+ROM used: 970 (12%)
+          970 (12%) including unused fragments
+
+          2 Average locations per line
+          13 Average locations per statement
+
+RAM used: 12 (7%) at main() level
+          35 (20%) worst case
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  213    75 100  C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Osciloscópio\scope.c
+  306     0   0  C:\Arquivos de programas\PICC\devices\16F877A.h
+----- -----
+ 1038   150 Total
+
+Page ROM  %  RAM  Functions:
+---- --- --- ---  ----------
+0     21   2   1  @delay_ms1
+0    216  22   6  main
+0     18   2   0  @const10034
+0     21   2   3  @DIV88
+0     55   6   2  @PRINTF_U_342
+0     32   3   2  @ITOF
+0    118  12  13  @MULFF
+0     19   2   0  @const10073
+0     33   3   5  @FTOSD
+0     66   7  13  @DIV3232
+0    204  21  11  @PRINTF_L32D_342FPFPF
+0     75   8   1  Inicializa
+0     44   5   1  Lcd_Inst
+0     44   5   1  Lcd_Dado
+
+ Segment   Used  Free
+---------  ----  ----
+00000-00003     4  0  
+00004-007FF   966  1078  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+

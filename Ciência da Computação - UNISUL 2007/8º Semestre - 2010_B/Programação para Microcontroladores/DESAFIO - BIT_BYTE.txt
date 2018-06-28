@@ -1,0 +1,10 @@
+Usando manipilações de BIT e BYTE
+
+As portas B, C e D:
+
+B = 0b00000001
+C = 0b00000000
+D = 0b00000000
+
+Fazer com que o bit 1 caminhe por todas as portas até chegar
+no último bit da porta D. Depois deverá recomeçar o ciclo.

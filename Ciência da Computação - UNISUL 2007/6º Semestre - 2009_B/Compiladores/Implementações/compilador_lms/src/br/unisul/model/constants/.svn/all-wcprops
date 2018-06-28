@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants
+END
+TerminaisConstantsKeyNumber.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/TerminaisConstantsKeyNumber.java
+END
+TerminaisConstants.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/TerminaisConstants.java
+END
+NaoTerminaisConstants.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/NaoTerminaisConstants.java
+END
+AcoesSemanticasConstants.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/AcoesSemanticasConstants.java
+END
+PalavrasReservadasConstants.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/PalavrasReservadasConstants.java
+END
+AcoesSemanticasConstantsKeyNumber.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/AcoesSemanticasConstantsKeyNumber.java
+END
+NaoTerminaisConstantsKeyNumber.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/NaoTerminaisConstantsKeyNumber.java
+END
+AllConstantsKeyNumber.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/21/trunk/compiladorsintatico/src/br/unisul/model/constants/AllConstantsKeyNumber.java
+END

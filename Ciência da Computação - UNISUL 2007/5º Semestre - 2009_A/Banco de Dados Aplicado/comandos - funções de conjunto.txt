@@ -1,0 +1,25 @@
+MAX() - pega o maior valor.
+
+
+SUM() - soma todos os valores da coluna.
+
+
+AVG() - pega a média de valores.
+
+	Campos nulos são desconsiderados ao calcular a média.
+	Para considerar, por exemplo, que nulo corresponde à 0 (zero)...
+		
+		AVG(NVL (coluna, 0))	
+
+
+
+MIN() - pega o menor valor.
+
+
+COUNT(*) - pega a quantidade de dados cadastrados.
+
+	Se usarmos uma coluna (que possui valor null) como argumento
+	a linha que possuir valor null não será contabilizada.
+
+
+HAVING - só pode ser usado para funções de grupo.

@@ -1,0 +1,50 @@
+
+ROM used: 705 (9%)
+          705 (9%) including unused fragments
+
+          1 Average locations per line
+          4 Average locations per statement
+
+RAM used: 17 (10%) at main() level
+          21 (12%) worst case
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  359   163 100  C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos C\Controle de PWM 1\pwm1.c
+  306     0   0  C:\Arquivos de programas\PICC\devices\16F877A.h
+----- -----
+ 1330   326 Total
+
+Page ROM  %  RAM  Functions:
+---- --- --- ---  ----------
+0     21   3   1  @delay_ms1
+0     90  13   0  main
+0    134  19   1  Inicializa
+0     21   3   0  @const10078
+0     21   3   0  @const10083
+0     21   3   2  Atualiza_PWM_0
+0      8   1   0  @const10091
+0     23   3   2  Atualiza_PWM_20
+0      8   1   0  @const10106
+0     23   3   2  Atualiza_PWM_40
+0      8   1   0  @const10121
+0     23   3   2  Atualiza_PWM_60
+0      8   1   0  @const10136
+0     23   3   2  Atualiza_PWM_80
+0      8   1   0  @const10151
+0     23   3   2  Atualiza_PWM_100
+0      8   1   0  @const10166
+0     31   4   1  Lcd_Inst
+0     31   4   1  Lcd_Dado
+0    109  15   0  Ist_Timer0
+0     12   2   0  @goto10220
+
+ Segment   Used  Free
+---------  ----  ----
+00000-00003     4  0  
+00004-00032    47  0  
+00033-007FF   654  1343  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01FFF     0  2048  
+

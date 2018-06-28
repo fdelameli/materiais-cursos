@@ -1,0 +1,999 @@
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;*      *       *       *       *       *       *       *       *       *
+                      00002 ;*                        Programação em Assembly                       *
+                      00003 ;*              EXEMPLO2: UTILIZANDO O TECLADO MATRICIAL                *
+                      00004 ;*                   APOSTILA MÓDULO B  -  PIC16F877A                   *
+                      00005 ;*                    ÁPICE TECNOLOGIA E TREINAMENTO                    *
+                      00006 ;*          VERSÃO 1.0                          DATA:03/05/2005         *
+                      00007 ;*                                                                      *
+                      00008 ;*      *       *       *       *       *       *       *       *       *
+                      00009 
+                      00010 ;*      *       *       *       *       *       *       *       *       *
+                      00011 ;*                       OBJETIVO DO ARQUIVO FONTE                      *
+                      00012 ;*                                                                      *
+                      00013 ;*           DEMONSTRAR A UTILIZAÇÃO DE UM TECLADO MATRICIAL            *
+                      00014 ;*                                                                      *
+                      00015 ;*      *       *       *       *       *       *       *       *       *
+                      00016 
+                      00017  #INCLUDE <P16F877.INC>         ;ARQUIVO PADRÃO PARA PIC16F877A
+                      00001         LIST
+                      00002 ; P16F877.INC  Standard Header File, Version 1.00    Microchip Technology, Inc.
+                      00373         LIST
+2007   3F35           00018  __CONFIG _CP_OFF & _XT_OSC & _PWRTE_ON & _LVP_OFF & _WDT_ON & _BODEN_OFF & _CPD_OFF & _DEBUG_OFF
+                      00019         
+                      00020         ;NESTE PONTO É INFORMADO A CONFIGURAÇÃO DA MÁQUINA, OU SEJA, SE TERÁ
+                      00021         ;CÓDIGO DE PROTEÇÃO OU O TIPO DE CRISTAL QUE SERÁ UTILIZADO     
+                      00022 
+                      00023         ;CONFIGURAÇÃO DA MÁQUINA
+                      00024         ; CODE PROTECT                  -> DESLIGADO
+                      00025         ; OSCILADOR                     -> CRISTAL OU RESSONADOR
+                      00026         ; POWER-UP                      -> LIGADO
+                      00027         ; DEBUF                         -> DESLIGADO            
+                      00028         ; PROGRAMAÇÃO EM BAIXA VOLTAGEM -> DESLIGADO
+                      00029         ; WATCH DOG                     -> LIGADO
+                      00030         ; BROWN-OUT RESET               -> DESLIGADO
+                      00031         ; PROTEÇÃO DE EEPROM            -> DESLIGADO
+                      00032                 
+                      00033 ;*      *       *       *       *       *       *       *       *       *
+                      00034 ;*                         PAGINAÇÃO DE MEMÓRIA                         *
+                      00035 ;*      *       *       *       *       *       *       *       *       *
+                      00036 
+                      00037 ; AQUI CRIAREMOS UM PSEUDÔNIMO PARA UM COMANDO. POR EXEMPLO, O COMANDO
+                      00038 ; "BCF STATUS,RP0" PODE SER SUBSTITUÍDO SEM PROBLEMAS POR "BANK0". O 
+                      00039 ; COMPILADOR IRÁ SUBSTITUIR INTERNAMENTE "BANK0" POR "BCF STATUS,RP0".
+                      00040 ; ESTA APLICAÇÃO É VÁLIDA PARA OUTROS TIPOS DE COMANDOS
+                      00041 
+                      00042 #DEFINE BANK0   BCF     STATUS,RP0      ; ESCOLHE BANCO DE MEMÓRIA 0
+                      00043 #DEFINE BANK1   BSF     STATUS,RP0      ; ESCOLHE BANCO DE MEMÓRIA 1
+                      00044 
+                      00045 ;*      *       *       *       *       *       *       *       *       *
+                      00046 ;*                           DEFINICAO DE RAM                           *
+                      00047 ;*      *       *       *       *       *       *       *       *       *
+                      00048 
+                      00049 ; AQUI IREMOS CRIAR AS VARIÁVEIS DO NOSSO SISTEMA
+                      00050 
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00051         CBLOCK 0x20     ; INÍCIO DO BLOCO DE RAM(GPR)
+  00000020            00052                 MILHAR  ; REGISTRADOR DO MILHAR
+  00000021            00053                 CENTENA ; REGISTRADOR DA CENTENA
+  00000022            00054                 DEZENA  ; REGISTRADOR DA DEZENA
+  00000023            00055                 UNIDADE ; REGISTRADOR DA UNIDADE
+  00000024            00056                 INDICE_DISPLAY ; INDICE PARA O DISPLAY
+  00000025            00057                 TEMP_INT       ; VARIÁVEL DE USO GERAL DA INTERRUPÇÃO
+  00000026            00058                 VEZES_TMR1     ; VARIÁVEL PARA CONTAR 1s        
+  00000027            00059                 FLAGS          ; VARIÁVEL DE FLAGS DO SISTEMA   
+  00000028            00060                 TECLADO1       ; VARIÁVEL DO TECLADO DO SISTEMA
+  00000029            00061                 TECLADO2       ; VARIÁVEL DO TECLADO DO SISTEMA
+  0000002A            00062                 TEMPO1
+  0000002B            00063                 TEMPO2
+                      00064         ENDC            ; FIM DO BLOCO DE RAM(GPR)
+                      00065         
+                      00066         CBLOCK 0x70     ; INÍCIO DO BLOCO DE RAM ESPELHADO(GPR)
+  00000070            00067                 W_TEMP          ; REGISTRADORES TEMPORÁRIOS
+  00000071            00068                 STATUS_TEMP
+  00000072            00069                 FSR_TEMP
+  00000073            00070                 PCLATH_TEMP
+                      00071         ENDC            ; FIM DO BLOCO DE RAM ESPELHADO(GPR)
+                      00072         
+                      00073 ;*      *       *       *       *       *       *       *       *       *
+                      00074 ;*                        DEFINICAO DE FLAGS                            *
+                      00075 ;*      *       *       *       *       *       *       *       *       *
+                      00076 
+                      00077 ; AQUI SÃO DEFINIDOS OS FLAGS QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00078         
+                      00079 #DEFINE  PISCA          FLAGS,0 ; DEFINE FLAG PARA PISCAR O DISPLAY
+                      00080 
+                      00081 #DEFINE  TECLA_0        TECLADO1,0  ; TECLA 0 DO TECLADO MATRICIAL
+                      00082 #DEFINE  TECLA_1        TECLADO1,1  ; TECLA 1 DO TECLADO MATRICIAL      
+                      00083 #DEFINE  TECLA_2        TECLADO1,2  ; TECLA 2 DO TECLADO MATRICIAL      
+                      00084 #DEFINE  TECLA_3        TECLADO1,3  ; TECLA 3 DO TECLADO MATRICIAL
+                      00085 #DEFINE  TECLA_4        TECLADO1,4  ; TECLA 4 DO TECLADO MATRICIAL
+                      00086 #DEFINE  TECLA_5        TECLADO1,5  ; TECLA 5 DO TECLADO MATRICIAL
+                      00087 #DEFINE  TECLA_6        TECLADO1,6  ; TECLA 6 DO TECLADO MATRICIAL
+                      00088 #DEFINE  TECLA_7        TECLADO1,7  ; TECLA 7 DO TECLADO MATRICIAL
+                      00089 #DEFINE  TECLA_8        TECLADO2,0  ; TECLA 8 DO TECLADO MATRICIAL
+                      00090 #DEFINE  TECLA_9        TECLADO2,1  ; TECLA 9 DO TECLADO MATRICIAL
+                      00091 #DEFINE  TECLA_C        TECLADO2,2  ; TECLA CORRIGE DO TECLADO MATRICIAL
+                      00092 #DEFINE  TECLA_E        TECLADO2,3  ; TECLA ENTER DO TECLADO MATRICIAL
+                      00093 
+                      00094 ;*      *       *       *       *       *       *       *       *       *
+                      00095 ;*                      DEFINICAO DE CONSTANTES                         *
+                      00096 ;*      *       *       *       *       *       *       *       *       *
+                      00097 
+                      00098 ; AQUI SÃO DEFINIDOS AS CONSTANTES QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00099 
+                      00100 #DEFINE SEL_LINHA1      B'00001110'  ; SELECIONA LINHA 1        
+                      00101 #DEFINE SEL_LINHA2      B'00001101'  ; SELECIONA LINHA 2                
+                      00102 #DEFINE SEL_LINHA3      B'00001011'  ; SELECIONA LINHA 3                
+                      00103 #DEFINE SEL_LINHA4      B'00000111'  ; SELECIONA LINHA 4        
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00104 
+                      00105 #DEFINE TEMPO_BEEP      .10          ; TEMPO DE BEEP LIGADO, 10 ms
+                      00106 
+                      00107 #DEFINE CARACTER_0      H'00'        ; DEFINE CARACTER 0        
+                      00108 #DEFINE CARACTER_1      H'01'        ; DEFINE CARACTER 1                
+                      00109 #DEFINE CARACTER_2      H'02'        ; DEFINE CARACTER 2                
+                      00110 #DEFINE CARACTER_3      H'03'        ; DEFINE CARACTER 3         
+                      00111 #DEFINE CARACTER_4      H'04'        ; DEFINE CARACTER 4                 
+                      00112 #DEFINE CARACTER_5      H'05'        ; DEFINE CARACTER 5        
+                      00113 #DEFINE CARACTER_6      H'06'        ; DEFINE CARACTER 6                
+                      00114 #DEFINE CARACTER_7      H'07'        ; DEFINE CARACTER 7                
+                      00115 #DEFINE CARACTER_8      H'08'        ; DEFINE CARACTER 8        
+                      00116 #DEFINE CARACTER_9      H'09'        ; DEFINE CARACTER 9                
+                      00117 #DEFINE CARACTER_A      H'0A'        ; DEFINE CARACTER A        
+                      00118 #DEFINE CARACTER_B      H'0B'        ; DEFINE CARACTER B                
+                      00119 #DEFINE CARACTER_C      H'0C'        ; DEFINE CARACTER C                 
+                      00120 #DEFINE CARACTER_D      H'0D'        ; DEFINE CARACTER D                
+                      00121 #DEFINE CARACTER_E      H'0E'        ; DEFINE CARACTER E                
+                      00122 #DEFINE CARACTER_F      H'0F'        ; DEFINE CARACTER F                
+                      00123 
+                      00124 ;*      *       *       *       *       *       *       *       *       *
+                      00125 ;*                        ENTRADAS DO SISTEMA                           *
+                      00126 ;*      *       *       *       *       *       *       *       *       *
+                      00127 
+                      00128 #DEFINE COL1            PORTA,4      ; PINO DE ENTRADA DA COLUNA1       
+                      00129 #DEFINE COL2            PORTA,5      ; PINO DE ENTRADA DA COLUNA2               
+                      00130 #DEFINE COL3            PORTE,0      ; PINO DE ENTRADA DA COLUNA3               
+                      00131 
+                      00132 ;*      *       *       *       *       *       *       *       *       *
+                      00133 ;*                        SAIDAS DO SISTEMA                             *
+                      00134 ;*      *       *       *       *       *       *       *       *       *
+                      00135 
+                      00136 ; AQUI SÃO DEFINIDAS AS SAÍDAS QUE SERÃO UTILIZADOS PELO SISTEMA
+                      00137 
+                      00138 #DEFINE BUS             PORTD   ; DEFINE O BARRAMENTO COMO O PORTD 
+                      00139 #DEFINE SEL_UNIDADE     PORTB,4 ; SELECIONA DISPLAY DA UNIDADE DE MILHAR
+                      00140 #DEFINE SEL_DEZENA      PORTB,3 ; SELECIONA DISPLAY DA CENTENA
+                      00141 #DEFINE SEL_CENTENA     PORTB,2 ; SELECIONA DISPLAY DA DEZENA
+                      00142 #DEFINE SEL_MILHAR      PORTB,1 ; SELECIONA DISPLAY DA UNIDADE
+                      00143 #DEFINE BEEP            PORTC,5 ; SAÍDA DO BEEP
+                      00144 
+                      00145 ;*      *       *       *       *       *       *       *       *       *
+                      00146 ;*                          VETOR DE RESET                              *
+                      00147 ;*      *       *       *       *       *       *       *       *       *
+                      00148 
+0000                  00149         ORG     0x0000          ; ENDEREÇO INICIAL DA MÁQUINA
+0000   2892           00150         GOTO    CONFIG_         ; SALTA PARA CONFIGURAR A MÁQUINA
+                      00151 
+                      00152 ;*      *       *       *       *       *       *       *       *       *
+                      00153 ;*                       VETOR DE INTERRUPÇÃO                           *
+                      00154 ;*      *       *       *       *       *       *       *       *       *
+                      00155 
+0004                  00156         ORG     0x0004          ; ENDEREÇO INICIAL DO VETOR DE INTERRUPÇÃO
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0004                  00157 SALVA_CONTEXTO
+0004   00F0           00158         MOVWF   W_TEMP          ; SALVA W
+0005   0E03           00159         SWAPF   STATUS,W        
+0006   00F1           00160         MOVWF   STATUS_TEMP     ; SALVA STATUS
+0007   0804           00161         MOVF    FSR,W
+0008   00F2           00162         MOVWF   FSR_TEMP        ; SALVA FSR     
+0009   080A           00163         MOVF    PCLATH,W        
+000A   00F3           00164         MOVWF   PCLATH_TEMP     ; SALVA PCLATH
+                      00165         
+000B   0183           00166         CLRF    STATUS          ; GARANTE BANCO 0
+000C   018A           00167         CLRF    PCLATH          ; GARANTE PÁGINA 0
+                      00168         
+000D   190B           00169         BTFSC   INTCON,T0IF     ; INTERRUPÇÃO DE TIMER0?
+000E   2818           00170         GOTO    TRATA_TIMER0    ; SIM, ENTÃO TRATA
+                      00171         
+000F                  00172 SAI_INTERRUPCAO 
+000F   0872           00173         MOVF    FSR_TEMP,W
+0010   0084           00174         MOVWF   FSR             ; RECUPERA FSR
+0011   0873           00175         MOVF    PCLATH_TEMP,W   
+0012   008A           00176         MOVWF   PCLATH          ; RECUPERA PCLATH
+0013   0E71           00177         SWAPF   STATUS_TEMP,W
+0014   0083           00178         MOVWF   STATUS          ; RECUPERA STATUS
+0015   0EF0           00179         SWAPF   W_TEMP,F
+0016   0E70           00180         SWAPF   W_TEMP,W        ; RECUPERA W
+0017   0009           00181         RETFIE                  ; RETORNA DA INTERRUPÇÃO
+                      00182 
+                      00183 ;*      *       *       *       *       *       *       *       *       *
+                      00184 ;*                  TRATATAMENTO DE INTERRUPÇÃO DE TIMER0               *
+                      00185 ;*      *       *       *       *       *       *       *       *       *
+                      00186 
+0018                  00187 TRATA_TIMER0
+                      00188         
+0018   110B           00189         BCF     INTCON,T0IF      ; LIMPA FLAG DE INTERRUPÇÃO
+0019   0AA4           00190         INCF    INDICE_DISPLAY,F ; INCREMENTA INDICE DOS DISPLAYS
+001A   3003           00191         MOVLW   B'00000011'      
+001B   0524           00192         ANDWF   INDICE_DISPLAY,W ; MASCARA OS BITS SUPERIORES   
+001C   0782           00193         ADDWF   PCL,F            ; SOMA CONTEÚDO COM PCL        
+001D   2821           00194         GOTO    DISPLAY_MILHAR   ; MOSTRA DISPLAY DE MILHAR
+001E   2828           00195         GOTO    DISPLAY_CENTENA  ; MOSTRA DISPLAY DE CENTENA
+001F   282F           00196         GOTO    DISPLAY_DEZENA   ; MOSTRA DISPLAY DE DEZENA
+0020   2836           00197         GOTO    DISPLAY_UNIDADE  ; MOSTRA DISPLAY DE UNIDADE
+                      00198         
+0021                  00199 DISPLAY_MILHAR
+                      00200         
+0021   1206           00201         BCF     SEL_UNIDADE     ; RETIRA SELEÇÃO DA UNIDADE
+0022   203D           00202         CALL    VERIFICA_LINHA1 ; CHAMA ROTINA PARA VERIFICAR A LINHA 1
+                      00203         
+0023   0820           00204         MOVF    MILHAR,W        ; MOVE CONTEÚDO DE MILHAR PARA W
+0024   206D           00205         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERSÃO
+0025   0088           00206         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+0026   1486           00207         BSF     SEL_MILHAR      ; SELECIONA O DISPLAY DE MILHAR
+0027   280F           00208         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00209         
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00210 
+0028                  00211 DISPLAY_CENTENA
+                      00212         
+0028   1086           00213         BCF     SEL_MILHAR      ; RETIRA SELEÇÃO DO MILHAR
+0029   2049           00214         CALL    VERIFICA_LINHA2 ; CHAMA ROTINA PARA VERIFICAR A LINHA 2
+                      00215         
+002A   0821           00216         MOVF    CENTENA,W       ; MOVE CONTEÚDO DE CENTENA PARA W
+002B   206D           00217         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERSÃO
+002C   0088           00218         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+002D   1506           00219         BSF     SEL_CENTENA     ; SELECIONA O DISPLAY DE CENTENA
+002E   280F           00220         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00221                         
+002F                  00222 DISPLAY_DEZENA
+                      00223         
+002F   1106           00224         BCF     SEL_CENTENA     ; RETIRA SELEÇÃO DA CENTENA
+0030   2055           00225         CALL    VERIFICA_LINHA3 ; CHAMA ROTINA PARA VERIFICAR A LINHA 3
+                      00226         
+0031   0822           00227         MOVF    DEZENA,W        ; MOVE CONTEÚDO DE DEZENA PARA W
+0032   206D           00228         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERSÃO
+0033   0088           00229         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+0034   1586           00230         BSF     SEL_DEZENA      ; SELECIONA O DISPLAY DE DEZENA
+0035   280F           00231         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00232         
+0036                  00233 DISPLAY_UNIDADE
+                      00234         
+0036   1186           00235         BCF     SEL_DEZENA      ; RETIRA SELEÇÃO DA DEZENA
+0037   2061           00236         CALL    VERIFICA_LINHA4 ; CHAMA ROTINA PARA VERIFICAR A LINHA 4
+                      00237         
+0038   0823           00238         MOVF    UNIDADE,W       ; MOVE CONTEÚDO DE DEZENA PARA W
+0039   206D           00239         CALL    CONVERTE        ; CHAMA ROTINA DE CONVERSÃO
+003A   0088           00240         MOVWF   BUS             ; MOVE DADO PARA O BARRAMENTO
+003B   1606           00241         BSF     SEL_UNIDADE     ; SELECIONA O DISPLAY DE UNIDADE
+003C   280F           00242         GOTO    SAI_INTERRUPCAO ; SAI DA INTERRUPÇÃO
+                      00243 
+003D                  00244 VERIFICA_LINHA1
+                      00245         
+003D   300E           00246         MOVLW   SEL_LINHA1      
+003E   0088           00247         MOVWF   BUS             ; SELECIONA A LINHA 1   
+                      00248         
+003F   10A8           00249         BCF     TECLA_1         ; LIMPA FLAG DA TECLA 1 PRESSIONADA
+0040   1128           00250         BCF     TECLA_2         ; LIMPA FLAG DA TECLA 2 PRESSIONADA
+0041   11A8           00251         BCF     TECLA_3         ; LIMPA FLAG DA TECLA 3 PRESSIONADA
+                      00252                 
+0042   1E05           00253         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+0043   14A8           00254         BSF     TECLA_1         ; SIM, ENTÃO SETA TECLA_1
+                      00255         
+0044   1E85           00256         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+0045   1528           00257         BSF     TECLA_2         ; SIM, ENTÃO SETA TECLA_2
+                      00258         
+0046   1C09           00259         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+0047   15A8           00260         BSF     TECLA_3         ; SIM, ENTÃO SETA TECLA_3
+                      00261         
+0048   0008           00262         RETURN                  ; RETORNA DA INTERRUPÇÃO
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00263         
+0049                  00264 VERIFICA_LINHA2
+                      00265         
+0049   300D           00266         MOVLW   SEL_LINHA2
+004A   0088           00267         MOVWF   BUS             ; SELECIONA A LINHA 2   
+                      00268         
+004B   1228           00269         BCF     TECLA_4         ; LIMPA FLAG DA TECLA 4 PRESSIONADA
+004C   12A8           00270         BCF     TECLA_5         ; LIMPA FLAG DA TECLA 5 PRESSIONADA
+004D   1328           00271         BCF     TECLA_6         ; LIMPA FLAG DA TECLA 6 PRESSIONADA
+                      00272                 
+004E   1E05           00273         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+004F   1628           00274         BSF     TECLA_4         ; SIM, ENTÃO SETA TECLA_4
+                      00275         
+0050   1E85           00276         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+0051   16A8           00277         BSF     TECLA_5         ; SIM, ENTÃO SETA TECLA_5
+                      00278         
+0052   1C09           00279         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+0053   1728           00280         BSF     TECLA_6         ; SIM, ENTÃO SETA TECLA_6
+                      00281         
+0054   0008           00282         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00283 
+0055                  00284 VERIFICA_LINHA3
+                      00285         
+0055   300B           00286         MOVLW   SEL_LINHA3
+0056   0088           00287         MOVWF   BUS             ; SELECIONA A LINHA 3   
+                      00288         
+0057   13A8           00289         BCF     TECLA_7         ; LIMPA FLAG DA TECLA 7 PRESSIONADA
+0058   1029           00290         BCF     TECLA_8         ; LIMPA FLAG DA TECLA 8 PRESSIONADA
+0059   10A9           00291         BCF     TECLA_9         ; LIMPA FLAG DA TECLA 9 PRESSIONADA
+                      00292                 
+005A   1E05           00293         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+005B   17A8           00294         BSF     TECLA_7         ; SIM, ENTÃO SETA TECLA_7
+                      00295         
+005C   1E85           00296         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+005D   1429           00297         BSF     TECLA_8         ; SIM, ENTÃO SETA TECLA_8
+                      00298         
+005E   1C09           00299         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+005F   14A9           00300         BSF     TECLA_9         ; SIM, ENTÃO SETA TECLA_9
+                      00301         
+0060   0008           00302         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00303 
+0061                  00304 VERIFICA_LINHA4
+                      00305         
+0061   3007           00306         MOVLW   SEL_LINHA4      
+0062   0088           00307         MOVWF   BUS             ; SELECIONA A LINHA 4   
+                      00308         
+0063   11A9           00309         BCF     TECLA_E         ; LIMPA FLAG DA TECLA ENTER PRESSIONADA
+0064   1129           00310         BCF     TECLA_C         ; LIMPA FLAG DA TECLA CORRIGE PRESSIONADA
+0065   1028           00311         BCF     TECLA_0         ; LIMPA FLAG DA TECLA 0 PRESSIONADA
+                      00312                 
+0066   1E05           00313         BTFSS   COL1            ; COLUNA1 ESTÁ PRESSIONADA?
+0067   1529           00314         BSF     TECLA_C         ; SIM, ENTÃO SETA TECLA_C
+                      00315         
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0068   1E85           00316         BTFSS   COL2            ; COLUNA2 ESTÁ PRESSIONADA?
+0069   1428           00317         BSF     TECLA_0         ; SIM, ENTÃO SETA TECLA_0
+                      00318         
+006A   1C09           00319         BTFSS   COL3            ; COLUNA3 ESTÁ PRESSIONADA?
+006B   15A9           00320         BSF     TECLA_E         ; SIM, ENTÃO SETA TECLA_E
+                      00321         
+006C   0008           00322         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00323 
+                      00324 ;*      *       *       *       *       *       *       *       *       *
+                      00325 ;*                  ROTINA DE CONVERSÃO BCD -> 7 SEGMENTOS              *
+                      00326 ;*      *       *       *       *       *       *       *       *       *
+                      00327 
+006D                  00328 CONVERTE
+                      00329         
+006D   00A5           00330         MOVWF   TEMP_INT        ; SALVA W EM VARIÁVEL
+                      00331         
+006E   3000           00332         MOVLW   HIGH SALTO_CONVERTE  ; MOVE A PARTE ALTA DO ENDEREÇO PARA W
+006F   008A           00333         MOVWF   PCLATH          ; MOVE W PARA PCLATH    
+                      00334         
+0070   3075           00335         MOVLW   LOW SALTO_CONVERTE   ; MOVE PARTE BAIXA DO ENDEREÇO PARA W      
+0071   0725           00336         ADDWF   TEMP_INT,W      ; ADICIONA COM VALOR DE TEMP_INT        
+0072   1803           00337         BTFSC   STATUS,C        ; HOUVE ESTOURO?        
+0073   0A8A           00338         INCF    PCLATH,F        ; SIM, ENTÃO INCREMENTA PCLATH
+0074   0082           00339         MOVWF   PCL             ; MOVE W PARA PCL
+                      00340 
+0075                  00341 SALTO_CONVERTE
+                      00342         
+                      00343                  ;PGFEDCBA      ; POSIÇÃO DOS SEGUIMENTOS
+0075   343F           00344         RETLW   B'00111111'     ; RETORNA CARACTERE 0
+0076   3406           00345         RETLW   B'00000110'     ; RETORNA CARACTERE 1
+0077   345B           00346         RETLW   B'01011011'     ; RETORNA CARACTERE 2
+0078   344F           00347         RETLW   B'01001111'     ; RETORNA CARACTERE 3
+0079   3466           00348         RETLW   B'01100110'     ; RETORNA CARACTERE 4
+007A   346D           00349         RETLW   B'01101101'     ; RETORNA CARACTERE 5
+007B   347D           00350         RETLW   B'01111101'     ; RETORNA CARACTERE 6
+007C   3407           00351         RETLW   B'00000111'     ; RETORNA CARACTERE 7
+007D   347F           00352         RETLW   B'01111111'     ; RETORNA CARACTERE 8
+007E   346F           00353         RETLW   B'01101111'     ; RETORNA CARACTERE 9
+007F   3477           00354         RETLW   B'01110111'     ; RETORNA CARACTERE A
+0080   347C           00355         RETLW   B'01111100'     ; RETORNA CARACTERE B
+0081   3439           00356         RETLW   B'00111001'     ; RETORNA CARACTERE C
+0082   345E           00357         RETLW   B'01011110'     ; RETORNA CARACTERE D
+0083   3479           00358         RETLW   B'01111001'     ; RETORNA CARACTERE E
+0084   3471           00359         RETLW   B'01110001'     ; RETORNA CARACTERE F
+                      00360 
+                      00361 ;*      *       *       *       *       *       *       *       *       *
+                      00362 ;*                       ROTINA PARA TOCAR O BEEP                       *
+                      00363 ;*      *       *       *       *       *       *       *       *       *
+                      00364 
+0085                  00365 TOCA_BEEP
+                      00366 
+0085   1687           00367         BSF     BEEP            ; LIGA O BEEP
+0086   300A           00368         MOVLW   TEMPO_BEEP
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0087   208A           00369         CALL    DELAY           ; CHAMA ROTINA DE DELAY
+0088   1287           00370         BCF     BEEP            ; DESLIGA O BEEP
+0089   0008           00371         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00372                 
+                      00373 ;*      *       *       *       *       *       *       *       *       *
+                      00374 ;*                    ROTINA DE DELAY DE 1ms A 256ms                    *
+                      00375 ;*      *       *       *       *       *       *       *       *       *
+                      00376 
+008A                  00377 DELAY
+                      00378         
+008A   00AB           00379         MOVWF   TEMPO2
+                      00380         
+008B   01AA           00381         CLRF    TEMPO1          ; LIMPA REGISTRADOR
+                      00382 
+008C                  00383 DELAY_A
+                      00384         
+008C   0000           00385         NOP                     ; PERDE 1 CICLO DE MÁQUINA
+008D   0BAA           00386         DECFSZ  TEMPO1,F        ; DECREMENTA REGISTRADOR, ACABOU?
+008E   288C           00387         GOTO    $-2             ; NÃO, ENTÃO RETORNA DUAS POSIÇÕES 
+008F   0BAB           00388         DECFSZ  TEMPO2,F
+0090   288C           00389         GOTO    DELAY_A
+                      00390         
+0091   0008           00391         RETURN                  ; RETORNA DA INTERRUPÇÃO
+                      00392 
+                      00393 ;*      *       *       *       *       *       *       *       *       *
+                      00394 ;*                        CONFIGURACOES INICIAIS                        *
+                      00395 ;*      *       *       *       *       *       *       *       *       *
+                      00396 
+0092                  00397 CONFIG_
+                      00398 
+0092   0185           00399         CLRF    PORTA           ; LIMPA O PORTA
+0093   0186           00400         CLRF    PORTB           ; LIMPA O PORTB
+0094   0187           00401         CLRF    PORTC           ; LIMPA O PORTC
+0095   0188           00402         CLRF    PORTD           ; LIMPA O PORTD
+0096   0189           00403         CLRF    PORTE           ; LIMPA O PORTE
+                      00404         
+0097   1683           00405         BANK1                   ; SELECIONA BANCO1 DE MEMÓRIA
+                      00406         
+0098   30FF           00407         MOVLW   B'11111111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0099   0085           00408         MOVWF   TRISA           ; COLOCA OS PINOS DO PORTA COMO ENTRADAS
+                      00409         
+009A   30C0           00410         MOVLW   B'11000000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+009B   0086           00411         MOVWF   TRISB           ; CONFIGURA I/O DO PORTB
+                      00412         
+009C   30DF           00413         MOVLW   B'11011111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+009D   0087           00414         MOVWF   TRISC           ; CONFIGURA I/O DO PORTC
+                      00415         
+009E   3000           00416         MOVLW   B'00000000'     ; CONFIGURA TODOS OS PINOS DESTE
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+009F   0088           00417         MOVWF   TRISD           ; PORTB COMO SAÍDA
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00418         
+00A0   3007           00419         MOVLW   B'00000111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00A1   0089           00420         MOVWF   TRISE           ; CONFIGURA I/O DO PORTE
+                      00421         
+00A2   308F           00422         MOVLW   B'10001111'     ; DESLIGA PULL-UPS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00A3   0081           00423         MOVWF   OPTION_REG      ; WDT 1:128
+                      00424         
+00A4   3020           00425         MOVLW   B'00100000'     ; HABILITA INTERRUPÇÃO DOS PERIFÉRICOS
+00A5   008B           00426         MOVWF   INTCON          ; HABILITA INTERRUPÇÃO DE TIMER 0
+                      00427         
+00A6   3007           00428         MOVLW   B'00000111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00A7   009F           00429         MOVWF   ADCON1          ; DESLIGA OS A/D'S
+                      00430         
+00A8   1283           00431         BANK0
+                      00432         
+00A9   1A03           00433         BTFSC   STATUS,NOT_TO   ; ESTOURO POR WDT?
+00AA   28AA           00434         GOTO    $               ; NÃO, ENTÃO AGUARDA
+                      00435         
+00AB                  00436 LIMPEZA_DA_RAM
+                      00437                                 ; ROTINA DE LIMPEZA DA RAM
+                      00438                                 
+00AB   3020           00439         MOVLW   0x20
+00AC   0084           00440         MOVWF   FSR
+00AD   0180           00441         CLRF    INDF
+00AE   0A84           00442         INCF    FSR,F
+00AF   3080           00443         MOVLW   0x80
+00B0   0604           00444         XORWF   FSR,W
+00B1   1D03           00445         BTFSS   STATUS,Z
+00B2   28AD           00446         GOTO    $-5
+                      00447                                                 
+                      00448 ;*      *       *       *       *       *       *       *       *       *
+                      00449 ;*                       INICIALIZAÇÃO DAS VARIÁVEIS                    *
+                      00450 ;*      *       *       *       *       *       *       *       *       *
+                      00451 
+00B3   178B           00452         BSF     INTCON,GIE      ; LIGA AS INTERRUPÇÕES
+                      00453         
+                      00454 ;*      *       *       *       *       *       *       *       *       *
+                      00455 ;*                          ROTINA PRINCIPAL                            *
+                      00456 ;*      *       *       *       *       *       *       *       *       *
+                      00457 
+00B4                  00458 LOOP
+00B4   0064           00459         CLRWDT                  ; LIMPA O WATCHDOG
+                      00460         
+00B5   1CA8           00461         BTFSS   TECLA_1         ; TECLA 1 ESTÁ PRESSIONADA?
+00B6   28BA           00462         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00B7   3001           00463         MOVLW   CARACTER_1      ; SIM, ENTÃO MOVE O CARACTER 1 PARA W
+00B8   00A0           00464         MOVWF   MILHAR          ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00B9   2085           00465         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00466         
+00BA   1D28           00467         BTFSS   TECLA_2         ; TECLA 2 ESTÁ PRESSIONADA?
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00BB   28BF           00468         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00BC   3002           00469         MOVLW   CARACTER_2      ; SIM, ENTÃO MOVE O CARACTER 2 PARA W
+00BD   00A0           00470         MOVWF   MILHAR          ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00BE   2085           00471         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00472                 
+00BF   1DA8           00473         BTFSS   TECLA_3         ; TECLA 3 ESTÁ PRESSIONADA?
+00C0   28C4           00474         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00C1   3003           00475         MOVLW   CARACTER_3      ; SIM, ENTÃO MOVE O CARACTER 3 PARA W   
+00C2   00A0           00476         MOVWF   MILHAR          ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00C3   2085           00477         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00478                 
+00C4   1E28           00479         BTFSS   TECLA_4         ; TECLA 4 ESTÁ PRESSIONADA?
+00C5   28C9           00480         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00C6   3004           00481         MOVLW   CARACTER_4      ; SIM, ENTÃO MOVE O CARACTER 4 PARA W
+00C7   00A1           00482         MOVWF   CENTENA         ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00C8   2085           00483         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00484         
+00C9   1EA8           00485         BTFSS   TECLA_5         ; TECLA 5 ESTÁ PRESSIONADA?
+00CA   28CE           00486         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00CB   3005           00487         MOVLW   CARACTER_5      ; SIM, ENTÃO MOVE O CARACTER 5 PARA W   
+00CC   00A1           00488         MOVWF   CENTENA         ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00CD   2085           00489         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00490                         
+00CE   1F28           00491         BTFSS   TECLA_6         ; TECLA 6 ESTÁ PRESSIONADA?
+00CF   28D3           00492         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00D0   3006           00493         MOVLW   CARACTER_6      ; SIM, ENTÃO MOVE O CARACTER 6 PARA W   
+00D1   00A1           00494         MOVWF   CENTENA         ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00D2   2085           00495         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00496                 
+00D3   1FA8           00497         BTFSS   TECLA_7         ; TECLA 7 ESTÁ PRESSIONADA?
+00D4   28D8           00498         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00D5   3007           00499         MOVLW   CARACTER_7      ; SIM, ENTÃO MOVE O CARACTER 7 PARA W
+00D6   00A2           00500         MOVWF   DEZENA          ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00D7   2085           00501         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00502                         
+00D8   1C29           00503         BTFSS   TECLA_8         ; TECLA 8 ESTÁ PRESSIONADA?
+00D9   28DD           00504         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00DA   3008           00505         MOVLW   CARACTER_8      ; SIM, ENTÃO MOVE O CARACTER 8 PARA W
+00DB   00A2           00506         MOVWF   DEZENA          ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00DC   2085           00507         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00508                 
+00DD   1CA9           00509         BTFSS   TECLA_9         ; TECLA 9 ESTÁ PRESSIONADA?
+00DE   28E2           00510         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00DF   3009           00511         MOVLW   CARACTER_9      ; SIM, ENTÃO MOVE O CARACTER 9 PARA W
+00E0   00A2           00512         MOVWF   DEZENA          ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00E1   2085           00513         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00514                 
+00E2   1D29           00515         BTFSS   TECLA_C         ; TECLA C ESTÁ PRESSIONADA?
+00E3   28E7           00516         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00E4   300C           00517         MOVLW   CARACTER_C      ; SIM, ENTÃO MOVE O CARACTER C PARA W
+00E5   00A3           00518         MOVWF   UNIDADE         ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00E6   2085           00519         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00520                 
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00E7   1C28           00521         BTFSS   TECLA_0         ; TECLA 0 ESTÁ PRESSIONADA?
+00E8   28EC           00522         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00E9   3000           00523         MOVLW   CARACTER_0      ; SIM, ENTÃO MOVE O CARACTER 0 PARA W
+00EA   00A3           00524         MOVWF   UNIDADE         ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00EB   2085           00525         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00526                 
+00EC   1DA9           00527         BTFSS   TECLA_E         ; TECLA E ESTÁ PRESSIONADA?
+00ED   28F1           00528         GOTO    $+4             ; NÃO, ENTÃO SALTA 4 POSIÇÕES DE MEMÓRIA
+00EE   300E           00529         MOVLW   CARACTER_E      ; SIM, ENTÃO MOVE O CARACTER E PARA W   
+00EF   00A3           00530         MOVWF   UNIDADE         ; MOVE O DADO PARA A VARIÁVEL DE MILHAR
+00F0   2085           00531         CALL    TOCA_BEEP       ; CHAMA ROTINA PARA TOCAR O BEEP
+                      00532                         
+00F1   28B4           00533         GOTO    LOOP            ; SALTA PARA O LOOP PRINCIPAL
+                      00534                 
+                      00535 ;*      *       *       *       *       *       *       *       *       *
+                      00536 ;*                           FIM DO PROGRAMA                            *
+                      00537 ;*      *       *       *       *       *       *       *       *       *
+                      00538 
+                      00539 
+                      00540         END                     ; FIM DO PROGRAMA
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+BANK0                             BCF     STATUS,RP0
+BANK1                             BSF     STATUS,RP0
+BCLIE                             00000003
+BCLIF                             00000003
+BEEP                              PORTC,5
+BF                                00000000
+BRGH                              00000002
+BUS                               PORTD
+C                                 00000000
+CARACTER_0                        H'00'
+CARACTER_1                        H'01'
+CARACTER_2                        H'02'
+CARACTER_3                        H'03'
+CARACTER_4                        H'04'
+CARACTER_5                        H'05'
+CARACTER_6                        H'06'
+CARACTER_7                        H'07'
+CARACTER_8                        H'08'
+CARACTER_9                        H'09'
+CARACTER_A                        H'0A'
+CARACTER_B                        H'0B'
+CARACTER_C                        H'0C'
+CARACTER_D                        H'0D'
+CARACTER_E                        H'0E'
+CARACTER_F                        H'0F'
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CENTENA                           00000021
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CKE                               00000006
+CKP                               00000004
+COL1                              PORTA,4
+COL2                              PORTA,5
+COL3                              PORTE,0
+CONFIG_                           00000092
+CONVERTE                          0000006D
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DELAY                             0000008A
+DELAY_A                           0000008C
+DEZENA                            00000022
+DISPLAY_CENTENA                   00000028
+DISPLAY_DEZENA                    0000002F
+DISPLAY_MILHAR                    00000021
+DISPLAY_UNIDADE                   00000036
+D_A                               00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FLAGS                             00000027
+FSR                               00000004
+FSR_TEMP                          00000072
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INDF                              00000000
+INDICE_DISPLAY                    00000024
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LIMPEZA_DA_RAM                    000000AB
+LOOP                              000000B4
+MILHAR                            00000020
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_TEMP                       00000073
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PISCA                             FLAGS,0
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RBIE                              00000003
+RBIF                              00000000
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_W                               00000002
+S                                 00000003
+SAI_INTERRUPCAO                   0000000F
+SALTO_CONVERTE                    00000075
+SALVA_CONTEXTO                    00000004
+SEL_CENTENA                       PORTB,2
+SEL_DEZENA                        PORTB,3
+SEL_LINHA1                        B'00001110'
+SEL_LINHA2                        B'00001101'
+SEL_LINHA3                        B'00001011'
+SEL_LINHA4                        B'00000111'
+SEL_MILHAR                        PORTB,1
+SEL_UNIDADE                       PORTB,4
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STATUS_TEMP                       00000071
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TECLADO1                          00000028
+TECLADO2                          00000029
+TECLA_0                           TECLADO1,0
+TECLA_1                           TECLADO1,1
+TECLA_2                           TECLADO1,2
+TECLA_3                           TECLADO1,3
+TECLA_4                           TECLADO1,4
+TECLA_5                           TECLADO1,5
+TECLA_6                           TECLADO1,6
+TECLA_7                           TECLADO1,7
+TECLA_8                           TECLADO2,0
+TECLA_9                           TECLADO2,1
+TECLA_C                           TECLADO2,2
+TECLA_E                           TECLADO2,3
+TEMPO1                            0000002A
+TEMPO2                            0000002B
+TEMPO_BEEP                        .10
+TEMP_INT                          00000025
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOCA_BEEP                         00000085
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRATA_TIMER0                      00000018
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISA                             00000085
+TRISB                             00000086
+TRISC                             00000087
+TRISD                             00000088
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+UNIDADE                           00000023
+VERIFICA_LINHA1                   0000003D
+VERIFICA_LINHA2                   00000049
+VERIFICA_LINHA3                   00000055
+VERIFICA_LINHA4                   00000061
+VEZES_TMR1                        00000026
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+W_TEMP                            00000070
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00000FCF
+_CP_HALF                          00001FDF
+_CP_OFF                           00003FFF
+_CP_UPPER_256                     00002FEF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_ENABLE_OFF                   00003DFF
+_WRT_ENABLE_ON                    00003FFF
+MPASM 03.80.04 Internal                           TECLADO.ASM   3-23-2005  21:20:13         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_XT_OSC                           00003FFD
+__16F877                          00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XX--------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   239
+Program Memory Words Free:  7953
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     7 reported,     0 suppressed
+
+Error[173]  : source file path exceeds 62 characters (D:\CURSO\PIC\ASSEMBLY\MóDULO B\EXEMPLOS\TECLADO MATRICIAL\TECLADO.ASM)

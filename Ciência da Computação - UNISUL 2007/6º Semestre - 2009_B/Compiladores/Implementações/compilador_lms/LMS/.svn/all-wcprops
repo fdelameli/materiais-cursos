@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/22/trunk/compiladorsintatico/LMS
+END
+gramaticaSemantico.txt
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/22/trunk/compiladorsintatico/LMS/gramaticaSemantico.txt
+END
+gramatica.txt
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/22/trunk/compiladorsintatico/LMS/gramatica.txt
+END
+gramatica.bak
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/22/trunk/compiladorsintatico/LMS/gramatica.bak
+END
+matriz_parse.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/22/trunk/compiladorsintatico/LMS/matriz_parse.txt
+END

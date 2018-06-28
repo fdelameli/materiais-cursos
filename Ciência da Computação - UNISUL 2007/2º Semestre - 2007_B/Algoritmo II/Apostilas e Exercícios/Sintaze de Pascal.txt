@@ -1,0 +1,36 @@
+Pascal
+algoritmo - Program
+Var - Var
+int - integer
+inicio - Begin
+<- - :=
+Para - for
+ate - to
+faça - do
+escreva - write
+leia - readln
+se - if
+etao - then
+resto - mod
+senão - else
+repita - repeat
+enquanto - while
+concatenação - ,
+
+
+
+
+
+while (condição) do
+Begin
+
+end;
+
+
+repeat
+
+
+until(condição)
+
+
+if(condição) then

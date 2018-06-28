@@ -1,0 +1,39 @@
+[DeviceName]
+Value=P16F877A
+
+[DeviceClock]
+Value=4
+
+[MainUnit]
+Value=MemoriaI2C.pbas
+
+[DeviceFlags]
+Count=3
+Value0=_LVP_OFF = $3F7F
+Value1=_WDT_OFF = $3FFB
+Value2=_XT_OSC = $3FFD
+
+[ProjectFiles]
+Count=0
+
+[OtherFiles]
+Count=6
+Value0=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Mem.I2C\MemI2C.ppas
+Value1=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Teclado Matricial\TecladoMatricial.pbas
+Value2=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Recepção Serial\RecepcaoSerial.pbas
+Value3=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Lcd\DisplayLCD.pbas
+Value4=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Mem.I2C\MemoriaI2C.pbas
+Value5=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos BASIC\Mem.I2C\MemoriaI2C.pbas
+
+[TabIndex]
+Value=0
+
+[SearchPath]
+Count=4
+Value0=C:\Arquivos de programas\Mikroelektronika\mikroBasic\Defs\
+Value1=C:\Arquivos de programas\Mikroelektronika\mikroBasic\Uses\p16\
+Value2=C:\Cerne\CDs\kit PICLAB16f877A\Exemplos\Exemplos BASIC\Mem.I2C\
+Value3=C:\Cerne\Treinamento\Curso\PIC\Basic\Módulo B\Mem.I2C\
+
+[EEPROMinfo]
+isused=0

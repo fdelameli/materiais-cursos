@@ -1,0 +1,10 @@
+package swing;
+
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+
+
+public class JProgressBarTest extends JFrame {
+
+}
